@@ -1,5 +1,7 @@
+using namespace std;
+
 struct Jogador {
-  std::string nomeJogador;
+  string nomeJogador;
   int hp;
   int level;
 };
