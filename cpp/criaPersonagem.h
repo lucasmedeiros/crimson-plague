@@ -27,8 +27,7 @@ struct Ficha {
   int dinheiro = 0;
 };
 
+Ficha criarPersonagem();
 void menuCriacaoPersonagem();
-void informacoesClasses();
-
 
 //void testando()

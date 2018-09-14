@@ -3,9 +3,23 @@
 
 using namespace std;
 
-Ficha ficha;
+void informacoesClasses() {
+  cout << "---INFORMAÇÕES---" << endl;
+  cout << "(1) - Guerreiro:" << endl;
+  cout << "Guerreiros são exímios lutadores marciais, sempre prontos para lutar. ";
+  cout << "Possuem extremas habilidades de combate." << endl << endl;
 
-void ajustaAtributos() {
+  cout << "(2) - Mago:" << endl;
+  cout << "Magos são pesquisadores das artes arcanas da Idade Média, porém são ";
+  cout << "fisicamente fracos e não possuem muitas habilidades de combate" << endl << endl;
+
+  cout << "(3) - Ladino:" << endl;
+  cout << "Bem furtivos e escorregadios, ladinos, se não estão roubando algo, ";
+  cout << "estão trabalhando numa busca por um tesouro, que antes de repartir ";
+  cout << "o lucro com seus parceiros, ele já os roubou." << endl << endl;
+}
+
+void ajustaAtributos(Ficha &ficha) {
   Classe classePersonagem = ficha.personagem.classe;
 
   switch (classePersonagem) {
@@ -28,33 +42,28 @@ void ajustaAtributos() {
           ficha.atributos.vitalidade -= 2;
           break;
   }
-
-  cout << "Força: " << ficha.atributos.forca << endl;
-  cout << "Vitalidade: " << ficha.atributos.vitalidade << endl;
-  cout << "Destreza: " << ficha.atributos.destreza << endl;
-  cout << "Sorte: " << ficha.atributos.sorte << endl;
-  cout << "Inteligência: " << ficha.atributos.inteligencia << endl;
-  cout << "Carisma: " << ficha.atributos.carisma << endl;
 }
 
-int main() {
-  Personagem personagem;
+string defineNomePersonagem() {
   string nomeJogador;
 
-  char refazer = 'n';
+  char opcao = 'n';
 
-  while (tolower(refazer) != 's') {
+  while (tolower(opcao) != 's') {
     cout << "Digite um nome para seu personagem: ";
     cin >> nomeJogador;
     cout << "Tem certeza? (S/N): ";
-    cin >> refazer;
+    cin >> opcao;
   }
 
-  personagem.nomePersonagem = nomeJogador;
-  refazer = 'n';
+  return nomeJogador;
+}
+
+Classe defineClassePersonagem() {
+  char opcao = 'n';
   int classe;
 
-  while (tolower(refazer) != 's') {
+  while (tolower(opcao) != 's') {
     classe = -1;
     cout << "Existem três tipos de classe:" << endl;
     while (classe < 1 or classe > 3) {
@@ -67,31 +76,25 @@ int main() {
       }
 
       if (classe == 0) {
-        cout << "---INFORMAÇÕES---" << endl;
-        cout << "(1) - Guerreiro:" << endl;
-        cout << "Guerreiros são exímios lutadores marciais, sempre prontos para lutar. ";
-        cout << "Possuem extremas habilidades de combate." << endl << endl;
-
-        cout << "(2) - Mago:" << endl;
-        cout << "Magos são pesquisadores das artes arcanas da Idade Média, porém são ";
-        cout << "fisicamente fracos e não possuem muitas habilidades de combate" << endl << endl;
-
-        cout << "(3) - Ladino:" << endl;
-        cout << "Bem furtivos e escorregadios, ladinos, se não estão roubando algo, ";
-        cout << "estão trabalhando numa busca por um tesouro, que antes de repartir ";
-        cout << "o lucro com seus parceiros, ele já os roubou." << endl << endl;
+        informacoesClasses();
       }
     }
 
-    personagem.classe = (Classe) classe;
-
     cout << "Tem certeza? (S/N): ";
-    cin >> refazer;
+    cin >> opcao;
   }
 
-  ficha.personagem = personagem;
-  ajustaAtributos();
+  return (Classe) classe;
+}
 
-// TODO DEFINIR OS ATRIBUTOS
-  return 0;
+Ficha criarPersonagem() {
+  Ficha ficha;
+  Personagem personagem;
+
+  personagem.nomePersonagem = defineNomePersonagem();
+  personagem.classe = defineClassePersonagem();
+  ficha.personagem = personagem;
+  ajustaAtributos(ficha);
+
+  return ficha;
 }
