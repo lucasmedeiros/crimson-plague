@@ -7,16 +7,17 @@ void informacoesClasses() {
   cout << "---INFORMAÇÕES---" << endl;
   cout << "(1) - Guerreiro:" << endl;
   cout << "Guerreiros são exímios lutadores marciais, sempre prontos para lutar. ";
-  cout << "Possuem extremas habilidades de combate." << endl << endl;
+  cout << "Possuem extremas habilidades de combate corpo a corpo." << endl << endl;
 
   cout << "(2) - Mago:" << endl;
-  cout << "Magos são pesquisadores das artes arcanas da Idade Média, porém são ";
-  cout << "fisicamente fracos e não possuem muitas habilidades de combate" << endl << endl;
+  cout << "Magos são pesquisadores das artes arcanas da Idade Média e utilizam-as ";
+  cout << "em suas batalhas, porém são fisicamente fracos e não possuem muitas habilidades ";
+  cout << "de combate com armas." << endl << endl;
 
   cout << "(3) - Ladino:" << endl;
   cout << "Bem furtivos e escorregadios, ladinos, se não estão roubando algo, ";
-  cout << "estão trabalhando numa busca por um tesouro, que antes de repartir ";
-  cout << "o lucro com seus parceiros, ele já os roubou." << endl << endl;
+  cout << "estão trabalhando numa busca por um tesouro. Possuem altas habilidades ";
+  cout << "em combates de longa distância e armas de longo alcance." << endl << endl;
 }
 
 void ajustaAtributos(Ficha &ficha) {
@@ -87,14 +88,27 @@ Classe defineClassePersonagem() {
   return (Classe) classe;
 }
 
+void distribuicaoPontos(Ficha &ficha) {
+  int pontos = 8;
+  int opcao = 'n';
+
+  cout << "Você pode distribuir " << pontos << " pontos pelos seus atributos:" << endl;
+
+  // TODO distribuição de pontos
+
+}
+
 Ficha criarPersonagem() {
   Ficha ficha;
   Personagem personagem;
 
   personagem.nomePersonagem = defineNomePersonagem();
   personagem.classe = defineClassePersonagem();
+
   ficha.personagem = personagem;
+
   ajustaAtributos(ficha);
+  distribuicaoPontos(ficha);
 
   return ficha;
 }
