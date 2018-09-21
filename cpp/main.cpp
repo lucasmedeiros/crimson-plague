@@ -1,6 +1,6 @@
 #include <iostream>
 #include "main.h"
-#include "criaPersonagem.h"
+#include "personagem/criaPersonagem.h"
 
 using namespace std;
 

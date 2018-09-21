@@ -89,13 +89,11 @@ Classe defineClassePersonagem() {
 }
 
 void distribuicaoPontos(Ficha &ficha) {
-  cout << endl;
-
   int pontos = 8;
   char opcao = 'n';
   int atr, addPontos;
 
-  string atributos[6] = {"força", "vitalidade", "inteligência", "sorte", "destreza","carisma"};
+  string atributos[6] = {"Força", "Vitalidade", "Inteligência", "Sorte", "Destreza", "Carisma"};
   int* valores[6] = {&ficha.atributos.forca, &ficha.atributos.vitalidade,
                      &ficha.atributos.inteligencia, &ficha.atributos.sorte,
                      &ficha.atributos.destreza, &ficha.atributos.carisma};
@@ -105,8 +103,8 @@ void distribuicaoPontos(Ficha &ficha) {
   while(pontos > 0){
 
       cout << "(1) Força (" << ficha.atributos.forca << ")" << endl;
-      cout << "(2) vitalidade (" << ficha.atributos.vitalidade << ")" << endl;
-      cout << "(3) inteligência (" << ficha.atributos.inteligencia << ")" << endl;
+      cout << "(2) Vitalidade (" << ficha.atributos.vitalidade << ")" << endl;
+      cout << "(3) Inteligência (" << ficha.atributos.inteligencia << ")" << endl;
       cout << "(4) Sorte (" << ficha.atributos.sorte << ")" << endl;
       cout << "(5) Destreza (" << ficha.atributos.destreza << ")"<< endl;
       cout << "(6) Carisma (" << ficha.atributos.carisma << ")" <<  endl;
@@ -139,11 +137,8 @@ void distribuicaoPontos(Ficha &ficha) {
           cout << "Opção inválida!" << endl << endl;
       }
   }
-  // retirar dps
-  cout << "Fim das distribuicao dos pontos" << endl;
+  cout << endl;
 }
-
-
 
 Ficha criarPersonagem() {
   Ficha ficha;
