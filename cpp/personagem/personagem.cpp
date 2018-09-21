@@ -41,4 +41,4 @@ int getDefesa(Ficha ficha) {
 	return 0;
 };
 
-string getNome(Ficha ficha) { return ficha.personagem.nomePersonagem; }
+string getNome(Ficha ficha) { return ficha.personagem.nome; }
