@@ -24,19 +24,19 @@ void ajustaAtributos(Ficha &ficha) {
   Classe classePersonagem = ficha.personagem.classe;
 
   switch (classePersonagem) {
-    case Guerreiro:
+    case GUERREIRO:
           ficha.atributos.forca += 2;
           ficha.atributos.vitalidade += 1;
           ficha.atributos.destreza -= 1;
           ficha.atributos.inteligencia -= 2;
           break;
-    case Mago:
+    case MAGO:
           ficha.atributos.inteligencia += 2;
           ficha.atributos.sorte += 1;
           ficha.atributos.destreza -= 1;
           ficha.atributos.forca -= 2;
           break;
-    case Ladino:
+    case LADINO:
           ficha.atributos.destreza += 2;
           ficha.atributos.inteligencia += 1;
           ficha.atributos.carisma -= 1;
@@ -144,13 +144,14 @@ Ficha criarPersonagem() {
   Ficha ficha;
   Personagem personagem;
 
-  personagem.nomePersonagem = defineNomePersonagem();
+  personagem.nome = defineNomePersonagem();
   personagem.classe = defineClassePersonagem();
-
-  ficha.personagem = personagem;
 
   ajustaAtributos(ficha);
   distribuicaoPontos(ficha);
+
+  ficha.personagem.hp = getMaxHP(ficha);
+  ficha.personagem.mp = getMaxMP(ficha);
 
   return ficha;
 }
