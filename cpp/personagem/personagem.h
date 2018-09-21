@@ -1,4 +1,5 @@
 #include <iostream>
+
 using namespace std;
 
 enum Classe {
@@ -28,9 +29,12 @@ struct Ficha {
   int dinheiro = 0;
 };
 
-int getDano();
-int getDefesa();
-int getLevel();
-int getHP();
-int getMP();
-void levelUp();
+string getNome(Ficha ficha);
+int getDano(Ficha ficha);
+int getDefesa(Ficha ficha);
+int getLevel(Ficha ficha);
+int getMaxHP(Ficha ficha);
+int getHP(Ficha ficha);
+int getMaxMP(Ficha ficha);
+int getMP(Ficha ficha);
+void levelUp(Ficha ficha);
