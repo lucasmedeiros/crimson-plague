@@ -27,9 +27,9 @@ int getDano(Ficha ficha) {
 	int atributoDeClasse;
 	float multiplicador = 0.5;
 
-	if (ficha.personagem.classe == Classe::Guerreiro)
+	if (ficha.personagem.classe == Classe::GUERREIRO)
 		atributoDeClasse = ficha.atributos.forca;
-	else if (ficha.personagem.classe == Classe::Mago)
+	else if (ficha.personagem.classe == Classe::MAGO)
 		atributoDeClasse = ficha.atributos.inteligencia;
 	else
 		atributoDeClasse = ficha.atributos.destreza;

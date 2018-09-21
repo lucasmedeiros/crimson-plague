@@ -3,11 +3,11 @@
 using namespace std;
 
 enum Classe {
-  Guerreiro = 1, Mago, Ladino
+  GUERREIRO = 1, MAGO, LADINO
 };
 
 struct Personagem {
-  string nomePersonagem;
+  string nome;
   Classe classe;
   int hp = 20;
   int mp = 10;
