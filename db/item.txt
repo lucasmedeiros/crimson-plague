@@ -1,0 +1,39 @@
+// Banco de dados base dos itens do jogo
+// Tipo do item: 0-Consumivel; 1- Não consumivel (equipavel,item de quest e venda)
+// Modelo de construcão do BD:id;nome;descr;tipo;rechpMax;recmpMax;precoVenda;buff;turnDur;
+1;Elixir pequeno;pocao simples de cura;0;8;0;100;0;
+2;Elixir medio;pocao media de cura;0;16;0;100;0;0
+3;Mana pequeno;poção simples de mana;0;0;8;100;0;0
+4;Mana medio,poção grande de mana;0;0;16;100;0;0
+5;Chave de ferro;??;1;0;0;100;0;0
+6;Ametista;pedra brilhante, pode ser usada para venda;1;0;0;100;0;0
+7;Carne Seca Contaminada;Dá pra comer, mas..;0;10;0;100;1;3
+8;Óleo;??;1;0;0;100;0;0;0
+9;Moon Stone;??;1;0;0;100;0;0
+10;Manto da Resistência;??;1;0;0;100;0;0
+11;Escudo de Metal Grande;??;1;0;0;100;0;0
+12;Granada Violeta;??;1;0;0;100;0;0
+13;Poção de Força;Aumenta sua força provisoriamente;0;0;0;100;1;10
+14;Virotes de Besta;??;1;0;0;100;0;0
+15;Simbolo Sagrado de Gruumsh;??;1;0;0;100;0;0
+16;Flecha;Usado em ataques a longa distância;1;0;0;100;0;0
+17;Espada Longa +1;??;1;0;0;100;0;0
+18;Espada Longa +2;??;1;0;0;100;0;0
+19;Arco Longo +1;??;1;0;0;100;0;0
+20;Arco Longo +2;??;1;0;0;100;0;0
+21;Livro de Feitiços;??;1;0;0;100;0;0
+22;Livro de Invocação;??;1;0;0;100;0;0
+23;Prata;??;1;0;0;1;0;0
+24;Moeda de ouro;moeda desse mundo;1;0;0;1;0;0
+
+
+
+
+
+
+
+
+
+
+
+
