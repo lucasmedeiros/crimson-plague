@@ -11,7 +11,7 @@ struct Atributos{
     // valores relacionado a equipaveis, tambem aos valores do buff
     int dano;
     int incrArm;
-    int increForca;
+    int incrForca;
     int incrInteli;
     int incrSorte;
     int incrDestr;

@@ -8,7 +8,7 @@ Atributos getAtributos(int id){
       string* atrb = importar(id,"../../db/atrbItens.txt",10,3);
       atributos.dano = stoi(atrb[1].c_str());
       atributos.incrArm = stoi(atrb[2].c_str());
-      atributos.increForca = stoi(atrb[3].c_str());
+      atributos.incrForca = stoi(atrb[3].c_str());
       atributos.incrVital = stoi(atrb[4].c_str());
       atributos.incrSorte = stoi(atrb[5].c_str());
       atributos.incrDestr = stoi(atrb[6].c_str());
