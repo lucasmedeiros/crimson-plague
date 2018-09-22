@@ -23,7 +23,7 @@ int getLevel(Ficha ficha) { return ficha.personagem.level; }
 int levelUp(Ficha &ficha) { ficha.personagem.level += 1; }
 
 int getDano(Ficha ficha) {
-	int danoBase = 10;
+	int danoBase = rolarDado(8);
 	int atributoDeClasse;
 
 	if (ficha.personagem.classe == Classe::GUERREIRO)
