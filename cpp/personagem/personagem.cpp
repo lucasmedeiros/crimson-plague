@@ -25,7 +25,6 @@ int levelUp(Ficha &ficha) { ficha.personagem.level += 1; }
 int getDano(Ficha ficha) {
 	int danoBase = 10;
 	int atributoDeClasse;
-	float multiplicador = 0.5;
 
 	if (ficha.personagem.classe == Classe::GUERREIRO)
 		atributoDeClasse = ficha.atributos.forca;
@@ -34,7 +33,7 @@ int getDano(Ficha ficha) {
 	else
 		atributoDeClasse = ficha.atributos.destreza;
 
-	return danoBase + round(multiplicador * atributoDeClasse);
+	return danoBase + round(atributoDeClasse/4);
 };
 
 int getDefesa(Ficha ficha) {
