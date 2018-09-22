@@ -1,21 +1,21 @@
 // Banco de dados base dos itens do jogo
-// Tipo do item: 0-Consumivel; 1- Não consumivel (equipavel,item de quest e venda)
+// Tipo do item: 0-Consumivel; 1- Não consumivel (equipavel,item de quest e para venda)
 // Modelo de construcão do BD:id;nome;descr;tipo;rechpMax;recmpMax;precoVenda;buff;turnDur
-1;Elixir pequeno;pocao simples de cura;0;8;0;100;0
-2;Elixir medio;pocao media de cura;0;16;0;100;0;0
-3;Mana pequeno;poção simples de mana;0;0;8;100;0;0
-4;Mana medio,poção grande de mana;0;0;16;100;0;0
-5;Chave de ferro;??;1;0;0;100;0;0
+1;Poção de cura pequena;Recupera até 8 de HP;0;8;0;5;0
+2;Poção de cura média;Recupera até 16 de HP;0;16;0;10;0;0
+3;Poção de MP pequena;Recupera até 8 de MP;0;0;8;5;0;0
+4;Poção de MP média;Recupera até 16 de MP;0;0;16;10;0;0
+5;Chave de ferro;Pode ser usado para abrir fechaduras antigas;1;0;0;0;0;0
 6;Ametista;pedra brilhante, pode ser usada para venda;1;0;0;100;0;0
-7;Carne Seca Contaminada;Dá pra comer, mas..;0;10;0;100;1;3
-8;Óleo;??;1;0;0;100;0;0;0
+7;Carne Seca Contaminada;Recupera 10 de Hp,mas concede um efeito negativo de -2 de Vitalidade por 3 turnos;0;10;0;100;1;3
+8;Óleo;Usada pelos mineradores,muito inflamável,;1;0;0;100;0;0;0
 9;Moon Stone;??;1;0;0;100;0;0
-10;Manto da Resistência;??;1;0;0;100;0;0
+10;Manto da Resistência;Um fino manto feito de pequenos cristais e muito resistente;1;0;0;100;0;0
 11;Escudo de Metal Grande;Um escudo feito de metal e é empunhado com uma mão. Empunhar um escudo aumenta sua Classe de Armadura em 2;1;0;0;10;0;0
 12;Granada Violeta;??;1;0;0;100;0;0
-13;Poção de Força;Aumenta sua força provisoriamente;0;0;0;100;1;10
+13;Poção de Força;Aumenta sua Força em +2 por 10 turnos;0;0;0;20;1;10
 14;Virotes de Besta;??;1;0;0;100;0;0
-15;Simbolo Sagrado de Gruumsh;??;1;0;0;100;0;0
+15;Simbolo Sagrado de Gruumsh;Uma pequena peça de prata com escrituras de uma lingua antiga;1;0;0;100;0;0
 16;Flecha;Usado em ataques a longa distância;1;0;0;100;0;0
 17;Espada Longa +1;Espada feita de metal e empunhado com duas mãos, concedendo um bônus de +1 de Força;1;0;0;15;0;0
 18;Espada Longa +2;Espada feita de metal e empunhado com duas mãos, concedendo um bônus de +2 de Força;1;0;0;17;0;0
