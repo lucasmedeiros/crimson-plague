@@ -3,7 +3,7 @@
 #include "util.h"
 using namespace std;
 
-int rolar(int lados) {    	
+int rolarDado(int lados) {    	
 	srand (time(NULL));
 	return (rand() % (lados + 1)) + 1;
 }
