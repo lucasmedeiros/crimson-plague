@@ -147,6 +147,8 @@ Ficha criarPersonagem() {
   personagem.nome = defineNomePersonagem();
   personagem.classe = defineClassePersonagem();
 
+  ficha.personagem = personagem;
+
   ajustaAtributos(ficha);
   distribuicaoPontos(ficha);
 
