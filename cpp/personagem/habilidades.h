@@ -8,7 +8,6 @@ struct Habilidade {
 	string descricao;
 	int circulo;
 	int dado;
-	int qtdDados[20];
 };
 
 Habilidade getHabilidade(int id);
