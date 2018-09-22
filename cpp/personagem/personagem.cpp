@@ -37,7 +37,8 @@ int getDano(Ficha ficha) {
 };
 
 int getDefesa(Ficha ficha) {
-	return 0;
+	int armadura = 0;
+	return 10 + armadura + floor(ficha.atributos.destreza/4);
 };
 
 string getNome(Ficha ficha) { return ficha.personagem.nome; }
