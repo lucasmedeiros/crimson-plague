@@ -5,7 +5,7 @@ using namespace std;
 
 Atributos getAtributos(int id){
       Atributos atributos;
-      string* atrb = importar(id,"../../db/atrbItens.txt",9,2);
+      string* atrb = importar(id,"../../db/atrbItens.txt",10,3);
       atributos.dano = stoi(atrb[1].c_str());
       atributos.incrArm = stoi(atrb[2].c_str());
       atributos.increForca = stoi(atrb[3].c_str());
@@ -14,6 +14,18 @@ Atributos getAtributos(int id){
       atributos.incrDestr = stoi(atrb[6].c_str());
       atributos.incrCaris = stoi(atrb[7].c_str());
       atributos.incrInteli = stoi(atrb[8].c_str());
+      switch (stoi(atrb[9].c_str())){
+            case 1:
+                  atributos.classe = GUERREIRO;
+                  break;
+            case 2:
+                  atributos.classe = MAGO;
+                  break;
+            case 3:
+                  atributos.classe = LADINO;
+            default:
+                  atributos.classe = TODOS;
+      }     
       return atributos;
 };
 
@@ -23,6 +35,7 @@ Item getItem(int id){
       item.id = id;
       item.nome = informacoes[1];
       item.descricao = informacoes[2];
+
       if(stoi(informacoes[3].c_str()) == 1){
             item.consumivel = true;
       }else{
@@ -37,6 +50,7 @@ Item getItem(int id){
       if(item.buff || item.consumivel == false){
             item.atrb = getAtributos(id);
       }
+
       item.valorVenda = stoi(informacoes[6].c_str());
       return item;
 };

@@ -3,6 +3,9 @@
 
 using namespace std;
 
+enum Classe{
+    GUERREIRO = 1,MAGO,LADINO,TODOS
+};
 
 struct Atributos{
     // valores relacionado a equipaveis, tambem aos valores do buff
@@ -14,6 +17,7 @@ struct Atributos{
     int incrDestr;
     int incrCaris;
     int incrVital;
+    Classe classe;
 };
 
 struct Item{
