@@ -3,15 +3,16 @@
 using namespace std;
 
 Habilidade getHabilidade(int id) {
-	string* informacoes = importar(id, "../../db/habilidades_db.txt", 24, 2);
+	string* informacoes = importar(id, "../../db/habilidades_db.txt", 25, 2);
 	Habilidade habilidade;
 	habilidade.id = id;
 	habilidade.nome = informacoes[1];
 	habilidade.descricao = informacoes[2];
-	habilidade.dado = stoi(informacoes[3].c_str());
+	habilidade.circulo = stoi(informacoes[3].c_str());
+	habilidade.dado = stoi(informacoes[4].c_str());
 
-	for(int i = 4; i <= 23; i++)
-		habilidade.qtdDados[i - 4] = stoi(informacoes[i].c_str());
+	for(int i = 5; i <= 24; i++)
+		habilidade.qtdDados[i - 5] = stoi(informacoes[i].c_str());
 
 	return habilidade;
 }

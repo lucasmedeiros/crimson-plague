@@ -6,6 +6,7 @@ struct Habilidade {
 	int id;
 	string nome;
 	string descricao;
+	int circulo;
 	int dado;
 	int qtdDados[20];
 };
