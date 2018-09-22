@@ -22,8 +22,8 @@ string* split(string linha, char delimitator, int numColuna) {
 	int j = 0;
 	
 	for (int i = 0; i < linha.length(); i++) {
-		if (linha[i] != ',') palavra = palavra + linha[i];
-		if (linha[i] == ',' || i == linha.length() - 1 ) {
+		if (linha[i] != delimitator) palavra = palavra + linha[i];
+		if (linha[i] == delimitator || i == linha.length() - 1 ) {
 			array[j++] = palavra;
 			palavra = ""; 
 		}
@@ -45,5 +45,5 @@ string getLinha(int numLinha, string caminhoArquivo) {
 
 string* importar(int id, string caminhoArquivo, int qtdColunas, int qtdComentarios) {
 	string linha = getLinha(id + qtdComentarios, caminhoArquivo);
-	return split(linha, ',', qtdColunas);
+	return split(linha, ';', qtdColunas);
 }
