@@ -3,7 +3,7 @@
 #include "util.h"
 using namespace std;
 
-int rolarDado(int lados) {    	
+int rolarDado(int lados) {
 	srand (time(NULL));
 	return (rand() % (lados + 1)) + 1;
 }
@@ -20,12 +20,12 @@ string* split(string linha, char delimitator, int numColuna) {
 	string* array = new string[numColuna];
 	string palavra = "";
 	int j = 0;
-	
+
 	for (int i = 0; i < linha.length(); i++) {
 		if (linha[i] != delimitator) palavra = palavra + linha[i];
 		if (linha[i] == delimitator || i == linha.length() - 1 ) {
 			array[j++] = palavra;
-			palavra = ""; 
+			palavra = "";
 		}
 	}
 
