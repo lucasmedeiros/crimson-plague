@@ -1,8 +1,16 @@
-#include <iostream>
 #include "../util.h"
+#include "../personagem/personagem.h"
+
 using namespace std;
 
-struct escolhasCidade {
+struct EscolhasCidade {
 	char ganchoAventura;
+	char segundaChance;
 
-}
+};
+
+struct Escolhas {
+	EscolhasCidade escolhasCidade;
+};
+
+void contaHistoria(Ficha &ficha);

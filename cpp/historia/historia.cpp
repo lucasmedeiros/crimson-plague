@@ -1,6 +1,19 @@
 #include <iostream>
 #include "historia.h"
-#include "personagem/criaPersonagem.h"
+
+char perguntaSimNao() {
+	char resposta;
+	char opcao;
+
+	while (tolower(opcao) != 's') {
+    	cout << "O que você ira responder: (S/N) ";
+    	cin >> resposta;
+    	cout << "Tem certeza? (S/N): ";
+    	cin >> opcao;
+  	}
+
+  	return resposta;
+}
 
 void introducaoCidade() {	
 	cout << "" << endl;
@@ -67,7 +80,7 @@ char ganchoAventura() {
 					cout << "Senhora: Porem, aos poucos ela vai ficando pior. Cada vez mais roubando a sua forca." << endl;
 					cout << "Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca. Fazem quatro dias que meus filhos estao doentes..." << endl;
 					cout << "Senhora: Eu nao sei quanto tempo eles ainda podem aguentar... Por favor, acabe com essa praga." << endl;
-					cout << "Ela comeca a chorar. Solucando um pouco, ela diz:"
+					cout << "Ela comeca a chorar. Solucando um pouco, ela diz:" << endl;
 					cout << "Senhora: Esse problema comecou na mina, tenho certeza que esse mal vem de la. Por favor, me ajude..." << endl;
 
 				} else if (tolower(dialogo) == 'b') {
@@ -176,20 +189,6 @@ void imprimirPrimeiroFinal() {
 	cout << "Aqueles que sobreviveram foram os que fugiram de Passagem de Duvik enquanto nao tinham sido contaminados" << endl;
 	cout << "A promissora cidade comerciante, se tornou apenas uma ruina, uma promessa do que poderia se tornar." << endl;
 }
- 
-char perguntaSimNao() {
-	char resposta;
-	char opcao;
-
-	while (tolower(opcao) != 's') {
-    	cout << "O que você ira responder: (S/N) ";
-    	cin >> resposta;
-    	cout << "Tem certeza? (S/N): ";
-    	cin >> opcao;
-  	}
-
-  	return resposta;
-}
 
 void imprimirCreditos() {
 
@@ -205,8 +204,8 @@ void imprimirCreditos() {
 
 }
 
-void contaHistoria(Ficha &ficha) {
-	EscolhasCidade escolhasCidade;
+void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
+	EscolhasCidade escolhasCidade = escolhas.escolhasCidade;
 	Personagem personagem = ficha.personagem;
 
 	introducaoCidade();
