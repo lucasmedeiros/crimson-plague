@@ -43,6 +43,33 @@ string getLinha(int numLinha, string caminhoArquivo) {
 	return linha;
 }
 
+
+string* getAllLinhas(int numLinha,string caminhoArquivo){
+	string linha;
+	string *linhas = new string[numLinha];
+
+	ifstream arquivo (caminhoArquivo);
+	if(arquivo.is_open()){
+		for(int linhano = 0; linhano < numLinha;linhano++){
+			getline(arquivo,linhas[linhano]);
+		}
+	}
+	else{
+		cout << "fail" << endl;
+	}
+	arquivo.close();
+	return linhas;
+}
+
+string** importarTodos(string caminho, int qtdColunas, int qtdLinhas, int qtdComentarios){
+	string *linhas = getAllLinhas(qtdLinhas,caminho);
+	string **valores;
+	for(int i = qtdComentarios; i < qtdLinhas; i++){
+		valores[i-qtdComentarios] = split(linhas[i],';',qtdColunas);
+	}
+	return valores;
+}
+
 string* importar(int id, string caminhoArquivo, int qtdColunas, int qtdComentarios) {
 	string linha = getLinha(id + qtdComentarios, caminhoArquivo);
 	return split(linha, ';', qtdColunas);

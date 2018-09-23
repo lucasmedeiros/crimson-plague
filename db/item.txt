@@ -16,7 +16,7 @@
 13;Poção de Força;Aumenta sua Força em +2 por 10 turnos;0;0;0;20;1;10
 14;Virotes de Besta;??;1;0;0;100;0;0
 15;Simbolo Sagrado de Gruumsh;Uma pequena peça de prata com escrituras de uma lingua antiga;1;0;0;100;0;0
-16;Flecha;Usado em ataques a longa distância;1;0;0;100;0;0
+16;Flecha;Usado em ataques a longa distância, é necessário ter um arco equipado;1;0;0;100;0;0
 17;Espada Longa +1;Espada feita de metal e empunhado com duas mãos, concedendo um bônus de +1 de Força;1;0;0;15;0;0
 18;Espada Longa +2;Espada feita de metal e empunhado com duas mãos, concedendo um bônus de +2 de Força;1;0;0;17;0;0
 19;Arco Longo +1;Arco poderoso para longas distâncias, concede um bônus de +1 de Destreza;1;0;0;25;0;0

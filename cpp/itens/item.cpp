@@ -3,17 +3,23 @@
 
 using namespace std;
 
-Atributos getAtributos(int id){
+int getDano(Item item){return item.atrb.dano;}
+int getArmadura(Item item){return item.atrb.armadura;}
+string getNome(Item item){return item.nome;}
+int getRecHPMax(Item item){return item.recHPMax;}
+int getRecMPMax(Item item){return item.recMPMax;}
+Atributos getAtributos(Item item){return item.atrb;}
+
+Atributos setAtributos(string *atrb){
       Atributos atributos;
-      string* atrb = importar(id,"../../db/atrbItens.txt",10,3);
       atributos.dano = stoi(atrb[1].c_str());
-      atributos.incrArm = stoi(atrb[2].c_str());
-      atributos.incrForca = stoi(atrb[3].c_str());
-      atributos.incrVital = stoi(atrb[4].c_str());
-      atributos.incrSorte = stoi(atrb[5].c_str());
-      atributos.incrDestr = stoi(atrb[6].c_str());
-      atributos.incrCaris = stoi(atrb[7].c_str());
-      atributos.incrInteli = stoi(atrb[8].c_str());
+      atributos.armadura = stoi(atrb[2].c_str());
+      atributos.forca = stoi(atrb[3].c_str());
+      atributos.vitalidade = stoi(atrb[4].c_str());
+      atributos.sorte = stoi(atrb[5].c_str());
+      atributos.destreza = stoi(atrb[6].c_str());
+      atributos.carisma = stoi(atrb[7].c_str());
+      atributos.inteligencia = stoi(atrb[8].c_str());
       switch (stoi(atrb[9].c_str())){
             case 1:
                   atributos.classe = GUERREIRO;
@@ -29,10 +35,22 @@ Atributos getAtributos(int id){
       return atributos;
 };
 
-Item getItem(int id){
-      string* informacoes = importar(id,"../../db/item.txt",9,3);
+
+Item* carregarTdsItens(){
+      string** informacoes = importarTodos("../../db/item.txt",9,27,3);
+      string** atributos = importarTodos("../../db/atrbItens.txt",10,27,3);
       Item item;
-      item.id = id;
+      Item* itens;
+      for(int i = 0; i < 24; i++){
+            item = getItem(informacoes[i],atributos[i]);
+            itens[i] = item;
+      }
+      return itens;
+};
+
+Item getItem(string *informacoes, string *atributos){
+      Item item;
+      item.id = stoi(informacoes[0].c_str());
       item.nome = informacoes[1];
       item.descricao = informacoes[2];
 
@@ -48,12 +66,14 @@ Item getItem(int id){
       }
 
       if(item.buff || item.consumivel == false){
-            item.atrb = getAtributos(id);
+            item.atrb = setAtributos(atributos);
       }
 
       item.valorVenda = stoi(informacoes[6].c_str());
       return item;
 };
+
+
 
 
 

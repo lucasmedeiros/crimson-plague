@@ -10,13 +10,13 @@ enum Classe{
 struct Atributos{
     // valores relacionado a equipaveis, tambem aos valores do buff
     int dano;
-    int incrArm;
-    int incrForca;
-    int incrInteli;
-    int incrSorte;
-    int incrDestr;
-    int incrCaris;
-    int incrVital;
+    int armadura;
+    int forca;
+    int inteligencia;
+    int sorte;
+    int destreza;
+    int carisma;
+    int vitalidade;
     Classe classe;
 };
 
@@ -39,6 +39,12 @@ struct Item{
 
 };
 
-Item getItem(int id);
-Atributos getAtributos(int id);
-
+Item getItem(string* informacoes, string* atributos);
+Atributos setAtributos(string* atributos);
+Item* carregarTdsItens();
+int getDano(Item item);
+int getArmadura(Item item);
+int getRecHPMax(Item item);
+int getRecMPMax(Item item);
+string getNome(Item item);
+Atributos getAtributos(Item item);
