@@ -42,8 +42,6 @@ char ganchoAventura() {
     		cout << "Nobre: generosa de dinheiro! Voce vai perceber que é ele pelo simbolo da nossa familia que ele carrega." << endl;
     		cout << "O nobre se aproxima de voce e mostra o simbolo. Ele entao diz:" << endl;
     		cout << "Nobre: Voce ira me ajudar?" << endl;
-
-    		concordou = perguntaSimNao();
     		
     	} else if (tolower(escolhaGancho) == 'b') {
     		cout << "Voce nao demora muito pra perceber que eles sao mineradores" << endl;
@@ -95,9 +93,6 @@ char ganchoAventura() {
     	}
     		
     }
-
-    
-    concordou = perguntaSimNao();
 
     if(tolower(escolhaGancho) != 'd') {
     	concordou = perguntaSimNao();
@@ -184,6 +179,7 @@ void imprimirPrimeiroFinal() {
  
 char perguntaSimNao() {
 	char resposta;
+	char opcao;
 
 	while (tolower(opcao) != 's') {
     	cout << "O que você ira responder: (S/N) ";
