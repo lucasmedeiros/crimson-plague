@@ -1,6 +1,5 @@
-main:	main.o	util.o	criaPersonagem.o	personagem.o
-	g++ -o crimsonPlague main.o util.o criaPersonagem.o personagem.o
-	echo arquivo crimsonPlague gerado com sucesso!
+main:	main.o	util.o	criaPersonagem.o	personagem.o	batalha.o
+	g++ -o crimsonPlague main.o util.o criaPersonagem.o personagem.o batalha.o
 
 main.o:	main.cpp	main.h
 	g++ -c main.cpp
@@ -13,6 +12,9 @@ criaPersonagem.o:	personagem/criaPersonagem.cpp	personagem/criaPersonagem.h
 
 personagem.o:	personagem/personagem.cpp	personagem/personagem.h
 	g++ -c personagem/personagem.cpp
+
+batalha.o:	batalhas/batalha.cpp	batalhas/batalha.h
+	g++ -c batalhas/batalha.cpp
 
 clean:
 	rm *.o
