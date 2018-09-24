@@ -1,20 +1,26 @@
-main:	main.o	util.o	criaPersonagem.o	personagem.o	batalha.o
-	g++ -o crimsonPlague main.o util.o criaPersonagem.o personagem.o batalha.o
+#declarando a variavel de compilacao
+CC = g++
 
-main.o:	main.cpp	main.h
-	g++ -c main.cpp
+#variavel para o 'find' para achar todos os arquivos '.cpp'
+CPPS = $(shell find -name '*.cpp')
 
-util.o:	util.cpp	util.h
-	g++ -c util.cpp
+#expressao para pegar todos os arquivos '.o'
+OBJS := $(addsuffix .o, $(basename $(CPPS)))
 
-criaPersonagem.o:	personagem/criaPersonagem.cpp	personagem/criaPersonagem.h
-	g++ -c personagem/criaPersonagem.cpp
+#variavel para todos os arquivos '.h'
+HDRS = *.h
 
-personagem.o:	personagem/personagem.cpp	personagem/personagem.h
-	g++ -c personagem/personagem.cpp
+#'main' do makefile
+all:	compile	clean
 
-batalha.o:	batalhas/batalha.cpp	batalhas/batalha.h
-	g++ -c batalhas/batalha.cpp
+#compilando o codigo (gerando o arquivo executavel crimsonPlague)
+compile:	$(OBJS)
+	$(CC) -o crimsonPlague $^
 
-clean:
-	rm *.o
+#gerando o arquivo '.o' para cada arquivo '.cpp' existente no projeto
+$@/%.o:	%.cpp	$(HDRS)
+	$(CC) -c $<
+
+#limpando todos os arquivos '.o' gerados
+clean:	$(OBJS)
+	rm -rf $^
