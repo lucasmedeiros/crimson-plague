@@ -1,3 +1,5 @@
+#ifndef PERSONAGEM_H
+#define PERSONAGEM_H
 #include <iostream>
 #include "../util.h"
 using namespace std;
@@ -38,3 +40,4 @@ int getHP(Ficha ficha);
 int getMaxMP(Ficha ficha);
 int getMP(Ficha ficha);
 void levelUp(Ficha ficha);
+#endif
