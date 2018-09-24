@@ -13,6 +13,8 @@ struct Personagem {
   Classe classe;
   int hp = 20;
   int mp = 10;
+  int xpAtual = 0;
+  int xpMaxima = 1000;
   int level = 1;
 };
 
