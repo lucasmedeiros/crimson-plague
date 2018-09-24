@@ -38,35 +38,36 @@ string getLinha(int numLinha, string caminhoArquivo) {
 	if(arquivo.is_open())
 		for (int linhano = 0; getline (arquivo,linha) && linhano < numLinha; linhano++);
 	else
-		cout << "fail" << endl;
+		cout << "O arquivo não está aberto!" << endl;
 	arquivo.close();
 	return linha;
 }
 
 
-string* getAllLinhas(int numLinha,string caminhoArquivo){
+string* getAllLinhas(int qtdLinhas, int qtdComentarios, string caminhoArquivo){
 	string linha;
-	string *linhas = new string[numLinha];
+	string *linhas = new string[qtdLinhas];
 
-	ifstream arquivo (caminhoArquivo);
+	ifstream arquivo(caminhoArquivo);
 	if(arquivo.is_open()){
-		for(int linhano = 0; linhano < numLinha;linhano++){
-			getline(arquivo,linhas[linhano]);
+		for(int i = 0, j = 0; i < qtdLinhas + qtdComentarios; i++) {
+			getline(arquivo, linha);
+			if (linha[0] != '/')
+				linhas[j++] = linha;
 		}
+	} else {
+		cout << "O arquivo não está aberto!" << endl;
 	}
-	else{
-		cout << "fail" << endl;
-	}
+
 	arquivo.close();
 	return linhas;
 }
 
 string** importarTodos(string caminho, int qtdColunas, int qtdLinhas, int qtdComentarios){
-	string *linhas = getAllLinhas(qtdLinhas,caminho);
-	string **valores;
-	for(int i = qtdComentarios; i < qtdLinhas; i++){
-		valores[i-qtdComentarios] = split(linhas[i],';',qtdColunas);
-	}
+	string *linhas = getAllLinhas(qtdLinhas, qtdComentarios, caminho);
+	string **valores = new string*[qtdLinhas];
+	for(int i = 0; i < qtdLinhas; i++)
+		valores[i] = split(linhas[i],';',qtdColunas);
 	return valores;
 }
 
