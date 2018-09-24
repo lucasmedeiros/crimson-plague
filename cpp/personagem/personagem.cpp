@@ -41,7 +41,7 @@ int getDano(Ficha ficha) {
 	else
 		atributoDeClasse = ficha.atributos.destreza;
 
-	return danoBase + round(atributoDeClasse/4);
+	return danoBase + floor(atributoDeClasse/4);
 };
 
 int getDefesa(Ficha ficha) {
