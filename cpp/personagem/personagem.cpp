@@ -20,7 +20,15 @@ int getMaxMP(Ficha ficha) {
 }
 
 int getLevel(Ficha ficha) { return ficha.personagem.level; }
-int levelUp(Ficha &ficha) { ficha.personagem.level += 1; }
+void levelUp(Ficha &ficha) { ficha.personagem.level += 1; }
+
+void aumentarXP(Ficha &ficha, int xp) {
+	ficha.personagem.xpAtual += xp;
+	if (ficha.personagem.xpAtual >= ficha.personagem.xpMaxima) {
+		levelUp(ficha);
+		ficha.personagem.xpAtual = ficha.personagem.xpAtual % ficha.personagem.xpMaxima;
+	}
+}
 
 int getDano(Ficha ficha) {
 	int danoBase = rolarDado(8);

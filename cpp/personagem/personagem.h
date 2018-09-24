@@ -41,5 +41,12 @@ int getMaxHP(Ficha ficha);
 int getHP(Ficha ficha);
 int getMaxMP(Ficha ficha);
 int getMP(Ficha ficha);
-void levelUp(Ficha ficha);
+void levelUp(Ficha &ficha);
+
+/**
+ * Incrementa a experiência do personagem.
+ * @param ficha
+ * @param xp
+ */
+void aumentarXP(Ficha &ficha, int xp);
 #endif
