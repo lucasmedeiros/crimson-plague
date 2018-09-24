@@ -190,6 +190,98 @@ void imprimirPrimeiroFinal() {
 	cout << "A promissora cidade comerciante, se tornou apenas uma ruina, uma promessa do que poderia se tornar." << endl;
 }
 
+void entradaMina() {
+	char escolhaDialogo = 'z';
+	int dadoObservar;
+	
+	
+	//Descricao da entrada da caverna.
+	cout << "" << endl;
+	cout << "Após algumas horas de caminhada, você chega na caverna." << endl;
+	cout << "Uma brisa fria desce dos picos da Montanha Serpente" << endl;
+	cout << "Enrolada enquanto voce contempla a entrada para as" << endl;
+	cout << "cavernas. O chao coberto de neve está cheio de ferramentas," << endl;
+	cout << "picaretas e pas, muitas das quais sobressaindo dos montes" << endl;
+	cout << "de neve. Um unico corredor escuro conduz as profundezas" << endl;
+	cout << "da mina a frente. O caminho de terra abaixo, que possui" << endl;
+	cout << "estruturas de suporte de madeira, esta coberto com escombros" << endl;
+	cout << "de pedra, uns pedacos ocasionalmente brilham com o menor" << endl;
+	cout << "pedaço de minerio. Nenhuma luz lanca-se para fora" << endl;
+	cout << "do tunel. Tochas queimadas estão espalhadas pelo chao," << endl;
+	cout << "seus suportes quebrados nas paredes do tunel. Atras de" << endl;
+	cout << "voces, a estrada gasta conduz através dos precipicios para o" << endl;
+	cout << "vale abaixo. Alem do suave assobio do vento, um completo" << endl;
+	cout << "silencio preenche a abertura nas montanhas." << endl;
+	
+	//Escolha do setor.
+	cout << "Você está em frente a entrada da mina, o que voce vai fazer?" << endl;
+	
+	cout << "a) Tentar analisar com mais detalhes a entrada da caverna." << endl;
+	cout << "b) Procurar por alguma coisa ao redor da entrada." << endl;
+	cout << "c) Acender uma tocha e entrar na caverna." << endl;
+	
+	while(escolhaDialogo == 'z') {
+		cin >> escolhaDialogo;
+		
+		if (escolhaDialogo == 'a') {
+			dadoObservar = rolarDado(20);
+			
+			primeiraEscolhaEntrada(dadoObservar);
+			
+		} else if (escolhaDialogo == 'b') {
+			dadoObservar = rolarDado(20) + 2;
+			
+			segundaEscolhaEntrada(dadoObservar);
+			
+		} else if (escolhaDialogo == 'c') {
+			cout << "Analisar as coisas e perda de tempo, seus inimigos nao tem" << endl;
+			cout << "uma chance contra você mesmo... Voce acende uma tocha, respira" << endl;
+			cout << "fundo e entra na mina." << endl;
+		} else {
+			cout << "Opcao invalida!" << endl;
+			escolhaDialogo = 'z';
+		}
+	}
+	
+	cout << "" << endl;
+
+}
+
+void primeiraEscolhaEntrada(int dadoObservar) {
+	
+	if (dadoObservar >= 10) {
+		cout << "Voce percebe que os suportes de madeira do tunel" << endl;
+		cout << "estao lascados e despedacados, como se tivessem danificados" << endl;
+		cout << "em uma recente batalha." << endl;
+				
+		if(dadoObservar >= 15) {
+			cout << "Voce tambem percebe que elas estao manchadas de sangue." << endl;
+			//Xp += 300
+		}
+				
+		//Xp += 400
+		cout << "Logo após a analise, voce acende uma tocha e entra na caverna." << endl;
+	}
+}
+
+void segundaEscolhaEntrada(int dadoObservar) {
+	
+	if(dadoObservar >= 10 and dadoObservar < 15) {
+		cout << "No meio as picaretas e pas quebradas, voce encontra uma pedra preciosa!" << endl;
+		cout << "No entanto, voce nao encontrou nada que pode ser util para entender" << endl;
+		cout << "o que aconteceu nessa mina. Voce acende uma tocha e entra na caverna." << endl;
+		// XP += 300
+	} else if (dadoObservar >= 15) {
+		cout << "No meio as picaretas e pas quebradas, voce encontra duas pocoes de vida!" << endl;
+		cout << "Possivelmente elas serao uteis... Voce tambem encontra um simbolo" << endl;
+		cout << "associados a kobolds, pequenas criaturas que sao conhecidas por serem" << endl;
+		cout << "saqueadores. E provavel que tenha havido um combate por aqui. Voce" << endl;
+		cout << "acende uma tocha e entra na caverna com atencao redobrada." << endl;
+		// XP += 500 
+	}
+
+}
+
 void imprimirCreditos() {
 
 	cout << "Obrigado por jogar: A Praga Carmesim!" << endl << endl;
@@ -221,6 +313,8 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
 	if(tolower(escolhasCidade.segundaChance) == 'n') {
 		imprimirPrimeiroFinal();
 		imprimirCreditos();
+	} else {
+		entradaMina();
 	}
 
 }

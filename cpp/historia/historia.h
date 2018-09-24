@@ -9,8 +9,14 @@ struct EscolhasCidade {
 
 };
 
+struct EscolhasEntradaMina {
+	char analisePorta;
+};
+
 struct Escolhas {
 	EscolhasCidade escolhasCidade;
 };
 
+void primeiraEscolhaEntrada(int dadoObservar);
+void segundaEscolhaEntrada(int dadoObservar);
 void contaHistoria(Ficha &ficha);
