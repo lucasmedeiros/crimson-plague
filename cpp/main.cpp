@@ -3,6 +3,7 @@
 #include "main.h"
 #include "personagem/criaPersonagem.h"
 #include "personagem/habilidades.h"
+#include "historia/historia.h"
 using namespace std;
 
 Ficha ficha;
@@ -36,9 +37,12 @@ void carregarInformacoes() {
 }
 
 int main() {
+  Escolhas escolhas;
   carregarInformacoes();
   ficha = criarPersonagem();
   imprimeInformacoes(ficha);
+  
+  contaHistoria(ficha, escolhas);
 
   if (ficha.personagem.classe == Classe::MAGO)
     selecionarHabilidade();
