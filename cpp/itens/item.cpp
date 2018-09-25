@@ -10,17 +10,36 @@ int getRecHPMax(Item item){return item.recHPMax;}
 int getRecMPMax(Item item){return item.recMPMax;}
 Atributos getAtributos(Item item){return item.atrb;}
 
+void setTipo(Atributos atributo, string *atrb){
+      switch(stoi(atrb[10])){
+            case 1:
+                  atributo.tipoEquipavel = ARMA;
+                  break;
+            case 2:
+                  atributo.tipoEquipavel = ARMADURA;
+                  break;
+            case 3:
+                  atributo.tipoEquipavel = BOTAS;
+                  break;
+            case 4:
+                  atributo.tipoEquipavel = CAPACETE;
+            case 5:
+                  atributo.tipoEquipavel = ESCUDO;
+      }
+}
+
+
 Atributos setAtributos(string *atrb){
       Atributos atributos;
-      atributos.dano = stoi(atrb[1].c_str());
-      atributos.armadura = stoi(atrb[2].c_str());
-      atributos.forca = stoi(atrb[3].c_str());
-      atributos.vitalidade = stoi(atrb[4].c_str());
-      atributos.sorte = stoi(atrb[5].c_str());
-      atributos.destreza = stoi(atrb[6].c_str());
-      atributos.carisma = stoi(atrb[7].c_str());
-      atributos.inteligencia = stoi(atrb[8].c_str());
-      switch (stoi(atrb[9].c_str())){
+      atributos.dano = stoi(atrb[1]);
+      atributos.armadura = stoi(atrb[2]);
+      atributos.forca = stoi(atrb[3]);
+      atributos.vitalidade = stoi(atrb[4]);
+      atributos.sorte = stoi(atrb[5]);
+      atributos.destreza = stoi(atrb[6]);
+      atributos.carisma = stoi(atrb[7]);
+      atributos.inteligencia = stoi(atrb[8]);
+      switch (stoi(atrb[9])){
             case 1:
                   atributos.classe = GUERREIRO;
                   break;
@@ -31,14 +50,15 @@ Atributos setAtributos(string *atrb){
                   atributos.classe = LADINO;
             default:
                   atributos.classe = TODOS;
-      }     
+      }
+      setTipo(atributos,atrb);
       return atributos;
 };
 
 
 Item* carregarTdsItens(){
       string** informacoes = importarTodos("../../db/item.txt",9,27,3);
-      string** atributos = importarTodos("../../db/atrbItens.txt",10,27,3);
+      string** atributos = importarTodos("../../db/atrbItens.txt",11,28,4);
       Item item;
       Item* itens;
       for(int i = 0; i < 24; i++){
@@ -50,16 +70,16 @@ Item* carregarTdsItens(){
 
 Item getItem(string *informacoes, string *atributos){
       Item item;
-      item.id = stoi(informacoes[0].c_str());
+      item.id = stoi(informacoes[0]);
       item.nome = informacoes[1];
       item.descricao = informacoes[2];
 
-      if(stoi(informacoes[3].c_str()) == 1){
+      if(stoi(informacoes[3]) == 1){
             item.consumivel = true;
       }else{
             item.consumivel = false;
       }
-      if(stoi(informacoes[7].c_str()) == 1){
+      if(stoi(informacoes[7]) == 1){
             item.buff = true;
       }else{
             item.buff = false;
@@ -69,7 +89,7 @@ Item getItem(string *informacoes, string *atributos){
             item.atrb = setAtributos(atributos);
       }
 
-      item.valorVenda = stoi(informacoes[6].c_str());
+      item.valorVenda = stoi(informacoes[6]);
       return item;
 };
 

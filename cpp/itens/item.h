@@ -7,6 +7,10 @@ enum Classe{
     GUERREIRO = 1,MAGO,LADINO,TODOS
 };
 
+enum Tipo{
+    ARMA = 1,ARMADURA,BOTAS,CAPACETE,ESCUDO
+};
+
 struct Atributos{
     // valores relacionado a equipaveis, tambem aos valores do buff
     int dano;
@@ -18,6 +22,7 @@ struct Atributos{
     int carisma;
     int vitalidade;
     Classe classe;
+    Tipo tipoEquipavel;
 };
 
 struct Item{
@@ -48,3 +53,4 @@ int getRecHPMax(Item item);
 int getRecMPMax(Item item);
 string getNome(Item item);
 Atributos getAtributos(Item item);
+void setTipo(Atributos atributo);
