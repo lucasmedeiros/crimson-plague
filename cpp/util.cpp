@@ -44,7 +44,7 @@ string getLinha(int numLinha, string caminhoArquivo) {
 }
 
 
-string* getAllLinhas(int qtdLinhas, int qtdComentarios, string caminhoArquivo){
+string* getAllLinhas(string caminhoArquivo,int qtdLinhas, int qtdComentarios){
 	string linha;
 	string *linhas = new string[qtdLinhas];
 
@@ -64,7 +64,7 @@ string* getAllLinhas(int qtdLinhas, int qtdComentarios, string caminhoArquivo){
 }
 
 string** importarTodos(string caminho, int qtdColunas, int qtdLinhas, int qtdComentarios){
-	string *linhas = getAllLinhas(qtdLinhas, qtdComentarios, caminho);
+	string *linhas = getAllLinhas(caminho,qtdLinhas, qtdComentarios);
 	string **valores = new string*[qtdLinhas];
 	for(int i = 0; i < qtdLinhas; i++)
 		valores[i] = split(linhas[i],';',qtdColunas);
