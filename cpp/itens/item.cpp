@@ -9,6 +9,7 @@ string getNome(Item item){return item.nome;}
 int getRecHPMax(Item item){return item.recHPMax;}
 int getRecMPMax(Item item){return item.recMPMax;}
 Atributos getAtributos(Item item){return item.atrb;}
+Tipo getTipo(Item item){return item.atrb.tipoEquipavel;}
 
 void setTipo(Atributos atributo, string *atrb){
       switch(stoi(atrb[10])){
@@ -57,8 +58,8 @@ Atributos setAtributos(string *atrb){
 
 
 Item* carregarTdsItens(){
-      string** informacoes = importarTodos("../../db/item.txt",9,27,3);
-      string** atributos = importarTodos("../../db/atrbItens.txt",11,28,4);
+      string** informacoes = importarTodos("../../db/item.txt",QTD_COLUNAS_ITENS,QTD_LINHAS_ITENS,QTD_COMENTARIOS_ITENS);
+      string** atributos = importarTodos("../../db/atrbItens.txt",QTD_COLUNAS_EQUIPAVEIS,QTD_LINHAS_EQUIPAVEIS,QTD_COMENTARIOS_EQUIPAVEIS);
       Item item;
       Item* itens;
       for(int i = 0; i < 24; i++){

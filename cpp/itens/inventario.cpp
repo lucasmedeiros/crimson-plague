@@ -3,53 +3,59 @@
 
 using namespace std;
 
-int getDano(Inventario inv){return inv.equipados.arma.atrb.dano;}
-int getDinheiro(Inventario inv){return inv.dinheiro;}
+int getDano(Inventario inventario){return getDano(inventario.equipados.arma);}
+int getDinheiro(Inventario inventario){return inventario.dinheiro;}
+Item getArm(Inventario inventario){return inventario.equipados.armadura;}
+Item getArma(Inventario inventario){return inventario.equipados.arma;}
+Item getCapacete(Inventario inventario){return inventario.equipados.capacete;}
+Item getBotas(Inventario inventario){return inventario.equipados.botas;}
+Item getEscudo(Inventario inventario){return inventario.equipados.escudo;}
 
-int getArmadura(Inventario inv){
+int getArmadura(Inventario inventario){
     int armaduraTotal = 0;
-    armaduraTotal += inv.equipados.armadura.atrb.armadura;
-    armaduraTotal += inv.equipados.capacete.atrb.armadura;
-    armaduraTotal += inv.equipados.botas.atrb.armadura;
+    armaduraTotal += getArmadura(inventario.equipados.armadura);
+    armaduraTotal += getArmadura(inventario.equipados.capacete);
+    armaduraTotal += getArmadura(inventario.equipados.botas);
     return armaduraTotal;
 }
 
-void droparItens(int id,Inventario inv){
-    Item* itens = inv.inventario; 
+void droparItens(int id,Inventario inventario){
+    Item* itens = inventario.inventario; 
     for(int i = 0; i < 20; i++){
     }
 }
 
-void equiparItem(int id,Inventario inv){
-    Item* itens = inv.inventario;
+void equiparItem(int id,Inventario inventario){
+    Item* itens = inventario.inventario;
     bool existe = false;
      for(int i = 0; i < 20; i++){
          if(itens[i].id == id){
             existe = true;
-            switch(itens[i].atrb.tipoEquipavel){
+            Item* item;
+            switch(getTipo(itens[i])){
                 case ARMA:
-                    Item *item = &inv.equipados.arma;
-                    inv.equipados.arma = itens[i];
+                    item = &inventario.equipados.arma;
+                    inventario.equipados.arma = itens[i];
                     itens[i] = *item;
                     break;
                 case ARMADURA:
-                    Item *item = &inv.equipados.armadura;
-                    inv.equipados.armadura = itens[i];
+                    item = &inventario.equipados.armadura;
+                    inventario.equipados.armadura = itens[i];
                     itens[i] = *item;
                     break;
                 case CAPACETE:
-                    Item *item = &inv.equipados.capacete;
-                    inv.equipados.capacete = itens[i];
+                    item = &inventario.equipados.capacete;
+                    inventario.equipados.capacete = itens[i];
                     itens[i] = *item;
                     break;
                 case BOTAS:
-                    Item *item = &inv.equipados.botas;
-                    inv.equipados.botas = itens[i];
+                    item = &inventario.equipados.botas;
+                    inventario.equipados.botas = itens[i];
                     itens[i] = *item;
                     break;
                 default:
-                    Item *item = &inv.equipados.escudo;
-                    inv.equipados.escudo = itens[i];
+                    item = &inventario.equipados.escudo;
+                    inventario.equipados.escudo = itens[i];
                     itens[i] = *item;
                     break;
             }
