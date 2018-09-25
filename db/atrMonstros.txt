@@ -1,0 +1,9 @@
+// banco de dados para atributos dos monstros
+// configuração: id, nome, hp, xp, drop, CA, dano de ataque
+1;Kobolds;4;500;-;15;4
+2;Arminho atroz;24;500;-;16;9
+3;Ratos;1;500;-;14;-1
+4;M'dok;8;500;-;15;4
+5;Zumbi dos Mineiros;27;500;-;11;7
+6;Kobolds Zumbis;15;500;-;11;4
+7;Jack Garra Despedaçante;30;500;-;18;11
