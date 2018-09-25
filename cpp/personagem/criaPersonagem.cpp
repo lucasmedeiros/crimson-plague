@@ -114,12 +114,12 @@ void distribuicaoPontos(Ficha &ficha) {
 
       cin >> atr;
 
-      if(atr < 7){
+      if(0 < atr && atr < 7){
           cout << "Adicionar quantos pontos ao atributo " << atributos[atr - 1] << " ?" << endl;
           cin >> addPontos;
 
           if(addPontos <= pontos){
-              if(addPontos < 0){
+              if(addPontos > 0){
               cout << atributos[atr - 1] << " " << *valores[atr - 1] << " -- > " << *valores[atr - 1] + addPontos << endl;
               cout << "Pontos restantes: " << pontos - addPontos << endl;
               cout << "Tem certeza? (S/N): " << endl;
@@ -130,7 +130,7 @@ void distribuicaoPontos(Ficha &ficha) {
                   pontos -= addPontos;
               }
               }else{
-                cout << "Qtd de pontos inválida, adicione alguma quantidade váida" << endl << endl;
+                cout << "Qtd de pontos inválida, adicione alguma quantidade válida" << endl << endl;
               }
           }else{
             cout << "Pontos insuficientes" << endl << endl;
