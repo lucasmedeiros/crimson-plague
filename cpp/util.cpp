@@ -12,7 +12,7 @@ int* rolarDados(int lados, int vezes) {
 	int *values = new int[vezes];
 	srand (time(NULL));
     for (int i = 0; i < vezes; i++)
-		values[i] = (rand() % (lados + 1)) + 1;
+		values[i] = rand() % lados + 1;
 	return values;
 }
 
