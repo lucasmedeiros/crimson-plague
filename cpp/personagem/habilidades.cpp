@@ -10,7 +10,9 @@ Habilidade getHabilidade(string* informacoes) {
 	habilidade.nome = informacoes[1];
 	habilidade.descricao = informacoes[2];
 	habilidade.circulo = stoi(informacoes[3].c_str());
-	habilidade.dado = stoi(informacoes[4].c_str());
+	string* infoDado = split(informacoes[4], 'd', 2);
+	habilidade.numDados = stoi(infoDado[0].c_str());
+	habilidade.tipoDado = stoi(infoDado[1].c_str());
 	habilidade.mp = stoi(informacoes[5].c_str());
 	return habilidade;
 }
@@ -28,24 +30,8 @@ int usarHabilidade(Habilidade habilidade, Ficha &ficha) {
 	int dano = 0;
 	int levelPersonagem = ficha.personagem.level;
 	if (ficha.personagem.mp >= habilidade.mp && ficha.personagem.classe == Classe::MAGO) {
-		// Escala com o nível se for uma hab de circulo 0
-		if (habilidade.circulo == 0 && levelPersonagem >= 5) {
-			int qtdDados;
-			
-			if (levelPersonagem >= 5 && levelPersonagem < 11) {
-				qtdDados = 2;
-			} else if (levelPersonagem >= 11 && levelPersonagem < 17) {
-				qtdDados = 3;
-			} else {
-				qtdDados = 4;
-			}
-
-			int *valores = rolarDados(habilidade.dado, qtdDados);
-			for(int i = 0; i < qtdDados; i++) dano += valores[i];
-		} else {
-			dano = rolarDado(habilidade.dado);
-		}
-
+		int *valores = rolarDados(habilidade.tipoDado, habilidade.numDados);
+		for(int i = 0; i < habilidade.numDados; i++) dano += valores[i];
 		ficha.personagem.mp -= habilidade.mp;
 	}
 

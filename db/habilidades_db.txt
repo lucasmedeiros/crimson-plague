@@ -1,6 +1,6 @@
 //Estrutura do banco de dados
-//id;nome;descr;circulo;qtd_lados_dado;mp
-1;Chicote Elétrico;Você cria um açoite de energia elétrica que golpeia uma criatura;0;8;10
-2;Raio de Fogo;Você arremessa um cisco de fogo em uma criatura ou objeto dentro do alcance.;0;10;10
-3;Raio de Gelo;Um raio frigido de luz azul clara parte em direção de uma criatura;0;8;10
-4;Rajada de Veneno;Você ergue sua mão em direção de uma criatura e projeta um sopro de gás tóxico da sua palma.;0;12;10
+//id;nome;descr;circulo;dado;mp
+1;Chicote Elétrico;Você cria um açoite de energia elétrica que golpeia uma criatura;0;1d8;10
+2;Raio de Fogo;Você arremessa um cisco de fogo em uma criatura ou objeto dentro do alcance.;0;1d10;10
+3;Raio de Gelo;Um raio frigido de luz azul clara parte em direção de uma criatura;0;1d8;10
+4;Rajada de Veneno;Você ergue sua mão em direção de uma criatura e projeta um sopro de gás tóxico da sua palma.;0;1d12;10

@@ -11,7 +11,8 @@ struct Habilidade {
 	string nome;
 	string descricao;
 	int circulo;
-	int dado;
+	int tipoDado;
+	int numDados;
 	int mp;
 };
 
