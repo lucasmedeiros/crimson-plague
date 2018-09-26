@@ -21,12 +21,72 @@ int getArmadura(Inventario inventario){
 }
 
 void droparItens(int id,Inventario inventario){
-    Item* itens = inventario.inventario; 
+    Item* itens = inventario.inventario;
+    bool contem = false;
     for(int i = 0; i < 20; i++){
-        if(itens[i].id = id){
+        if(itens[i].id == id){
+            contem = true;
+            if(inventario.quantidade[i] == 1){
+                itens[i] = inventario.tdsItens[33];
+                inventario.quantidade[i] = 0;
+            }else{
+                inventario.quantidade[i] -= 1;
+            }
         }
     }
+    if(!contem){
+        cout << "Item não pertence ao inventário" << endl;
+    }
 }
+
+
+int qtdVazios(Inventario inventario){
+  int vazio  = 0;
+  Item* itens = inventario.inventario;
+  for(int i = 0; i < 20;i++){
+    if(itens[i].id == 34){
+      vazio +=1;
+    }
+  }
+  return vazio;
+}
+
+bool contemItem(int id, Inventario inventario){
+    Item* itens = inventario.inventario;
+    bool contem = false;
+    for(int i = 0; i < 20; i++){
+        if(itens[i].id == inventario.tdsItens[id- 1].id){
+            contem = true;
+        }
+    }
+    return contem;
+}
+
+void adicionarItem(int id, Inventario inventario){
+    Item* itens = inventario.inventario;
+    if(contemItem(id, inventario)){
+        for(int i = 0; i < 20; i++){
+            if(itens[i].id == id){
+                inventario.quantidade[i] += 1;
+                break;
+            }
+        }
+
+    }else{
+        if(qtdVazios > 0){
+           for(int i = 0; i < 20; i++){
+                if(itens[i].id == 34){
+                    itens[i] = inventario.tdsItens[id - 1];
+                    break;
+            }
+        } 
+        }else{
+            cout << "Inventário cheio" << endl;
+        }
+    }
+
+}
+
 
 void equiparItem(int id,Inventario inventario){
     Item* itens = inventario.inventario;
@@ -62,10 +122,9 @@ void equiparItem(int id,Inventario inventario){
                     itens[i] = *item;
                     break;
             }
-        }  
+        }
     }
     if(!existe){
         cout << "item não encontrado" << endl;
     }
 }
-
