@@ -108,17 +108,7 @@ bool venceu() {
 }
 
 bool personagemFugiu() {
-    cout << endl << "Você tenta fugir e..." << endl;
     int rolagem = rolarDado(20);
-
-    if (rolagem >= 15) {
-        cout << "Escapou..." << endl;
-    } else {
-        cout << "Não consegue... O monstro está rindo de você..." << endl;
-    }
-
-    cout << endl;
-
     return rolagem >= 15;
 }
 
@@ -138,6 +128,16 @@ void iniciaBatalha(Ficha &ficha) {
             ataquePersonagem(ficha);
         } else {
             fugiu = personagemFugiu();
+            
+            cout << endl << "Você tenta fugir e..." << endl;
+            
+            if (fugiu) {
+                cout << "Escapou..." << endl;
+            } else {
+                cout << "Não consegue... O monstro está rindo de você..." << endl;
+            }
+
+            cout << endl;
         }
 
         if (!fugiu) {
