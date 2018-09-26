@@ -21,26 +21,30 @@ void carregarItens() {
   itens = carregarTdsItens();
 }
 
-void zerarArray(int* qtd){
+Item* getAllItens(){
+  return itens;
+}
+
+int* getArrayZerado(){
+  int* qtd = new int[20];
   for(int i = 0; i < 20; i++){
     qtd[i] = 0;
   }
+  return qtd;
 }
 
 Inventario iniciaInventario(){
   Inventario inventario;
   inventario.dinheiro = 0;
   inventario.inventario =  new Item[20];
-  inventario.quantidade = new int[20];
+  inventario.quantidade = getArrayZerado();
   inventario.tdsItens = getAllItens();
-  zerarArray(Inventario.quantidade);
-  inventario.tds;
   return inventario;
 }
 
 int main() {
   Escolhas escolhas;
-  //carregarItens();
+  carregarItens();
   ficha = criarPersonagem();
   ficha.inventario = iniciaInventario();
   imprimeInformacoes(ficha);
