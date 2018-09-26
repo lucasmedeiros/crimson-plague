@@ -9,6 +9,8 @@ using namespace std;
 #define HP_BASE 20
 #define SP_BASE 20
 
+void adicionaDinheiro(Ficha &ficha, int quantia) { ficha.inventario.dinheiro += quantia; }
+
 int getHP(Ficha ficha) { return ficha.personagem.hp; }
 int getMaxHP(Ficha ficha) {
 	return (HP_BASE + round(ficha.atributos.vitalidade * MULT_VIT_HP));
