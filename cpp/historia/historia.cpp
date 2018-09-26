@@ -49,12 +49,12 @@ char ganchoAventura() {
     	if(tolower(escolhaGancho) == 'a') {
 
     		cout << "Ao se aproximar dele, voce escuta:" << endl;
-    		cout << "Nobre: Ei! Você aí! Voce tem cara de que consegue cuidar de si mesmo." << endl;
-    		cout << "Nobre: Meu filho idiota veio pra cá para financiar as mineracoes dessa regiao, e eu nao" << endl;
-    		cout << "Nobre: tenho notícia dele desde o mes passado. Se voce encontrar ele, eu te pagarei uma quantia" << endl;
-    		cout << "Nobre: generosa de dinheiro! Voce vai perceber que é ele pelo simbolo da nossa familia que ele carrega." << endl;
-    		cout << "O nobre se aproxima de voce e mostra o simbolo. Ele entao diz:" << endl;
-    		cout << "Nobre: Voce ira me ajudar?" << endl;
+    		cout << "Prefeito: Saudações. Eu sou o prefeito dessa cidade." << endl;
+    		cout << "Prefeito: muitos dos moradores da vila estão sofrendo de uma" << endl;
+    		cout << "Prefeito: doenca extremamente letal. Não pude deixar de notar" << endl;
+    		cout << "Prefeito: que você é um aventureiro, você poderia nos ajudar" << endl;
+    		cout << "Prefeito: a acabar com essa doença? Por favor, muitos já" << endl;
+    		cout << "Prefeito: morreram com essa praga." << endl;
 
     	} else if (tolower(escolhaGancho) == 'b') {
     		cout << "Voce nao demora muito pra perceber que eles sao mineradores" << endl;
@@ -70,7 +70,7 @@ char ganchoAventura() {
     		cout << "O que você responderá pra ela:" << endl;
 
     		cout << "a) Você poderia falar mais sobre essa praga?" << endl;
-			cout << "b) Onde eu posso acabar com isso?" << endl;
+				cout << "b) Onde eu posso acabar com isso?" << endl;
 
 			while(tolower(dialogo) == 'z') {
 				cin >> dialogo;
@@ -91,7 +91,7 @@ char ganchoAventura() {
 
 				} else {
 					cout << "Opção inválida!" << endl;
-    				dialogo = 'z';
+    			dialogo = 'z';
 				}
 
 			}
@@ -586,7 +586,7 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas) {
 	cout << "clava de aço na mão direita." << endl << endl;
 
 	if (escolhas.solucaoCombate == 'm') {
-		imprimeFinalCurto();
+		imprimeConversaCapitao();
 	}
 
 	cout << "O que voce vai fazer?" << endl << endl;
@@ -660,7 +660,6 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 		} else if (tolower(escolhaConversa) == 'c') {
 			cout << "Jakk: Voce nao tem uma chance, seu verme." << endl;
 			return escolhaConversa;
-			break;
 		} else {
 			cout << "Opcao invalida!" << endl;
 		}
@@ -689,6 +688,7 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 		}  else {
 			cout << "Opcao invalida!" << endl;
 		}
+	}
 
 		cout << "" << endl;
 		cout << "O que voce irá responder: (Digite a, b ou c)" << endl << endl;
@@ -735,6 +735,7 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 			cout << "isso acabe pacificamente." << endl < endl;
 		}
 
+		//TO DO
 		int checkCarisma = rolarDado(20) + (ficha.atributos.carisma / 4);
 
 		while(true) {
