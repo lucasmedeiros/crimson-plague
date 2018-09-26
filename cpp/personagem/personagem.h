@@ -43,6 +43,13 @@ int getMaxMP(Ficha ficha);
 int getMP(Ficha ficha);
 void levelUp(Ficha &ficha);
 
+/** 
+ * Adiciona a quantia especificada de dinheiro ao inventário do personagem;
+ * @param ficha
+ * @param quantia
+ */
+void adicionaDinheiro(Ficha &ficha, int quantia);
+
 /**
  * Incrementa a experiência do personagem.
  * @param ficha
