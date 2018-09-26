@@ -2,12 +2,11 @@
 #include <string>
 #include "main.h"
 #include "personagem/criaPersonagem.h"
-#include "personagem/habilidades.h"
 #include "historia/historia.h"
+#include "batalhas/batalha.h"
 using namespace std;
 
 Ficha ficha;
-Habilidade* habilidades;
 Item* itens;
 
 void imprimeInformacoes(Ficha ficha) {
@@ -18,24 +17,7 @@ void imprimeInformacoes(Ficha ficha) {
   printf("\n");
 }
 
-void selecionarHabilidade() {
-  int qtdHabs = qtdHabilidadesDisponiveis(ficha);
-  printf("Habilidades:\n");
-  for(int i = 0; i < qtdHabs; i++)
-    printf("%d. %s\n", i + 1, habilidades[i].nome.c_str());
-
-  printf("\nSelecione uma habilidade: ");
-  int opcao;
-  cin >> opcao;
-  if (opcao > 0 && opcao <= qtdHabs) {
-    int dano = usarHabilidade(habilidades[opcao - 1], ficha);
-    printf("Você causou %d de dano com %s\n", dano, habilidades[opcao-1].nome.c_str());
-  }
-}
-
-
-void carregarInformacoes() {
-  habilidades = carregarHabilidades();
+void carregarItens() {
   itens = carregarTdsItens();
 }
 
@@ -48,16 +30,14 @@ Inventario iniciaInventario(){
 
 int main() {
   Escolhas escolhas;
-  carregarInformacoes();
+  //carregarItens();
   ficha = criarPersonagem();
   ficha.inventario = iniciaInventario();
   imprimeInformacoes(ficha);
 
-  
-  contaHistoria(ficha, escolhas);
+  //contaHistoria(ficha, escolhas);
 
-  if (ficha.personagem.classe == Classe::MAGO)
-    selecionarHabilidade();
-  
+  iniciaBatalha(ficha);
+
   return 0;
 }

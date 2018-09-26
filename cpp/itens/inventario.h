@@ -18,15 +18,15 @@ struct Inventario{
     Item* inventario;
     Equipados equipados;
     int dinheiro;
-    
+
 };
 
 void iniciarItensBasicos(Inventario Inventario);
 
 /**
- *@return o dano total dos itens equipados 
+ *@return o dano total dos itens equipados
  */
- 
+
 int getDano(Inventario inv);
 
 /**
@@ -35,7 +35,7 @@ int getDano(Inventario inv);
 int getArmadura(Inventario inv);
 
 /**
- * Dropa um item especifico pelo id 
+ * Dropa um item especifico pelo id
  */
 void droparItem(int id,Inventario inv);
 
@@ -64,7 +64,7 @@ Item getCapacete(Inventario inventario);
  */
 Item getEscudo(Inventario inventario);
 /**
- * Adiciona um item ao inventario pelo id 
+ * Adiciona um item ao inventario pelo id
  */
 void pegarItem(int id,Inventario inv);
 
@@ -75,11 +75,11 @@ void equiparItem(int id,Inventario inv);
 
 /**
  * @return o dinheiro total guardado do personagem
- */ 
+ */
 int getDinheiro(Inventario inv);
 
 /**
- *Adiciona certo valor ao dinheiro total do personagem 
+ *Adiciona certo valor ao dinheiro total do personagem
  */
 void addDinheiro(int dinheiro, Inventario inv);
 #endif
