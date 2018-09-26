@@ -1,3 +1,5 @@
+#ifndef INVENTARIO_H
+#define INVENTARIO_H
 #include<iostream>
 #include "../main.h"
 #include "item.h"
@@ -13,11 +15,13 @@ struct Equipados{
 };
 
 struct Inventario{
-    Item* inventario = new Item[20];
+    Item* inventario;
     Equipados equipados;
     int dinheiro;
     
 };
+
+void iniciarItensBasicos(Inventario Inventario);
 
 /**
  *@return o dano total dos itens equipados 
@@ -73,3 +77,9 @@ void equiparItem(int id,Inventario inv);
  * @return o dinheiro total guardado do personagem
  */ 
 int getDinheiro(Inventario inv);
+
+/**
+ *Adiciona certo valor ao dinheiro total do personagem 
+ */
+void addDinheiro(int dinheiro, Inventario inv);
+#endif

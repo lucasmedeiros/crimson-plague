@@ -1,3 +1,5 @@
+#ifndef ITEM_H
+#define ITEM_H
 #include <iostream>
 #include "../util.h"
 #define QTD_LINHAS_ITENS 36
@@ -5,28 +7,26 @@
 #define QTD_COMENTARIOS_ITENS 3
 #define QTD_COMENTARIOS_EQUIPAVEIS 4
 #define QTD_COLUNAS_ITENS 9
-#define QTD_COLUNAS_EQUIPAVEIS 11
+#define QTD_COLUNAS_EQUIPAVEIS 9
 using namespace std;
 
-enum Classe{
-    GUERREIRO = 1,MAGO,LADINO,TODOS
+enum ClasseItem{
+    WARRIOR = 1,MAGE,ROGUE,ALL
 };
 
 enum Tipo{
     ARMA = 1,ARMADURA,BOTAS,CAPACETE,ESCUDO
 };
 
-struct Atributos{
+struct AtributosItens{
     // valores relacionado a equipaveis, tambem aos valores do buff
     int dano;
     int armadura;
     int forca;
     int inteligencia;
-    int sorte;
     int destreza;
-    int carisma;
     int vitalidade;
-    Classe classe;
+    ClasseItem classe;
     Tipo tipoEquipavel;
 };
 
@@ -45,7 +45,7 @@ struct Item{
     bool consumivel;
     int recHPMax;
     int recMPMax;
-    Atributos atrb;
+    AtributosItens atrb;
 
 };
 
@@ -57,7 +57,7 @@ Item getItem(string* informacoes, string* atributos);
 /**
  * @return seta os atributos do item, usado localmente (usado localmente)
  */
-Atributos setAtributos(string* atributos);
+AtributosItens setAtributos(string* atributos);
 
 /**
  * @return todos os itens do banco de dados item.txt
@@ -92,14 +92,16 @@ string getNome(Item item);
 /**
  * @return os atributos do item
  */
-Atributos getAtributos(Item item);
+AtributosItens getAtributos(Item item);
 
 /**
  * seta o tipo do item (equipavel)
  */
-void setTipo(Atributos atributo);
+void setTipo(AtributosItens atributo);
 
 /**
  * @return o tipo do item (equipavel)
  */
 Tipo getTipo(Item item);
+#endif
+

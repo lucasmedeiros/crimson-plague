@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "item.h"
 
@@ -8,11 +9,11 @@ int getArmadura(Item item){return item.atrb.armadura;}
 string getNome(Item item){return item.nome;}
 int getRecHPMax(Item item){return item.recHPMax;}
 int getRecMPMax(Item item){return item.recMPMax;}
-Atributos getAtributos(Item item){return item.atrb;}
+AtributosItens getAtributos(Item item){return item.atrb;}
 Tipo getTipo(Item item){return item.atrb.tipoEquipavel;}
 
-void setTipo(Atributos atributo, string *atrb){
-      switch(stoi(atrb[10])){
+void setTipo(AtributosItens atributo, string *atrb){
+      switch(stoi(atrb[8])){
             case 1:
                   atributo.tipoEquipavel = ARMA;
                   break;
@@ -30,27 +31,25 @@ void setTipo(Atributos atributo, string *atrb){
 }
 
 
-Atributos setAtributos(string *atrb){
-      Atributos atributos;
+AtributosItens setAtributos(string *atrb){
+      AtributosItens atributos;
       atributos.dano = stoi(atrb[1]);
       atributos.armadura = stoi(atrb[2]);
       atributos.forca = stoi(atrb[3]);
       atributos.vitalidade = stoi(atrb[4]);
-      atributos.sorte = stoi(atrb[5]);
-      atributos.destreza = stoi(atrb[6]);
-      atributos.carisma = stoi(atrb[7]);
-      atributos.inteligencia = stoi(atrb[8]);
-      switch (stoi(atrb[9])){
+      atributos.destreza = stoi(atrb[5]);
+      atributos.inteligencia = stoi(atrb[6]);
+      switch (stoi(atrb[7])){
             case 1:
-                  atributos.classe = GUERREIRO;
+                  atributos.classe = WARRIOR;
                   break;
             case 2:
-                  atributos.classe = MAGO;
+                  atributos.classe = MAGE;
                   break;
             case 3:
-                  atributos.classe = LADINO;
+                  atributos.classe = ROGUE;
             default:
-                  atributos.classe = TODOS;
+                  atributos.classe = ALL;
       }
       setTipo(atributos,atrb);
       return atributos;

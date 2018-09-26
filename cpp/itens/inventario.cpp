@@ -10,6 +10,7 @@ Item getArma(Inventario inventario){return inventario.equipados.arma;}
 Item getCapacete(Inventario inventario){return inventario.equipados.capacete;}
 Item getBotas(Inventario inventario){return inventario.equipados.botas;}
 Item getEscudo(Inventario inventario){return inventario.equipados.escudo;}
+void addDinheiro(int dinheiro, Inventario inventario){inventario.dinheiro+=dinheiro;}
 
 int getArmadura(Inventario inventario){
     int armaduraTotal = 0;
@@ -22,6 +23,8 @@ int getArmadura(Inventario inventario){
 void droparItens(int id,Inventario inventario){
     Item* itens = inventario.inventario; 
     for(int i = 0; i < 20; i++){
+        if(itens[i].id = id){
+        }
     }
 }
 

@@ -8,6 +8,7 @@ using namespace std;
 
 Ficha ficha;
 Habilidade* habilidades;
+Item* itens;
 
 void imprimeInformacoes(Ficha ficha) {
   printf("Informações\n");
@@ -32,15 +33,26 @@ void selecionarHabilidade() {
   }
 }
 
+
 void carregarInformacoes() {
   habilidades = carregarHabilidades();
+  itens = carregarTdsItens();
+}
+
+Inventario iniciaInventario(){
+  Inventario inventario;
+  inventario.dinheiro = 0;
+  inventario.inventario =  new Item[20];
+  return inventario;
 }
 
 int main() {
   Escolhas escolhas;
   carregarInformacoes();
   ficha = criarPersonagem();
+  ficha.inventario = iniciaInventario();
   imprimeInformacoes(ficha);
+
   
   contaHistoria(ficha, escolhas);
 
