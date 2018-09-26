@@ -2,6 +2,7 @@
 #define PERSONAGEM_H
 #include <iostream>
 #include "../util.h"
+#include "../itens/inventario.h"
 using namespace std;
 
 enum Classe {
@@ -30,7 +31,7 @@ struct Atributos {
 struct Ficha {
   Personagem personagem;
   Atributos atributos;
-  int dinheiro = 0;
+  Inventario inventario;
 };
 
 string getNome(Ficha ficha);
