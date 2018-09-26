@@ -10,7 +10,7 @@ char perguntaSimNao() {
     	cin >> resposta;
     	cout << "Tem certeza? (S/N): ";
     	cin >> opcao;
-  	}
+  }
 
   	return resposta;
 }
@@ -369,54 +369,141 @@ char recepcaoCaverna(Ficha &ficha) {
 	return ativou;
 }
 
-char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
+char dialogoCombateRefeitorio(Ficha &ficha) {
+	char escolhaCombate = 'p';
+	char dialogoCombate;
+	int dadoCarisma = rolarDado(20) + ficha.atributos.carisma;
+	int dadoPersuasao;
+
+	if(dadoCarisma >= 17) {
+		cout << "Ao comecar a falar, os kobolds apesar de receiosos" << endl;
+		cout << "resolvem escutar o que voce tem a dizer" << endl;
+		cout << "O que vocẽ irá falar para eles? (Digite a, b ou c)" << endl << endl;
+
+		cout << "a) Não precisamos brigar. Nenhum de nós quer isso! (Diplomacia)" << endl;
+		cout << "b) Não ousem me atacar se quiserem continuar vivos. (Intimidacao)" << endl;]
+		cout << "c) Eu tenho a cura para a praga! Se voces me matarem nunca" << endl;
+		cout << "   irão saber. Preciso falar sobre ela com seu lider. (Enganacao)" << endl;
+
+		aumentarXP(ficha, 1000);
+		dadoPersuasao = rolarDado(20) + ficha.atributos.carisma;
+
+		while (true) {
+			cin >> dialogoCombate;
+
+			if(tolower(escolhaCombate) == 'a') {
+				if(dadoPersuasao >= 13) {
+					cout << "Os kobolds parecem concordar com voce e abaixam as armas." << endl;
+					cout << "O que parece ser o capitao daquele pequeno grupo fala:" << endl;
+					cout << "Capitao: Nao temos forca pra lutar, doenca enfraquecer e matar" << endl;
+					cout << "amigos. Humano pode seguir em frente." << endl;
+				} else {
+					escolhaCombate = 'c';
+				}
+
+				break;
+
+			} else if (tolower(escolhaCombate) == 'b') {
+				if(dadoPersuasao >= (16 - ficha.atributos.forca)) {
+					cout << "Os kobolds parecem, de fato, ficarem intimidados com voce." << endl;
+					cout << "O que parece o capitao daquele pequeno grupo fala:" << endl;
+					cout << "Capitao: Tudo bem, humano pode passar. So nao nos mate, por favor." << endl;
+
+				} else {
+					escolhaCombate = 'c';
+				}
+
+				break;
+
+			} else if (tolower(escolhaCombate) == 'c') {
+				if(dadoPersuasao >= 16) {
+					cout << "Os kobolds acreditam em voce, provavelmente por uma esperanca" << endl;
+					cout << "que essa praga finalmente acabe. O que parece o capitao daquele" << endl;
+					cout << "pequeno grupo fala:" << endl;
+					cout << "Capitao: A cura?! Humano deve falar com Lider! Ele sabera" << endl;
+					cout << "O que fazer" << endl;
+					escolhaCombate = 'm';
+				} else {
+					escolhaCombate = 'c';
+				}
+
+				break;
+
+			} else {
+				cout << "Opcao invalida!" << endl;
+			}
+		}
+	}
+
+	if(dadoCarisma < 17 or escolhaCombate == 'c') {
+		cout << "O que parece ser o capitao daquele pequeno grupo fala:" << endl;
+		cout << "Capitao: Nao importa o que humano fale, voce morre agora!" << endl;
+	}
+
+	return escolhaCombate;
+
+}
+
+string checkOuvirConhecimento(Ficha &ficha) {
+	string posicaoCriaturas;
+	char escolhaCombate;
 	int dadoOuvir;
 	int dadoConhecimento;
+
+	dadoOuvir = rolarDado(20);
+
+	if(dadoOuvir >= 10) {
+		cout << "Voce consegue escutar varios passos do outro lado da porta" << endl;
+		cout << "Alem disso, voce escuta varias vozes e o barulho dessas" << endl;
+		dadoConhecimento = rolarDado(20) + ficha.atributos.inteligencia;
+		aumentarXP(ficha, 250);
+
+		if (dadoConhecimento >= 8 and dadoConhecimento < 12) {
+				cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
+				cout << "estao falando, draconico. O pouco que voce entende da conversa" << endl;
+				cout << "é que os kobolds estão muito nervosos e gostariam de deixar as" << endl;
+				cout << "minas o mais rápido possível. Infelizmente, seu comandante" << endl;
+				cout << "determinou que eles devem permanecer por mais um tempo." << endl <, endl;
+				aumentarXP(ficha, 150);
+
+		} else if (dadoConhecimento >= 12 and dadoConhecimento < 16) {
+				cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
+				cout << "estao falando, draconico. O que voce entende da conversa" << endl;
+				cout << "é que algum tipo de criatura tem roubado os mortos de seu" << endl;
+				cout << "acampamento enquanto eles dormem. A maioria dos humanos" << endl;
+				cout << "já foram roubados e até mesmo alguns cadáveres de kobolds" << endl;
+				cout << "se perderam." << endl << endl;
+				aumentarXP(ficha, 200);
+
+		} else if (dadoConhecimento >= 16) {
+			cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
+			cout << "estao falando, draconico. Voce consegue entender bastante da" << endl;
+			cout << "conversa, o mais importante que voce escuta é que" << endl;
+			cout << "deve haver alguma maldição nesta mina. Metade do seu bando" << endl;
+			cout << "já morreu de estranhas febres ou de uma tosse horrível." << endl << endl;
+			aumentarXP(ficha, 250);
+
+		} else {
+			cout << "Voce nao consegue entender quase nada do que estao falando." << endl;
+			cout << "No entanto, voce tem a impressao que sao kobolds." << endl << endl;
+		}
+
+	}
+
+	posicaoCriaturas = "voce tambem suurpreende os tres kobolds que estao na sala";
+	cout << "Voce abre a grande porta de madeira e enxerga:" << endl << endl;
+	return posicaoCriaturas;
+}
+
+char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
 	int numeroCriaturas;
+	char solucaoCombate;
 	string posicaoCriaturas;
 	char ativou = escolhas.escolhasRecepcao.ativouArmadilha;
 
-	if(ativou != 's') {
+	if(tolower(ativou) != 's') {
 		numeroCriaturas = 3;
-		dadoOuvir = rolarDado(20);
-
-		if(dadoOuvir >= 12) {
-			cout << "Voce consegue escutar varios passos do outro lado da porta" << endl;
-			cout << "Alem disso, voce escuta varias vozes e o barulho dessas" << endl;
-			dadoConhecimento = rolarDado(20) + ficha.atributos.inteligencia;
-
-			if (dadoConhecimento >= 8 and dadoConhecimento < 12) {
-					cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
-					cout << "estao falando, draconico. O pouco que voce entende da conversa" << endl;
-					cout << "é que os kobolds estão muito nervosos e gostariam de deixar as" << endl;
-					cout << "minas o mais rápido possível. Infelizmente, seu comandante" << endl;
-					cout << "determinou que eles devem permanecer por mais um tempo." << endl <, endl;
-
-			} else if (dadoConhecimento >= 12 and dadoConhecimento < 16) {
-					cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
-					cout << "estao falando, draconico. O que voce entende da conversa" << endl;
-					cout << "é que algum tipo de criatura tem roubado os mortos de seu" << endl;
-					cout << "acampamento enquanto eles dormem. A maioria dos humanos" << endl;
-					cout << "já foram roubados e até mesmo alguns cadáveres de kobolds" << endl;
-					cout << "se perderam." << endl << endl;
-
-			} else if (dadoConhecimento >= 16) {
-				cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
-				cout << "estao falando, draconico. Voce consegue entender bastante da" << endl;
-				cout << "conversa, o mais importante que voce escuta é que" << endl;
-				cout << "deve haver alguma maldição nesta mina. Metade do seu bando" << endl;
-				cout << "já morreu de estranhas febres ou de uma tosse horrível." << endl << endl;
-
-			} else {
-				cout << "Voce nao consegue entender quase nada do que estao falando." << endl;
-				cout << "No entanto, voce tem a impressao que sao kobolds." << endl << endl;
-			}
-
-		}
-
-		posicaoCriaturas = "Ao abrir a porta voce suurpreende os tres kobolds da sala";
-		cout << "Voce abre a grande porta de madeira e vê o seguinte:" << endl << endl;
-
+		posicaoCriaturas = checkOuvirConhecimento(ficha);
 	} else {
 		numeroCriaturas = 4;
 		cout << "Ter ativado a armadilha atraiu muito a atencao daqueles que" << endl;
@@ -424,18 +511,39 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
 		cout << "Voce escuta muitos gritos e passos, voce imagina que eles estao" << endl;
 		cout << "se preparando para um combate. Ao abrir a porta você ve o seguinte:" << endl;
 
-		posicaoCriaturas = "Ao abrir a porta"
+		posicaoCriaturas = "Voce também exerga quatro kobolds apontando para voce.";
 	}
-
 
 	cout << "Uma sala larga e quadrada abriga quatro longas mesas de" << endl;
 	cout << "madeira, cada uma com um banco de cada lado. Em cima" << endl;
 	cout << "das mesas estao um numero de tigelas de madeira e talheres" << endl;
 	cout << "No canto sudeste da sala, um pequeno caldeirao fumega" << endl;
 	cout << "sobre um fogao cravado no chao. Um cheiro pungente esta" << endl;
-	cout << "suspenso no ar." << endl << endl;
+	cout << "suspenso no ar. " << posicaoCriaturas << endl << endl;
 
+	cout << "Os kobolds parecem bastante nervosos, o que voce irá fazer?" << endl < endl;
 
+	cout << "a) Tentar conversar com eles." << endl;
+	cout << "b) Atacar imediatamente." << endl << endl;
+
+	while(true) {
+		cin >> escolhaCombate;
+
+		if(tolower(escolhaCombate) == 'a') {
+				solucaoCombate = dialogoCombateRefeitorio(ficha);
+				break;
+		} else if (tolower(solucaoCombate) == 'b') {
+			cout << "Voce imediatamente comeca a preparar o seu ataque enquanto" << endl;
+			cout << "os kobolds correm em direcao a voce." << endl;
+			solucaoCombate = 'c';
+			break;
+		} else {
+			cout << "Opcao invalida!" << endl;
+		}
+
+	}
+
+	return solucaoCombate;
 
 }
 
@@ -476,6 +584,7 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
 	} else {
 		entradaMina(ficha);
 		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha);
+		escolhas.solucaoCombate = refeitorioCaverna(ficha);
 	}
 
 }
