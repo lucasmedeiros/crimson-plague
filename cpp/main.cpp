@@ -49,9 +49,9 @@ int main() {
   ficha.inventario = iniciaInventario();
   imprimeInformacoes(ficha);
 
-  //contaHistoria(ficha, escolhas);
+  contaHistoria(ficha, escolhas);
 
-  iniciaBatalha(ficha);
+  //iniciaBatalha(ficha);
 
   return 0;
 }

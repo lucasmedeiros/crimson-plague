@@ -16,25 +16,30 @@ int hpMonstro = MAX_HP_MONSTRO;
 Habilidade* habilidades;
 
 void carregaHabilidades() {
-    cout << "CHEGOU AQ" << endl;
     habilidades = carregarHabilidades();
 }
 
-int selecionarHabilidade(Ficha ficha) {
+int getDanoHabilidade(Ficha &ficha) {
     int qtdHabs = qtdHabilidadesDisponiveis(ficha);
-
-    cout << "Habilidades:" << endl;
+    cout << endl;
+    cout << "| Habilidades:                                   |" << endl;
 
     for(int i = 0; i < qtdHabs; i++) {
-        cout << (i + 1) << ". " << habilidades[i].nome.c_str() << endl;
+        cout << "| " << (i + 1) << ". " << habilidades[i].nome.c_str() << endl;
     }
 
     int opcao = 0;
-    
-    cout << endl << "Selecione uma habilidade: ";
-    cin >> opcao;
 
-    cout << "Você usa " << habilidades[opcao-1].nome.c_str() << "..." << endl;
+    while (true) {
+        cout << endl << "Selecione uma habilidade: ";
+        cin >> opcao;
+
+        if (opcao > 0 && opcao < qtdHabs) {
+            break;
+        }
+    }
+
+    cout << endl << "Você usa " << habilidades[opcao-1].nome.c_str() << "...\n\n";
 
     return usarHabilidade(habilidades[opcao - 1], ficha);
 }
@@ -43,7 +48,7 @@ void ataquePersonagem(Ficha &ficha) {
     int danoInfligido = 0;
 
     if (ficha.personagem.classe == Classe::MAGO) {
-        danoInfligido = selecionarHabilidade(ficha);
+        danoInfligido = getDanoHabilidade(ficha);
 
         if (rolarDado(D20) < RESULTADO_DEFESA_MAGIA) {
             danoInfligido /= 2;
@@ -56,14 +61,20 @@ void ataquePersonagem(Ficha &ficha) {
         }
     }
 
+    cout << endl << "RESULTADO DO ATAQUE:" << endl;
+
     if (danoInfligido > 0) {
         hpMonstro = max (hpMonstro - danoInfligido, 0);
 
-        cout << "Você infligiu um total de " << danoInfligido;
+        cout << "==================================================" << endl;
+        cout << " Você infligiu um total de " << danoInfligido;
         cout << " danos no monstro." << endl;
+        cout << "==================================================" << endl;
     } else {
-        cout << "Você errou o ataque..." << endl;
-        cout <<  "O monstro ri de você..." << endl;
+        cout << "==================================================" << endl;
+        cout << " Você errou o ataque..." << endl;
+        cout << " O monstro ri de você..." << endl;
+        cout << "==================================================" << endl;
     }
 }
 
@@ -96,9 +107,26 @@ bool venceu() {
     return hpMonstro == ZERO_HP;
 }
 
+bool personagemFugiu() {
+    cout << endl << "Você tenta fugir e..." << endl;
+    int rolagem = rolarDado(20);
+
+    if (rolagem >= 15) {
+        cout << "Escapou..." << endl;
+    } else {
+        cout << "Não consegue... O monstro está rindo de você..." << endl;
+    }
+
+    cout << endl;
+
+    return rolagem >= 15;
+}
+
 void iniciaBatalha(Ficha &ficha) {
     carregaHabilidades();
-    cout << "Um desafio se aproxima, um monstro te ataca..." << endl;
+    cout << "==================================================" << endl;
+    cout << " Um desafio se aproxima, um monstro te ataca..." << endl;
+    cout << "==================================================" << endl;
     bool batalhaFinalizada = false;
     bool fugiu = false;
 
@@ -108,22 +136,28 @@ void iniciaBatalha(Ficha &ficha) {
 
         if (tolower(atacar) == 's') {
             ataquePersonagem(ficha);
+        } else {
+            fugiu = personagemFugiu();
         }
 
-        cout << "Turno do monstro..." << endl;
-        ataqueMonstro(ficha);
+        if (!fugiu) {
+            cout << endl << "Turno do monstro..." << endl;
+            ataqueMonstro(ficha);
 
-        cout << "Seu HP: " << getHP(ficha) << endl;
-        cout << "Seu MP: " << getMP(ficha) << endl;
+            cout << endl << "==================================================" << endl;
+            cout << "-> Seu HP: " << getHP(ficha) << endl;
+            cout << "-> Seu MP: " << getMP(ficha) << endl;
+            cout << "==================================================" << endl;
 
-        cout << endl << "HP monstro: " << hpMonstro << endl << endl;
+            cout << endl << "HP monstro: " << hpMonstro << endl << endl;
 
-        batalhaFinalizada = (hpMonstro == ZERO_HP or getHP(ficha) == ZERO_HP);
+            batalhaFinalizada = (hpMonstro == ZERO_HP or getHP(ficha) == ZERO_HP);
+        }
     }
 
     if (venceu()) {
         cout << "Parabéns pela vitória!" << endl;
-    } else {
+    } else if (!fugiu){
         cout << "Morreu..." << endl;
     }
 }
