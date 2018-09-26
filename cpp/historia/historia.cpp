@@ -317,7 +317,7 @@ char verificarCarroca(Ficha &ficha) {
 
 	if(tolower(coletou) != 'n') {
 		cout << "Voce coleta os minerios sem problemas." << endl;
-		ficha.dinheiro += 200;
+		adicionaDinheiro(ficha, 250);
 	} else {
 		cout << "Voce prefere nao arricar a pegar esses minerios." << endl;
 	}
@@ -375,15 +375,15 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 	int dadoCarisma = rolarDado(20) + ficha.atributos.carisma;
 	int dadoPersuasao;
 
-	if(dadoCarisma >= 17) {
+	if(dadoCarisma >= 13) {
 		cout << "Ao comecar a falar, os kobolds apesar de receiosos" << endl;
 		cout << "resolvem escutar o que voce tem a dizer" << endl;
 		cout << "O que vocẽ irá falar para eles? (Digite a, b ou c)" << endl << endl;
 
-		cout << "a) Não precisamos brigar. Nenhum de nós quer isso! (Diplomacia)" << endl;
-		cout << "b) Não ousem me atacar se quiserem continuar vivos. (Intimidacao)" << endl;]
-		cout << "c) Eu tenho a cura para a praga! Se voces me matarem nunca" << endl;
-		cout << "   irão saber. Preciso falar sobre ela com seu lider. (Enganacao)" << endl;
+		cout << "a) Não precisamos brigar. Nenhum de nós quer isso! (Diplomacia)" << endl << endl;
+		cout << "b) Não ousem me atacar se quiserem continuar vivos. (Intimidacao)" << endl << endl;
+		cout << "c) Eu posso pagar uma quantia generosa se vocês esquecerem que" << endl;
+		cout << "me viram. (Suborno)" << endl << endl;
 
 		aumentarXP(ficha, 1000);
 		dadoPersuasao = rolarDado(20) + ficha.atributos.carisma;
@@ -404,10 +404,10 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 				break;
 
 			} else if (tolower(escolhaCombate) == 'b') {
-				if(dadoPersuasao >= (16 - ficha.atributos.forca)) {
+				if(dadoPersuasao >= (13 - ficha.atributos.forca)) {
 					cout << "Os kobolds parecem, de fato, ficarem intimidados com voce." << endl;
 					cout << "O que parece o capitao daquele pequeno grupo fala:" << endl;
-					cout << "Capitao: Tudo bem, humano pode passar. So nao nos mate, por favor." << endl;
+					cout << "Tudo bem, humano pode passar. Só não nos mate, por favor." << endl;
 
 				} else {
 					escolhaCombate = 'c';
@@ -416,14 +416,15 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 				break;
 
 			} else if (tolower(escolhaCombate) == 'c') {
-				if(dadoPersuasao >= 16) {
-					cout << "Os kobolds acreditam em voce, provavelmente por uma esperanca" << endl;
-					cout << "que essa praga finalmente acabe. O que parece o capitao daquele" << endl;
-					cout << "pequeno grupo fala:" << endl;
-					cout << "Capitao: A cura?! Humano deve falar com Lider! Ele sabera" << endl;
-					cout << "O que fazer" << endl;
+				int dinheiro = getDinheiro(ficha.inventario);
+
+				if(dadoPersuasao >= 8 and dinheiro >= 200) {
+					cout << "Os kobolds aceitam sua proposta, provavelmente por falta de" << endl;
+					cout << "força ou coragem de lutar." << endl;
+					cout << "Voce entrega o dinheiro para eles e segue seu caminho." << endl;
 					escolhaCombate = 'm';
-					aumentarXP(ficha, 5000);
+					aumentarXP(ficha, 500);
+					adicionaDinheiro(ficha, -200);
 				} else {
 					escolhaCombate = 'c';
 				}
@@ -436,7 +437,7 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 		}
 	}
 
-	if(dadoCarisma < 17 or escolhaCombate == 'c') {
+	if(dadoCarisma < 13 or escolhaCombate == 'c') {
 		cout << "O que parece ser o capitao daquele pequeno grupo fala:" << endl;
 		cout << "Capitao: Nao importa o que humano fale, voce morre agora!" << endl;
 		//Iniciar combate.
@@ -465,7 +466,7 @@ string checkOuvirConhecimento(Ficha &ficha) {
 				cout << "estao falando, draconico. O pouco que voce entende da conversa" << endl;
 				cout << "é que os kobolds estão muito nervosos e gostariam de deixar as" << endl;
 				cout << "minas o mais rápido possível. Infelizmente, seu comandante" << endl;
-				cout << "determinou que eles devem permanecer por mais um tempo." << endl <, endl;
+				cout << "determinou que eles devem permanecer por mais um tempo." << endl << endl;
 				aumentarXP(ficha, 150);
 
 		} else if (dadoConhecimento >= 12 and dadoConhecimento < 16) {
@@ -499,6 +500,7 @@ string checkOuvirConhecimento(Ficha &ficha) {
 
 char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
 	int numeroCriaturas;
+	char escolhaCombate;
 	char solucaoCombate;
 	string posicaoCriaturas;
 	char ativou = escolhas.escolhasRecepcao.ativouArmadilha;
@@ -521,9 +523,10 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
 	cout << "das mesas estao um numero de tigelas de madeira e talheres" << endl;
 	cout << "No canto sudeste da sala, um pequeno caldeirao fumega" << endl;
 	cout << "sobre um fogao cravado no chao. Um cheiro pungente esta" << endl;
-	cout << "suspenso no ar. " << posicaoCriaturas << endl << endl;
+	cout << "suspenso no ar. "<< endl;
+	cout <<  posicaoCriaturas << endl;
 
-	cout << "Os kobolds parecem bastante nervosos, o que voce irá fazer?" << endl < endl;
+	cout << "Os kobolds parecem bastante nervosos, o que voce irá fazer?" << endl << endl;
 
 	cout << "a) Tentar conversar com eles." << endl;
 	cout << "b) Atacar imediatamente." << endl << endl;
@@ -585,10 +588,6 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas) {
 	cout << "Um garnde orc, com uma armadura de metal e uma" << endl;
 	cout << "clava de aço na mão direita." << endl << endl;
 
-	if (escolhas.solucaoCombate == 'm') {
-		imprimeConversaCapitao();
-	}
-
 	cout << "O que voce vai fazer?" << endl << endl;
 	cout << "a) Tentar conversar com ele." << endl;
 	cout << "b) Atacar imediatamente." << endl << endl;
@@ -618,16 +617,6 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas) {
 
 }
 
-void imprimeConversaCapitao() {
-	cout << "O capitao dos kobolds, se ajoelha e diz:" << endl;
-	cout << "Capitao: Mestre, esse humano quer falar com voce." << endl;
-	cout << "Humano diz que possui cura." << endl << endl;
-	cout << "O orc então responde:" << endl << endl;
-	cout << "Jakk: Tudo bem, deixem ele aqui e podem sair." << endl;
-	cout << "Capitao: Sim senhor." << endl;
-	cout << "Todos com exceção de voce e o Jakk (O lider deles) saíram" << endl < endl;
-}
-
 char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 	char escolhaConversa;
 	char respostaJakk;
@@ -638,10 +627,10 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 	cout << "Jakk: Meu nome é Jakk, o que voce quer? Eu sei que" << endl;
 	cout << "Jakk: voce nao tem a cura. Tenho certeza disso." << endl;
 	cout << "O que voce irá responder: (Digite a, b ou c.)" << endl << endl;
-	cout << "a) Como voce sabe?" << endl < endl;
+	cout << "a) Como voce sabe?" << endl << endl;
 	cout << "b) Eu tenho sim a cura." << endl << endl;
 	cout << "c) Não importa o que voce sabe, eu vim aqui para lutar" << endl;
-	cout << "com voce." << endl < endl;
+	cout << "com voce." << endl << endl;
 
 	while(true) {
 		cin >> escolhaConversa;
@@ -690,79 +679,79 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 		}
 	}
 
-		cout << "" << endl;
-		cout << "O que voce irá responder: (Digite a, b ou c)" << endl << endl;
-		cout << "a) Matando eles voce fica tao errado quanto aqueles" << endl;
-		cout << "que mataram o seu cla. Voce nao combate odio com odio." << endl << endl;
-		cout << "b) Voce esta matando ainda mais pessoas do seu cla. Voce" << endl;
-		cout << "não viu a quantidade de kobolds mortos? Pare com isso," << endl;
-		cout << "todos os seus soldados querem sair daqui e esquecer" << endl;
-		cout << "tudo isso. Escute o seus suditos." << endl << endl;
-		cout << "c) Isso nao justifica os seus erros. Voce morrera agora!" << endl << endl;
+	cout << "" << endl;
+	cout << "O que voce irá responder: (Digite a, b ou c)" << endl << endl;
+	cout << "a) Matando eles voce fica tao errado quanto aqueles" << endl;
+	cout << "que mataram o seu cla. Voce nao combate odio com odio." << endl << endl;
+	cout << "b) Voce esta matando ainda mais pessoas do seu cla. Voce" << endl;
+	cout << "não viu a quantidade de kobolds mortos? Pare com isso," << endl;
+	cout << "todos os seus soldados querem sair daqui e esquecer" << endl;
+	cout << "tudo isso. Escute o seus suditos." << endl << endl;
+	cout << "c) Isso nao justifica os seus erros. Voce morrera agora!" << endl << endl;
 
-		while(true) {
-			cin >> convencerJakk;
+	while(true) {
+		cin >> convencerJakk;
 
-			if(tolower(convencerJakk) == 'a') {
-				cout << "Jakk: O que voce sabe sobre meu cla? Voce nao sabe o que" << endl;
-				cout << "Jakk: esta falando... Voce nao sabe o quanto meu cla sofreu." << endl;
-				cout << "Jakk: Pare de falar sobre o que você não tem ideia." << endl;
-				break;
-			} else if (tolower(convencerJakk) == 'b') {
-				cout << "Jakk parece um pouco relutante." << endl;
-				cout << "Jakk: Eu sei, eu sou o que mais sofro com isso. No entanto," << endl;
-				cout << "Jakk: todos eles concordaram com isso, eu tenho que valorizar" << endl;
-				cout << "Jakk: as mortes daqueles que se sacrificaram pela causa!" << endl;
-				break;
-			} else if (tolower(convencerJakk) == 'c') {
-				cout << "Jakk: Voce nao tem uma chance, seu verme." << endl;
-				return escolhaConversa;
-				break;
-			} else {
-				cout << "Opcao invalida!" << endl;
-			}
+		if(tolower(convencerJakk) == 'a') {
+			cout << "Jakk: O que voce sabe sobre meu cla? Voce nao sabe o que" << endl;
+			cout << "Jakk: esta falando... Voce nao sabe o quanto meu cla sofreu." << endl;
+			cout << "Jakk: Pare de falar sobre o que você não tem ideia." << endl;
+			break;
+		} else if (tolower(convencerJakk) == 'b') {
+			cout << "Jakk parece um pouco relutante." << endl;
+			cout << "Jakk: Eu sei, eu sou o que mais sofro com isso. No entanto," << endl;
+			cout << "Jakk: todos eles concordaram com isso, eu tenho que valorizar" << endl;
+			cout << "Jakk: as mortes daqueles que se sacrificaram pela causa!" << endl;
+			break;
+		} else if (tolower(convencerJakk) == 'c') {
+			cout << "Jakk: Voce nao tem uma chance, seu verme." << endl;
+			return escolhaConversa;
+			break;
+		} else {
+			cout << "Opcao invalida!" << endl;
 		}
+	}
 
-		cout << "" << endl;
-		cout << "O que voce irá responder:" << endl << endl;
-		cout << "a) Jakk, esqueca isso... Voce salvara a vida de muitas" << endl
-		cout << "Pessoas do seu clã, desistindo disso." << endl << endl;
-		cout << "b) Seja um pouco racional... Isso nao trara alegria" << endl << endl;
-		cout << "a ninguem." << endl < endl;
+	cout << "" << endl;
+	cout << "O que voce irá responder:" << endl << endl;
+	cout << "a) Jakk, esqueca isso... Voce salvara a vida de muitas" << endl;
+	cout << "Pessoas do seu clã, desistindo disso." << endl << endl;
+	cout << "b) Seja um pouco racional... Isso nao trara alegria" << endl << endl;
+	cout << "a ninguem." << endl << endl;
 
-		if(interpretouSimbolos) {
-			cout << "c) Eu tenho certeza que a vontade de Gruumsh é que" << endl;
-			cout << "isso acabe pacificamente." << endl < endl;
+	if(interpretouSimbolos) {
+		cout << "c) Eu tenho certeza que a vontade de Gruumsh é que" << endl;
+		cout << "isso acabe pacificamente." << endl << endl;
+	}
+
+	//TO DO
+	int checkCarisma = rolarDado(20) + (ficha.atributos.carisma / 4);
+
+	while(true) {
+		cin >> solucaoJakk;
+
+		if((tolower(solucaoJakk) == 'a' or tolower(solucaoJakk) == 'b') and checkCarisma >= 10) {
+			cout << "Jakk: É verdade... Meu povo está sofrendo demais com isso." << endl;
+			cout << "Jakk: Eu vou quebrar o feitico imediatamente. Obrigado por" << endl;
+			cout << "Jakk: trazer razao ao meu pensamento, humano." << endl;
+			return 'p';
+		} else if (tolower(solucaoJakk) == 'c' and interpretouSimbolos) {
+			cout << "Jakk: Voce tem toda a razao... O que eu estava pensando?" << endl;
+			cout << "Jakk: Eu vou quebrar o feitico imediatamente. Obrigado" << endl;
+			cout << "Jakk: por trazer sensatez, humano." << endl;
+			return 'p';
+		} else if (checkCarisma < 10) {
+			cout << "Jakk: Voce parece sensato, mas tenho que honrar meu clã" << endl;
+			cout << "Jakk: É hora de lutar, humano." << endl;
+			return 'c';
+		} else {
+			cout << "Opcao invalida!" << endl;
 		}
-
-		//TO DO
-		int checkCarisma = rolarDado(20) + (ficha.atributos.carisma / 4);
-
-		while(true) {
-			cin >> solucaoJakk;
-
-			if((tolower(solucaoJakk) == 'a' or tolower(solucaoJakk) == 'b') and checkCarisma >= 10) {
-				cout << "Jakk: É verdade... Meu povo está sofrendo demais com isso." << endl;
-				cout << "Jakk: Eu vou quebrar o feitico imediatamente. Obrigado por" << endl;
-				cout << "Jakk: trazer razao ao meu pensamento, humano." << endl;
-				return 'p';
-			} else if (tolower(solucaoJakk) == 'c' and interpretouSimbolos) {
-				cout << "Jakk: Voce tem toda a razao... O que eu estava pensando?" << endl;
-				cout << "Jakk: Eu vou quebrar o feitico imediatamente. Obrigado" << endl;
-				cout << "Jakk: por trazer sensatez, humano." << endl;
-				return 'p';
-			} else if (checkCarisma < 10) {
-				cout << "Jakk: Voce parece sensato, mas tenho que honrar meu clã" << endl;
-				cout << "Jakk: É hora de lutar, humano." << endl;
-				return 'c';
-			} else {
-				cout << "Opcao invalida!" << endl;
-			}
-		}
-
 	}
 
 }
+
+
 
 void imprimeVarianciasFinal(Ficha &ficha, Escolhas &escolhas) {
 	char gancho = escolhas.escolhasCidade.ganchoAventura;
@@ -874,11 +863,7 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
 	} else {
 		entradaMina(ficha);
 		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha);
-		escolhas.solucaoCombate = refeitorioCaverna(ficha);
-
-		if(solucaoCombate == 'm') {
-			segundoFinal(ficha, escolhas);
-		}
+		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas);
 	}
 
 }
