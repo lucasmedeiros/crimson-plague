@@ -15,11 +15,18 @@ struct Equipados{
 };
 
 struct Inventario{
+    Item* tdsItens;
     Item* inventario;
+    int* quantidade;
     Equipados equipados;
     int dinheiro;
 
 };
+
+/**
+*@return o numero de espacos vazios no inventario
+*/
+int qtdVazios(Inventario inventario);
 
 void iniciarItensBasicos(Inventario Inventario);
 

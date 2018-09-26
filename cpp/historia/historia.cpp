@@ -552,6 +552,31 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
 
 }
 
+char DepensaCaverna(Ficha &ficha, Escolhas &escolhas) {
+	int dadoSorte;
+
+	cout << "Uma porta de madeira fechada barra a entrada para essa" << endl;
+	cout << "sala. Ao abrir porta você observa que esta sala longa" << endl;
+	cout << "e estreita possui fileiras de estantes carregadas" << endl;
+	cout << "de alimentos e outros suprimentos. Pesados sacos" << endl;
+	cout << "de estopa estão empilhados até o teto no canto" << endl;
+	cout << "oposto da câmara. Uns poucos rasgados, espalhando" << endl;
+	cout << "aveia e farinha no chão. Muitos barris estão agrupados" << endl;
+	cout << "próximos à parede norte." << endl << endl;
+
+	cout << "Ao entrar na sala, uma armadilha é ativada!";
+	cout << "Uma flecha é lançada em sua direção." << endl;
+
+	dadoSorte = rolarDado(20) + (ficha.atributos.sorte / 4);
+
+	if(dadoSorte >= 11) {
+		cout << "Por sorte, a armadilha não te acerta." << endl;
+	} else {
+		cout << "A flecha cravou no seu peito." << endl;
+		//Diminuir vida.
+	}
+}
+
 void finalJakk(Ficha &ficha, Escolhas &escolhas) {
 	char escolhaLuta;
 	char solucao;
@@ -725,7 +750,7 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 	}
 
 	//TO DO
-	int checkCarisma = rolarDado(20) + (ficha.atributos.carisma / 4);
+	int checkCarisma = rolarDado(20) + ficha.atributos.carisma;
 
 	while(true) {
 		cin >> solucaoJakk;
@@ -826,6 +851,7 @@ void imprimeFuturoVila() {
 	cout << "e ricas cidades do reino. No centro dela, há uma estatua sua," << endl;
 	cout << "para relembrar quem tornou o sucesso dessa cidade possível!" << endl;
 }
+
 void imprimirCreditos() {
 
 	cout << "Obrigado por jogar: A Praga Carmesim!" << endl << endl;
@@ -839,8 +865,6 @@ void imprimirCreditos() {
 	cout << "Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!" << endl;
 
 }
-
-
 
 void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
 	EscolhasCidade escolhasCidade = escolhas.escolhasCidade;
@@ -864,6 +888,7 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
 		entradaMina(ficha);
 		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha);
 		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas);
+		finalJakk(ficha, escolhas);
 	}
 
 }

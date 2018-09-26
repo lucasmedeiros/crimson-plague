@@ -26,7 +26,7 @@
 23;Prata;Minério abundante nas regiões da passagem Duvik;1;0;0;1;0;0
 24;Moeda de ouro;Principal moeda de comércio;1;0;0;1;0;0
 25;Bota simples;Bota feita de couro;1;0;0;20;0;0
-26;Bota de Hermes;Bota destreza + 3;1;0;0;50;0;0 
+26;Bota de Hermes;Bota destreza + 3;1;0;0;50;0;0
 27;Armadura de Ferro;Armadura simples de ferro fundido, armadura +1;1;0;0;20;0;0
 28;Armadura de Platina;Armadura de Platina armadura +3;1;0;0;30;0;0
 29;Armadura de Diamante;Armadura feita de metal precioso e muito resistente, armadura +5;1;0;0;50;0;0
@@ -34,16 +34,4 @@
 31;Espada Curta +2;Espada curta usada em ataques de curta distância com bônus +2 de Força;1;0;0;15;0;0
 32;Adaga +1;Arma branca para ataques furtivos e ágeis, com bônus de +1 de Destreza;1;0;0;20;0;0
 33;Adaga +2;Arma branca para ataques furtivos e ágeis, com bônus de +2 de Destreza;1;0;0;25;0;0
-
-
-
-
-
-
-
-
-
-
-
-
-
+34;Espaco Vazio; representa o espaco vazio no inventario;0;0;0;0;0;0
