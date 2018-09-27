@@ -1,8 +1,8 @@
 #include <iostream>
 #include "../util.h"
-#define QTD_COMENTARIOS 2
-#define QTD_LINHAS 7
-#define QTD_COLUNAS 9
+#define QTD_COMENTARIOS_MONSTROS 2
+#define QTD_LINHAS_MONSTROS 7
+#define QTD_COLUNAS_MONSTROS 9
 
 struct Monstro {
 	int id;
@@ -12,7 +12,7 @@ struct Monstro {
 	int divisorDado;
 	int somadorDado;
 	int xp;
-	string drop;
+	int drop; // defini como item pq ele pega o id do item
 	int ca;
 	int danoAtaque;
 };
@@ -27,4 +27,4 @@ Monstro* carregarAtributos();
  * @param monstro
  * @return hp do monstro
  */
-int calcularHP(Monstro monstro);
+int calcularHPMonstro(Monstro monstro);
