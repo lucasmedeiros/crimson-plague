@@ -2,7 +2,7 @@
 CC = g++
 
 #declarando a variavel para CFLAGS
-CFLAGS = -std=c++14
+CFLAGS = -std=c++14 -lncurses
 
 #variavel para o 'find' para achar todos os arquivos '.cpp'
 CPPS = $(shell find -name '*.cpp')
