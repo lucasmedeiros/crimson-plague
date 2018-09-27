@@ -92,16 +92,28 @@ void ataqueMonstro(Ficha &ficha) {
     cout << " danos a você." << endl;
 }
 
-char getOpcaoDeAtaque(Ficha ficha) {
-    char op = 'n';
+int menuCombate(Ficha &ficha) {
+    cout << "O que você faz? (Digite a opção...)" << endl;
+    int op = -1;
 
-    if (ficha.personagem.classe == Classe::MAGO) {
-        cout << "Lançar Magia? (S/N) ";
-    } else {
-        cout << "Atacar? (S/N) ";
+    while(true) {
+        if (ficha.personagem.classe == Classe::MAGO) {
+            cout << "(1) -> Lançar Magia? " << endl;
+        } else {
+            cout << "(1) -> Atacar? " << endl;
+        }
+
+        //TODO cout << "(2) -> Abrir Inventário? " << endl;
+        cout << "(2) -> Tentar fugir?" << endl;
+
+        cin >> op;
+
+        if (op < 1 && op > 2) {
+            cout << "Opcao Invalida!" << endl;
+        } else {
+            break;
+        }
     }
-
-    cin >> op;
 
     return op;
 }
@@ -115,6 +127,14 @@ bool personagemFugiu() {
     return rolagem >= 15;
 }
 
+void tentaFugir(bool fugiu) {
+    cout << endl << "Você tenta fugir e..." << endl;
+
+    (fugiu) ? cout << "Escapou..." : cout << "Não consegue... O monstro está rindo de você...";
+
+    cout << endl << endl;
+}
+
 void iniciaBatalha(Ficha &ficha) {
     carregaHabilidades();
     cout << "==================================================" << endl;
@@ -124,29 +144,19 @@ void iniciaBatalha(Ficha &ficha) {
     bool fugiu = false;
 
     while (!batalhaFinalizada and !fugiu) {
-        char atacar = 'n';
-        atacar = getOpcaoDeAtaque(ficha);
+        int op = menuCombate(ficha);
 
-        if (tolower(atacar) == 's') {
+        if (op == OpcoesBatalha::ATACAR) {
             ataquePersonagem(ficha);
-        } else {
+        } else if (op == OpcoesBatalha::FUGIR) {
             fugiu = personagemFugiu();
 
-            cout << endl << "Você tenta fugir e..." << endl;
-
-            if (fugiu) {
-                cout << "Escapou..." << endl;
-            } else {
-                cout << "Não consegue... O monstro está rindo de você..." << endl;
-            }
-
-            cout << endl;
+            tentaFugir(fugiu);
         }
 
         if (!fugiu) {
             cout << endl << "==================================================" << endl;
             cout << endl << "Turno do monstro..." << endl;
-            cout << endl << "==================================================" << endl;
             ataqueMonstro(ficha);
             cout << endl << "==================================================" << endl;
 

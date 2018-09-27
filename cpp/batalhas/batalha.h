@@ -4,13 +4,6 @@
 using namespace std;
 
 /**
-* Enumeração das opções das batalhas
-*/
-enum OpcoesBatalha{
-    GUERREIRO = 1,MAGO, LADINO, TODOS
-};
-
-/**
 * Função que inicia uma batalha.
 */
 void iniciaBatalha(Ficha &ficha);
@@ -24,3 +17,11 @@ bool venceu();
 * Função que diz se o personagem fugiu.
 */
 bool personagemFugiu();
+
+
+/**
+* Enumeração das opções das batalhas
+*/
+enum OpcoesBatalha{
+    ATACAR = 1, FUGIR
+};
