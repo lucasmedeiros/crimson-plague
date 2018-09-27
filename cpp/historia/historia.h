@@ -35,13 +35,13 @@ struct Escolhas {
 	ConversaFinal conversaFinal;
 };
 
-char perguntaSimNao();
-char recepcaoCaverna(Ficha &ficha);
+char perguntaSimNao(WINDOW *janelaMenu);
+char recepcaoCaverna(Ficha &ficha, WINDOW *janelaMenu);
 char ConversaJakk(Ficha &ficha, Escolhas &escolhas);
 void entradaMina(Ficha &ficha);
 void primeiraEscolhaEntrada(int dadoObservar, Ficha &ficha);
 void segundaEscolhaEntrada(int dadoObservar, Ficha &ficha);
-void contaHistoria(Ficha &ficha, Escolhas &escolhas);
+void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu);
 char depensaCaverna(Ficha &ficha);
 void rampaCaverna(Ficha &ficha);
 void acampamentoSecreto(Ficha &ficha);

@@ -52,7 +52,7 @@ Inventario iniciaInventario(Ficha ficha){
   inventario.quantidade = iniciaArrayZerado(inventario.tamInvent);
   inventario.classe = ficha.personagem.classe;
   iniciarItensBasicos(inventario);
-  imprimeMochila(inventario);
+  // imprimeMochila(inventario);
   return inventario;
 }
 
@@ -64,12 +64,13 @@ int main() {
   Escolhas escolhas;
   carregarItens();
   ficha = criarPersonagem(janelaMenu);
-  // ficha.inventario = iniciaInventario(ficha);
+  ficha.inventario = iniciaInventario(ficha);
   // imprimeInformacoes(ficha);
   // imprimeInventario(ficha.inventario);
   // cout << "========================= História =========================" << endl;
   //iniciaBatalha(ficha);
-  // contaHistoria(ficha, escolhas);
+  contaHistoria(ficha, escolhas, janelaDialogo, janelaMenu);
+  getch();
   endwin();
   return 0;
 }

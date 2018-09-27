@@ -7,7 +7,7 @@ char perguntaSimNao(WINDOW *janelaMenu) {
 	string opcoesFala[2] = {"Sim", "Não"};
 	resposta = realizaPergunta(janelaMenu, "O que você irá responder: ", opcoesFala, 2);
 
-  	return resposta;
+  	return resposta == 0 ? 's' : 'n';
 }
 
 void introducaoCidade(WINDOW *janelaDialogo) {
@@ -104,21 +104,21 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
     
     if(escolhaGancho != 3) {
     	concordou = perguntaSimNao(janelaMenu);
-		string respotaPessoa[1] = {};
+		string *respostaPessoa;
 
     	if(concordou == 1) {
     		respostaPessoa[0] = "Com um olhar de desaprovação, lentamente começam a se afastar de você.";
     	} else {
     		respostaPessoa[0] =  "Mal sei o que dizer. Muito obrigado!!";
     	}
+		
+		mostraDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
     }
 
-	mostraDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
-	
 	return escolhaGancho;
 }
 
-char segundaChance(Personagem &personagem) {
+char segundaChance(Personagem &personagem, WINDOW *janelaMenu) {
 	char escolhaDialogo;
 	char escolhaDialogo2;
 
@@ -161,7 +161,7 @@ char segundaChance(Personagem &personagem) {
 
 	}
 
-	escolhaDialogo2 = perguntaSimNao();
+	escolhaDialogo2 = perguntaSimNao(janelaMenu);
 
   	if(tolower(escolhaDialogo2) == 's') {
   		cout << "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina." << endl;
@@ -280,7 +280,7 @@ void segundaEscolhaEntrada(int dadoObservar, Ficha &ficha) {
 
 }
 
-char verificarCarroca(Ficha &ficha) {
+char verificarCarroca(Ficha &ficha, WINDOW *janelaMenu) {
 	int checkReflexo;
 	char coletou;
 	char ativou = 'n';
@@ -311,7 +311,7 @@ char verificarCarroca(Ficha &ficha) {
 	cout << "Voce tambem percebe inumeros pedacoes de prata ao redor da carroca." << endl;
 	cout << "Voce ira coletar?" << endl;
 
-	coletou = perguntaSimNao();
+	coletou = perguntaSimNao(janelaMenu);
 
 	if(tolower(coletou) != 'n') {
 		cout << "Voce coleta os minerios sem problemas." << endl;
@@ -325,7 +325,7 @@ char verificarCarroca(Ficha &ficha) {
 	return ativou;
 }
 
-char recepcaoCaverna(Ficha &ficha) {
+char recepcaoCaverna(Ficha &ficha, WINDOW *janelaMenu) {
 	char ativou = 'n';
 	char escolhaDialogo = 'z';
 	int checkReflexo;
@@ -348,7 +348,7 @@ char recepcaoCaverna(Ficha &ficha) {
 
 		if(tolower(escolhaDialogo) == 'a') {
 
-			ativou = verificarCarroca(ficha);
+			ativou = verificarCarroca(ficha, janelaMenu);
 
 		} else if (tolower(escolhaDialogo) == 'b') {
 			cout << "Voce prefere nao se arriscar e mexer nesse corpo." << endl;
@@ -1062,37 +1062,36 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WIND
 
 	introducaoCidade(janelaDialogo);
 
-	escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
+	// escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
 
-	if(tolower(escolhasCidade.ganchoAventura) == 'd') {
-		escolhasCidade.segundaChance = segundaChance(personagem);
-	} else {
-		escolhasCidade.segundaChance = 'y';
-	}
+	// if(tolower(escolhasCidade.ganchoAventura) == 'd') {
+	// 	escolhasCidade.segundaChance = segundaChance(personagem);
+	// } else {
+	// 	escolhasCidade.segundaChance = 'y';
+	// }
 
-	cout << escolhas.escolhasCidade.ganchoAventura << endl;
-	cout << escolhas.escolhasCidade.segundaChance << endl;
+	// cout << escolhas.escolhasCidade.ganchoAventura << endl;
+	// cout << escolhas.escolhasCidade.segundaChance << endl;
 
-	if(tolower(escolhasCidade.segundaChance) == 'n') {
-		imprimePrimeiroFinal();
-		imprimeCreditos();
-	} else {
-		entradaMina(ficha);
-		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha);
-		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas);
-		escolhas.combateDespensa.contiminado = depensaCaverna(ficha);
-		rampaCaverna(ficha);
-		finalJakk(ficha, escolhas);
+	// if(tolower(escolhasCidade.segundaChance) == 'n') {
+	// 	imprimePrimeiroFinal();
+	// 	imprimeCreditos();
+	// } else {
+	// 	entradaMina(ficha);
+	// 	escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha);
+	// 	escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas);
+	// 	escolhas.combateDespensa.contiminado = depensaCaverna(ficha);
+	// 	rampaCaverna(ficha);
+	// 	finalJakk(ficha, escolhas);
 
-		if(escolhas.conversaFinal.resultadoConversa == 'p') {
-			imprimeFinalPacifico();
-		} else {
-			imprimeFinalViolento();
-		}
+	// 	if(escolhas.conversaFinal.resultadoConversa == 'p') {
+	// 		imprimeFinalPacifico();
+	// 	} else {
+	// 		imprimeFinalViolento();
+	// 	}
 
-		imprimeVarianciasFinal(ficha, escolhas);
-		imprimeFuturoVila();
-		imprimeCreditos();
-	}
-
+	// 	imprimeVarianciasFinal(ficha, escolhas);
+	// 	imprimeFuturoVila();
+	// 	imprimeCreditos();
+	// }
 }
