@@ -32,7 +32,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	"Um grupo de pessoas com manchas de carvão no rosto e braços.",
 	"Alguns moradores que estão claramente abatidos."};
 
-	mostraDialogo(janelaDialogo, "Praça da cidade", descricaoPessoas, 5);
+	proximoDialogo(janelaDialogo, "Praça da cidade", descricaoPessoas, 5);
 
 	// Escolha do gancho para a aventura
 
@@ -52,7 +52,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		"Prefeito: a acabar com essa doença? Por favor, muitos já",
 		"Prefeito: morreram com essa praga."};
 
-		mostraDialogo(janelaDialogo, "Ao se aproximar dele, voce escuta:", dialogoMorador, 7);
+		proximoDialogo(janelaDialogo, "Ao se aproximar dele, voce escuta:", dialogoMorador, 7);
 
     } else if (escolhaGancho == 1) {
 		string dialogoMorador[4] = {"Voce nao demora muito pra perceber que eles sao mineradores",
@@ -60,7 +60,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		"Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
 		"Minerador: voce parece forte. Por favor, acabe com esse mal!"};
 
-		mostraDialogo(janelaDialogo, "Dialogo Minerador", dialogoMorador, 4);
+		proximoDialogo(janelaDialogo, "Dialogo Minerador", dialogoMorador, 4);
 
 	} else if (escolhaGancho == 2) {
 		string dialogoMorador[4] = {"Voce encontra diversos moradores atonitos na vila.",
@@ -91,7 +91,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 			"Apesar de tentar disfaçar, você percebe que ela começa a chorar."
 			};
 
-			mostraDialogo(janelaDialogo, "Ela responde:", falasSenhora, 4);
+			proximoDialogo(janelaDialogo, "Ela responde:", falasSenhora, 4);
 
 		} 
 
@@ -99,12 +99,12 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		string descricaoNinguem[3] = {"Isso não é problema seu. Você já tem problemas demais pra resolver.",
 		"Esses camponeses conseguem resolver esse problema sozinho.",
 		"Ao menos você acha isso."};
-		mostraDialogo(janelaDialogo, "Conclusão", descricaoNinguem, 3);
+		proximoDialogo(janelaDialogo, "Conclusão", descricaoNinguem, 3);
 	}
     
     if(escolhaGancho != 3) {
     	concordou = perguntaSimNao(janelaMenu);
-		string *respostaPessoa;
+		string *respostaPessoa = new string[1];
 
     	if(concordou == 1) {
     		respostaPessoa[0] = "Com um olhar de desaprovação, lentamente começam a se afastar de você.";
@@ -112,7 +112,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
     		respostaPessoa[0] =  "Mal sei o que dizer. Muito obrigado!!";
     	}
 		
-		mostraDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
+		proximoDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
     }
 
 	return escolhaGancho;
@@ -1062,7 +1062,7 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WIND
 
 	introducaoCidade(janelaDialogo);
 
-	// escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
+	escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
 
 	// if(tolower(escolhasCidade.ganchoAventura) == 'd') {
 	// 	escolhasCidade.segundaChance = segundaChance(personagem);
