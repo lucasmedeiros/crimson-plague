@@ -69,16 +69,16 @@ int getDestreza(Inventario inventario){
     return DestrezaTotal;
 }
 
-void droparItem(int numero,Inventario &inventario){
+void venderItem(int numero,Inventario &inventario){
     Item* itens = inventario.inventario;
     if(itens[numero - 1].id != 34){
-         if(inventario.quantidade[numero - 1] == 1){
+        inventario.dinheiro += itens[numero - 1].valorVenda;
+        if(inventario.quantidade[numero - 1] == 1){
             itens[numero - 1] = inventario.tdsItens[33];
             inventario.quantidade[numero - 1] = 0;
         }else{
             inventario.quantidade[numero - 1] -= 1;
         }
-        
     }else{
         cout << "Posição Vazia!" << endl;
     }
@@ -133,11 +133,9 @@ void adicionarItem(int id, Inventario &inventario){
 
 }
 
-
-
 void equiparItem(int numero, Inventario &inventario){
     Item* itens = inventario.inventario;
-    Item item = inventario.inventario[numero -1];
+    Item item = itens[numero -1];
     if(contemItem(item.id,inventario)){
      for(int i = 0; i < inventario.tamInvent; i++){
          if(itens[i].id == item.id){
@@ -196,6 +194,7 @@ void imprimeInventario(Inventario inventario){
            cout << "| " << i + 1 << '.' << inventario.inventario[i].nome  <<  endl; 
         }
     }
+    cout << "| " << "Dinheiro: " << inventario.dinheiro << endl << endl; 
     cout << "=======================" << endl;
 
 }

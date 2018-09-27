@@ -6,7 +6,7 @@
 #define QTD_LINHAS_EQUIPAVEIS 47
 #define QTD_COMENTARIOS_ITENS 3
 #define QTD_COMENTARIOS_EQUIPAVEIS 4
-#define QTD_COLUNAS_ITENS 9
+#define QTD_COLUNAS_ITENS 7
 #define QTD_COLUNAS_EQUIPAVEIS 9
 using namespace std;
 
@@ -32,10 +32,6 @@ struct Item{
     string nome;
     string descricao;
     int valorVenda;
-
-    //valores relacionado ao buff
-    bool buff;
-    int turnDur;
 
     //valores relacionado a consumiveis
     bool consumivel;

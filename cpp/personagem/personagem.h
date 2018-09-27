@@ -40,6 +40,8 @@ int getMaxMP(Ficha ficha);
 int getMP(Ficha ficha);
 void levelUp(Ficha &ficha);
 
+
+void usarItemConsumivel(int numero,Ficha &ficha);
 /**
  * Exibe opções de distribuições de pontos de atributos.
  * @param ficha

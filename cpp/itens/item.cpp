@@ -12,7 +12,6 @@ AtributosItens getAtributos(Item item){return item.atrb;}
 Tipo getTipo(Item item){return item.atrb.tipoEquipavel;}
 
 void setTipo(AtributosItens &atributo, string *atrb){
-     // cout << stoi(atrb[0].c_str()) <<  " " << stoi(atrb[8].c_str()) << endl;
       switch(stoi(atrb[8].c_str())){
             case 1:
                   atributo.tipoEquipavel = ARMA;
@@ -64,23 +63,15 @@ Item getItem(string *informacoes, string *atributos){
       item.id = stoi(informacoes[0].c_str());
       item.nome = informacoes[1];
       item.descricao = informacoes[2];
+      item.recHPMax = stoi(informacoes[4].c_str());
+      item.recMPMax = stoi(informacoes[5].c_str()); 
 
       if(stoi(informacoes[3].c_str()) == 0){
             item.consumivel = true;
       }else{
             item.consumivel = false;
       }
-      if(stoi(informacoes[7].c_str()) == 1){
-            item.buff = true;
-            item.turnDur = stoi(informacoes[8].c_str());
-            item.recHPMax = stoi(informacoes[4].c_str());
-            item.recMPMax = stoi(informacoes[5].c_str()); 
-      }else{
-            item.buff = false;
-            item.turnDur = 0;
-      }
-
-      if(item.buff || item.consumivel == false){
+      if(!item.consumivel){
             item.atrb = setAtributos(atributos);
       }
 
