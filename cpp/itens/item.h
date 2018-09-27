@@ -11,7 +11,7 @@
 using namespace std;
 
 enum Tipo{
-    ARMA,ARMADURA,BOTAS,CAPACETE,ESCUDO
+    ARMA = 1,ARMADURA,BOTAS,CAPACETE,ESCUDO
 };
 
 struct AtributosItens{

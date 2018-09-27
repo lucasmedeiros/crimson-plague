@@ -47,7 +47,7 @@ Inventario iniciaInventario(Ficha ficha){
   inventario.inventario = iniciaArrayDeItens(inventario.tamInvent);
   inventario.quantidade = iniciaArrayZerado(inventario.tamInvent);
   inventario.classe = ficha.personagem.classe;
-  inventario = iniciarItensBasicos(inventario);
+  iniciarItensBasicos(inventario);
   return inventario;
 }
 
@@ -60,7 +60,8 @@ int main() {
   imprimeInventario(ficha.inventario);
   cout << "========================= História =========================" << endl;
   //iniciaBatalha(ficha);
-  contaHistoria(ficha, escolhas);
+  
+  //contaHistoria(ficha, escolhas);
 
   return 0;
 }

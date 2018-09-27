@@ -34,7 +34,7 @@
 31;Espada Curta +2;Espada curta usada em ataques de curta distância com bônus +2 de Força;1;0;0;15;0;0
 32;Adaga +1;Arma branca para ataques furtivos e ágeis, com bônus de +1 de Destreza;1;0;0;20;0;0
 33;Adaga +2;Arma branca para ataques furtivos e ágeis, com bônus de +2 de Destreza;1;0;0;25;0;0
-34;Espaco Vazio; representa o espaco vazio no inventario;0;0;0;0;0;0
+34; ; representa o espaco vazio no inventario;0;0;0;0;0;0
 35;Espada simples;Espada inicial;1;0;0;0;0;0
 36;Armadura de Latão;Armadura para aventureiros iniciantes;1;0;0;0;0;0
 37;Cajado simples;cajado para magos inexperientes;1;0;0;0;0;0

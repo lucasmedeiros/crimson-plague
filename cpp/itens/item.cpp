@@ -11,7 +11,8 @@ int getRecMPMax(Item item){return item.recMPMax;}
 AtributosItens getAtributos(Item item){return item.atrb;}
 Tipo getTipo(Item item){return item.atrb.tipoEquipavel;}
 
-void setTipo(AtributosItens atributo, string *atrb){
+void setTipo(AtributosItens &atributo, string *atrb){
+     // cout << stoi(atrb[0].c_str()) <<  " " << stoi(atrb[8].c_str()) << endl;
       switch(stoi(atrb[8].c_str())){
             case 1:
                   atributo.tipoEquipavel = ARMA;
@@ -49,8 +50,10 @@ AtributosItens setAtributos(string *atrb){
                   break;
             case 3:
                   atributos.classe = LADINO;
+                  break;
             default:
                   atributos.classe = TODOS;
+                  break;
       }
       setTipo(atributos,atrb);
       return atributos;
@@ -62,7 +65,7 @@ Item getItem(string *informacoes, string *atributos){
       item.nome = informacoes[1];
       item.descricao = informacoes[2];
 
-      if(stoi(informacoes[3].c_str()) == 1){
+      if(stoi(informacoes[3].c_str()) == 0){
             item.consumivel = true;
       }else{
             item.consumivel = false;

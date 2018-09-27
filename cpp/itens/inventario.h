@@ -35,7 +35,7 @@ int qtdVazios(Inventario inventario);
 /**
  * inicia o inventario com os itens basicos
  */
-Inventario iniciarItensBasicos(Inventario inventario);
+void iniciarItensBasicos(Inventario &inventario);
 
 /**
  *@return o dano total dos itens equipados
@@ -51,22 +51,22 @@ int getArmadura(Inventario inv);
 /**
  * Dropa um item especifico pelo id
  */
-void droparItem(int id,Inventario inv);
+void droparItem(int id,Inventario &inv);
 
 /**
- * Adiciona um item ao inventario pelo id
+ * Adiciona um item ao inventario pelo numero da listagem do inventario
  */
 void pegarItem(int id,Inventario inv);
 
 /**
- * Equipa um item do inventario pelo id
+ * Equipa um item do inventario pelo numero da listagem do inventario
  */
-void equiparItem(int id,Inventario inv);
+void equiparItem(int id,Inventario &inv);
 
 /**
  * adiciona um item ao inventario pelo id
  */
-void adicionarItem(int id,Inventario inv);
+void adicionarItem(int id,Inventario &inv);
 
 /**
  * @return a quantidade de espacos vazios no inventario
