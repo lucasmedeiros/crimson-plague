@@ -48,59 +48,38 @@ void ajustaAtributos(Ficha &ficha) {
 }
 
 string defineNomePersonagem() {
-  string nomeJogador;
-
-  char opcao = 'n';
-
-  while (tolower(opcao) != 's') {
-    cout << "Digite um nome para seu personagem: ";
-    cin >> nomeJogador;
-    cout << "Tem certeza? (S/N): ";
-    cin >> opcao;
-  }
-
-  return nomeJogador;
+  printw("Insira o seu nome: ");
+  string nome = getstring();
+  clear();
+  refresh();
+  return nome;
 }
 
-Classe defineClassePersonagem() {
-  char opcao = 'n';
+Classe defineClassePersonagem(WINDOW *window) {
+  string classes[3] = {"Guerreiro", "Mago", "Ladino"};
+  bool confirmou = false;
   int classe;
-
-  while (tolower(opcao) != 's') {
-    classe = -1;
-    cout << "Existem três tipos de classe:" << endl;
-    while (classe < 1 or classe > 3) {
-      cout << "(1) Guerreiro - (2) Mago - (3) Ladino - (0) Informações" << endl;
-      cout << "Escolha sua classe: ";
-      cin >> classe;
-
-      if (classe < 0 or classe > 3) {
-        cout << "Opção inválida!" << endl;
-      }
-
-      if (classe == 0) {
-        informacoesClasses();
-      }
-    }
-
-    cout << "Tem certeza? (S/N): ";
-    cin >> opcao;
+  while (!confirmou) {
+      classe = realizaPergunta(window, "Escolha sua classe", classes, 3);
+      confirmou = confirmacao(window);
   }
+  wclear(window);
+  refresh();
+  wrefresh(window);
+  return (Classe) (classe + 1);
+} 
 
-  return (Classe) classe;
-}
-
-Ficha criarPersonagem() {
+Ficha criarPersonagem(WINDOW *window) {
   Ficha ficha;
   Personagem personagem;
 
   personagem.nome = defineNomePersonagem();
-  personagem.classe = defineClassePersonagem();
+  personagem.classe = defineClassePersonagem(window);
 
   ficha.personagem = personagem;
 
   ajustaAtributos(ficha);
-  distribuiPontos(ficha);
+  // distribuiPontos(window, ficha);
 
   ficha.personagem.hp = getMaxHP(ficha);
   ficha.personagem.mp = getMaxMP(ficha);

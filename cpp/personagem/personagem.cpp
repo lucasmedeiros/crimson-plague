@@ -18,7 +18,7 @@ int getMaxMP(Ficha ficha) { return (SP_BASE + round(ficha.atributos.inteligencia
 int getLevel(Ficha ficha) { return ficha.personagem.level; }
 void levelUp(Ficha &ficha) { 
 	ficha.personagem.level += 1;
-	distribuiPontos(ficha);
+	// distribuiPontos(window, ficha);
 }
 
 void usarItemConsumivel(int numeroListado,Ficha &ficha){
@@ -69,76 +69,32 @@ int getDefesa(Ficha ficha) {
 	return 10 + armadura + getModificadorDES(ficha);
 };
 
-void distribuiPontos(Ficha &ficha) {
-	int pontos = 8;
-	char opcao = 'n';
-	int atr, addPontos;
-
+void distribuiPontos(WINDOW *window, Ficha &ficha) {
 	string atributos[6] = {"Força", "Vitalidade", "Inteligência", "Sorte", "Destreza", "Carisma"};
 	int* valores[6] = { &ficha.atributos.forca, &ficha.atributos.vitalidade,
 						&ficha.atributos.inteligencia, &ficha.atributos.sorte,
 						&ficha.atributos.destreza, &ficha.atributos.carisma };
 
-	cout << endl << "Você pode distribuir " << pontos << " pontos pelos seus atributos:" << endl;
+	int pontos = 8, pontosAdicionados = 0, opcaoQuantidade;
+	string qtdLabel[8] = {"1","2","3","4","5","6","7","8"};
+	string titulo;
+	bool confirmou;
+	while(pontos > 0) {
+		confirmou = false;
+		titulo = "Selecione um atributo para distribuir seus pontos";
+		int escolhaAtributo = realizaPergunta(window, titulo, atributos, 6);
+		opcaoQuantidade = realizaPergunta(window, "Selecione a quantidade",qtdLabel,8);
 
-	while(pontos > 0){
-		string entrada;
-
-		cout << "1. Força\t(" << ficha.atributos.forca << ")" << endl;
-		cout << "2. Vitalidade\t(" << ficha.atributos.vitalidade << ")" << endl;
-		cout << "3. Inteligência\t(" << ficha.atributos.inteligencia << ")" << endl;
-		cout << "4. Sorte\t(" << ficha.atributos.sorte << ")" << endl;
-		cout << "5. Destreza\t(" << ficha.atributos.destreza << ")"<< endl;
-		cout << "6. Carisma\t(" << ficha.atributos.carisma << ")" <<  endl;
-		cout << "Pontos disponiveis: " << pontos << endl << endl;;
-
-		cout << "Deseja adicionar pontos a qual atributo? ";
-
-		cin >> entrada;
-		while(!isdigit(entrada[0])){
-			cout << "Entrada inválida" << endl;
-			cout << "Deseja adicionar pontos a qual atributo? ";
-			cin >> entrada;
+		if (opcaoQuantidade + 1 <= pontos) {
+			confirmou = confirmacao(window);
 		}
 
-		atr = stoi(entrada);
-
-		if(0 < atr && atr < 7){
-			cout << "Adicionar quantos pontos ao atributo " << atributos[atr - 1] << " ? ";
-			cin >> entrada;
-			while(!isdigit(entrada[0])){
-				cout << "Entrada inválida!" << endl;
-				cout << "Adicionar quantos pontos ao atributo " << atributos[atr - 1] << " ? ";
-				cin >> entrada;
-			}
-
-			cout << endl;
-
-			addPontos = stoi(entrada);
-
-			if(addPontos <= pontos){
-				if(addPontos > 0){
-					cout << atributos[atr - 1] << " (" << *valores[atr - 1] << " -> " << *valores[atr - 1] + addPontos << ")" << endl;
-					cout << "Pontos restantes: " << pontos - addPontos << endl;
-					cout << "Tem certeza? (S/N): ";
-					cin >> opcao;
-
-					if(tolower(opcao) == 's'){
-						*valores[atr - 1] += addPontos;
-						pontos -= addPontos;
-					}
-				} else {
-					cout << "Quantidade de pontos inválida, adicione uma quantidade válida" << endl << endl;
-				}
-			} else {
-				cout << "Pontos insuficientes" << endl << endl;
-			}
-		} else {
-			cout << "Opção inválida!" << endl << endl;
+		if (confirmou) {
+			pontosAdicionados = (opcaoQuantidade + 1);
+			*valores[escolhaAtributo] += pontosAdicionados;
+			pontos -= pontosAdicionados;
 		}
 	}
-	
-	cout << endl;
 }
 
 string getNome(Ficha ficha) { return ficha.personagem.nome; }

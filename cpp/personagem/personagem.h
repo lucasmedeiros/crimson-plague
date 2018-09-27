@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../util.h"
 #include "../itens/inventario.h"
+#include "../gui.h"
 using namespace std;
 
 struct Personagem {
@@ -24,7 +25,7 @@ struct Atributos {
   int inteligencia = 9;
 };
 
-struct Ficha {
+struct Ficha {  
   Personagem personagem;
   Atributos atributos;
   Inventario inventario;
@@ -38,15 +39,16 @@ int getMaxHP(Ficha ficha);
 int getHP(Ficha ficha);
 int getMaxMP(Ficha ficha);
 int getMP(Ficha ficha);
-void levelUp(Ficha &ficha);
+void levelUp(WINDOW *window, Ficha &ficha);
 
 
 void usarItemConsumivel(int numero,Ficha &ficha);
 /**
  * Exibe opções de distribuições de pontos de atributos.
  * @param ficha
+ * @param window
  */
-void distribuiPontos(Ficha &ficha);
+void distribuiPontos(WINDOW *window, Ficha &ficha);
 
 /**
  * Retorna o total de destreza do personagem dividido por 4 (arredondado pra baixo)
@@ -113,8 +115,10 @@ void adicionaDinheiro(Ficha &ficha, int quantia);
 
 /**
  * Incrementa a experiência do personagem.
+ * @param window
  * @param ficha
  * @param xp
  */
+// void aumentarXP(WINDOW *window, Ficha &ficha, int xp);
 void aumentarXP(Ficha &ficha, int xp);
 #endif

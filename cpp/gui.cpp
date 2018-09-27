@@ -19,7 +19,7 @@ WINDOW* criaJanelaMenu() {
     int yMax, xMax;
     getmaxyx(stdscr, yMax, xMax);
     // newwin(nlines, ncolumns, yo, xo)
-    WINDOW *window= newwin(6, xMax-12, yMax-8, 5);
+    WINDOW *window= newwin(10, xMax-12, yMax-11, 5);
     return window;
 }
 
