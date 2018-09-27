@@ -1,7 +1,6 @@
 #ifndef INVENTARIO_H
 #define INVENTARIO_H
 #include<iostream>
-#include "../main.h"
 #include "item.h"
 #include "../util.h"
 
