@@ -28,5 +28,11 @@ Monstro* carregarAtributos() {
 };
 
 int calcularHP(Monstro monstro) {
+	int hp = 0;
 
+	int *valores = rolarDados(monstro.tipoDado, monstro.numDado);
+	for(int i = 0; i < monstro.numDado; i++) hp += valores[i];
+	hp = (hp / monstro.divisorDado) + monstro.somadorDado;
+
+	return hp;
 };
