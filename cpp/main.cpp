@@ -59,7 +59,7 @@ int main() {
   imprimeInventario(ficha.inventario);
   cout << "========================= História =========================" << endl;
   //iniciaBatalha(ficha);
-  //contaHistoria(ficha, escolhas);
+  contaHistoria(ficha, escolhas);
 
   return 0;
 }

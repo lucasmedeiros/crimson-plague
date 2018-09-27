@@ -390,7 +390,7 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 		while (true) {
 			cin >> dialogoCombate;
 
-			if(tolower(escolhaCombate) == 'a') {
+			if(tolower(dialogoCombate) == 'a') {
 				if(dadoPersuasao >= 13) {
 					cout << "Os kobolds parecem concordar com voce e abaixam as armas." << endl;
 					cout << "O que parece ser o capitao daquele pequeno grupo fala:" << endl;
@@ -403,7 +403,7 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 
 				break;
 
-			} else if (tolower(escolhaCombate) == 'b') {
+			} else if (tolower(dialogoCombate) == 'b') {
 				if(dadoPersuasao >= (13 - ficha.atributos.forca)) {
 					cout << "Os kobolds parecem, de fato, ficarem intimidados com voce." << endl;
 					cout << "O que parece o capitao daquele pequeno grupo fala:" << endl;
@@ -416,7 +416,7 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 
 				break;
 
-			} else if (tolower(escolhaCombate) == 'c') {
+			} else if (tolower(dialogoCombate) == 'c') {
 				int dinheiro = getDinheiro(ficha.inventario);
 
 				if(dadoPersuasao >= 8 and dinheiro >= 200) {
