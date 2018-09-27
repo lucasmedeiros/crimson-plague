@@ -1,6 +1,12 @@
 //Estrutura do banco de dados
 //id;nome;descr;circulo;dado;mp
 1;Chicote Elétrico;Você cria um açoite de energia elétrica que golpeia uma criatura;0;1d8;10
-2;Raio de Fogo;Você arremessa um cisco de fogo em uma criatura ou objeto dentro do alcance.;0;1d10;10
-3;Raio de Gelo;Um raio frigido de luz azul clara parte em direção de uma criatura;0;1d8;10
-4;Rajada de Veneno;Você ergue sua mão em direção de uma criatura e projeta um sopro de gás tóxico da sua palma.;0;1d12;10
+2;Raio Adoecente;Um raio adoecente de energia esverdeada chicoteia na direção de uma criatura dentro do alcance.;1;2d8;10
+3;Flecha Ácida de Melf;Uma flecha esverdeada cintilante voa em direção de um alvo dentro do alcance e explode em um jato de ácido.;2;6d6;10
+4;Bola de Fogo;Um veio brilhante lampeja na ponta do seu dedo em direção a um ponto que você escolher, dentro do alcance, e então eclode com um estampido baixo, explodindo em chamas.;3;8d6;10
+5;Esfera Cáustica;Você aponta um lugar dentro do alcance, e uma bola brilhante de ácido esmeralda atinge o ponto e explode.;4;15d4;10
+6;Cone de Frio;Uma criatura sofre dano de frio e se torna uma estátua de gelo caso morra.;5;8d8;10
+7;Desintegrar;Um fino raio esverdeado é lançado da ponta do seu dedo em um alvo que você possa ver dentro do alcance.;6;20d6;10
+8;Dedo da Morte;Você envia energia negativa na direção de uma criatura que você possa ver, dentro do alcance, causando dores severas nela.;7;10d8;10
+9;Evaporação de Abi;Você suga a humidade de todas as criaturas num cubo centrado em um ponto, à sua escolha, dentro do alcance.;8;12d8;10
+10;Chuva de Meteoros;Esferas de fogo incandescentes atingem o solo em quatro pontos diferentes que você possa ver, dentro do alcance.;9;50d6;10
