@@ -6,6 +6,13 @@ using namespace std;
 
 int getDanoItens(Inventario inventario){return getDanoArma(inventario.equipados.arma);}
 
+void printarInventario(Inventario inventario){
+    
+
+
+
+}
+
 void iniciarItensBasicos(Inventario inventario){
     Item* todosItens = inventario.tdsItens;
     if(inventario.classe == GUERREIRO){
@@ -13,6 +20,7 @@ void iniciarItensBasicos(Inventario inventario){
         inventario.equipados.armadura = todosItens[35];
         inventario.equipados.botas = todosItens[24];
         inventario.equipados.capacete = todosItens[39];
+        inventario.equipados.escudo = todosItens[46];
     }else if(inventario.classe == MAGO){
         inventario.equipados.arma = todosItens[36];
         inventario.equipados.armadura = todosItens[38];
@@ -31,6 +39,9 @@ int getArmadura(Inventario inventario){
     armaduraTotal += inventario.equipados.armadura.atrb.armadura;
     armaduraTotal += inventario.equipados.capacete.atrb.armadura;
     armaduraTotal += inventario.equipados.botas.atrb.armadura;
+    if(inventario.classe == GUERREIRO){
+        armaduraTotal += inventario.equipados.escudo.atrb.armadura;
+    }
     return armaduraTotal;
 }
 
@@ -121,6 +132,7 @@ void adicionarItem(int id, Inventario inventario){
            for(int i = 0; i < 20; i++){
                 if(itens[i].id == 34){
                     itens[i] = inventario.tdsItens[id - 1];
+                    inventario.quantidade[i] = 1; 
                     break;
             }
         } 

@@ -24,6 +24,8 @@ struct Inventario{
 
 };
 
+void printarInventario(Inventario inventario);
+
 /**
 *@return o numero de espacos vazios no inventario
 */

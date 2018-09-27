@@ -98,7 +98,7 @@ void distribuicaoPontos(Ficha &ficha) {
                      &ficha.atributos.inteligencia, &ficha.atributos.sorte,
                      &ficha.atributos.destreza, &ficha.atributos.carisma};
 
-  cout << "Você pode distribuir " << pontos << " pontos pelos seus atributos:" << endl;
+  cout << endl << "Você pode distribuir " << pontos << " pontos pelos seus atributos:" << endl;
 
   while(pontos > 0){
 

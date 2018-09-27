@@ -46,4 +46,5 @@
 43;Capuz verde;capuz simples para ladinos;1;0;0;0;0;0
 44;Capuz de veludo;Última moda entre os ladinos mais estilosos;1;0;0;0;0;0
 45;Sobretudo simples;Sobretudo ideal para esconder adagas e arcos;1;0;0;0;0;0
-46;Sobretudo de couro;Dizem que você ganha mais agilidade com ele,mesmo que não faça sentido;1;0;0;0;0;0 
+46;Sobretudo de couro;Dizem que você ganha mais agilidade com ele,mesmo que não faça sentido;1;0;0;0;0;0
+47;EScudo simples;Escudo de madeira, pode ser usado contra fechas, mas não é recomendado contra ataques diretos;1;0;0;0;0;0 

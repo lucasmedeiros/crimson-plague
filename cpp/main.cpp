@@ -58,10 +58,10 @@ int main() {
   ficha = criarPersonagem();
   ficha.inventario = iniciaInventario(ficha);
   imprimeInformacoes(ficha);
-
+  cout << "=================================== História ===================================" << endl;
+  //iniciaBatalha(ficha);
   contaHistoria(ficha, escolhas);
 
-  //iniciaBatalha(ficha);
 
   return 0;
 }

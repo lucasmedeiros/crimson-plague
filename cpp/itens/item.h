@@ -1,7 +1,9 @@
+#ifndef ITEM_H
+#define ITEM_H
 #include <iostream>
 #include "../util.h"
-#define QTD_LINHAS_ITENS 46
-#define QTD_LINHAS_EQUIPAVEIS 46
+#define QTD_LINHAS_ITENS 47
+#define QTD_LINHAS_EQUIPAVEIS 47
 #define QTD_COMENTARIOS_ITENS 3
 #define QTD_COMENTARIOS_EQUIPAVEIS 4
 #define QTD_COLUNAS_ITENS 9
@@ -9,7 +11,7 @@
 using namespace std;
 
 enum Tipo{
-    ARMA = 1,ARMADURA,BOTAS,CAPACETE,ESCUDO
+    ARMA,ARMADURA,BOTAS,CAPACETE,ESCUDO
 };
 
 struct AtributosItens{
@@ -92,4 +94,5 @@ void setTipo(AtributosItens atributo);
  * @return o tipo do item (equipavel)
  */
 Tipo getTipo(Item item);
+#endif
 

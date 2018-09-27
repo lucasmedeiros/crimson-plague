@@ -70,6 +70,8 @@ Item getItem(string *informacoes, string *atributos){
       if(stoi(informacoes[7].c_str()) == 1){
             item.buff = true;
             item.turnDur = stoi(informacoes[8].c_str());
+            item.recHPMax = stoi(informacoes[4].c_str());
+            item.recMPMax = stoi(informacoes[5].c_str()); 
       }else{
             item.buff = false;
             item.turnDur = 0;
