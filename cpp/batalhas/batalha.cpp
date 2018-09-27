@@ -7,7 +7,7 @@ using namespace std;
 
 // definições fixas enquanto ainda não temos dados dos monstros.
 #define MAX_HP_MONSTRO 50
-#define DANO_MONSTRO 15
+#define DANO_MONSTRO 10
 #define DEFESA_MONSTRO 10
 #define RESULTADO_DEFESA_MAGIA 10
 #define D20 20
@@ -22,24 +22,27 @@ void carregaHabilidades() {
 int getDanoHabilidade(Ficha &ficha) {
     int qtdHabs = qtdHabilidadesDisponiveis(ficha);
     cout << endl;
-    cout << "| Habilidades:                                   |" << endl;
+
+    cout << "==================================================" << endl;
+    cout << "Habilidades:" << endl;
 
     for(int i = 0; i < qtdHabs; i++) {
         cout << "| " << (i + 1) << ". " << habilidades[i].nome.c_str() << endl;
     }
+    cout << "==================================================" << endl;
 
     int opcao = 0;
 
     while (true) {
-        cout << endl << "Selecione uma habilidade: ";
+        cout << endl << "Escolha uma habilidade... -> ";
         cin >> opcao;
 
-        if (opcao > 0 && opcao < qtdHabs) {
+        if (opcao > 0 && opcao <= qtdHabs) {
             break;
         }
     }
 
-    cout << endl << "Você usa " << habilidades[opcao-1].nome.c_str() << "...\n\n";
+    cout << endl << "-> você usa " << habilidades[opcao-1].nome.c_str() << "...\n\n";
 
     return usarHabilidade(habilidades[opcao - 1], ficha);
 }
@@ -48,7 +51,7 @@ void ataquePersonagem(Ficha &ficha) {
     int danoInfligido = 0;
 
     if (ficha.personagem.classe == Classe::MAGO) {
-        danoInfligido = getDanoHabilidade(ficha);
+        danoInfligido = getDanoHabilidade(ficha)*2;
 
         if (rolarDado(D20) < RESULTADO_DEFESA_MAGIA) {
             danoInfligido /= 2;
@@ -128,9 +131,9 @@ void iniciaBatalha(Ficha &ficha) {
             ataquePersonagem(ficha);
         } else {
             fugiu = personagemFugiu();
-            
+
             cout << endl << "Você tenta fugir e..." << endl;
-            
+
             if (fugiu) {
                 cout << "Escapou..." << endl;
             } else {

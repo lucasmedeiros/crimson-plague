@@ -36,7 +36,7 @@ int* iniciaArrayZerado(){
 Item* iniciaArrayDeItens(){
   Item* itensVazios = new Item[20];
   for(int i = 0; i < 20; i++){
-    itensVazios[i] = itens[33]; 
+    itensVazios[i] = itens[33];
   }
   return itensVazios;
 }
