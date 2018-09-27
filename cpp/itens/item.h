@@ -2,17 +2,13 @@
 #define ITEM_H
 #include <iostream>
 #include "../util.h"
-#define QTD_LINHAS_ITENS 36
-#define QTD_LINHAS_EQUIPAVEIS 37
+#define QTD_LINHAS_ITENS 49
+#define QTD_LINHAS_EQUIPAVEIS 50
 #define QTD_COMENTARIOS_ITENS 3
 #define QTD_COMENTARIOS_EQUIPAVEIS 4
 #define QTD_COLUNAS_ITENS 9
 #define QTD_COLUNAS_EQUIPAVEIS 9
 using namespace std;
-
-enum ClasseItem{
-    WARRIOR = 1,MAGE,ROGUE,ALL
-};
 
 enum Tipo{
     ARMA = 1,ARMADURA,BOTAS,CAPACETE,ESCUDO
@@ -26,7 +22,7 @@ struct AtributosItens{
     int inteligencia;
     int destreza;
     int vitalidade;
-    ClasseItem classe;
+    Classe classe;
     Tipo tipoEquipavel;
 };
 
@@ -68,11 +64,6 @@ Item* carregarTdsItens();
  * @return o dano do item
  */
 int getDano(Item item);
-
-/**
- * @return a armadura do item
- */
-int getArmadura(Item item);
 
 /**
  * @return a recuperacao maxima de hp do item (consumivel)

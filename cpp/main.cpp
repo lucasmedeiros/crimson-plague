@@ -25,7 +25,7 @@ Item* getAllItens(){
   return itens;
 }
 
-int* getArrayZerado(){
+int* iniciaArrayZerado(){
   int* qtd = new int[20];
   for(int i = 0; i < 20; i++){
     qtd[i] = 0;
@@ -33,12 +33,22 @@ int* getArrayZerado(){
   return qtd;
 }
 
-Inventario iniciaInventario(){
+Item* iniciaArrayDeItens(){
+  Item* itensVazios = new Item[20];
+  for(int i = 0; i < 20; i++){
+    itensVazios[i] = itens[33]; 
+  }
+  return itensVazios;
+}
+
+Inventario iniciaInventario(Ficha ficha){
   Inventario inventario;
-  inventario.dinheiro = 0;
-  inventario.inventario =  new Item[20];
-  inventario.quantidade = getArrayZerado();
   inventario.tdsItens = getAllItens();
+  inventario.dinheiro = 0;
+  inventario.inventario = iniciaArrayDeItens();
+  inventario.quantidade = iniciaArrayZerado();
+  inventario.classe = ficha.personagem.classe;
+  iniciarItensBasicos(inventario);
   return inventario;
 }
 
@@ -46,7 +56,7 @@ int main() {
   Escolhas escolhas;
   carregarItens();
   ficha = criarPersonagem();
-  ficha.inventario = iniciaInventario();
+  ficha.inventario = iniciaInventario(ficha);
   imprimeInformacoes(ficha);
 
   contaHistoria(ficha, escolhas);

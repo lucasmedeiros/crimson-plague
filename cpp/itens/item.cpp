@@ -1,11 +1,10 @@
-
 #include <iostream>
 #include "item.h"
+#include "../util.h"
 
 using namespace std;
 
 int getDano(Item item){return item.atrb.dano;}
-int getArmadura(Item item){return item.atrb.armadura;}
 string getNome(Item item){return item.nome;}
 int getRecHPMax(Item item){return item.recHPMax;}
 int getRecMPMax(Item item){return item.recMPMax;}
@@ -41,15 +40,15 @@ AtributosItens setAtributos(string *atrb){
       atributos.inteligencia = stoi(atrb[6]);
       switch (stoi(atrb[7])){
             case 1:
-                  atributos.classe = WARRIOR;
+                  atributos.classe = GUERREIRO;
                   break;
             case 2:
-                  atributos.classe = MAGE;
+                  atributos.classe = MAGO;
                   break;
             case 3:
-                  atributos.classe = ROGUE;
+                  atributos.classe = LADINO;
             default:
-                  atributos.classe = ALL;
+                  atributos.classe = TODOS;
       }
       setTipo(atributos,atrb);
       return atributos;

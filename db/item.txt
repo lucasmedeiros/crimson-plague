@@ -8,8 +8,8 @@
 5;Chave de ferro;Pode ser usado para abrir fechaduras antigas;1;0;0;0;0;0
 6;Ametista;pedra brilhante, pode ser usada para venda;1;0;0;100;0;0
 7;Carne Seca Contaminada;Recupera 10 de Hp,mas concede um efeito negativo de -2 de Vitalidade por 3 turnos;0;10;0;100;1;3
-8;Óleo;Usada pelos mineradores,muito inflamável,;1;0;0;100;0;0;0
-9;Moon Stone;??;1;0;0;100;0;0
+8;Óleo;Usada pelos mineradores,muito inflamável,;1;0;0;20;0;0;0
+9;Moon Stone;Pode ser trocado por moedas de ouro;1;0;0;100;0;0
 10;Manto da Resistência;Um fino manto feito de pequenos cristais e muito resistente;1;0;0;100;0;0
 11;Escudo de Metal Grande;Um escudo feito de metal e é empunhado com uma mão. Empunhar um escudo aumenta sua Classe de Armadura em 2;1;0;0;10;0;0
 12;Granada Violeta;??;1;0;0;100;0;0
@@ -27,7 +27,7 @@
 24;Moeda de ouro;Principal moeda de comércio;1;0;0;1;0;0
 25;Bota simples;Bota feita de couro;1;0;0;20;0;0
 26;Bota de Hermes;Bota destreza + 3;1;0;0;50;0;0
-27;Armadura de Ferro;Armadura simples de ferro fundido, armadura +1;1;0;0;20;0;0
+27;Armadura de Ferro;Armadura simples de ferro fundido, armadura +2;1;0;0;20;0;0
 28;Armadura de Platina;Armadura de Platina armadura +3;1;0;0;30;0;0
 29;Armadura de Diamante;Armadura feita de metal precioso e muito resistente, armadura +5;1;0;0;50;0;0
 30;Espada Curta +1;Espada curta usada em ataques de curta distância com bônus +1 de Força;1;0;0;10;0;0
@@ -35,3 +35,15 @@
 32;Adaga +1;Arma branca para ataques furtivos e ágeis, com bônus de +1 de Destreza;1;0;0;20;0;0
 33;Adaga +2;Arma branca para ataques furtivos e ágeis, com bônus de +2 de Destreza;1;0;0;25;0;0
 34;Espaco Vazio; representa o espaco vazio no inventario;0;0;0;0;0;0
+35;Espada simples;Espada inicial;1;0;0;0;0;0
+36;Armadura de Latão;Armadura para aventureiros iniciantes;1;0;0;0;0;0
+37;Cajado simples;cajado para magos inexperientes;1;0;0;0;0;0
+38;Arco curto;Arco para jovens legolas;1;0;0;0;0;0
+39;Manto simples;Manto de magos aprendizes;1;0;0;0;0;0
+40;Capacete de Latão;Capacete simples de jovens aventureiros;1;0;0;0;0;0
+41;Chapéu inicial;Vestimentas simples para cosplayers de magos;1;0;0;0;0;0
+42;Chapéu Seletor;"GRIFNÓLIAAA";1;0;0;0;0;0
+43;Capuz verde;capuz simples para ladinos;1;0;0;0;0;0
+44;Capuz de veludo;Última moda entre os ladinos mais estilosos;1;0;0;0;0;0
+45;Sobretudo simples;Sobretudo ideal para esconder adagas e arcos;1;0;0;0;0;0
+46;Sobretudo de couro;Dizem que você ganha mais agilidade com ele,mesmo que não faça sentido;1;0;0;0;0;0 

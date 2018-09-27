@@ -3,6 +3,7 @@
 #include<iostream>
 #include "../main.h"
 #include "item.h"
+#include "../util.h"
 
 using namespace std;
 
@@ -17,6 +18,7 @@ struct Equipados{
 struct Inventario{
     Item* tdsItens;
     Item* inventario;
+    Classe classe;
     int* quantidade;
     Equipados equipados;
     int dinheiro;
@@ -28,13 +30,16 @@ struct Inventario{
 */
 int qtdVazios(Inventario inventario);
 
+/**
+ * inicia o inventario com os itens basicos
+ */
 void iniciarItensBasicos(Inventario Inventario);
 
 /**
  *@return o dano total dos itens equipados
  */
 
-int getDano(Inventario inv);
+int getDanoItens(Inventario inv);
 
 /**
  * @return a armadura total equipada
@@ -47,30 +52,6 @@ int getArmadura(Inventario inv);
 void droparItem(int id,Inventario inv);
 
 /**
- * @return a armadura equipada
- */
-Item getArm(Inventario inventario);
-
-/**
- * @return a arma equipada
- */
-Item getArma(Inventario inventario);
-
-/**
- * @return a bota equipada
- */
-Item getBotas(Inventario inventario);
-
-/**
- * @return o capacete equipado
- */
-Item getCapacete(Inventario inventario);
-
-/**
- * @return o escudo equipado
- */
-Item getEscudo(Inventario inventario);
-/**
  * Adiciona um item ao inventario pelo id
  */
 void pegarItem(int id,Inventario inv);
@@ -81,12 +62,31 @@ void pegarItem(int id,Inventario inv);
 void equiparItem(int id,Inventario inv);
 
 /**
- * @return o dinheiro total guardado do personagem
+ * adiciona um item ao inventario pelo id
  */
-int getDinheiro(Inventario inv);
+void adicionarItem(int id,Inventario inv);
 
 /**
- *Adiciona certo valor ao dinheiro total do personagem
+ * @return a quantidade de espacos vazios no inventario
  */
-void addDinheiro(int dinheiro, Inventario inv);
+int qtdVazios(Inventario inv);
+
+/**
+ * @return se contem ou não um item especifico no inventario pelo id 
+ */
+bool contemItem(int id, Inventario inv);
+/**
+ * @return o total de inteligencia dos itens equipados
+ */
+int getInteligencia(Inventario inv);
+
+/**
+ * @return o total de Força dos itens equipados
+ */
+int getForca(Inventario inv);
+
+/**
+ * @return o total de Destreza dos itens equipados
+ */
+int getDestreza(Inventario inv);
 #endif

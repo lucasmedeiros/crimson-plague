@@ -1,5 +1,12 @@
+#ifndef UTIL_H
+#define UTIL_H
 #include <iostream>
 using namespace std;
+
+
+enum Classe{
+    GUERREIRO = 1,MAGO, LADINO, TODOS
+};
 
 /**
  * @return um "array" de valores, que seria os atributos de uma linha do bd especificado, recebendo o id
@@ -34,4 +41,6 @@ string* getAllLinhas(string caminhoArquivo,int qtdLinhas, int qtdComentarios);
 string* split(string linha, char delimitator, int numColuna);
 int rolarDado(int lados);
 int* rolarDados(int lados, int vezes);
+
+#endif
 

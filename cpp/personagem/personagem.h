@@ -5,10 +5,6 @@
 #include "../itens/inventario.h"
 using namespace std;
 
-enum Classe {
-  GUERREIRO = 1, MAGO, LADINO
-};
-
 struct Personagem {
   string nome;
   Classe classe;
