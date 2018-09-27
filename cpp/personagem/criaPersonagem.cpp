@@ -90,74 +90,6 @@ Classe defineClassePersonagem() {
   return (Classe) classe;
 }
 
-void distribuicaoPontos(Ficha &ficha) {
-  int pontos = 8;
-  char opcao = 'n';
-  int atr, addPontos;
-
-  string atributos[6] = {"Força", "Vitalidade", "Inteligência", "Sorte", "Destreza", "Carisma"};
-  int* valores[6] = {&ficha.atributos.forca, &ficha.atributos.vitalidade,
-                     &ficha.atributos.inteligencia, &ficha.atributos.sorte,
-                     &ficha.atributos.destreza, &ficha.atributos.carisma};
-
-  cout << endl << "Você pode distribuir " << pontos << " pontos pelos seus atributos:" << endl;
-
-  while(pontos > 0){
-      string entrada;
-
-      cout << "(1) Força (" << ficha.atributos.forca << ")" << endl;
-      cout << "(2) Vitalidade (" << ficha.atributos.vitalidade << ")" << endl;
-      cout << "(3) Inteligência (" << ficha.atributos.inteligencia << ")" << endl;
-      cout << "(4) Sorte (" << ficha.atributos.sorte << ")" << endl;
-      cout << "(5) Destreza (" << ficha.atributos.destreza << ")"<< endl;
-      cout << "(6) Carisma (" << ficha.atributos.carisma << ")" <<  endl;
-
-      cout << "Pontos disponiveis: " << pontos << endl;
-      cout << "Deseja adicionar pontos a qual atributo? " << endl;
-
-      cin >> entrada;
-      while(!isdigit(entrada[0])){
-            cout << "Entrada inválida" << endl;
-            cin >> entrada;
-      }
-
-      atr = stoi(entrada);
-
-      if(0 < atr && atr < 7){
-          cout << "Adicionar quantos pontos ao atributo " << atributos[atr - 1] << " ?" << endl;
-          cin >> entrada;
-          while(!isdigit(entrada[0])){
-            cout << "Entrada inválida" << endl;
-            cin >> entrada;
-          }
-          
-          addPontos = stoi(entrada);
-
-          if(addPontos <= pontos){
-              if(addPontos > 0){
-              cout << atributos[atr - 1] << " " << *valores[atr - 1] << " -- > " << *valores[atr - 1] + addPontos << endl;
-              cout << "Pontos restantes: " << pontos - addPontos << endl;
-              cout << "Tem certeza? (S/N): " << endl;
-              cin >> opcao;
-
-              if(tolower(opcao) == 's'){
-                  *valores[atr - 1] += addPontos;
-                  pontos -= addPontos;
-              }
-              }else{
-                cout << "Qtd de pontos inválida, adicione alguma quantidade válida" << endl << endl;
-              }
-          }else{
-            cout << "Pontos insuficientes" << endl << endl;
-          }
-
-      }else{
-          cout << "Opção inválida!" << endl << endl;
-      }
-  }
-  cout << endl;
-}
-
 Ficha criarPersonagem() {
   Ficha ficha;
   Personagem personagem;
@@ -168,7 +100,7 @@ Ficha criarPersonagem() {
   ficha.personagem = personagem;
 
   ajustaAtributos(ficha);
-  distribuicaoPontos(ficha);
+  distribuiPontos(ficha);
 
   ficha.personagem.hp = getMaxHP(ficha);
   ficha.personagem.mp = getMaxMP(ficha);

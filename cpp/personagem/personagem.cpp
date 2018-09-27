@@ -16,7 +16,10 @@ int getMP(Ficha ficha) { return ficha.personagem.mp; }
 int getMaxMP(Ficha ficha) { return (SP_BASE + round(ficha.atributos.inteligencia * MULT_INT_MP)); }
 
 int getLevel(Ficha ficha) { return ficha.personagem.level; }
-void levelUp(Ficha &ficha) { ficha.personagem.level += 1; }
+void levelUp(Ficha &ficha) { 
+	ficha.personagem.level += 1;
+	distribuiPontos(ficha);
+}
 
 void aumentarXP(Ficha &ficha, int xp) {
 	ficha.personagem.xpAtual += xp;
@@ -43,6 +46,78 @@ int getDefesa(Ficha ficha) {
 	int armadura = getArmadura(ficha.inventario);
 	return 10 + armadura + getModificadorDES(ficha);
 };
+
+void distribuiPontos(Ficha &ficha) {
+	int pontos = 8;
+	char opcao = 'n';
+	int atr, addPontos;
+
+	string atributos[6] = {"Força", "Vitalidade", "Inteligência", "Sorte", "Destreza", "Carisma"};
+	int* valores[6] = { &ficha.atributos.forca, &ficha.atributos.vitalidade,
+						&ficha.atributos.inteligencia, &ficha.atributos.sorte,
+						&ficha.atributos.destreza, &ficha.atributos.carisma };
+
+	cout << endl << "Você pode distribuir " << pontos << " pontos pelos seus atributos:" << endl;
+
+	while(pontos > 0){
+		string entrada;
+
+		cout << "1. Força\t(" << ficha.atributos.forca << ")" << endl;
+		cout << "2. Vitalidade\t(" << ficha.atributos.vitalidade << ")" << endl;
+		cout << "3. Inteligência\t(" << ficha.atributos.inteligencia << ")" << endl;
+		cout << "4. Sorte\t(" << ficha.atributos.sorte << ")" << endl;
+		cout << "5. Destreza\t(" << ficha.atributos.destreza << ")"<< endl;
+		cout << "6. Carisma\t(" << ficha.atributos.carisma << ")" <<  endl;
+		cout << "Pontos disponiveis: " << pontos << endl << endl;;
+
+		cout << "Deseja adicionar pontos a qual atributo? ";
+
+		cin >> entrada;
+		while(!isdigit(entrada[0])){
+			cout << "Entrada inválida" << endl;
+			cout << "Deseja adicionar pontos a qual atributo? ";
+			cin >> entrada;
+		}
+
+		atr = stoi(entrada);
+
+		if(0 < atr && atr < 7){
+			cout << "Adicionar quantos pontos ao atributo " << atributos[atr - 1] << " ? ";
+			cin >> entrada;
+			while(!isdigit(entrada[0])){
+				cout << "Entrada inválida!" << endl;
+				cout << "Adicionar quantos pontos ao atributo " << atributos[atr - 1] << " ? ";
+				cin >> entrada;
+			}
+
+			cout << endl;
+
+			addPontos = stoi(entrada);
+
+			if(addPontos <= pontos){
+				if(addPontos > 0){
+					cout << atributos[atr - 1] << " (" << *valores[atr - 1] << " -> " << *valores[atr - 1] + addPontos << ")" << endl;
+					cout << "Pontos restantes: " << pontos - addPontos << endl;
+					cout << "Tem certeza? (S/N): ";
+					cin >> opcao;
+
+					if(tolower(opcao) == 's'){
+						*valores[atr - 1] += addPontos;
+						pontos -= addPontos;
+					}
+				} else {
+					cout << "Quantidade de pontos inválida, adicione uma quantidade válida" << endl << endl;
+				}
+			} else {
+				cout << "Pontos insuficientes" << endl << endl;
+			}
+		} else {
+			cout << "Opção inválida!" << endl << endl;
+		}
+	}
+	
+	cout << endl;
+}
 
 string getNome(Ficha ficha) { return ficha.personagem.nome; }
 int getForcaTotal(Ficha ficha) { return ficha.atributos.forca + getForca(ficha.inventario); }

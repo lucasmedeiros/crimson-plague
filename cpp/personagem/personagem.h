@@ -41,6 +41,12 @@ int getMP(Ficha ficha);
 void levelUp(Ficha &ficha);
 
 /**
+ * Exibe opções de distribuições de pontos de atributos.
+ * @param ficha
+ */
+void distribuiPontos(Ficha &ficha);
+
+/**
  * Retorna o total de destreza do personagem dividido por 4 (arredondado pra baixo)
  * @param ficha
  * @return modificador de destreza
