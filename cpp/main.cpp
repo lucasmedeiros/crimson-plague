@@ -4,6 +4,7 @@
 #include "personagem/criaPersonagem.h"
 #include "historia/historia.h"
 #include "batalhas/batalha.h"
+#include <ctype.h>
 using namespace std;
 
 Ficha ficha;
@@ -21,21 +22,18 @@ void carregarItens() {
   itens = carregarTdsItens();
 }
 
-Item* getAllItens(){
-  return itens;
-}
 
-int* iniciaArrayZerado(){
-  int* qtd = new int[20];
-  for(int i = 0; i < 20; i++){
+int* iniciaArrayZerado(int tamanho){
+  int* qtd = new int[tamanho];
+  for(int i = 0; i < tamanho; i++){
     qtd[i] = 0;
   }
   return qtd;
 }
 
-Item* iniciaArrayDeItens(){
-  Item* itensVazios = new Item[20];
-  for(int i = 0; i < 20; i++){
+Item* iniciaArrayDeItens(int tamanho){
+  Item* itensVazios = new Item[tamanho];
+  for(int i = 0; i < tamanho; i++){
     itensVazios[i] = itens[33];
   }
   return itensVazios;
@@ -43,12 +41,13 @@ Item* iniciaArrayDeItens(){
 
 Inventario iniciaInventario(Ficha ficha){
   Inventario inventario;
-  inventario.tdsItens = getAllItens();
+  inventario.tdsItens = itens;
   inventario.dinheiro = 0;
-  inventario.inventario = iniciaArrayDeItens();
-  inventario.quantidade = iniciaArrayZerado();
+  inventario.tamInvent = 10;
+  inventario.inventario = iniciaArrayDeItens(inventario.tamInvent);
+  inventario.quantidade = iniciaArrayZerado(inventario.tamInvent);
   inventario.classe = ficha.personagem.classe;
-  iniciarItensBasicos(inventario);
+  inventario = iniciarItensBasicos(inventario);
   return inventario;
 }
 
@@ -58,10 +57,10 @@ int main() {
   ficha = criarPersonagem();
   ficha.inventario = iniciaInventario(ficha);
   imprimeInformacoes(ficha);
-  cout << "=================================== História ===================================" << endl;
+  imprimeInventario(ficha.inventario);
+  cout << "========================= História =========================" << endl;
   //iniciaBatalha(ficha);
   contaHistoria(ficha, escolhas);
-
 
   return 0;
 }

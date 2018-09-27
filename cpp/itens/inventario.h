@@ -15,6 +15,7 @@ struct Equipados{
 };
 
 struct Inventario{
+    int tamInvent;
     Item* tdsItens;
     Item* inventario;
     Classe classe;
@@ -24,7 +25,7 @@ struct Inventario{
 
 };
 
-void printarInventario(Inventario inventario);
+void imprimeInventario(Inventario inventario);
 
 /**
 *@return o numero de espacos vazios no inventario
@@ -34,7 +35,7 @@ int qtdVazios(Inventario inventario);
 /**
  * inicia o inventario com os itens basicos
  */
-void iniciarItensBasicos(Inventario Inventario);
+Inventario iniciarItensBasicos(Inventario inventario);
 
 /**
  *@return o dano total dos itens equipados

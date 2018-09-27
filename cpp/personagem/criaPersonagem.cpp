@@ -1,5 +1,6 @@
 #include <iostream>
 #include "criaPersonagem.h"
+#include <ctype.h>
 
 using namespace std;
 
@@ -19,6 +20,7 @@ void informacoesClasses() {
   cout << "estão trabalhando numa busca por um tesouro. Possuem altas habilidades ";
   cout << "em combates de longa distância e armas de longo alcance." << endl << endl;
 }
+
 
 void ajustaAtributos(Ficha &ficha) {
   Classe classePersonagem = ficha.personagem.classe;
@@ -101,6 +103,7 @@ void distribuicaoPontos(Ficha &ficha) {
   cout << endl << "Você pode distribuir " << pontos << " pontos pelos seus atributos:" << endl;
 
   while(pontos > 0){
+      string entrada;
 
       cout << "(1) Força (" << ficha.atributos.forca << ")" << endl;
       cout << "(2) Vitalidade (" << ficha.atributos.vitalidade << ")" << endl;
@@ -112,11 +115,23 @@ void distribuicaoPontos(Ficha &ficha) {
       cout << "Pontos disponiveis: " << pontos << endl;
       cout << "Deseja adicionar pontos a qual atributo? " << endl;
 
-      cin >> atr;
+      cin >> entrada;
+      while(!isdigit(entrada[0])){
+            cout << "Entrada inválida" << endl;
+            cin >> entrada;
+      }
+
+      atr = stoi(entrada);
 
       if(0 < atr && atr < 7){
           cout << "Adicionar quantos pontos ao atributo " << atributos[atr - 1] << " ?" << endl;
-          cin >> addPontos;
+          cin >> entrada;
+          while(!isdigit(entrada[0])){
+            cout << "Entrada inválida" << endl;
+            cin >> entrada;
+          }
+          
+          addPontos = stoi(entrada);
 
           if(addPontos <= pontos){
               if(addPontos > 0){
