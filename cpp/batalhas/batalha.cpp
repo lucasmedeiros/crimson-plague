@@ -3,55 +3,78 @@
 #include "../util.h"
 using namespace std;
 
-#define ZERO_HP 0
-
-// definições fixas enquanto ainda não temos dados dos monstros.
-#define MAX_HP_MONSTRO 50
-#define DANO_MONSTRO 10
-#define DEFESA_MONSTRO 10
-#define RESULTADO_DEFESA_MAGIA 10
-#define D20 20
-
-int hpMonstro = MAX_HP_MONSTRO;
+int hpMonstro;
+int danoMonstro;
+int defesaMonstro;
 Habilidade* habilidades;
 
 void carregaHabilidades() {
     habilidades = carregarHabilidades();
 }
 
-int getDanoHabilidade(Ficha &ficha) {
-    int qtdHabs = qtdHabilidadesDisponiveis(ficha);
-    cout << endl;
+void defineAtributosMonstro(Monstro &monstro) {
+    hpMonstro = calcularHPMonstro(monstro);
+    danoMonstro = monstro.danoAtaque;
+    defesaMonstro = monstro.ca;
+}
 
-    cout << "==================================================" << endl;
-    cout << "Habilidades:" << endl;
-
-    for(int i = 0; i < qtdHabs; i++) {
-        cout << "| " << (i + 1) << ". " << habilidades[i].nome.c_str() << endl;
-    }
-    cout << "==================================================" << endl;
-
-    int opcao = 0;
-
-    while (true) {
-        cout << endl << "Escolha uma habilidade... -> ";
-        cin >> opcao;
-
-        if (opcao > 0 && opcao <= qtdHabs) {
-            break;
+bool temManaParaAlgumaHabilidade(Ficha ficha, int qtdHabs) {
+    for (int i = 0; i <= qtdHabs; i++) {
+        if (temManaSuficiente(habilidades[i],ficha)) {
+            return true;
         }
     }
+    return false;
+}
 
-    cout << endl << "-> você usa " << habilidades[opcao-1].nome.c_str() << "...\n\n";
+int dropMonstro(Monstro monstro) {
+    if (monstro.id != 2 && monstro.id != 4) {
+        if (rolarDado(20) < 10) {
+            return -1;
+        }
+    }
+    return monstro.drop;
+}
 
-    return usarHabilidade(habilidades[opcao - 1], ficha);
+int getDanoHabilidade(Ficha &ficha) {
+    int qtdHabs = qtdHabilidadesDisponiveis(ficha);
+    int dano = -2;
+
+    if (temManaParaAlgumaHabilidade(ficha, qtdHabs)) {
+        cout << endl;
+
+        cout << "==================================================" << endl;
+        cout << "Habilidades:" << endl;
+
+        for(int i = 0; i < qtdHabs; i++) {
+            cout << "| " << (i + 1) << ". " << habilidades[i].nome.c_str() << endl;
+        }
+        cout << "==================================================" << endl;
+
+        int opcao = 0;
+
+        while (true) {
+            cout << endl << "Escolha uma habilidade... -> ";
+            cin >> opcao;
+
+            if (opcao > 0 && opcao <= qtdHabs) {
+                break;
+            }
+        }
+
+        cout << endl << "-> você usa " << habilidades[opcao-1].nome.c_str() << "...\n\n";
+        dano = usarHabilidade(habilidades[opcao - 1], ficha);
+    }
+
+
+    return dano;
 }
 
 void ataquePersonagem(Ficha &ficha) {
     int danoInfligido = 0;
 
     if (ficha.personagem.classe == Classe::MAGO) {
-        danoInfligido = getDanoHabilidade(ficha)*2;
+        danoInfligido = getDanoHabilidade(ficha);
 
         if (rolarDado(D20) < RESULTADO_DEFESA_MAGIA) {
             danoInfligido /= 2;
@@ -59,7 +82,7 @@ void ataquePersonagem(Ficha &ficha) {
     } else {
         danoInfligido = getDano(ficha) + rolarDado(D20);
 
-        if (danoInfligido < DEFESA_MONSTRO) {
+        if (danoInfligido < defesaMonstro) {
             danoInfligido = 0;
         }
     }
@@ -75,7 +98,11 @@ void ataquePersonagem(Ficha &ficha) {
         cout << "==================================================" << endl;
     } else {
         cout << "==================================================" << endl;
-        cout << " Você errou o ataque..." << endl;
+        if (danoInfligido == 0) {
+            cout << " Você errou o ataque..." << endl;
+        } else {
+            cout << " Você não tem mana para habilidade alguma..." << endl;
+        }
         cout << " O monstro ri de você..." << endl;
         cout << "==================================================" << endl;
     }
@@ -83,13 +110,30 @@ void ataquePersonagem(Ficha &ficha) {
 
 void ataqueMonstro(Ficha &ficha) {
     int defesaPersonagem = getDefesa(ficha);
-    int danoInfligido = max((DANO_MONSTRO - defesaPersonagem), 0);
+    int danoInfligido = max((danoMonstro - defesaPersonagem), 0);
     int novoHP = getHP(ficha);
     novoHP -= danoInfligido;
     ficha.personagem.hp = max(novoHP, 0);
 
     cout << "O monstro infligiu um total de " << danoInfligido;
     cout << " danos a você." << endl;
+}
+
+void abrirMochila(Ficha &ficha) {
+    imprimeMochila(ficha.inventario);
+    int op = -1;
+
+    while(true) {
+        cout << "Quer usar qual? " << endl;
+        cin >> op;
+
+        if (op < 1 && op >= ficha.inventario.tamInvent) {
+            usarItemConsumivel(op, ficha);
+            break;
+        } else {
+            cout << "Opção INVÁLIDA!" << endl;
+        }
+    }
 }
 
 int menuCombate(Ficha &ficha) {
@@ -103,18 +147,17 @@ int menuCombate(Ficha &ficha) {
             cout << "(1) -> Atacar? " << endl;
         }
 
-        //TODO cout << "(2) -> Abrir Inventário? " << endl;
-        cout << "(2) -> Tentar fugir?" << endl;
+        cout << "(2) -> Abrir mochila? " << endl;
+        cout << "(3) -> Tentar fugir?" << endl;
 
         cin >> op;
 
-        if (op < 1 && op > 2) {
+        if (op < 1 && op > 3) {
             cout << "Opcao Invalida!" << endl;
         } else {
             break;
         }
     }
-
     return op;
 }
 
@@ -135,8 +178,10 @@ void tentaFugir(bool fugiu) {
     cout << endl << endl;
 }
 
-void iniciaBatalha(Ficha &ficha) {
+void iniciaBatalha(Ficha &ficha, Monstro monstro) {
     carregaHabilidades();
+    defineAtributosMonstro(monstro);
+
     cout << "==================================================" << endl;
     cout << " Um desafio se aproxima, um monstro te ataca..." << endl;
     cout << "==================================================" << endl;
@@ -148,6 +193,8 @@ void iniciaBatalha(Ficha &ficha) {
 
         if (op == OpcoesBatalha::ATACAR) {
             ataquePersonagem(ficha);
+        } else if (op == OpcoesBatalha::ABRIR) {
+            abrirMochila(ficha);
         } else if (op == OpcoesBatalha::FUGIR) {
             fugiu = personagemFugiu();
 
@@ -173,6 +220,19 @@ void iniciaBatalha(Ficha &ficha) {
 
     if (venceu()) {
         cout << "Parabéns pela vitória!" << endl;
+        int drop = dropMonstro(monstro);
+        if (drop != -1) {
+            adicionarItem(drop, ficha.inventario);
+            Item item = getItemPeloId(drop, ficha.inventario);
+            cout << "O monstro deixou cair " << item.nome << endl;
+            char infoDrop = 'n';
+
+            cout << "Exibir informações? (S/N) ";
+            cin >> infoDrop;
+            if (tolower(infoDrop) == 's') {
+                cout << item.descricao << endl;
+            }
+        }
     } else if (!fugiu){
         cout << "Morreu..." << endl;
     }
