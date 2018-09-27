@@ -52,13 +52,14 @@ string* getAllLinhas(string caminhoArquivo,int qtdLinhas, int qtdComentarios){
 	if(arquivo.is_open()){
 		for(int i = 0, j = 0; i < qtdLinhas + qtdComentarios; i++) {
 			getline(arquivo, linha);
-			if (linha[0] != '/')
+			if (linha[0] != '/'){
 				linhas[j++] = linha;
+			}
 		}
-	} else {
-		cout << "O arquivo não está aberto!" << endl;
-	}
-
+		} else {
+			cout << "O arquivo não está aberto!" << endl;
+		}
+	
 	arquivo.close();
 	return linhas;
 }
@@ -66,8 +67,9 @@ string* getAllLinhas(string caminhoArquivo,int qtdLinhas, int qtdComentarios){
 string** importarTodos(string caminho, int qtdColunas, int qtdLinhas, int qtdComentarios){
 	string *linhas = getAllLinhas(caminho,qtdLinhas, qtdComentarios);
 	string **valores = new string*[qtdLinhas];
-	for(int i = 0; i < qtdLinhas; i++)
-		valores[i] = split(linhas[i],';',qtdColunas);
+	for(int i = 0; i < qtdLinhas; i++){
+		valores[i] = split(linhas[i],';',qtdColunas);	
+	}
 	return valores;
 }
 

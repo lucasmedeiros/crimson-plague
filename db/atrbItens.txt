@@ -1,4 +1,4 @@
-// Banco de dados para os atr;ibutos dos itens (9 colunas)
+// Banco de dados para os atributos dos itens (9 colunas)
 //Classe: 1-Guerreiro,2-Mago,3-Ladino,-1-Todos(default)
 //tipo:0-N EQUIPAVEL,1-ARMA,2-ARMADURA,3-BOTAS,4-CAPACETE,5-ESCUDO
 // Configuração do banco:id;dano;atrbArm;atrbForca;atrbVital;atrbDestr;atrbIntel;classe;tipo

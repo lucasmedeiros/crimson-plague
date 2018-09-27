@@ -1,14 +1,14 @@
-// Banco de dados base dos itens do jogo
+// Banco de dados base dos itens (9 Colunas)
 // Tipo do item: 0-Consumivel; 1- Não consumivel (equipavel,item de quest e para venda)
-// Modelo de construcão do BD:id;nome;descr;tipo;rechpMax;recmpMax;precoVenda;buff;turnDur
-1;Poção de cura pequena;Recupera até 8 de HP;0;8;0;5;0
+// Modelo de construcão do BD:id,nome,descr,tipo,rechpMax,recmpMax,precoVenda,buff,turnDur
+1;Poção de cura pequena;Recupera até 8 de HP;0;8;0;5;0;0
 2;Poção de cura média;Recupera até 16 de HP;0;16;0;10;0;0
 3;Poção de MP pequena;Recupera até 8 de MP;0;0;8;5;0;0
 4;Poção de MP média;Recupera até 16 de MP;0;0;16;10;0;0
 5;Chave de ferro;Pode ser usado para abrir fechaduras antigas;1;0;0;0;0;0
 6;Ametista;pedra brilhante, pode ser usada para venda;1;0;0;100;0;0
 7;Carne Seca Contaminada;Recupera 10 de Hp,mas concede um efeito negativo de -2 de Vitalidade por 3 turnos;0;10;0;100;1;3
-8;Óleo;Usada pelos mineradores,muito inflamável,;1;0;0;20;0;0;0
+8;Óleo;Usada pelos mineradores,muito inflamável;1;0;0;20;0;0
 9;Moon Stone;Pode ser trocado por moedas de ouro;1;0;0;100;0;0
 10;Manto da Resistência;Um fino manto feito de pequenos cristais e muito resistente;1;0;0;100;0;0
 11;Escudo de Metal Grande;Um escudo feito de metal e é empunhado com uma mão. Empunhar um escudo aumenta sua Classe de Armadura em 2;1;0;0;10;0;0
@@ -42,7 +42,7 @@
 39;Manto simples;Manto de magos aprendizes;1;0;0;0;0;0
 40;Capacete de Latão;Capacete simples de jovens aventureiros;1;0;0;0;0;0
 41;Chapéu inicial;Vestimentas simples para cosplayers de magos;1;0;0;0;0;0
-42;Chapéu Seletor;"GRIFNÓLIAAA";1;0;0;0;0;0
+42;Chapéu Seletor;GRIFNÓLIAAA;1;0;0;0;0;0
 43;Capuz verde;capuz simples para ladinos;1;0;0;0;0;0
 44;Capuz de veludo;Última moda entre os ladinos mais estilosos;1;0;0;0;0;0
 45;Sobretudo simples;Sobretudo ideal para esconder adagas e arcos;1;0;0;0;0;0

@@ -1,9 +1,7 @@
-#ifndef ITEM_H
-#define ITEM_H
 #include <iostream>
 #include "../util.h"
-#define QTD_LINHAS_ITENS 49
-#define QTD_LINHAS_EQUIPAVEIS 50
+#define QTD_LINHAS_ITENS 46
+#define QTD_LINHAS_EQUIPAVEIS 46
 #define QTD_COMENTARIOS_ITENS 3
 #define QTD_COMENTARIOS_EQUIPAVEIS 4
 #define QTD_COLUNAS_ITENS 9
@@ -94,5 +92,4 @@ void setTipo(AtributosItens atributo);
  * @return o tipo do item (equipavel)
  */
 Tipo getTipo(Item item);
-#endif
 
