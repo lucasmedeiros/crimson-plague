@@ -38,10 +38,10 @@ char ganchoAventura() {
 	// Escolha do gancho para a aventura
 
 	cout << "Qual deles você irá se aproximar:" << endl;
-	cout << "a) O homem aparentemente rico." << endl;
-	cout << "b) As pessoas sujas de carvão." << endl;
-	cout << "c) Os moradores da cidade." << endl;
-	cout << "d) Ninguém." << endl;
+	cout << "a) O homem aparentemente rico." << endl << endl;
+	cout << "b) As pessoas sujas de carvão." << endl << endl;
+	cout << "c) Os moradores da cidade." << endl << endl;
+	cout << "d) Ninguém." << endl << endl;
 
     while(tolower(escolhaGancho) == 'z') {
     	cin >> escolhaGancho;
@@ -54,20 +54,20 @@ char ganchoAventura() {
     		cout << "Prefeito: doenca extremamente letal. Não pude deixar de notar" << endl;
     		cout << "Prefeito: que você é um aventureiro, você poderia nos ajudar" << endl;
     		cout << "Prefeito: a acabar com essa doença? Por favor, muitos já" << endl;
-    		cout << "Prefeito: morreram com essa praga." << endl;
+    		cout << "Prefeito: morreram com essa praga." << endl << endl;
 
     	} else if (tolower(escolhaGancho) == 'b') {
     		cout << "Voce nao demora muito pra perceber que eles sao mineradores" << endl;
     		cout << "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:" << endl;
     		cout << "Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte." << endl;
-    		cout << "Minerador: voce parece forte. Por favor, acabe com esse mal!" << endl;
+    		cout << "Minerador: voce parece forte. Por favor, acabe com esse mal!" << endl << endl;
 
     	} else if (tolower(escolhaGancho) == 'c') {
     		cout << "Voce encontra diversos moradores atonitos na vila." << endl;
     		cout << "Uma das moradoras se aproxima de voce e diz:" << endl;
     		cout << "Senhora: senhor, me desculpe. Nao pude deixar de notar que o senhor parece um aventureiro" << endl;
     		cout << "Senhora: meus dois filhos ja foram tomados pela praga. Eu imploro, por favor acabe com isso." << endl << endl;
-    		cout << "O que você responderá pra ela:" << endl;
+    		cout << "O que você responderá pra ela:" << endl << endl;
 
     		cout << "a) Você poderia falar mais sobre essa praga?" << endl;
 				cout << "b) Onde eu posso acabar com isso?" << endl;
@@ -176,7 +176,7 @@ char segundaChance(Personagem &personagem) {
   	return escolhaDialogo2;
 }
 
-void imprimirPrimeiroFinal() {
+void imprimePrimeiroFinal() {
 	cout << "Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila." << endl;
 	cout << "Duas semanas depois, em outra vila a procura de um artefato." << endl;
 	cout << "Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela" << endl;
@@ -385,7 +385,6 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 		cout << "c) Eu posso pagar uma quantia generosa se vocês esquecerem que" << endl;
 		cout << "me viram. (Suborno)" << endl << endl;
 
-		aumentarXP(ficha, 1000);
 		dadoPersuasao = rolarDado(20) + ficha.atributos.carisma;
 
 		while (true) {
@@ -397,6 +396,7 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 					cout << "O que parece ser o capitao daquele pequeno grupo fala:" << endl;
 					cout << "Capitao: Nao temos forca pra lutar, doenca enfraquecer e matar" << endl;
 					cout << "amigos. Humano pode seguir em frente." << endl;
+					aumentarXP(ficha, 2500);
 				} else {
 					escolhaCombate = 'c';
 				}
@@ -408,6 +408,7 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 					cout << "Os kobolds parecem, de fato, ficarem intimidados com voce." << endl;
 					cout << "O que parece o capitao daquele pequeno grupo fala:" << endl;
 					cout << "Tudo bem, humano pode passar. Só não nos mate, por favor." << endl;
+					aumentarXP(ficha, 2250);
 
 				} else {
 					escolhaCombate = 'c';
@@ -423,7 +424,7 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 					cout << "força ou coragem de lutar." << endl;
 					cout << "Voce entrega o dinheiro para eles e segue seu caminho." << endl;
 					escolhaCombate = 'm';
-					aumentarXP(ficha, 500);
+					aumentarXP(ficha, 2000);
 					adicionaDinheiro(ficha, -200);
 				} else {
 					escolhaCombate = 'c';
@@ -440,7 +441,11 @@ char dialogoCombateRefeitorio(Ficha &ficha) {
 	if(dadoCarisma < 13 or escolhaCombate == 'c') {
 		cout << "O que parece ser o capitao daquele pequeno grupo fala:" << endl;
 		cout << "Capitao: Nao importa o que humano fale, voce morre agora!" << endl;
-		//Iniciar combate.
+		
+		//Iniciar combate. 
+		//Drops: 2 poções de vida e 2 de mana, bem como um minério de moonstone.
+
+		aumentarXP(ficha, 2000);
 	}
 
 	return escolhaCombate;
@@ -552,8 +557,9 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
 
 }
 
-char DepensaCaverna(Ficha &ficha, Escolhas &escolhas) {
-	int dadoSorte;
+char depensaCaverna(Ficha &ficha) {
+	int checkResistencia;
+	char ficouContaminado;
 
 	cout << "Uma porta de madeira fechada barra a entrada para essa" << endl;
 	cout << "sala. Ao abrir porta você observa que esta sala longa" << endl;
@@ -561,20 +567,208 @@ char DepensaCaverna(Ficha &ficha, Escolhas &escolhas) {
 	cout << "de alimentos e outros suprimentos. Pesados sacos" << endl;
 	cout << "de estopa estão empilhados até o teto no canto" << endl;
 	cout << "oposto da câmara. Uns poucos rasgados, espalhando" << endl;
-	cout << "aveia e farinha no chão. Muitos barris estão agrupados" << endl;
-	cout << "próximos à parede norte." << endl << endl;
+	cout << "aveia e farinha no chão. Muitos barris estão" << endl;
+	cout << "agrupados próximos à parede norte." << endl << endl;
 
 	cout << "Ao entrar na sala, uma armadilha é ativada!";
 	cout << "Uma flecha é lançada em sua direção." << endl;
 
-	dadoSorte = rolarDado(20) + (ficha.atributos.sorte / 4);
+	checkResistencia = rolarDado(20) + (ficha.atributos.sorte / 4);
+	// Remover depois.
+	cout << checkResistencia << endl;
 
-	if(dadoSorte >= 11) {
+	if(checkResistencia >= 11) {
 		cout << "Por sorte, a armadilha não te acerta." << endl;
 	} else {
-		cout << "A flecha cravou no seu peito." << endl;
+		cout << "A flecha perfura o seu ombro. Causando" << endl;
+		cout << "um ferimento moderado." << endl;
 		//Diminuir vida.
 	}
+
+	cout << "" << endl;
+	cout << "A armadilha chama a atenção de algumas criaturas" << endl;
+	cout << "que estavam nos barris e elas irão atacar você." << endl;
+	cout << "Essas criaturas são ratos, no entanto, bem maiores" << endl;
+	cout << "que o normal, e você tem a impressão que pode pegar" << endl;
+	cout << "a praga lutando com elas." << endl;
+
+	//iniciaBatlha(ficha) Drops: Arma +2 da classe, óleo;
+
+
+	checkResistencia = rolarDado(20) + (ficha.atributos.vitalidade / 4);
+	aumentarXP(ficha, 2000);
+	cout << checkResistencia << endl;
+
+	if(checkResistencia >= 10) {
+		cout << "Apesar do contato com os ratos, você consegue" << endl;
+		cout << "resistir a praga." << endl;
+		ficouContaminado = 'n';
+	} else {
+		cout << "Após o combate, você sente que algo está errado..." << endl;
+		cout << "Você está se sentindo um pouco mais fraco, talvez" << endl;
+		cout << "você tenha contraído a praga." << endl;
+		ficouContaminado = 's';
+	}
+
+	cout << "" << endl;
+	cout << "Em um dos barris, você encontra duas poções de vida" << endl;
+	cout << "e duas poções de mana, naturalmente você guarda elas." << endl;
+	cout << "Elas podem ser bastante úteis no futuro." << endl << endl;
+
+
+	cout << "Após os achados, você começa a descer uma rampa que" << endl;
+	cout << "leva a uma parte inferior da caverna. Aos poucos " << endl;
+	cout << "ela vai ficando muito íngrime, a um ponto que te" << endl;
+	cout << "faz perder o equilíbrio e descer o resto da rampa" << endl;
+	cout << "deslizando a mesma." << endl << endl;
+	
+	return ficouContaminado;
+}
+
+void rampaCaverna(Ficha &ficha) {
+	char escolhaCaminho;
+
+	cout << "Após descer a rampa e chegar no fundo da caverna" << endl;
+	cout << "você olha que esta caverna enorme se estende" << endl;
+	cout << "para cima até pelo menos 30 m, subindo alto para" << endl;
+	cout << "dentro das entranhas da montanha. A iluminação" << endl;
+	cout << "ocasionalmente reflete pequenos grãos prateados," << endl;
+	cout << "que brilham na face parede oeste da caverna." << endl;
+	cout << "Muitos cabos estão pendurados na beirada de um" << endl;
+	cout << "largo vazio na parede. O buraco penetra a face" << endl;
+	cout << "oeste da caverna e começa a cerca de 6 m de" << endl;
+	cout << "onde você está. O ar aqui é mais frio e úmido." << endl << endl;
+
+	cout << "De repente, você escuta vários passos. Não de" << endl;
+	cout << "humanoides, mas de animais. Uma matilha de" << endl;
+	cout << "lobos aparece por trás de algumas pedras e" << endl;
+	cout << "começa a te cercar, e eles vão te atacar!" << endl << endl;
+
+	//IniciaCombate(ficha);
+	aumentarXP(ficha, 2000);
+
+	cout << "Após o combate, você percebe que pode escalar" << endl;
+	cout << "aqueles cabos pendurados. No entanto, também" << endl;
+	cout << "existe um túnel à frente, o que você vai" << endl;
+	cout << "fazer?" << endl << endl;
+	cout << "a) Escalar os cabos." << endl << endl;
+	cout << "b) Seguir em frente." << endl << endl;
+
+	while(true) {
+		cin >> escolhaCaminho;
+
+		if(tolower(escolhaCaminho) == 'a') {
+			int checkObservar = rolarDado(20);
+
+			if(checkObservar >= 5) {
+				cout << "Aṕos escalar os cabos, você sobe em uma" << endl;
+				cout << "pedra e exerga uma passagem para o que" << endl;
+				cout << "parece um acampamento, você consegue" << endl;
+				cout << "exergar que existem muitos tesouros" << endl;
+				cout << "lá dentro." << endl << endl;
+
+				acampamentoSecreto(ficha);
+
+			} else {
+				cout << "Você escala os cabos, mas devido ao escuro," << endl;
+				cout << "você não consegue enxergar nada. Sua única" << endl;
+				cout << "opção é voltar e seguir o outro caminho." << endl << endl;
+			}
+
+			break;
+		} else if (tolower(escolhaCaminho) == 'b') {
+			cout << "Você prefere não se arriscar escalando esses" << endl;
+			cout << "cabos. É mais sensato manter o foco e seguir" << endl;
+			cout << "o caminho." << endl << endl;
+			break;
+		} else {
+			cout << "Opcao invalida!" << endl;
+		}
+
+	}
+}
+
+void acampamentoSecreto(Ficha &ficha) {
+	char escolhaAcampamento;
+
+	cout << "Ao entrar na passagem, você encontra o acampa-" << endl;
+	cout << "mento dos Kobolds, usado como área de estoque" << endl;
+	cout << "e dormitório. Você encontra um baú e dois" << endl;
+	cout << "jovens Kobolds, que estão olhando para você" << endl;
+	cout << "e estão amedrontados. Um deles utiliza um capuz" << endl;
+	cout << "que parece valioso." << endl;
+	cout << "O que você irá fazer?" << endl;
+	cout << "a) Matar eles e ficar com a capa." << endl;
+	cout << "b) Poupar a vida deles e pegar apenas o tesouro." << endl;
+
+	while(true) {
+		cin >> escolhaAcampamento;
+
+		if(tolower(escolhaAcampamento) == 'a') {
+			cout << "Para você, a capa é mais valiosa que a vida" << endl;
+			cout << "deles. Você os mata sem remorso e pega a" << endl;
+			cout << "capa deles, com um pouco de investigação" << endl;
+			cout << "você descobre que é uma capa da proteção." << endl << endl;
+			//Drop: Capa da proteção +1
+			break;
+		} else if (tolower(escolhaAcampamento) == 'b') {
+			cout << "Você poupa a vida deles, afinal, eles não" << endl;
+			cout << "fizeram absolutamente nada. Simplesmente não" << endl;
+			cout << "seria justo. Você pega três poções de vida" << endl;
+			cout << "e duas de mana. Logo após, você desce os cabos " << endl;
+			cout << "E segue o outro caminho." << endl << endl;
+			aumentarXP(ficha, 1000);
+			//Drop: Três poções de vida e duas de mana.
+			break;
+		} else {
+			cout << "Opcao invalida!" << endl;
+		}
+
+	}
+
+}
+
+void pioraCondicao (Ficha &ficha) {
+	cout << "A leve fraqueza que você estava sentindo" << endl;
+	cout << "está demasiadamente pior, você já sente" << endl;
+	cout << "um pouco de dificuldade em movimentos" << endl;
+	cout << "bruscos ou que precisam de força. No entanto," << endl;
+	cout << "você continua determinado a acabar com esse" << endl;
+	cout << "problema." << endl << endl;
+	//TODO alterar a vitalidade.
+}
+
+void fossoCadaveres(Ficha &ficha) {
+	int checkInteligencia;
+
+	cout << "Você passa pelo túnel. Ondas de calor banham" << endl;
+	cout << "a caverna, adensando o ar e tornando a" << endl;
+	cout << "respiração difícil. Esta caverna pequena e" << endl;
+	cout << "em forma de tigela possui o chão cheio de" << endl;
+	cout << "cadáveres humanóides. A abertura de um túnel" << endl;
+	cout << "é visível na parede leste da câmara" << endl;
+	cout << "e, na distância, o som de água corrente" << endl;
+	cout << "pode ser ouvido." << endl << endl;
+
+	checkInteligencia = rolarDado(20) + (ficha.atributos.inteligencia / 4);
+
+	if(checkInteligencia >= 8) {
+		cout << "Você acredita que aqui é o fosso da criação" << endl;
+		cout << "da praga. Sejá la quem for que está fazendo" << endl;
+		cout << "isso, não deve ficar longe de onde você está." << endl << endl;
+	}
+
+	cout << "Quatro zumbis levantam-se de um dos montes" << endl;
+	cout << "de corpos! Prepare-se para o combate!" << endl;
+	
+	//IniciaCombate(ficha);
+	aumentarXP(ficha, 2000);
+
+	cout << "" << endl;
+	cout << "Algo dentro de você diz que isso está perto" << endl;
+	cout << "de acabar. Ao calmo som de água corrente. Você" << endl;
+	cout << "entra no estreito túnel a leste." << endl;
+
 }
 
 void finalJakk(Ficha &ficha, Escolhas &escolhas) {
@@ -584,7 +778,7 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas) {
 	int dadoReligiao = rolarDado(20) + ficha.atributos.inteligencia;
 
 	cout << "" << endl;
-	cout << "Ao entrar, nessa parte da caverna, voce observa um" << endl;
+	cout << "Ao entrar, nessa parte da caverna, você observa um" << endl;
 	cout << "único pilar irregular, de pedra e cheio de um musgo" << endl;
 	cout << "emerge das profundezas de um lago no centro da caverna." << endl;
 	cout << "A água cai pelas suas laterais de uma fonte" << endl;
@@ -609,7 +803,7 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas) {
 
 	escolhas.conversaFinal.interpretouSimbolos = interpretouSimbolos;
 
-	cout << "No centro, voce percebe uma imponente presenca" << endl;
+	cout << "No centro, voce percebe uma imponente presena" << endl;
 	cout << "Um garnde orc, com uma armadura de metal e uma" << endl;
 	cout << "clava de aço na mão direita." << endl << endl;
 
@@ -621,23 +815,19 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas) {
 		cin >> escolhaLuta;
 
 		if(tolower(escolhaLuta) == 'a') {
-				solucao = ConversaJakk(ficha, escolhas);
-				escolhas.conversaFinal.resultadoConversa = solucao;
-				break;
+			solucao = ConversaJakk(ficha, escolhas);
+			escolhas.conversaFinal.resultadoConversa = solucao;
+			break;
 		} else if (tolower(escolhaLuta) == 'b') {
-			solucao = 'c';
+
+			cout << "O Orc prepara sua maça enquanto você corre" << endl;
+			cout << "em sua direção." << endl << endl;
+			escolhas.conversaFinal.resultadoConversa = 'c';
 			break;
 		} else {
 			cout << "Opcao invalida!" << endl;
 		}
 
-	}
-
-	if(solucao == 'p') {
-		imprimeFinalPacifico(ficha, escolhas);
-	} else {
-		//Combate
-		imprimeFinalViolento(ficha, escolhas);
 	}
 
 }
@@ -649,15 +839,18 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 	char solucaoJakk;
 	bool interpretouSimbolos = escolhas.conversaFinal.interpretouSimbolos;
 
-	cout << "Jakk: Meu nome é Jakk, o que voce quer? Eu sei que" << endl;
-	cout << "Jakk: voce nao tem a cura. Tenho certeza disso." << endl;
+	cout << "Jakk: Meu nome é Jakk, o que voce quer? Voce" << endl;
+	cout << "Jakk: se arricou muito para chegar aqui." << endl;
+	cout << "Jakk: Que tolice." << endl;
 	cout << "O que voce irá responder: (Digite a, b ou c.)" << endl << endl;
-	cout << "a) Como voce sabe?" << endl << endl;
-	cout << "b) Eu tenho sim a cura." << endl << endl;
+	cout << "a) O que você sabe sobre a praga?" << endl << endl;
+	cout << "b) Eu tenho a cura, me mate e você nunca a obterá." << endl;
+	cout << "(Enganação)" << endl << endl;
 	cout << "c) Não importa o que voce sabe, eu vim aqui para lutar" << endl;
 	cout << "com voce." << endl << endl;
 
 	while(true) {
+
 		cin >> escolhaConversa;
 
 		if(tolower(escolhaConversa) == 'a') {
@@ -682,15 +875,16 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 	cout << "" << endl;
 	cout << "O que voce irá responder: (Digite a, b)" << endl << endl;
 	cout << "a) Por que está fazendo isso?" << endl;
-	cout << "b) Entao eu tenho o dever de para-lo." << endl << endl;
+	cout << "b) Então eu tenho o dever de pará-lo." << endl << endl;
 
 	while(true) {
+
 		cin >> respostaJakk;
 
 		if(tolower(respostaJakk) == 'a') {
 			cout << "Jakk: 10 anos atras, o povo de Passagem de Duvik quase" << endl;
-			cout << "Jakk: exterminou o meu cla, o clã Garra Despedaçante, pois" << endl;
-			cout << "Jakk: achavam que nós eramos uma ameaça. Eles não quiseram" << endl;
+			cout << "Jakk: exterminou o meu clã, o clã Garra Despedaçante, pois" << endl;
+			cout << "Jakk: achavam que nós éramos uma ameaça. Eles não quiseram" << endl;
 			cout << "Jakk: ter nenhuma forma de conversa. Essa é a vinganca" << endl;
 			cout << "Jakk: do meu clã." << endl;
 			break;
@@ -813,35 +1007,31 @@ void imprimeVarianciasFinal(Ficha &ficha, Escolhas &escolhas) {
 	} else {
 		cout << "Meruen, o seu amigo que requisitou a missão, se aproxima" << endl;
 		cout << "e diz:" << endl;
-		cout << "Meruen: Eu tinha certeza que você conseguiria." << endl;
-		cout << "Meruen: Você não salvou minha vida como a de quase" << endl;
+		cout << "Meruen: Eu tinha certeza que você conseguiria, " << ficha.personagem.nome << "." << endl;
+		cout << "Meruen: Você não só salvou minha vida como a de quase" << endl;
 		cout << "Meruen: todos daqui da vila. Somos todos muito gratos" << endl;
-		cout << "Meruen: a você. Aqui estão 500 peças de ouro. Como uma" << endl;
+		cout << "Meruen: a você. Aqui estão 500 peças de ouro, como uma" << endl;
 		cout << "Meruen: forma de agradadecimento. Por fim, volte" << endl;
 		cout << "Meruen: aqui de vez em quando. Seria muito bom" << endl;
 		cout << "Meruen: te ver novamente!" << endl;
 	}
 }
 
-void imprimeFinalPacifico(Ficha &ficha, Escolhas &escolhas) {
-	cout << "Após convencer Jakk a terminar a maldicao. A agua" << endl;
-	cout << "amaldicoada, que servia como abastecimento de Passagem" << endl;
+void imprimeFinalPacifico() {
+	cout << "Após convencer Jakk a terminar a maldição. A água" << endl;
+	cout << "amaldiçoada, que servia como abastecimento de Passagem" << endl;
 	cout << "de Duvik, foi aos poucos sendo purificada. Os sintomas" << endl;
 	cout << "da Febre que afetam as pessoas de Passagem de Duvik" << endl;
 	cout << "começaram a diminuir. E a ordem voltou a reinar na cidade." << endl << endl;
 
-	imprimeVarianciasFinal(ficha, escolhas);
-
 }
 
-void imprimeFinalViolento(Ficha &ficha, Escolhas &escolhas) {
+void imprimeFinalViolento() {
 	cout << "Derrotar Jakk já possui um efeito visível imediato" << endl;
 	cout << "nas águas da nascente, que	começa a ficar limpa da sujeira" << endl;
 	cout << "da Febre logo após sua morte. Os sintomas" << endl;
 	cout << "da Febre que afetam as pessoas de Passagem de Duvik" << endl;
-	cout << "começaram a diminuir. E a ordem voltou a reinar na cidade." << endl;
-
-	imprimeVarianciasFinal(ficha, escolhas);
+	cout << "começaram a diminuir. E a ordem voltou a reinar na cidade." << endl << endl;
 }
 
 void imprimeFuturoVila() {
@@ -849,10 +1039,10 @@ void imprimeFuturoVila() {
 	cout << "reestruturar e a prosperar novamente. Alguns" << endl;
 	cout << "anos depois, Passagem de Duvik se tornou uma das maiores" << endl;
 	cout << "e ricas cidades do reino. No centro dela, há uma estatua sua," << endl;
-	cout << "para relembrar quem tornou o sucesso dessa cidade possível!" << endl;
+	cout << "para relembrar quem tornou o sucesso dessa cidade possível!" << endl << endl;
 }
 
-void imprimirCreditos() {
+void imprimeCreditos() {
 
 	cout << "Obrigado por jogar: A Praga Carmesim!" << endl << endl;
 	cout << "Sistema inspirado: Dungeons and Dragons, quinta edicao." << endl << endl;
@@ -882,13 +1072,25 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
 	}
 
 	if(tolower(escolhasCidade.segundaChance) == 'n') {
-		imprimirPrimeiroFinal();
-		imprimirCreditos();
+		imprimePrimeiroFinal();
+		imprimeCreditos();
 	} else {
 		entradaMina(ficha);
 		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha);
 		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas);
+		escolhas.combateDespensa.contiminado = depensaCaverna(ficha);
+		rampaCaverna(ficha);
 		finalJakk(ficha, escolhas);
+
+		if(escolhas.conversaFinal.resultadoConversa == 'p') {
+			imprimeFinalPacifico();
+		} else {
+			imprimeFinalViolento();
+		}
+
+		imprimeVarianciasFinal(ficha, escolhas);
+		imprimeFuturoVila();
+		imprimeCreditos();
 	}
 
 }
