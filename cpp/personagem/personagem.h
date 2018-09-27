@@ -40,6 +40,34 @@ int getMaxMP(Ficha ficha);
 int getMP(Ficha ficha);
 void levelUp(Ficha &ficha);
 
+/**
+ * Retorna a quantidade atual de dinheiro do personagem
+ * @param inventario
+ * @return dinheiro
+ */
+int getDinheiro(Inventario inventario);  
+
+/**
+ * Retorna a força total do personagem.
+ * @param ficha
+ * @return soma da força base + força provinda dos itens
+ */
+int getForcaTotal(Ficha ficha);
+
+/**
+ * Retorna a inteligência total do personagem.
+ * @param ficha
+ * @return soma da inteligência base + inteligência provinda dos itens
+ */
+int getInteligenciaTotal(Ficha ficha);
+
+/**
+ * Retorna a destreza total do personagem.
+ * @param ficha
+ * @return soma da destreza base + destreza provinda dos itens
+ */
+int getDestrezaTotal(Ficha ficha);
+
 /** 
  * Adiciona a quantia especificada de dinheiro ao inventário do personagem;
  * @param ficha

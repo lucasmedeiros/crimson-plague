@@ -33,22 +33,37 @@ void aumentarXP(Ficha &ficha, int xp) {
 }
 
 int getDano(Ficha ficha) {
-	int danoBase = rolarDado(8);
 	int atributoDeClasse;
 
 	if (ficha.personagem.classe == Classe::GUERREIRO)
-		atributoDeClasse = ficha.atributos.forca;
+		atributoDeClasse = getForcaTotal(ficha);
 	else if (ficha.personagem.classe == Classe::MAGO)
-		atributoDeClasse = ficha.atributos.inteligencia;
+		atributoDeClasse = getInteligenciaTotal(ficha);
 	else
-		atributoDeClasse = ficha.atributos.destreza;
+		atributoDeClasse = getDestrezaTotal(ficha);
 
-	return danoBase + floor(atributoDeClasse/4) + getDanoItens(ficha.inventario);
+	return floor(atributoDeClasse/4) + getDanoItens(ficha.inventario);
 };
 
 int getDefesa(Ficha ficha) {
-	int armadura = 0;
-	return 10 + armadura + floor(ficha.atributos.destreza/4);
+	int armadura = getArmadura(ficha.inventario);
+	return 10 + armadura + floor(getDestrezaTotal(ficha)/4);
 };
 
 string getNome(Ficha ficha) { return ficha.personagem.nome; }
+
+int getForcaTotal(Ficha ficha) {
+	return ficha.atributos.forca + getForca(ficha.inventario);
+}
+
+int getInteligenciaTotal(Ficha ficha) {
+	return ficha.atributos.inteligencia + getInteligencia(ficha.inventario);
+}
+
+int getDestrezaTotal(Ficha ficha) {
+	return ficha.atributos.destreza + getDestreza(ficha.inventario);
+}
+
+int getDinheiro(Inventario inventario) {
+	return inventario.dinheiro;
+}
