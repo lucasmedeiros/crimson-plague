@@ -63,7 +63,7 @@ Item* carregarTdsItens();
 /**
  * @return o dano do item
  */
-int getDano(Item item);
+int getDanoArma(Item item);
 
 /**
  * @return a recuperacao maxima de hp do item (consumivel)

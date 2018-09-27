@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int getDano(Item item){return item.atrb.dano;}
+int getDanoArma(Item item){return item.atrb.dano;}
 string getNome(Item item){return item.nome;}
 int getRecHPMax(Item item){return item.recHPMax;}
 int getRecMPMax(Item item){return item.recMPMax;}

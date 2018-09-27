@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int getDanoItens(Inventario inventario){return getDano(inventario.equipados.arma);}
+int getDanoItens(Inventario inventario){return getDanoArma(inventario.equipados.arma);}
 
 void iniciarItensBasicos(Inventario inventario){
     Item* todosItens = inventario.tdsItens;
