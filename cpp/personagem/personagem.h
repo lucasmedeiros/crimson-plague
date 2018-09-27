@@ -41,6 +41,13 @@ int getMP(Ficha ficha);
 void levelUp(Ficha &ficha);
 
 /**
+ * Adiciona a quantia especificada à vitalidade do personagem.
+ * @param ficha
+ * @param quantia
+ */
+void alteraVitalidade(Ficha &ficha, int quantia);
+
+/**
  * Retorna a quantidade atual de dinheiro do personagem
  * @param inventario
  * @return dinheiro

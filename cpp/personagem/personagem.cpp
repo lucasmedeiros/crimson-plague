@@ -67,3 +67,7 @@ int getDestrezaTotal(Ficha ficha) {
 int getDinheiro(Inventario inventario) {
 	return inventario.dinheiro;
 }
+
+void alteraVitalidade(Ficha &ficha, int quantia) {
+  ficha.atributos.vitalidade += quantia;
+}
