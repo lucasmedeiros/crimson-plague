@@ -10,16 +10,10 @@ using namespace std;
 #define SP_BASE 20
 
 void adicionaDinheiro(Ficha &ficha, int quantia) { ficha.inventario.dinheiro += quantia; }
-
 int getHP(Ficha ficha) { return ficha.personagem.hp; }
-int getMaxHP(Ficha ficha) {
-	return (HP_BASE + round(ficha.atributos.vitalidade * MULT_VIT_HP));
-}
-
+int getMaxHP(Ficha ficha) { return (HP_BASE + round(ficha.atributos.vitalidade * MULT_VIT_HP)); }
 int getMP(Ficha ficha) { return ficha.personagem.mp; }
-int getMaxMP(Ficha ficha) {
-	return (SP_BASE + round(ficha.atributos.inteligencia * MULT_INT_MP));
-}
+int getMaxMP(Ficha ficha) { return (SP_BASE + round(ficha.atributos.inteligencia * MULT_INT_MP)); }
 
 int getLevel(Ficha ficha) { return ficha.personagem.level; }
 void levelUp(Ficha &ficha) { ficha.personagem.level += 1; }
@@ -51,27 +45,11 @@ int getDefesa(Ficha ficha) {
 };
 
 string getNome(Ficha ficha) { return ficha.personagem.nome; }
-
-int getForcaTotal(Ficha ficha) {
-	return ficha.atributos.forca + getForca(ficha.inventario);
-}
-
-int getInteligenciaTotal(Ficha ficha) {
-	return ficha.atributos.inteligencia + getInteligencia(ficha.inventario);
-}
-
-int getDestrezaTotal(Ficha ficha) {
-	return ficha.atributos.destreza + getDestreza(ficha.inventario);
-}
-
-int getDinheiro(Inventario inventario) {
-	return inventario.dinheiro;
-}
-
-void alteraVitalidade(Ficha &ficha, int quantia) {
-  ficha.atributos.vitalidade += quantia;
-}
-
+int getForcaTotal(Ficha ficha) { return ficha.atributos.forca + getForca(ficha.inventario); }
+int getInteligenciaTotal(Ficha ficha) { return ficha.atributos.inteligencia + getInteligencia(ficha.inventario); }
+int getDestrezaTotal(Ficha ficha) { return ficha.atributos.destreza + getDestreza(ficha.inventario); }
+int getDinheiro(Inventario inventario) { return inventario.dinheiro; }
+void alteraVitalidade(Ficha &ficha, int quantia) { ficha.atributos.vitalidade += quantia; }
 int getModificadorDES(Ficha ficha) { return floor(getDestrezaTotal(ficha)/4); }
 int getModificadorINT(Ficha ficha) { return floor(getInteligenciaTotal(ficha)/4); }
 int getModificadorFOR(Ficha ficha) { return floor(getForcaTotal(ficha)/4); }
