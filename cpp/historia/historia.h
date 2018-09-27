@@ -1,11 +1,12 @@
 #include "../util.h"
 #include "../personagem/personagem.h"
+#include "../gui.h"
 
 using namespace std;
 
 struct EscolhasCidade {
-	char ganchoAventura;
-	char segundaChance;
+	int ganchoAventura;
+	int segundaChance;
 
 };
 

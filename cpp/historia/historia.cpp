@@ -1,130 +1,127 @@
 #include <iostream>
 #include "historia.h"
 
-char perguntaSimNao() {
-	char resposta;
-	char opcao;
+char perguntaSimNao(WINDOW *janelaMenu) {
+	int resposta;
 
-	while (tolower(opcao) != 's' and (tolower(resposta) != 's' or tolower(resposta) != 'n')) {
-    	cout << "O que você ira responder: (S/N) ";
-    	cin >> resposta;
-    	cout << "Tem certeza? (S/N): ";
-    	cin >> opcao;
-  }
+	string opcoesFala[2] = {"Sim", "Não"};
+	resposta = realizaPergunta(janelaMenu, "O que você irá responder: ", opcoesFala, 2);
 
   	return resposta;
 }
 
-void introducaoCidade() {
-	cout << "" << endl;
-	cout << "É uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade" << endl;
-	cout << "situada em um dos pequenos vales que cruzam as Montanhas Serpente." << endl;
-	cout << "Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros" << endl;
-	cout << "procurando descansar membros doloridos e afogar memórias ruins dentro de seus portões." << endl;
-	cout << "E você não é uma exceção. No entanto algo te parece estranho, a cidade parece bem vazia" << endl;
-	cout << "Você não consegue encontrar, os inúmeros animais que existiam ao redor da cidade." << endl;
+void introducaoCidade(WINDOW *janelaDialogo) {
+	string falas[6] = {"É uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade",
+	"situada em um dos pequenos vales que cruzam as Montanhas Serpente.",
+	"Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros",
+	"procurando descansar membros doloridos e afogar memórias ruins dentro de seus portões.",
+	"E você não é uma exceção. No entanto algo te parece estranho, a cidade parece bem vazia",
+	"Você não consegue encontrar, os inúmeros animais que existiam ao redor da cidade."};
+
+	mostraDialogo(janelaDialogo, "Introdução", falas, 6);
 }
 
-char ganchoAventura() {
-	char escolhaGancho = 'z';
-	char concordou = 'z';
-	char dialogo = 'z';
+int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+	int escolhaGancho = 0;
+	int concordou = 0;
+	int dialogo = 0;
 
-	cout << "Você está na praça principal da cidade, você percebe algumas pessoas que te chamam a atenção:" << endl;
-	cout << "Um homem com roupas nobres, não parece ser dessa cidade." << endl;
-	cout << "Um grupo de pessoas com manchas de carvão no rosto e braços." << endl;
-	cout << "Alguns moradores que estão claramente abatidos." << endl;
+	string descricaoPessoas[5] = {"Você está na praça principal da cidade e, percebe",
+	"algumas pessoas que te chamam a atenção:",
+	"Um homem com roupas nobres, não parece ser dessa cidade.",
+	"Um grupo de pessoas com manchas de carvão no rosto e braços.",
+	"Alguns moradores que estão claramente abatidos."};
+
+	mostraDialogo(janelaDialogo, "Praça da cidade", descricaoPessoas, 5);
 
 	// Escolha do gancho para a aventura
 
-	cout << "Qual deles você irá se aproximar:" << endl;
-	cout << "a) O homem aparentemente rico." << endl << endl;
-	cout << "b) As pessoas sujas de carvão." << endl << endl;
-	cout << "c) Os moradores da cidade." << endl << endl;
-	cout << "d) Ninguém." << endl << endl;
+	string pessoasPraca[4] = {"O homem aparentemente rico.",
+	"As pessoas sujas de carvão.",
+	"Os moradores da cidade.",
+	"Ninguém."};
 
-    while(tolower(escolhaGancho) == 'z') {
-    	cin >> escolhaGancho;
+	escolhaGancho = realizaPergunta(janelaMenu, "Qual deles você irá se aproximar:", pessoasPraca, 4);
 
-    	if(tolower(escolhaGancho) == 'a') {
+    if(escolhaGancho == 0) {
+		string dialogoMorador[7] = {"Ao se aproximar dele, voce escuta:",
+		"Prefeito: Saudações. Eu sou o prefeito dessa cidade.",
+		"Prefeito: muitos dos moradores da vila estão sofrendo de uma",
+		"Prefeito: doenca extremamente letal. Não pude deixar de notar",
+		"Prefeito: que você é um aventureiro, você poderia nos ajudar",
+		"Prefeito: a acabar com essa doença? Por favor, muitos já",
+		"Prefeito: morreram com essa praga."};
 
-    		cout << "Ao se aproximar dele, voce escuta:" << endl;
-    		cout << "Prefeito: Saudações. Eu sou o prefeito dessa cidade." << endl;
-    		cout << "Prefeito: muitos dos moradores da vila estão sofrendo de uma" << endl;
-    		cout << "Prefeito: doenca extremamente letal. Não pude deixar de notar" << endl;
-    		cout << "Prefeito: que você é um aventureiro, você poderia nos ajudar" << endl;
-    		cout << "Prefeito: a acabar com essa doença? Por favor, muitos já" << endl;
-    		cout << "Prefeito: morreram com essa praga." << endl << endl;
+		mostraDialogo(janelaDialogo, "Ao se aproximar dele, voce escuta:", dialogoMorador, 7);
 
-    	} else if (tolower(escolhaGancho) == 'b') {
-    		cout << "Voce nao demora muito pra perceber que eles sao mineradores" << endl;
-    		cout << "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:" << endl;
-    		cout << "Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte." << endl;
-    		cout << "Minerador: voce parece forte. Por favor, acabe com esse mal!" << endl << endl;
+    } else if (escolhaGancho == 1) {
+		string dialogoMorador[4] = {"Voce nao demora muito pra perceber que eles sao mineradores",
+		"Ao se aproximar, um dos mineradores, com os olhos arregalados grita:",
+		"Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
+		"Minerador: voce parece forte. Por favor, acabe com esse mal!"};
 
-    	} else if (tolower(escolhaGancho) == 'c') {
-    		cout << "Voce encontra diversos moradores atonitos na vila." << endl;
-    		cout << "Uma das moradoras se aproxima de voce e diz:" << endl;
-    		cout << "Senhora: senhor, me desculpe. Nao pude deixar de notar que o senhor parece um aventureiro" << endl;
-    		cout << "Senhora: meus dois filhos ja foram tomados pela praga. Eu imploro, por favor acabe com isso." << endl << endl;
-    		cout << "O que você responderá pra ela:" << endl << endl;
+		mostraDialogo(janelaDialogo, "Dialogo Minerador", dialogoMorador, 4);
 
-    		cout << "a) Você poderia falar mais sobre essa praga?" << endl;
-			cout << "b) Onde eu posso acabar com isso?" << endl;
+	} else if (escolhaGancho == 2) {
+		string dialogoMorador[4] = {"Voce encontra diversos moradores atonitos na vila.",
+		"Uma das moradoras se aproxima de voce e diz:",
+		"Senhora: senhor, me desculpe. Nao pude deixar de notar que o senhor parece um aventureiro",
+		"Senhora: meus dois filhos ja foram pegaram praga. Eu imploro, por favor acabe com isso."};
 
-			while(tolower(dialogo) == 'z') {
-				cin >> dialogo;
+		string opcoesFala[2] = {"Você poderia falar mais sobre essa praga?",
+		"Onde eu posso acabar com isso?"};
 
-				if(tolower(dialogo == 'a')) {
-					cout << "Senhora: Chamam de praga Carmesim, ela começa de forma inofensiva." << endl;
-					cout << "Senhora: Porem, aos poucos ela vai ficando pior. Cada vez mais roubando a sua forca." << endl;
-					cout << "Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca. Fazem quatro dias que meus filhos estao doentes..." << endl;
-					cout << "Senhora: Eu nao sei quanto tempo eles ainda podem aguentar... Por favor, acabe com essa praga." << endl;
-					cout << "Ela comeca a chorar. Solucando um pouco, ela diz:" << endl;
-					cout << "Senhora: Esse problema comecou na mina, tenho certeza que esse mal vem de la. Por favor, me ajude..." << endl;
+		dialogo = realizaPergunta(janelaMenu, "O que você responderá pra ela:", opcoesFala, 2);
 
-				} else if (tolower(dialogo) == 'b') {
-					cout << "Senhora: Esse problema comecou na mina, tenho certeza que esse mal vem de la." << endl;
-					cout << "Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca. Fazem quatro dias que meus filhos estao doentes..." << endl;
-					cout << "Senhora: Eu nao sei quanto tempo eles ainda podem aguentar... Por favor, acabe com essa praga." << endl;
-					cout << "Apesar de tentar disfacar, voce percebe que ela comeca a chorar." << endl;
+		if(dialogo == 0) {
+				string falasSenhora[6] = {"Senhora: Chamam de praga Carmesim, ela começa de forma inofensiva.",
+				"Senhora: Porem, aos poucos ela vai ficando pior. Cada vez mais roubando a sua forca.",
+				"Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca.", 
+				"Senhora: Fazem quatro dias que meus filhos estao doentes...",
+				"Ela comeca a chorar. Solucando um pouco, ela diz:" ,
+				"Senhora: Esse problema comecou na mina, tenho certeza que esse mal vem de la. Por favor, me ajude..."};
 
-				} else {
-					cout << "Opção inválida!" << endl;
-    			dialogo = 'z';
-				}
+				mostraDialogo(janelaDialogo, "Ela responde:", falasSenhora, 6);
 
-			}
+		} else {
+			string falasSenhora[5] = {"Senhora: Esse problema comecou na mina, tenho certeza que esse mal vem de la.",
+			"Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca.", 
+			"Senhora: Fazem quatro dias que meus filhos estao doentes...",
+			"Senhora: Eu nao sei quanto tempo eles ainda podem aguentar... Por favor, acabe com essa praga.",
+			"Apesar de tentar disfaçar, você percebe que ela começa a chorar."
+			};
 
-    	} else if (tolower(escolhaGancho) == 'd') {
-    		cout << "Isso nao e problema seu. Voce ja tem problemas demais pra resolver." << endl;
-    		cout << "Esses camponeses conseguem resolver esse problema sozinho. Voce tem certeza disso." << endl;
+			mostraDialogo(janelaDialogo, "Ela responde:", falasSenhora, 4);
 
+		} 
+
+    } else {
+		string descricaoNinguem[3] = {"Isso não é problema seu. Você já tem problemas demais pra resolver.",
+		"Esses camponeses conseguem resolver esse problema sozinho.",
+		"Ao menos você acha isso."};
+		mostraDialogo(janelaDialogo, "Conclusão", descricaoNinguem, 3);
+	}
+    
+    if(escolhaGancho != 3) {
+    	concordou = perguntaSimNao(janelaMenu);
+		string respotaPessoa[1] = {};
+
+    	if(concordou == 1) {
+    		respostaPessoa[0] = "Com um olhar de desaprovação, lentamente começam a se afastar de você.";
     	} else {
-    		cout << "Opção inválida!" << endl;
-    		escolhaGancho = 'z';
-    	}
-
-    }
-
-    if(tolower(escolhaGancho) != 'd') {
-    	concordou = perguntaSimNao();
-
-    	if(tolower(concordou) == 'n'){
-    		escolhaGancho = 'd';
-    		cout << "Com um olhar de desaprovacao, lentamente comecam a se afastar de voce." << endl;
-    	} else {
-    		cout << "Mal sei o que dizer. Muito obrigado!!" << endl;
+    		respostaPessoa[0] =  "Mal sei o que dizer. Muito obrigado!!";
     	}
     }
 
-	cout << escolhaGancho << endl;
+	mostraDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
+	
 	return escolhaGancho;
 }
 
 char segundaChance(Personagem &personagem) {
-	char escolhaDialogo = 'z';
-	char escolhaDialogo2 = 'z';
+	char escolhaDialogo;
+	char escolhaDialogo2;
+
 
 	cout << "Uma pessoa se aproxima de você, ela te parece familiar" << endl;
 	cout << "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen." << endl;
@@ -1058,14 +1055,14 @@ void imprimeCreditos() {
 
 }
 
-void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
+void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	EscolhasCidade escolhasCidade = escolhas.escolhasCidade;
 	EscolhasRecepcao escolhasRecepcao = escolhas.escolhasRecepcao;
 	Personagem personagem = ficha.personagem;
 
-	introducaoCidade();
+	introducaoCidade(janelaDialogo);
 
-	escolhasCidade.ganchoAventura = ganchoAventura();
+	escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
 
 	if(tolower(escolhasCidade.ganchoAventura) == 'd') {
 		escolhasCidade.segundaChance = segundaChance(personagem);
