@@ -4,6 +4,8 @@
 #include "personagem.h"
 using namespace std;
 
+#define HABILIDADES_POR_CIRCULO 1
+
 Habilidade getHabilidade(string* informacoes) {
 	Habilidade habilidade;
 	habilidade.id = stoi(informacoes[0].c_str());
@@ -42,7 +44,7 @@ int qtdHabilidadesDisponiveis(Ficha ficha) {
 	int qtdHabilidades = 0;
 	if (ficha.personagem.classe == Classe::MAGO) {
 		int circulo = floor((ficha.personagem.level - 1) / 2);
-		qtdHabilidades = (circulo + 1) * 4;
+		qtdHabilidades = (circulo + 1) * HABILIDADES_POR_CIRCULO;
 	}
 	return qtdHabilidades; 
 }
