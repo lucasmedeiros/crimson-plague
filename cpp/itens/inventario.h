@@ -24,7 +24,7 @@ struct Inventario{
     int dinheiro;
 
 };
-
+void imprimeMochila(Inventario inventario);
 
 /**
  * @retorna um item especifico do inventario pelo id

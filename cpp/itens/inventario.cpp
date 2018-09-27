@@ -188,7 +188,18 @@ void equiparItem(int numero, Inventario &inventario){
         cout << "item não encontrado" << endl;
     }
 }
-
+ void imprimeMochila(Inventario inventario){
+    cout << "======= Mochila =======" << endl;
+    for(int i = 0; i < inventario.tamInvent; i++){
+        if(inventario.mochila[i].id != 34){
+            cout << "| " << i + 1 << '.' << inventario.mochila[i].nome << " (" << inventario.quantidade[i] << "x)"<< endl; 
+        }else{
+           cout << "| " << i + 1 << '.' << inventario.mochila[i].nome  <<  endl; 
+        }
+    }
+    cout << "| " << "Dinheiro: " << inventario.dinheiro << endl << endl; 
+    cout << "=======================" << endl;
+ }
 
 void imprimeInventario(Inventario inventario){
     cout << "======================== Inventário ========================" << endl << endl;

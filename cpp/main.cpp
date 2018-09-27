@@ -52,6 +52,7 @@ Inventario iniciaInventario(Ficha ficha){
   inventario.quantidade = iniciaArrayZerado(inventario.tamInvent);
   inventario.classe = ficha.personagem.classe;
   iniciarItensBasicos(inventario);
+  imprimeMochila(inventario);
   return inventario;
 }
 
