@@ -71,3 +71,7 @@ int getDinheiro(Inventario inventario) {
 void alteraVitalidade(Ficha &ficha, int quantia) {
   ficha.atributos.vitalidade += quantia;
 }
+
+int getModificadorDES(Ficha ficha) { return floor(getDestrezaTotal(ficha)/4); }
+int getModificadorINT(Ficha ficha) { return floor(getInteligenciaTotal(ficha)/4); }
+int getModificadorFOR(Ficha ficha) { return floor(getForcaTotal(ficha)/4); }

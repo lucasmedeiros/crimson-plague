@@ -41,6 +41,27 @@ int getMP(Ficha ficha);
 void levelUp(Ficha &ficha);
 
 /**
+ * Retorna o total de destreza do personagem dividido por 4 (arredondado pra baixo)
+ * @param ficha
+ * @return modificador de destreza
+ */
+int getModificadorDES(Ficha ficha);
+
+/**
+ * Retorna o total de força do personagem dividido por 4 (arredondado pra baixo)
+ * @param ficha
+ * @return modificador de força
+ */
+int getModificadorFOR(Ficha ficha);
+
+/**
+ * Retorna o total de inteligência do personagem dividido por 4 (arredondado pra baixo)
+ * @param ficha
+ * @return modificador de inteligência
+ */
+int getModificadorINT(Ficha ficha);
+
+/**
  * Adiciona a quantia especificada à vitalidade do personagem.
  * @param ficha
  * @param quantia
