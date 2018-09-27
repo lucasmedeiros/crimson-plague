@@ -119,6 +119,23 @@ void ataqueMonstro(Ficha &ficha) {
     cout << " danos a você." << endl;
 }
 
+void abrirMochila(Ficha &ficha) {
+    imprimeMochila(ficha.inventario);
+    int op = -1;
+
+    while(true) {
+        cout << "Quer usar qual? " << endl;
+        cin >> op;
+
+        if (op < 1 && op >= ficha.inventario.tamInvent) {
+            usarItemConsumivel(op, ficha);
+            break;
+        } else {
+            cout << "Opção INVÁLIDA!" << endl;
+        }
+    }
+}
+
 int menuCombate(Ficha &ficha) {
     cout << "O que você faz? (Digite a opção...)" << endl;
     int op = -1;
@@ -130,18 +147,17 @@ int menuCombate(Ficha &ficha) {
             cout << "(1) -> Atacar? " << endl;
         }
 
-        //TODO cout << "(2) -> Abrir Inventário? " << endl;
-        cout << "(2) -> Tentar fugir?" << endl;
+        cout << "(2) -> Abrir mochila? " << endl;
+        cout << "(3) -> Tentar fugir?" << endl;
 
         cin >> op;
 
-        if (op < 1 && op > 2) {
+        if (op < 1 && op > 3) {
             cout << "Opcao Invalida!" << endl;
         } else {
             break;
         }
     }
-
     return op;
 }
 
@@ -177,6 +193,8 @@ void iniciaBatalha(Ficha &ficha, Monstro monstro) {
 
         if (op == OpcoesBatalha::ATACAR) {
             ataquePersonagem(ficha);
+        } else if (op == OpcoesBatalha::ABRIR) {
+            abrirMochila(ficha);
         } else if (op == OpcoesBatalha::FUGIR) {
             fugiu = personagemFugiu();
 
@@ -205,7 +223,15 @@ void iniciaBatalha(Ficha &ficha, Monstro monstro) {
         int drop = dropMonstro(monstro);
         if (drop != -1) {
             adicionarItem(drop, ficha.inventario);
-            cout << "O monstro deixou cair ..." << endl;
+            Item item = getItemPeloId(drop, ficha.inventario);
+            cout << "O monstro deixou cair " << item.nome << endl;
+            char infoDrop = 'n';
+
+            cout << "Exibir informações? (S/N) ";
+            cin >> infoDrop;
+            if (tolower(infoDrop) == 's') {
+                cout << item.descricao << endl;
+            }
         }
     } else if (!fugiu){
         cout << "Morreu..." << endl;

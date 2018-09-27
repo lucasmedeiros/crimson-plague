@@ -5,6 +5,7 @@
 #include "../personagem/habilidades.h"
 #include "../monstros/monstros.h"
 #include "../itens/inventario.h"
+#include "../itens/item.h"
 using namespace std;
 
 // definições fixas
@@ -16,7 +17,7 @@ using namespace std;
 * Enumeração das opções das batalhas
 */
 enum OpcoesBatalha{
-    ATACAR = 1, FUGIR
+    ATACAR = 1, ABRIR, FUGIR
 };
 
 
@@ -36,10 +37,4 @@ bool venceu();
 * Função que diz se o personagem fugiu.
 */
 bool personagemFugiu();
-
-/**
-* Função que retorna o id do drop do monstro.
-* se for -1, quer dizer que o monstro não dropou nada.
-*/
-int dropMonstro();
 #endif
