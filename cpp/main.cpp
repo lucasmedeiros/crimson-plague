@@ -48,7 +48,7 @@ Inventario iniciaInventario(Ficha ficha){
   inventario.tdsItens = itens;
   inventario.dinheiro = 0;
   inventario.tamInvent = 10;
-  inventario.inventario = iniciaArrayDeItens(inventario.tamInvent);
+  inventario.mochila = iniciaArrayDeItens(inventario.tamInvent);
   inventario.quantidade = iniciaArrayZerado(inventario.tamInvent);
   inventario.classe = ficha.personagem.classe;
   iniciarItensBasicos(inventario);

@@ -22,7 +22,7 @@ void levelUp(Ficha &ficha) {
 }
 
 void usarItemConsumivel(int numeroListado,Ficha &ficha){
-	Item item = ficha.inventario.inventario[numeroListado - 1];
+	Item item = ficha.inventario.mochila[numeroListado - 1];
 	if(item.consumivel){
 	if(item.recHPMax > 0){
 		if(ficha.personagem.hp +item.recHPMax  - getMaxHP(ficha) >= 0)

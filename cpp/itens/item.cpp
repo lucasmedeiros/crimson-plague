@@ -8,8 +8,6 @@ int getDanoArma(Item item){return item.atrb.dano;}
 string getNome(Item item){return item.nome;}
 int getRecHPMax(Item item){return item.recHPMax;}
 int getRecMPMax(Item item){return item.recMPMax;}
-AtributosItens getAtributos(Item item){return item.atrb;}
-Tipo getTipo(Item item){return item.atrb.tipoEquipavel;}
 
 void setTipo(AtributosItens &atributo, string *atrb){
       switch(stoi(atrb[8].c_str())){

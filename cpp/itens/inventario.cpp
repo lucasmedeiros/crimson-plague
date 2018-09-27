@@ -8,18 +8,18 @@ int getDanoItens(Inventario inventario){return getDanoArma(inventario.equipados.
 
 void iniciarItensBasicos(Inventario &inventario){
     Item* tdsItens = inventario.tdsItens;
-    if(inventario.classe == 1){
+    if(inventario.classe == GUERREIRO){
         inventario.equipados.arma = tdsItens[29];
         inventario.equipados.armadura = tdsItens[35];
         inventario.equipados.botas = tdsItens[24];
         inventario.equipados.capacete = tdsItens[39];
         inventario.equipados.escudo = tdsItens[46];
-    }else if(inventario.classe == 2){
+    }else if(inventario.classe == MAGO){
         inventario.equipados.arma = tdsItens[36];
         inventario.equipados.armadura = tdsItens[38];
         inventario.equipados.botas = tdsItens[24];
         inventario.equipados.capacete = tdsItens[40];    
-    }else{
+    }else if(inventario.classe == LADINO){
         inventario.equipados.arma = tdsItens[37];
         inventario.equipados.armadura = tdsItens[44];
         inventario.equipados.botas = tdsItens[24];
@@ -69,8 +69,24 @@ int getDestreza(Inventario inventario){
     return DestrezaTotal;
 }
 
+Item getItemPeloId(int id, Inventario inventario){
+    Item item = inventario.tdsItens[33];
+    bool contem = false;
+    for(int i  = 0; i < inventario.tamInvent; i++){
+        if(inventario.mochila[i].id == id){
+            item  = inventario.mochila[i];
+            contem = true;
+            break;
+        }
+    }
+    if(!contem){
+        cout << "Item não pertence ao inventário" << endl;
+    }
+    return item;
+}
+
 void venderItem(int numero,Inventario &inventario){
-    Item* itens = inventario.inventario;
+    Item* itens = inventario.mochila;
     if(itens[numero - 1].id != 34){
         inventario.dinheiro += itens[numero - 1].valorVenda;
         if(inventario.quantidade[numero - 1] == 1){
@@ -87,7 +103,7 @@ void venderItem(int numero,Inventario &inventario){
 
 int qtdVazios(Inventario inventario){
   int vazio  = 0;
-  Item* itens = inventario.inventario;
+  Item* itens = inventario.mochila;
   for(int i = 0; i < inventario.tamInvent;i++){
     if(itens[i].id == 34){
       vazio +=1;
@@ -97,7 +113,7 @@ int qtdVazios(Inventario inventario){
 }
 
 bool contemItem(int id, Inventario inventario){
-    Item* itens = inventario.inventario;
+    Item* itens = inventario.mochila;
     bool contem = false;
     for(int i = 0; i < inventario.tamInvent; i++){
         if(itens[i].id == inventario.tdsItens[id- 1].id){
@@ -108,7 +124,7 @@ bool contemItem(int id, Inventario inventario){
 }
 
 void adicionarItem(int id, Inventario &inventario){
-    Item* itens = inventario.inventario;
+    Item* itens = inventario.mochila;
     if(contemItem(id, inventario)){
         for(int i = 0; i < inventario.tamInvent; i++){
             if(itens[i].id == id){
@@ -134,45 +150,41 @@ void adicionarItem(int id, Inventario &inventario){
 }
 
 void equiparItem(int numero, Inventario &inventario){
-    Item* itens = inventario.inventario;
-    Item item = itens[numero -1];
-    if(contemItem(item.id,inventario)){
-     for(int i = 0; i < inventario.tamInvent; i++){
-         if(itens[i].id == item.id){
-            if(itens[i].atrb.classe == TODOS || itens[i].atrb.classe == inventario.classe){
-                Item nEquipado;
-                switch(getTipo(itens[i])){
-                    case ARMA:
-                        nEquipado = inventario.equipados.arma;
-                        inventario.equipados.arma = item;
-                        itens[i] = nEquipado;
-                        break;
-                    case ARMADURA:
-                        nEquipado = inventario.equipados.armadura;
-                        inventario.equipados.armadura = item;
-                        itens[i] = nEquipado;
-                        break;
-                    case CAPACETE:
-                        nEquipado = inventario.equipados.capacete;
-                        inventario.equipados.capacete = item;
-                        itens[i] = nEquipado;
-                        break;
-                    case BOTAS:
-                        nEquipado = inventario.equipados.botas;
-                        inventario.equipados.botas = item;
-                        itens[i] = nEquipado;
-                        break;
-                    default:
-                        nEquipado = inventario.equipados.escudo;
-                        inventario.equipados.escudo = item;
-                        itens[i] = nEquipado;
-                        break;
-                }
+    Item* itens = inventario.mochila;
+    Item itemEqp = itens[numero -1];
+    if(contemItem(itemEqp.id,inventario)){
+        if(itemEqp.atrb.classe == TODOS || itemEqp.atrb.classe == inventario.classe){
+            Item nEquipado;
+            switch(itemEqp.atrb.tipoEquipavel){
+                case ARMA:
+                    nEquipado = inventario.equipados.arma;
+                    inventario.equipados.arma = itemEqp;
+                    itens[numero - 1] = nEquipado;
+                    break;
+                case ARMADURA:
+                    nEquipado = inventario.equipados.armadura;
+                    inventario.equipados.armadura = itemEqp;
+                    itens[numero - 1] = nEquipado;
+                    break;
+                case CAPACETE:
+                    nEquipado = inventario.equipados.capacete;
+                    inventario.equipados.capacete = itemEqp;
+                    itens[numero - 1] = nEquipado;
+                    break;
+                case BOTAS:
+                    nEquipado = inventario.equipados.botas;
+                    inventario.equipados.botas = itemEqp;
+                    itens[numero - 1] = nEquipado;
+                    break;
+                 case ESCUDO:
+                    nEquipado = inventario.equipados.escudo;
+                    inventario.equipados.escudo = itemEqp;
+                    itens[numero - 1] = nEquipado;
+                    break;
             }
         }
     }
-
-    }else{
+    else{
         cout << "item não encontrado" << endl;
     }
 }
@@ -188,10 +200,10 @@ void imprimeInventario(Inventario inventario){
     cout << "| Escudo: " << inventario.equipados.escudo.nome << endl << endl;
     cout << "======= Mochila =======" << endl;
     for(int i = 0; i < inventario.tamInvent; i++){
-        if(inventario.inventario[i].id != 34){
-            cout << "| " << i + 1 << '.' << inventario.inventario[i].nome << " (" << inventario.quantidade[i] << "x)" <<  endl; 
+        if(inventario.mochila[i].id != 34){
+            cout << "| " << i + 1 << '.' << inventario.mochila[i].nome << " (" << inventario.quantidade[i] << "x)" <<  endl; 
         }else{
-           cout << "| " << i + 1 << '.' << inventario.inventario[i].nome  <<  endl; 
+           cout << "| " << i + 1 << '.' << inventario.mochila[i].nome  <<  endl; 
         }
     }
     cout << "| " << "Dinheiro: " << inventario.dinheiro << endl << endl; 

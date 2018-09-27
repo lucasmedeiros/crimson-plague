@@ -17,13 +17,19 @@ struct Equipados{
 struct Inventario{
     int tamInvent;
     Item* tdsItens;
-    Item* inventario;
+    Item* mochila;
     Classe classe;
     int* quantidade;
     Equipados equipados;
     int dinheiro;
 
 };
+
+
+/**
+ * @retorna um item especifico do inventario pelo id
+ */
+Item getItemPeloId(int id, Inventario inventario);
 
 /**
  * Imprime o conteudo do inventário
@@ -66,15 +72,6 @@ void adicionarItem(int numero,Inventario &inv);
  */
 void equiparItem(int numero,Inventario &inv);
 
-/**
- * adiciona um item ao inventario pelo id
- */
-void adicionarItem(int id,Inventario &inv);
-
-/**
- * @return a quantidade de espacos vazios no inventario
- */
-int qtdVazios(Inventario inv);
 
 /**
  * @return se contem ou não um item especifico no inventario pelo id 

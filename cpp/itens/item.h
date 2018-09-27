@@ -77,18 +77,8 @@ int getRecMPMax(Item item);
 string getNome(Item item);
 
 /**
- * @return os atributos do item
- */
-AtributosItens getAtributos(Item item);
-
-/**
  * seta o tipo do item (equipavel)
  */
 void setTipo(AtributosItens atributo);
-
-/**
- * @return o tipo do item (equipavel)
- */
-Tipo getTipo(Item item);
 #endif
 
