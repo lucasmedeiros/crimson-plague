@@ -57,19 +57,19 @@ Inventario iniciaInventario(Ficha ficha){
 }
 
 int main() {
-  // iniciaGUI();
-  // janelaDialogo = criaJanelaDialogo();
-  // janelaMenu = criaJanelaMenu();
+  iniciaGUI();
+  janelaDialogo = criaJanelaDialogo();
+  janelaMenu = criaJanelaMenu();
 
   Escolhas escolhas;
   carregarItens();
-  ficha = criarPersonagem();
-  ficha.inventario = iniciaInventario(ficha);
-  imprimeInformacoes(ficha);
-  imprimeInventario(ficha.inventario);
-  cout << "========================= História =========================" << endl;
+  ficha = criarPersonagem(janelaMenu);
+  // ficha.inventario = iniciaInventario(ficha);
+  // imprimeInformacoes(ficha);
+  // imprimeInventario(ficha.inventario);
+  // cout << "========================= História =========================" << endl;
   //iniciaBatalha(ficha);
-  contaHistoria(ficha, escolhas);
-
+  // contaHistoria(ficha, escolhas);
+  endwin();
   return 0;
 }
