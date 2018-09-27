@@ -33,21 +33,21 @@ void aumentarXP(Ficha &ficha, int xp) {
 }
 
 int getDano(Ficha ficha) {
-	int atributoDeClasse;
+	int modificador;
 
 	if (ficha.personagem.classe == Classe::GUERREIRO)
-		atributoDeClasse = getForcaTotal(ficha);
+		modificador = getModificadorFOR(ficha);
 	else if (ficha.personagem.classe == Classe::MAGO)
-		atributoDeClasse = getInteligenciaTotal(ficha);
+		modificador = getModificadorINT(ficha);
 	else
-		atributoDeClasse = getDestrezaTotal(ficha);
+		modificador = getModificadorDES(ficha);
 
-	return floor(atributoDeClasse/4) + getDanoItens(ficha.inventario);
+	return modificador + getDanoItens(ficha.inventario);
 };
 
 int getDefesa(Ficha ficha) {
 	int armadura = getArmadura(ficha.inventario);
-	return 10 + armadura + floor(getDestrezaTotal(ficha)/4);
+	return 10 + armadura + getModificadorDES(ficha);
 };
 
 string getNome(Ficha ficha) { return ficha.personagem.nome; }
