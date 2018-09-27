@@ -70,7 +70,7 @@ char ganchoAventura() {
     		cout << "O que você responderá pra ela:" << endl << endl;
 
     		cout << "a) Você poderia falar mais sobre essa praga?" << endl;
-				cout << "b) Onde eu posso acabar com isso?" << endl;
+			cout << "b) Onde eu posso acabar com isso?" << endl;
 
 			while(tolower(dialogo) == 'z') {
 				cin >> dialogo;
@@ -118,6 +118,7 @@ char ganchoAventura() {
     	}
     }
 
+	cout << escolhaGancho << endl;
 	return escolhaGancho;
 }
 
@@ -974,8 +975,9 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas) {
 
 void imprimeVarianciasFinal(Ficha &ficha, Escolhas &escolhas) {
 	char gancho = escolhas.escolhasCidade.ganchoAventura;
+	cout << gancho << endl;
 
-	if(gancho == 'a') {
+	if(tolower(gancho) == 'a') {
 		cout << "O prefeito se aproxima de voce e fala:" << endl;
 		cout << "Prefeito: Eu só tenho a agradecer a você, nobre aventureiro" << endl;
 		cout << "Prefeito: Voce salvou a vida de quase todos da cidade!" << endl;
@@ -983,7 +985,7 @@ void imprimeVarianciasFinal(Ficha &ficha, Escolhas &escolhas) {
 		cout << "Prefeito: pelo seu feito. Sempre que você voltar," << endl;
 		cout << "Prefeito: tenha a certeza que você será sempre bem recebido" << endl;
 		cout << "Prefeito: aqui!" << endl << endl;
-	} else if (gancho == 'b') {
+	} else if (tolower(gancho) == 'b') {
 		cout << "O minerador que falou com voce anteriormente, se aproxima" << endl;
 		cout << "e com um grande sorriso grita:" << endl;
 		cout << "Minerador: Eu sabia! Eu sabia que você conseguiria!" << endl;
@@ -993,7 +995,7 @@ void imprimeVarianciasFinal(Ficha &ficha, Escolhas &escolhas) {
 		cout << "Minerador: de ouro." << endl;
 		cout << "Minerador: Ei! Sempre que vir aqui, minha casa sempre estará" << endl;
 		cout << "Minerador: de portas abertas! Nós não esqueceremos de você." << endl << endl;
-	} else if (gancho == 'c') {
+	} else if (tolower(gancho) == 'c') {
 		cout << "A camponesa que falou com você anteriormente, se aproxima" << endl;
 		cout << "e com um grande sorriso fala:" << endl;
 		cout << "Camponesa: Voce conseguiu! Meus filhos e os outros moradores" << endl;
@@ -1070,6 +1072,9 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas) {
 	} else {
 		escolhasCidade.segundaChance = 'y';
 	}
+
+	cout << escolhas.escolhasCidade.ganchoAventura << endl;
+	cout << escolhas.escolhasCidade.segundaChance << endl;
 
 	if(tolower(escolhasCidade.segundaChance) == 'n') {
 		imprimePrimeiroFinal();
