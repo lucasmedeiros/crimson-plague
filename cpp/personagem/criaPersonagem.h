@@ -3,4 +3,7 @@
 
 using namespace std;
 
+/**
+* Funçao para criar um personagem
+*/
 Ficha criarPersonagem();

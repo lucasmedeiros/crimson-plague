@@ -4,6 +4,13 @@
 using namespace std;
 
 /**
+* Enumeração das opções das batalhas
+*/
+enum OpcoesBatalha{
+    GUERREIRO = 1,MAGO, LADINO, TODOS
+};
+
+/**
 * Função que inicia uma batalha.
 */
 void iniciaBatalha(Ficha &ficha);

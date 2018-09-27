@@ -22,7 +22,6 @@ void carregarItens() {
   itens = carregarTdsItens();
 }
 
-
 int* iniciaArrayZerado(int tamanho){
   int* qtd = new int[tamanho];
   for(int i = 0; i < tamanho; i++){
@@ -60,7 +59,6 @@ int main() {
   imprimeInventario(ficha.inventario);
   cout << "========================= História =========================" << endl;
   //iniciaBatalha(ficha);
-  
   //contaHistoria(ficha, escolhas);
 
   return 0;
