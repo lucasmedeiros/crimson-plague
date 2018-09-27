@@ -25,6 +25,9 @@ struct Inventario{
 
 };
 
+/**
+ * Imprime o conteudo do inventário
+ */
 void imprimeInventario(Inventario inventario);
 
 /**
@@ -49,19 +52,19 @@ int getDanoItens(Inventario inv);
 int getArmadura(Inventario inv);
 
 /**
- * Dropa um item especifico pelo id
+ * Vende um item especifico pelo numero listado no inventario
  */
-void droparItem(int id,Inventario &inv);
+void venderItem(int numero,Inventario &inv);
 
 /**
- * Adiciona um item ao inventario pelo numero da listagem do inventario
+ * Adiciona um item ao inventario pelo id
  */
-void pegarItem(int id,Inventario inv);
+void adicionarItem(int numero,Inventario &inv);
 
 /**
  * Equipa um item do inventario pelo numero da listagem do inventario
  */
-void equiparItem(int id,Inventario &inv);
+void equiparItem(int numero,Inventario &inv);
 
 /**
  * adiciona um item ao inventario pelo id

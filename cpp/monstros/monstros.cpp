@@ -20,14 +20,15 @@ Monstro getMonstro(string* informacoes) {
 }
 
 Monstro* carregarAtributos() {
-	string** atributos = importarTodos("../db/atrMonstros.txt",QTD_COLUNAS, QTD_LINHAS, QTD_COMENTARIOS);
-	Monstro* monstros = new Monstro[QTD_LINHAS];
-	for(int i = 0; i < QTD_LINHAS; i++)
+	string** atributos = importarTodos("../db/atrMonstros.txt"
+		,QTD_COLUNAS_MONSTROS, QTD_LINHAS_MONSTROS, QTD_COMENTARIOS_MONSTROS);
+	Monstro* monstros = new Monstro[QTD_LINHAS_MONSTROS];
+	for(int i = 0; i < QTD_LINHAS_MONSTROS; i++)
 		monstros[i] = getMonstro(atributos[i]);
 	return monstros;
 };
 
-int calcularHP(Monstro monstro) {
+int calcularHPMonstro(Monstro monstro) {
 	int hp = 0;
 
 	int *valores = rolarDados(monstro.tipoDado, monstro.numDado);

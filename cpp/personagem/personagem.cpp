@@ -21,6 +21,28 @@ void levelUp(Ficha &ficha) {
 	distribuiPontos(ficha);
 }
 
+void usarItemConsumivel(int numeroListado,Ficha &ficha){
+	Item item = ficha.inventario.inventario[numeroListado - 1];
+	if(item.consumivel){
+	if(item.recHPMax > 0){
+		if(ficha.personagem.hp +item.recHPMax  - getMaxHP(ficha) >= 0)
+			ficha.personagem.hp = getMaxHP(ficha);
+		else
+			ficha.personagem.hp += item.recHPMax;
+	}else{
+		if(ficha.personagem.mp +item.recMPMax  - getMaxMP(ficha) >= 0)
+			ficha.personagem.mp = getMaxMP(ficha);
+		else
+			ficha.personagem.mp += item.recMPMax;
+	}
+
+	venderItem(numeroListado,ficha.inventario);
+
+	}else{
+		cout << "Item não é consumivel" << endl;
+	} 
+}
+
 void aumentarXP(Ficha &ficha, int xp) {
 	ficha.personagem.xpAtual += xp;
 	if (ficha.personagem.xpAtual >= ficha.personagem.xpMaxima) {

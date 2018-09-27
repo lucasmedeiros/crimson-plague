@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../personagem/personagem.h"
 #include "../personagem/habilidades.h"
+#include "../monstros/monstros.h"
 using namespace std;
 
 /**
