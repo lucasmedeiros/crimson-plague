@@ -144,8 +144,11 @@ void iniciaBatalha(Ficha &ficha) {
         }
 
         if (!fugiu) {
+            cout << endl << "==================================================" << endl;
             cout << endl << "Turno do monstro..." << endl;
+            cout << endl << "==================================================" << endl;
             ataqueMonstro(ficha);
+            cout << endl << "==================================================" << endl;
 
             cout << endl << "==================================================" << endl;
             cout << "-> Seu HP: " << getHP(ficha) << endl;
