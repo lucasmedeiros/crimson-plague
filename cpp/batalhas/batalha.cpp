@@ -128,8 +128,16 @@ void abrirMochila(Ficha &ficha) {
         cin >> op;
 
         if (op < 1 && op >= ficha.inventario.tamInvent) {
-            usarItemConsumivel(op, ficha);
-            break;
+            Item itemSelecionado = ficha.inventario.mochila[op];
+            int id = itemSelecionado.id;
+            if (id != 34) {
+                if (itemSelecionado.consumivel) {
+                    usarItemConsumivel(op, ficha);
+                } else {
+                    equiparItem(op, ficha.inventario);
+                }
+                break;
+            }
         } else {
             cout << "Opção INVÁLIDA!" << endl;
         }
