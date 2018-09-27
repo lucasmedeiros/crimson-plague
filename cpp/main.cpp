@@ -5,10 +5,15 @@
 #include "historia/historia.h"
 #include "batalhas/batalha.h"
 #include <ctype.h>
+#include "gui.h"
 using namespace std;
 
 Ficha ficha;
 Item* itens;
+
+// Variáveis referente a GUI
+WINDOW *janelaDialogo;
+WINDOW *janelaMenu;
 
 void imprimeInformacoes(Ficha ficha) {
   printf("Informações\n");
@@ -51,6 +56,10 @@ Inventario iniciaInventario(Ficha ficha){
 }
 
 int main() {
+  // iniciaGUI();
+  // janelaDialogo = criaJanelaDialogo();
+  // janelaMenu = criaJanelaMenu();
+
   Escolhas escolhas;
   carregarItens();
   ficha = criarPersonagem();
