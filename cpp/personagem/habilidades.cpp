@@ -48,3 +48,7 @@ int qtdHabilidadesDisponiveis(Ficha ficha) {
 	}
 	return qtdHabilidades; 
 }
+
+bool temManaSuficiente(Habilidade habilidade, Ficha ficha) {
+	return getMP(ficha) >= habilidade.mp;
+}

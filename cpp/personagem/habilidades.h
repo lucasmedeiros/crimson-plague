@@ -36,3 +36,11 @@ int qtdHabilidadesDisponiveis(Ficha ficha);
  * @return dano causado
  */
 int usarHabilidade(Habilidade habilidade, Ficha &ficha);
+
+/**
+ * Verifica se o personagem possui mana suficiente para usar uma habilidade.
+ * @param habilidade
+ * @param ficha
+ * @return true, se houver mana suficiente. Caso contrário, false.
+ */ 
+bool temManaSuficiente(Habilidade habilidade, Ficha ficha);
