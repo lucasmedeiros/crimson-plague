@@ -69,13 +69,8 @@ int main() {
   Escolhas escolhas;
   carregarItens();
   carregarMonstros();
-  ficha = criarPersonagem(janelaMenu);
+  ficha = criarPersonagem(janelaMenu, janelaDialogo);
   ficha.inventario = iniciaInventario(ficha);
-  // imprimeInformacoes(ficha);
-  // imprimeInventario(ficha.inventario);
-  // cout << "========================= História =========================" << endl;
-  iniciaBatalha(janelaMenu, janelaDialogo, ficha, monstros[0]);
-  iniciaBatalha(janelaMenu, janelaDialogo, ficha, monstros[1]);
   contaHistoria(ficha, escolhas, janelaDialogo, janelaMenu, monstros);
   getch();
   endwin();
