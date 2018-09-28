@@ -45,8 +45,7 @@ int getDanoHabilidade(WINDOW* janelaMenu, Ficha &ficha) {
         string opcoesHabilidade[qtdHabs];
 
         for(int i = 0; i < qtdHabs; i++) {
-            int pos = i+1;
-            opcoesHabilidade[i] = "| " + to_string((i + 1)) + ". " + habilidades[i].nome.c_str();
+            opcoesHabilidade[i] = habilidades[i].nome + " ["+to_string(habilidades[i].mp)+" mp]";
         }
 
         int opcao = realizaPergunta(janelaMenu, "Magias", opcoesHabilidade, qtdHabs);
