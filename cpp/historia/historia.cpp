@@ -106,7 +106,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
     	concordou = perguntaSimNao(janelaMenu);
 		string *respostaPessoa;
 
-    	if(concordou == 1) {
+    	if(concordou == 'n') {
     		respostaPessoa[0] = "Com um olhar de desaprovação, lentamente começam a se afastar de você.";
     	} else {
     		respostaPessoa[0] =  "Mal sei o que dizer. Muito obrigado!!";
@@ -118,251 +118,251 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	return escolhaGancho;
 }
 
-char segundaChance(Personagem &personagem, WINDOW *janelaMenu) {
-	char escolhaDialogo;
-	char escolhaDialogo2;
+bool segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+	int escolhaDialogo;
+	bool escolhaDialogo2;
+	int tamanho;
+	string *falaMeruen;
 
+	string apresentacaoAmigo[8] = {"Uma pessoa se aproxima de você, ela te parece familiar",
+    "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen.",
+    "Um guerreiro que costumava lutar com você, alguns anos atrás.",
+    "Ele está bem magro, comparado ao tempo que ele lutava com você.",
+    "Ele se aproxima e diz:",
+    "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina próxima dessa região",
+    "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo",
+    "Meruen: é provável que ela esteja causando a praga que está assolando essa vila."};
 
-	cout << "Uma pessoa se aproxima de você, ela te parece familiar" << endl;
-	cout << "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen." << endl;
-	cout << "Um guerreiro que costumava lutar com você, alguns anos atrás. Ele está bem magro, comparado" << endl;
-	cout << "ao tempo que ele lutava com você. Ele se aproxima e diz:" << endl;
-	cout << "Meruen: Há quanto tempo, " << personagem.nome << ". Há algo de errado em uma mina próxima dessa região" << endl;
-	cout << "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo" << endl;
-	cout << "Meruen: é provável que ela esteja causando a praga que está assolando essa vila." << endl << endl;
+    mostraDialogo(janelaDialogo, "Conversa Meruen", apresentacaoAmigo, 8);
 
-	cout << "O que você responderá pra ele:" << endl << endl;
-	cout << "a) Você poderia falar mais sobre essa praga?" << endl;
-	cout << "b) Você está bem?" << endl;
-	cout << "c) Há alguma coisa que eu possa ajudar?" << endl << endl;
+    string escolhaFala[3] = {"Você poderia falar mais sobre essa praga?",
+    "Você está bem?",
+    "Há alguma coisa que eu possa ajudar?"};
 
-	while(true) {
+    escolhaDialogo = realizaPergunta(janelaMenu, "O que você responderá pra ele:", escolhaFala, 3);
 
-		cin >> escolhaDialogo;
+	if(escolhaDialogo == 0) {
 
-		if(tolower(escolhaDialogo) == 'a') {
-			cout << "Meruen: Estão chamando por aqui de praga Carmesim, ela começa de forma inofensiva" << endl;
-			cout << "Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana." << endl;
-			cout << "Meruen: Infelizmente eu acabei pegando essa doença... Não acho que tenho muitos dias..." << endl;
-			cout << "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor." << endl;
-			break;
-		} else if (tolower(escolhaDialogo) == 'b') {
-			cout << "Meruen: Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias..." << endl;
-			cout << "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor." << endl;
-			break;
-		} else if (tolower(escolhaDialogo) == 'c') {
-			cout << "Meruen: Na verdade, tem. Eu acredito que se você for pra essa mina. Deve haver uma forma de terminar" << endl;
-			cout << "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias..." << endl;
-			cout << "Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?" << endl;
-			break;
-		} else {
-			cout << "Opção inválida!" << endl;
-		}
+		string falaMeruen[4] = {"Meruen: Estão chamando por aqui de praga Carmesim, ela começa de forma inofensiva",
+		"Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana.",
+		"Meruen: Infelizmente eu acabei pegando essa doença... Não acho que tenho muitos dias...",
+		"Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."};
+		tamanho = 4;
 
-	}
+	} else if (escolhaDialogo == 1) {
+
+		string falaMeruen[2] = {"Meruen: Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
+		"Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."};
+
+		tamanho = 2;
+
+	} else {
+
+		string falaMeruen[3] = {"Meruen: Na verdade, tem. Eu acredito que se você for pra essa mina. Deve haver uma forma de terminar",
+		"Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
+		"Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"};
+        
+		tamanho = 3;
+	} 
+
+	mostraDialogo(janelaDialogo, "Meruen responde: ", falaMeruen, tamanho);
+    
 
 	escolhaDialogo2 = perguntaSimNao(janelaMenu);
+	string *respostaMeruen;
 
-  	if(tolower(escolhaDialogo2) == 's') {
-  		cout << "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina." << endl;
-  		cout << "Meruen: Muito obrigado, amigo." << endl;
-  	} else {
-  		cout << "Meruen: Você é tão vazio quanto sua alma." << endl;
-  		cout << "Meruen se afasta lentamente de você." << endl << endl;
-  	}
+  	if(escolhaDialogo2) {
+		respostaMeruen[2] = {"Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina.",
+		"Meruen: Muito obrigado, amigo."};
+  	} else {
+		respostaMeruen[2] = {"Meruen: Você é tão vazio quanto sua alma.",
+		"Meruen se afasta lentamente de você."};
+	}
 
-  	return escolhaDialogo2;
+	mostraDialogo(janelaDialogo, "Meruen responde:", respostaMeruen, 2);
+
+  return escolhaDialogo2;
+
 }
 
-void imprimePrimeiroFinal() {
-	cout << "Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila." << endl;
-	cout << "Duas semanas depois, em outra vila a procura de um artefato." << endl;
-	cout << "Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela" << endl;
-	cout << "praga. Aqueles que sobreviveram foram os que fugiram" << endl;
-	cout << "de Passagem de Duvik enquanto nao tinham sido contaminados" << endl;
-	cout << "A promissora cidade comerciante, se tornou apenas uma ruina" << endl;
-	cout << "uma promessa do que poderia se tornar." << endl << endl;
+void imprimePrimeiroFinal(WINDOW *janelaDialogo) {
+	string primeiroFinal[7] = {"Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila.",
+	"Duas semanas depois, em outra vila a procura de um artefato.",
+	"Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela",
+	"praga. Aqueles que sobreviveram foram os que fugiram",
+	"de Passagem de Duvik enquanto nao tinham sido contaminados",
+	"A promissora cidade comerciante, se tornou apenas uma ruina",
+	"uma promessa do que poderia se tornar."};
+	
+	mostraDialogo(janelaDialogo, "Conclusão", primeiroFinal, 7);
 }
 
-void entradaMina(Ficha &ficha) {
-	char conversa = 'z';
+void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+	int conversa;
 	int dadoObservar;
 
 
 	//Descricao da entrada da caverna.
 	cout << "" << endl;
-	cout << "Apos algumas horas de caminhada, voce chega na caverna." << endl;
-	cout << "Uma brisa fria desce dos picos da Montanha Serpente" << endl;
-	cout << "Enrolada enquanto voce contempla a entrada para as" << endl;
-	cout << "cavernas. O chao coberto de neve esta cheio de ferramentas," << endl;
-	cout << "picaretas e pas, muitas das quais sobressaindo dos montes" << endl;
-	cout << "de neve. Um unico corredor escuro conduz as profundezas" << endl;
-	cout << "da mina a frente. O caminho de terra abaixo, que possui" << endl;
-	cout << "estruturas de suporte de madeira, esta coberto com escombros" << endl;
-	cout << "de pedra, uns pedacos ocasionalmente brilham com o menor" << endl;
-	cout << "pedaco de minerio. Nenhuma luz lanca-se para fora" << endl;
-	cout << "do tunel. Tochas queimadas estão espalhadas pelo chao," << endl;
-	cout << "seus suportes quebrados nas paredes do tunel. Atras de" << endl;
-	cout << "voces, a estrada gasta conduz atraves dos precipicios para o" << endl;
-	cout << "vale abaixo. Alem do suave assobio do vento, um completo" << endl;
-	cout << "silencio preenche a abertura nas montanhas." << endl;
+	string descricaoEntrada[15] = {"Apos algumas horas de caminhada, voce chega na caverna.",
+	"Uma brisa fria desce dos picos da Montanha Serpente",
+	"Enrolada enquanto voce contempla a entrada para as",
+	"cavernas. O chao coberto de neve esta cheio de ferramentas,",
+	"picaretas e pas, muitas das quais sobressaindo dos montes",
+	"de neve. Um unico corredor escuro conduz as profundezas",
+	"da mina a frente. O caminho de terra abaixo, que possui",
+	"estruturas de suporte de madeira, esta coberto com escombros",
+	"de pedra, uns pedacos ocasionalmente brilham com o menor",
+	"pedaco de minerio. Nenhuma luz lanca-se para fora",
+	"do tunel. Tochas queimadas estão espalhadas pelo chao,",
+	"seus suportes quebrados nas paredes do tunel. Atras de",
+	"voce, a estrada gasta conduz atraves dos precipicios para o",
+	"vale abaixo. Alem do suave assobio do vento, um completo",
+	"silencio preenche a abertura nas montanhas."};
+
+	mostraDialogo(janelaDialogo, "Entrada da caverna", descricaoEntrada, 15);
 
 	//Escolha do setor.
-	cout << "Você está em frente a entrada da mina, o que voce vai fazer?" << endl;
 
-	while(true) {
-		cout << "a) Tentar analisar com mais detalhes a entrada da caverna." << endl;
-		cout << "b) Procurar por alguma coisa ao redor da entrada." << endl;
-		cout << "c) Acender uma tocha e entrar na caverna." << endl;
+	string opcoesEntrada[3] = {"Tentar analisar com mais detalhes a entrada da caverna.",
+	"Procurar por alguma coisa ao redor da entrada.",
+	"Acender uma tocha e entrar na caverna."};
 
-		cin >> conversa;
+	conversa = realizaPergunta(janelaMenu, "O que voce vai fazer?", opcoesEntrada, 3);
 
-		if (tolower(conversa) == 'a') {
+	if (conversa == 0) {
 			dadoObservar = rolarDado(20);
 			primeiraEscolhaEntrada(dadoObservar, ficha);
-			break;
+			
 
-		} else if (towlower(conversa) == 'b') {
+	} else if (conversa == 1) {
 			dadoObservar = rolarDado(20) + 2;
-			segundaEscolhaEntrada(dadoObservar, ficha);
-			break;
+			segundaEscolhaEntrada(dadoObservar, ficha);			
 
-		} else if (tolower(conversa) == 'c') {
-			cout << "Analisar as coisas e perda de tempo, seus inimigos nao tem" << endl;
-			cout << "uma chance contra você mesmo... Voce acende uma tocha, respira" << endl;
-			cout << "fundo e entra na mina." << endl;
-			break;
+	} else {
+		string semAnalise[3] = {"Analisar as coisas é perda de tempo, seus inimigos não tem",
+		"uma chance contra você mesmo... Voce acende uma tocha, respira",
+		"fundo e entra na mina."};
+		mostraDialogo(janelaDialogo, "Conclusão", semAnalise, 3);
 
-		} else {
-			cout << "Opcao invalida!" << endl;
-		}
 	}
 
-	cout << "" << endl;
+
 
 }
 
-void primeiraEscolhaEntrada(int dadoObservar, Ficha &ficha) {
+void primeiraEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialogo) {
+	string *analiseEntrada;
 
 	if (dadoObservar >= 10) {
-		cout << "Voce percebe que os suportes de madeira do tunel" << endl;
-		cout << "estao lascados e despedacados, como se tivessem danificados" << endl;
-		cout << "em uma recente batalha." << endl;
+		analiseEntrada[3] = {"Voce percebe que os suportes de madeira do tunel",
+		"estao lascados e despedacados, como se tivessem danificados",
+		"em uma recente batalha."};
+
+		mostraDialogo(janelaDialogo, "Ao analisar a entrada", analiseEntrada, 3);
+		aumentarXP(ficha, 400);
 
 		if(dadoObservar >= 15) {
-			cout << "Voce tambem percebe que elas estao manchadas de sangue." << endl;
+			string detalhe[1] = {"Voce também percebe que elas estão manchadas de sangue."};
+			proximoDialogo(janelaDialogo, "Ao analisar a entrada", detalhe, 1);
 			aumentarXP(ficha, 300);
 		}
+	
+	} else {
+		analiseEntrada[2] = {"Voce tenta analisar a entrada, porém não consegue",
+		"encontrar nada relevante na estrutura."};
 
-		aumentarXP(ficha, 400);
-		cout << "Logo após a analise, voce acende uma tocha e entra na caverna." << endl;
+		mostraDialogo(janelaDialogo, "Ao analisar a entrada: ", analiseEntrada, 2);
 	}
+
+	string prosseguimentoHistoria[1] = {"Você acende uma tocha e entra na caverna."};
+	
+	proximoDialogo(janelaDialogo, "Logo após a analise", prosseguimentoHistoria, 1);
 }
 
-void segundaEscolhaEntrada(int dadoObservar, Ficha &ficha) {
+void segundaEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialogo) {
+	string *analiseEntrada;
+	int tamanho;
 
 	if(dadoObservar >= 10 and dadoObservar < 15) {
-		cout << "No meio as picaretas e pas quebradas, voce encontra uma pedra preciosa!" << endl;
-		cout << "No entanto, voce nao encontrou nada que pode ser util para entender" << endl;
-		cout << "o que aconteceu nessa mina. Voce acende uma tocha e entra na caverna." << endl;
+		analiseEntrada[3] = {"No meio as picaretas e pas quebradas, voce encontra uma pedra preciosa!",
+		"No entanto, voce nao encontrou nada que pode ser util para entender",
+		"o que aconteceu nessa mina. Voce acende uma tocha e entra na caverna."};
+		tamanho = 3;
 		aumentarXP(ficha, 300);
 	} else if (dadoObservar >= 15) {
-		cout << "No meio as picaretas e pas quebradas, voce encontra duas pocoes de vida!" << endl;
-		cout << "Possivelmente elas serao uteis... Voce tambem encontra um simbolo" << endl;
-		cout << "associados a kobolds, pequenas criaturas que sao conhecidas por serem" << endl;
-		cout << "saqueadores. E provavel que tenha havido um combate por aqui. Voce" << endl;
-		cout << "acende uma tocha e entra na caverna com atencao redobrada." << endl;
+		analiseEntrada[5] = {"No meio as picaretas e pás quebradas, você encontra duas poções de vida!",
+		"Possivelmente elas serao úteis... Voce tambem encontra um simbolo",
+		"associados a kobolds, pequenas criaturas que são conhecidas por serem",
+		"saqueadores. E provavel que tenha havido um combate por aqui. Você",
+		"acende uma tocha e entra na caverna com atenção redobrada."};
+		adicionarItem(1, ficha.inventario);
+		tamanho = 5;
 		aumentarXP(ficha, 500);
 	} else {
-		cout << "Voce buscar por alguns minutos, no entanto, voce nao encontra" << endl;
-		cout << "nada relevante pra voce." << endl;
+		analiseEntrada[2] = {"Voce buscar por alguns minutos, no entanto, voce nao encontra",
+		"nada relevante pra voce."};
+		tamanho = 2;
 	}
+
+	mostraDialogo(janelaDialogo, "Ao procurar ao redor da entrada", analiseEntrada, tamanho);
 
 }
 
 char verificarCarroca(Ficha &ficha, WINDOW *janelaMenu) {
 	int checkReflexo;
-	char coletou;
+	bool coletou;
 	char ativou = 'n';
+	int tamanho;
 
 	checkReflexo = rolarDado(20) + ficha.atributos.destreza;
+	string *analiseCarroca;
 
 	if(checkReflexo >= 12) {
-		cout << "Ao arrastar o corpo, voce escuta um barulho de" << endl;
-		cout << "mecanismos, voce rapidamente entende que e uma armadilha" << endl;
-		cout << "e salta para tras, conseguindo desviar do ataque sonico" << endl;
-		cout << "produzido pela mesma." << endl;
+
+		analiseCarroca[4] = {"Voce escuta um barulho de",
+		"mecanismos, voce rapidamente entende que e uma armadilha",
+		"e salta para tras, conseguindo desviar do ataque sonico",
+		"produzido pela mesma."};
+		tamanho = 4;
 		aumentarXP(ficha, 250);
 	} else {
-		// Ideia status.
-		cout << "Ao arrastar o corpo, voce escuta um barulho de" << endl;
-		cout << "mecanismos, e uma armadilha que produz um som ensurdecedor" << endl;
-		cout << "que deixa voce temporariamente surdo." << endl;
+		analiseCarroca[3] = {"Voce escuta um barulho de",
+		"mecanismos, e uma armadilha que produz um som ensurdecedor",
+		"que deixa voce temporariamente surdo.";
 		ativou = 's';
+		tamanho = 3;
 		ficha.personagem.hp -= 3;
 
 	}
 
-	cout << "Ao analisar o corpo, voce percebe que ele tem marcas parecidos com" << endl;
-	cout << "as vitimas da praga. Ele tem uma roupa diferente dos outros mineradores" << endl;
-	cout << "Provavelmente era o chefe deles. Ele parece ter sido uma vitima de um ataque" << endl;
-	cout << "tendo muitos ferimentos perfurantes no peito e pescoco." << endl;
+	mostraDialogo(janelaDialogo, "Ao arrastar o corpo", analiseCarroca, tamaho);
 
-	cout << "Voce tambem percebe inumeros pedacoes de prata ao redor da carroca." << endl;
-	cout << "Voce ira coletar?" << endl;
+	string analiseMineiro[4] = {"Ao analisar o corpo, voce percebe que ele tem marcas parecidos com",
+	"as vitimas da praga. Ele tem uma roupa diferente dos outros mineradores",
+	"Provavelmente era o chefe deles. Ele parece ter sido uma vitima de um ataque",
+	"tendo muitos ferimentos perfurantes no peito e pescoco."};
+
+	proximoDialogo(janelaDialogo, "Continuação", analiseMineiro, 4);
+
+	string continuacaoAnalise[2] = {"Voce tambem percebe inumeros pedacoes de prata ao redor da carroca.",
+	"Voce ira coletar?"};
+	
+	proximoDialogo(janelaDialogo, "Continuação", continuacaoAnalise, 2);
 
 	coletou = perguntaSimNao(janelaMenu);
 
-	if(tolower(coletou) != 'n') {
-		cout << "Voce coleta os minerios sem problemas." << endl;
+	string *conclusaoAnalise;
+
+	if(coletou) {
+		conclusaoAnalise[1] = {"Voce coleta os minerios sem problemas."};
 		adicionaDinheiro(ficha, 250);
 	} else {
-		cout << "Voce prefere nao arricar a pegar esses minerios." << endl;
+		conclusaoAnalise[1] = {"Voce prefere nao arricar a pegar esses minerios."};
 	}
 
+	mostraDialogo(janelaDialogo, "Decisão dos minérios", conclusaoAnalise, 1);
 	aumentarXP(ficha, 250);
-
-	return ativou;
-}
-
-char recepcaoCaverna(Ficha &ficha, WINDOW *janelaMenu) {
-	char ativou = 'n';
-	char escolhaDialogo = 'z';
-	int checkReflexo;
-
-	cout << "O tunel se abre em uma camara pequena e aproximadamente" << endl;
-	cout << "regular. Pedacos espalhados de minerio de prata cercam" << endl;
-	cout << "um par de carro�as de madeira. A parte de baixo do que" << endl;
-	cout << "aparenta ser um corpo humano se sobressai debaixo de uma" << endl;
-	cout << "das carrocas. E nao mostra nenhum sinal de movimento." << endl;
-	cout << "Sangue seco mancha a parede norte em varios locais." << endl;
-	cout << "Saidas conduzem para o oeste e leste." << endl;
-
-	cout << "O que voce vai fazer?" << endl;
-
-	cout << "a) Analisar o corpo da carroca." << endl;
-	cout << "b) Seguir em frente." << endl;
-
-	while(tolower(escolhaDialogo) == 'z') {
-		cin >> escolhaDialogo;
-
-		if(tolower(escolhaDialogo) == 'a') {
-
-			ativou = verificarCarroca(ficha, janelaMenu);
-
-		} else if (tolower(escolhaDialogo) == 'b') {
-			cout << "Voce prefere nao se arriscar e mexer nesse corpo." << endl;
-			cout << "E quase certo que havia alguma armadilha ali. Seria uma coin-" << endl;
-			cout << "cidencia muito grande tantos minerios de prata espalhados uniformemente." << endl;
-
-		} else {
-			escolhaDialogo = 'z';
-			cout << "Opcao Invalida!" << endl;
-		}
-	}
-
-	cout << "Apos passar da carroca, voce so ve uma grande porta a sua frente." << endl;
-	cout << "Voce nao ve outra opcao a nao ser entrar nela." << endl << endl;
 
 	return ativou;
 }
