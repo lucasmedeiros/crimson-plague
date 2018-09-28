@@ -197,20 +197,20 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
         int drop = dropMonstro(monstro);
         if (drop != -1) {
             adicionarItem(drop, ficha.inventario);
-        //     Item item = getItemPeloId(drop, ficha.inventario);
-        //     string dropMonster = "O monstro deixou cair " + item.nome;
-        //
-        //     string drops[] = {parabens, dropMonster};
-        //
-        //     mostraDialogo(janelaDialogo, "DROP", drops, 5);
-        //
-        //     bool infoDrop = false;
-        //     infoDrop = confirmacao(janelaMenu);
-        //
-        //     if (infoDrop) {
-        //         string inforDrop[1] = {item.descricao};
-        //         proximoDialogo(janelaDialogo, "VITORIA", inforDrop, 1);
-        //     }
+            Item item = getItemPeloId(drop, ficha.inventario);
+            string dropMonster = "O monstro deixou cair " + item.nome;
+            string drops[] = {parabens, dropMonster};
+
+            mostraDialogo(janelaDialogo, "DROP", drops, 2);
+
+            string opcao[2] = {"Sim", "Não"};
+            int infoDrop = realizaPergunta(janelaMenu, "Obter informações sobre o drop?",
+                opcao, 2);
+
+            if (infoDrop == 0) {
+                string inforDrop[1] = {item.descricao};
+                proximoDialogo(janelaDialogo, "VITORIA", inforDrop, 1);
+            }
         } else {
             string arrayParabens[1] = {parabens};
             proximoDialogo(janelaDialogo, "VITORIA", arrayParabens, 1);
