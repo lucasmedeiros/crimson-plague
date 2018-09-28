@@ -73,9 +73,9 @@ string ataquePersonagem(WINDOW* janelaMenu,Ficha &ficha) {
 
         recuperaManaPassiva(ficha);
     } else {
-        danoInfligido = getDano(ficha) + rolarDado(D20);
+        danoInfligido = getDano(ficha);
 
-        if (danoInfligido < defesaMonstro) {
+        if (getDano(ficha) + rolarDado(D20) < defesaMonstro) {
             danoInfligido = 0;
         }
     }
@@ -100,7 +100,7 @@ string ataquePersonagem(WINDOW* janelaMenu,Ficha &ficha) {
 string ataqueMonstro(Ficha &ficha) {
     int defesaPersonagem = 10 + getArmadura(ficha.inventario) + getModificadorDES(ficha);
     defesaPersonagem = min(defesaPersonagem, 17);
-    int danoInfligido = (danoMonstro > defesaPersonagem) ? danoMonstro : 3;
+    int danoInfligido = (danoMonstro + rolarDado(20) > defesaPersonagem) ? danoMonstro : 3;
     int novoHP = getHP(ficha);
     novoHP -= danoInfligido;
     ficha.personagem.hp = max(novoHP, 0);
@@ -184,13 +184,18 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
     fugiu = false;
 
     while (!batalhaFinalizada and !fugiu) {
+        if (ficha.personagem.classe == Classe::MAGO) {
+            int mp = getMP(ficha);
+            mp += 1;
+            ficha.personagem.mp = min(mp, getMaxMP(ficha));
+        }
         int op = menuCombate(janelaMenu, ficha);
 
         string resultadoDaOpcao = "";
         if (op == OpcoesBatalha::ATACAR) {
             resultadoDaOpcao = ataquePersonagem(janelaMenu, ficha);
         } else if (op == OpcoesBatalha::ABRIR) {
-            abrirMochila(ficha, janelaMenu); // NAO USAR AINDA
+            abrirMochila(ficha, janelaMenu);
         } else if (op == OpcoesBatalha::FUGIR) {
             fugiu = personagemFugiu();
             resultadoDaOpcao = tentaFugir(janelaMenu, fugiu);
