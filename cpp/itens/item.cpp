@@ -48,7 +48,7 @@ AtributosItens setAtributos(string *atrb){
             case 3:
                   atributos.classe = LADINO;
                   break;
-            default:
+            case 4:
                   atributos.classe = TODOS;
                   break;
       }
