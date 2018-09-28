@@ -69,22 +69,6 @@ int getDestreza(Inventario inventario){
     return DestrezaTotal;
 }
 
-Item getItemPeloId(int id, Inventario inventario){
-    Item item = inventario.tdsItens[33];
-    bool contem = false;
-    for(int i  = 0; i < inventario.tamInvent; i++){
-        if(inventario.mochila[i].id == id){
-            item  = inventario.mochila[i];
-            contem = true;
-            break;
-        }
-    }
-    if(!contem){
-        cout << "Item não pertence ao inventário" << endl;
-    }
-    return item;
-}
-
 void venderItem(int numero,Inventario &inventario){
     Item* itens = inventario.mochila;
     if(itens[numero - 1].id != 34){
@@ -121,6 +105,15 @@ bool contemItem(int id, Inventario inventario){
         }
     }
     return contem;
+}
+
+
+Item getItemPeloId(int id, Inventario inventario){
+    Item* itens = inventario.tdsItens;
+    if(contemItem(id,inventario)){
+        return itens[id - 1];
+    }
+    return itens[33];
 }
 
 void adicionarItem(int id, Inventario &inventario){
