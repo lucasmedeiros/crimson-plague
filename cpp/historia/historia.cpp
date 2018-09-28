@@ -1015,10 +1015,12 @@ void imprimeFuturoVila(WINDOW *janelaDialogo) {
 }
 
 void imprimeCreditos(WINDOW *janelaDialogo) {
-	string creditos[9] = {"Obrigado por jogar: A Praga Carmesim!","Sistema inspirado: Dungeons and Dragons, quinta edicao.",
+	string creditos[] = {"Obrigado por jogar: A Praga Carmesim!",
+	"Sistema inspirado: Dungeons and Dragons, quinta edicao.",
+	"",
 	"Feito por:","Jadson Luan","Jesse Souza","Lucas de Medeiros","Marcella Siqueira","Mikael Brasileiro",
 	"Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!"};
-	proximoDialogo(janelaDialogo,"Créditos",creditos,9);
+	proximoDialogo(janelaDialogo,"Créditos",creditos,10);
 }
 
 void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro *monstros) {

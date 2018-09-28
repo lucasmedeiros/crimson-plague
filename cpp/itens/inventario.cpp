@@ -69,6 +69,10 @@ int getDestreza(Inventario inventario){
     return DestrezaTotal;
 }
 
+void shift(Inventario &inventario, int index, int last) {
+    inventario.mochila[index] = inventario.mochila[last];
+}
+
 void venderItem(int numero,Inventario &inventario){
     Item* itens = inventario.mochila;
     if(itens[numero].id != 34){
@@ -80,8 +84,9 @@ void venderItem(int numero,Inventario &inventario){
             inventario.quantidade[numero] -= 1;
         }
     }
-}
 
+    shift(inventario, numero, qtdItens(inventario));
+}
 
 int qtdVazios(Inventario inventario){
   int vazio  = 0;
