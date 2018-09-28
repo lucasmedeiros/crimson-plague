@@ -484,7 +484,7 @@ int dialogoCombateRefeitorio(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janela
 
 }
 
-string checkOuvirConhecimento(Ficha &ficha, WINDOW *janelaDialogo, Monstro inimigo) {
+string checkOuvirConhecimento(Ficha &ficha, WINDOW *janelaDialogo) {
 	string posicaoCriaturas;
 	char escolhaCombate;
 	int dadoOuvir;
@@ -550,7 +550,7 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, 
 
 	if(tolower(ativou) != 's') {
 		numeroCriaturas = 3;
-		posicaoCriaturas = checkOuvirConhecimento(ficha,janelaDialogo, janelaMenu, inimigo);
+		posicaoCriaturas = checkOuvirConhecimento(ficha,janelaDialogo);
 	} else {
 		numeroCriaturas = 4;
 		string reveitorioCavernaDialogos1[4] = {"Ter ativado a armadilha atraiu muito a atencao daqueles que",
@@ -733,13 +733,13 @@ void acampamentoSecreto(Ficha &ficha,WINDOW *janelaDialogo, WINDOW *janelaMenu) 
 
 }
 
-void pioraCondicao (Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
+void pioraCondicao (Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	string dialogo[6] = {"A leve fraqueza que você estava sentindo",
 	"está demasiadamente pior, você já sente","um pouco de dificuldade em movimentos",
 	"bruscos ou que precisam de força. No entanto,","você continua determinado a acabar com esse","problema."};
 	
 	proximoDialogo(janelaDialogo,"As coisas estão piorando..",dialogo,6);
-	//TODO alterar a vitalidade.
+	
 }
 
 void fossoCadaveres(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
@@ -1013,10 +1013,15 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WIND
 	} else {
 		entradaMina(ficha, janelaDialogo, janelaMenu, monstros[0]);
 		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha, janelaDialogo, janelaMenu);
-		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas, janelaDialogo, janelaMenu, inimigo);
+		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas, janelaDialogo, janelaMenu, monstros[2]);
 		escolhas.combateDespensa.contiminado = depensaCaverna(ficha, janelaDialogo, janelaMenu, monstros[3]);
 		rampaCaverna(ficha, janelaDialogo, janelaMenu, monstros[1]);
 		fossoCadaveres(ficha, janelaDialogo, janelaMenu, monstros[4]);
+
+		if(escolhas.combateDespensa.contiminado == 's') {
+			pioraCondicao(ficha, janelaDialogo);
+		}
+
 		finalJakk(ficha, escolhas, janelaDialogo, janelaMenu, monstros[6]);
 
 		if(escolhas.conversaFinal.resultadoConversa == 'p') {
