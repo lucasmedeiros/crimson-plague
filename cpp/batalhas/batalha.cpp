@@ -129,11 +129,11 @@ void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
 
         bool confirmou = confirmacao(janelaMenu);
         if (confirmou) {
-            if (itemSelecionado.consumivel) {
+            if (itemSelecionado.consumivel)
                 usarItemConsumivel(opcao, ficha);
-            } else {
+            else 
                 equiparItem(opcao, ficha.inventario);
-            }
+            
         }
     }
 }
