@@ -119,71 +119,71 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 }
 
 bool segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
-	int escolhaDialogo;
-	bool escolhaDialogo2;
-	int tamanho;
-	string *falaMeruen;
+    int escolhaDialogo;
+    bool escolhaDialogo2;
+    int tamanho;
+    string *falaMeruen;
 
-	string apresentacaoAmigo[8] = {"Uma pessoa se aproxima de você, ela te parece familiar",
-    "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen.",
-    "Um guerreiro que costumava lutar com você, alguns anos atrás.",
-    "Ele está bem magro, comparado ao tempo que ele lutava com você.",
-    "Ele se aproxima e diz:",
-    "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina próxima dessa região",
-    "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo",
-    "Meruen: é provável que ela esteja causando a praga que está assolando essa vila."};
+    string apresentacaoAmigo[8] = {"Uma pessoa se aproxima de você, ela te parece familiar",
+    "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen.",
+    "Um guerreiro que costumava lutar com você, alguns anos atrás.",
+    "Ele está bem magro, comparado ao tempo que ele lutava com você.",
+    "Ele se aproxima e diz:",
+    "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina próxima dessa região",
+    "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo",
+    "Meruen: é provável que ela esteja causando a praga que está assolando essa vila."};
 
-    mostraDialogo(janelaDialogo, "Conversa Meruen", apresentacaoAmigo, 8);
+    mostraDialogo(janelaDialogo, "Conversa Meruen", apresentacaoAmigo, 8);
 
-    string escolhaFala[3] = {"Você poderia falar mais sobre essa praga?",
-    "Você está bem?",
-    "Há alguma coisa que eu possa ajudar?"};
+    string escolhaFala[3] = {"Você poderia falar mais sobre essa praga?",
+    "Você está bem?",
+    "Há alguma coisa que eu possa ajudar?"};
 
-    escolhaDialogo = realizaPergunta(janelaMenu, "O que você responderá pra ele:", escolhaFala, 3);
+    escolhaDialogo = realizaPergunta(janelaMenu, "O que você responderá pra ele:", escolhaFala, 3);
 
-	if(escolhaDialogo == 0) {
+    if(escolhaDialogo == 0) {
 
-		string falaMeruen[4] = {"Meruen: Estão chamando por aqui de praga Carmesim, ela começa de forma inofensiva",
-		"Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana.",
-		"Meruen: Infelizmente eu acabei pegando essa doença... Não acho que tenho muitos dias...",
-		"Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."};
-		tamanho = 4;
+        string falaMeruen[4] = {"Meruen: Estão chamando por aqui de praga Carmesim, ela começa de forma inofensiva",
+        "Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana.",
+        "Meruen: Infelizmente eu acabei pegando essa doença... Não acho que tenho muitos dias...",
+        "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."};
+        tamanho = 4;
 
-	} else if (escolhaDialogo == 1) {
+    } else if (escolhaDialogo == 1) {
 
-		string falaMeruen[2] = {"Meruen: Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
-		"Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."};
+        string falaMeruen[2] = {"Meruen: Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
+        "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."};
 
-		tamanho = 2;
+        tamanho = 2;
 
-	} else {
+    } else {
 
-		string falaMeruen[3] = {"Meruen: Na verdade, tem. Eu acredito que se você for pra essa mina. Deve haver uma forma de terminar",
-		"Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
-		"Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"};
-        
-		tamanho = 3;
-	} 
+        string falaMeruen[3] = {"Meruen: Na verdade, tem. Eu acredito que se você for pra essa mina. Deve haver uma forma de terminar",
+        "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
+        "Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"};
+        
+        tamanho = 3;
+    } 
 
-	mostraDialogo(janelaDialogo, "Meruen responde: ", falaMeruen, tamanho);
-    
+    mostraDialogo(janelaDialogo, "Meruen responde: ", falaMeruen, tamanho);
+    
 
-	escolhaDialogo2 = perguntaSimNao(janelaMenu);
-	string *respostaMeruen;
+    escolhaDialogo2 = perguntaSimNao(janelaMenu);
+    string *respostaMeruen;
 
-  	if(escolhaDialogo2) {
-		respostaMeruen[2] = {"Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina.",
-		"Meruen: Muito obrigado, amigo."};
-  	} else {
-		respostaMeruen[2] = {"Meruen: Você é tão vazio quanto sua alma.",
-		"Meruen se afasta lentamente de você."};
-	}
+    if(escolhaDialogo2) {
+        respostaMeruen[2] = {"Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina.",
+        "Meruen: Muito obrigado, amigo."};
+    } else {
+        respostaMeruen[2] = {"Meruen: Você é tão vazio quanto sua alma.",
+        "Meruen se afasta lentamente de você."};
+    }
 
-	mostraDialogo(janelaDialogo, "Meruen responde:", respostaMeruen, 2);
+    mostraDialogo(janelaDialogo, "Meruen responde:", respostaMeruen, 2);
 
-  return escolhaDialogo2;
-
+  return escolhaDialogo2;
 }
+
 
 void imprimePrimeiroFinal(WINDOW *janelaDialogo) {
 	string primeiroFinal[7] = {"Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila.",
@@ -255,9 +255,9 @@ void primeiraEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialog
 	string *analiseEntrada;
 
 	if (dadoObservar >= 10) {
-		analiseEntrada[3] = {"Voce percebe que os suportes de madeira do tunel",
-		"estao lascados e despedacados, como se tivessem danificados",
-		"em uma recente batalha."};
+		analiseEntrada[0] = "Voce percebe que os suportes de madeira do tunel";
+		analiseEntrada[1] = "estao lascados e despedacados, como se tivessem danificados";
+		analiseEntrada[2] = "em uma recente batalha.";
 
 		mostraDialogo(janelaDialogo, "Ao analisar a entrada", analiseEntrada, 3);
 		aumentarXP(ficha, 400);
@@ -285,23 +285,23 @@ void segundaEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialogo
 	int tamanho;
 
 	if(dadoObservar >= 10 and dadoObservar < 15) {
-		analiseEntrada[3] = {"No meio as picaretas e pas quebradas, voce encontra uma pedra preciosa!",
-		"No entanto, voce nao encontrou nada que pode ser util para entender",
-		"o que aconteceu nessa mina. Voce acende uma tocha e entra na caverna."};
+		analiseEntrada[0] = "No meio as picaretas e pas quebradas, voce encontra uma pedra preciosa!";
+		analiseEntrada[1] = "No entanto, voce nao encontrou nada que pode ser util para entender";
+		analiseEntrada[2] =  "o que aconteceu nessa mina. Voce acende uma tocha e entra na caverna.";
 		tamanho = 3;
 		aumentarXP(ficha, 300);
 	} else if (dadoObservar >= 15) {
-		analiseEntrada[5] = {"No meio as picaretas e pás quebradas, você encontra duas poções de vida!",
-		"Possivelmente elas serao úteis... Voce tambem encontra um simbolo",
-		"associados a kobolds, pequenas criaturas que são conhecidas por serem",
-		"saqueadores. E provavel que tenha havido um combate por aqui. Você",
-		"acende uma tocha e entra na caverna com atenção redobrada."};
+		analiseEntrada[0] = "No meio as picaretas e pás quebradas, você encontra duas poções de vida!";
+		analiseEntrada[1] = "Possivelmente elas serao úteis... Voce tambem encontra um simbolo";
+		analiseEntrada[2] = "associados a kobolds, pequenas criaturas que são conhecidas por serem";
+		analiseEntrada[3] = "saqueadores. E provavel que tenha havido um combate por aqui. Você";
+		analiseEntrada[4] = "acende uma tocha e entra na caverna com atenção redobrada.";
 		adicionarItem(1, ficha.inventario);
 		tamanho = 5;
 		aumentarXP(ficha, 500);
 	} else {
-		analiseEntrada[2] = {"Voce buscar por alguns minutos, no entanto, voce nao encontra",
-		"nada relevante pra voce."};
+		analiseEntrada[0] = "Voce buscar por alguns minutos, no entanto, voce nao encontra";
+		analiseEntrada[1] = "nada relevante pra voce.";
 		tamanho = 2;
 	}
 
@@ -309,7 +309,7 @@ void segundaEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialogo
 
 }
 
-char verificarCarroca(Ficha &ficha, WINDOW *janelaMenu) {
+char verificarCarroca(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int checkReflexo;
 	bool coletou;
 	char ativou = 'n';
@@ -320,23 +320,22 @@ char verificarCarroca(Ficha &ficha, WINDOW *janelaMenu) {
 
 	if(checkReflexo >= 12) {
 
-		analiseCarroca[4] = {"Voce escuta um barulho de",
-		"mecanismos, voce rapidamente entende que e uma armadilha",
-		"e salta para tras, conseguindo desviar do ataque sonico",
-		"produzido pela mesma."};
+		analiseCarroca[0] = "Voce escuta um barulho de";
+		analiseCarroca[1] = "mecanismos, voce rapidamente entende que e uma armadilha";
+		analiseCarroca[2] = "e salta para tras, conseguindo desviar do ataque sonico";
+		analiseCarroca[3] = "produzido pela mesma.";
 		tamanho = 4;
 		aumentarXP(ficha, 250);
 	} else {
-		analiseCarroca[3] = {"Voce escuta um barulho de",
-		"mecanismos, e uma armadilha que produz um som ensurdecedor",
-		"que deixa voce temporariamente surdo.";
+		analiseCarroca[0] = "Voce escuta um barulho de";
+		analiseCarroca[1] = "mecanismos, e uma armadilha que produz um som ensurdecedor";
+		analiseCarroca[2] = "que deixa voce temporariamente surdo.";
 		ativou = 's';
 		tamanho = 3;
 		ficha.personagem.hp -= 3;
-
 	}
 
-	mostraDialogo(janelaDialogo, "Ao arrastar o corpo", analiseCarroca, tamaho);
+	mostraDialogo(janelaDialogo, "Ao arrastar o corpo", analiseCarroca, tamanho);
 
 	string analiseMineiro[4] = {"Ao analisar o corpo, voce percebe que ele tem marcas parecidos com",
 	"as vitimas da praga. Ele tem uma roupa diferente dos outros mineradores",
@@ -484,7 +483,7 @@ string checkOuvirConhecimento(Ficha &ficha) {
 	return posicaoCriaturas;
 }
 
-char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
+char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int numeroCriaturas;
 	char escolhaCombate;
 	char solucaoCombate;
@@ -521,7 +520,7 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas) {
 		cin >> escolhaCombate;
 
 		if(tolower(escolhaCombate) == 'a') {
-				solucaoCombate = dialogoCombateRefeitorio(ficha);
+				solucaoCombate = dialogoCombateRefeitorio(ficha, janelaDialogo, janelaMenu);
 				break;
 		} else if (tolower(escolhaCombate) == 'b') {
 			cout << "Voce imediatamente comeca a preparar o seu ataque enquanto" << endl;
