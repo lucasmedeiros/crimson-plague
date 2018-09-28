@@ -114,11 +114,14 @@ void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
 
     string nome;
     int quantidade;
-    for(int i = 0; i < numElementos; i++) {
-        nome = ficha.inventario.mochila[i].nome;
-        quantidade = ficha.inventario.quantidade[i];
-        string label(nome + " (" + to_string(quantidade) + "x)");
-        opcoes[i] = label;
+    int j = 0;
+    for(int i = 0; i < ficha.inventario.tamInvent; i++) {
+        if (ficha.inventario.mochila[i].id != 34) {
+            nome = ficha.inventario.mochila[i].nome;
+            quantidade = ficha.inventario.quantidade[i];
+            string label(nome + " (" + to_string(quantidade) + "x)");
+            opcoes[j++] = label;
+        }
     }
 
     opcoes[numElementos] = "Voltar";
@@ -127,14 +130,12 @@ void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
 
     if (opcao < numElementos) {
         Item itemSelecionado = ficha.inventario.mochila[opcao];
-
         bool confirmou = confirmacao(janelaMenu);
         if (confirmou) {
             if (itemSelecionado.consumivel)
                 usarItemConsumivel(opcao, ficha);
             else
                 equiparItem(opcao, ficha.inventario);
-
         }
     }
 }

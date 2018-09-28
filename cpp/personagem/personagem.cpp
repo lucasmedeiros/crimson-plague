@@ -38,9 +38,7 @@ void usarItemConsumivel(int numeroListado,Ficha &ficha){
 
 	venderItem(numeroListado,ficha.inventario);
 
-	}else{
-		cout << "Item não é consumivel" << endl;
-	} 
+	}
 }
 
 void aumentarXP(Ficha &ficha, int xp) {

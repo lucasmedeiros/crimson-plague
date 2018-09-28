@@ -71,16 +71,14 @@ int getDestreza(Inventario inventario){
 
 void venderItem(int numero,Inventario &inventario){
     Item* itens = inventario.mochila;
-    if(itens[numero - 1].id != 34){
-        inventario.dinheiro += itens[numero - 1].valorVenda;
-        if(inventario.quantidade[numero - 1] == 1){
-            itens[numero - 1] = inventario.tdsItens[33];
-            inventario.quantidade[numero - 1] = 0;
+    if(itens[numero].id != 34){
+        inventario.dinheiro += itens[numero].valorVenda;
+        if(inventario.quantidade[numero] == 1){
+            itens[numero] = inventario.tdsItens[33];
+            inventario.quantidade[numero] = 0;
         }else{
-            inventario.quantidade[numero - 1] -= 1;
+            inventario.quantidade[numero] -= 1;
         }
-    }else{
-        cout << "Posição Vazia!" << endl;
     }
 }
 
