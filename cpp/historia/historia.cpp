@@ -203,7 +203,6 @@ void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 
 
 	//Descricao da entrada da caverna.
-	cout << "" << endl;
 	string descricaoEntrada[15] = {"Apos algumas horas de caminhada, voce chega na caverna.",
 	"Uma brisa fria desce dos picos da Montanha Serpente",
 	"Enrolada enquanto voce contempla a entrada para as",
@@ -232,12 +231,12 @@ void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 
 	if (conversa == 0) {
 			dadoObservar = rolarDado(20);
-			primeiraEscolhaEntrada(dadoObservar, ficha);
+			primeiraEscolhaEntrada(dadoObservar, ficha,janelaDialogo);
 			
 
 	} else if (conversa == 1) {
 			dadoObservar = rolarDado(20) + 2;
-			segundaEscolhaEntrada(dadoObservar, ficha);			
+			segundaEscolhaEntrada(dadoObservar, ficha,janelaDialogo);			
 
 	} else {
 		string semAnalise[3] = {"Analisar as coisas é perda de tempo, seus inimigos não tem",
@@ -432,7 +431,7 @@ int dialogoCombateRefeitorio(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janela
 
 }
 
-string checkOuvirConhecimento(Ficha &ficha) {
+string checkOuvirConhecimento(Ficha &ficha, WINDOW *janelaDialogo) {
 	string posicaoCriaturas;
 	char escolhaCombate;
 	int dadoOuvir;
@@ -441,136 +440,127 @@ string checkOuvirConhecimento(Ficha &ficha) {
 	dadoOuvir = rolarDado(20);
 
 	if(dadoOuvir >= 10) {
-		cout << "Voce consegue escutar varios passos do outro lado da porta" << endl;
-		cout << "Alem disso, voce escuta varias vozes e o barulho dessas" << endl;
+		string checkoutDialogo[2] = {"Voce consegue escutar varios passos do outro lado da porta",
+		"Alem disso, voce escuta varias vozes e o barulho dessas"};
+		mostraDialogo(janelaDialogo,"Reconhecimento",checkoutDialogo,2);
 		dadoConhecimento = rolarDado(20) + ficha.atributos.inteligencia;
 		aumentarXP(ficha, 250);
 
 		if (dadoConhecimento >= 8 and dadoConhecimento < 12) {
-				cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
-				cout << "estao falando, draconico. O pouco que voce entende da conversa" << endl;
-				cout << "é que os kobolds estão muito nervosos e gostariam de deixar as" << endl;
-				cout << "minas o mais rápido possível. Infelizmente, seu comandante" << endl;
-				cout << "determinou que eles devem permanecer por mais um tempo." << endl << endl;
-				aumentarXP(ficha, 150);
+			string dialogo1[5] = {"Voce consegue reconhecer que sao kobolds pelo idioma que",
+			"estao falando, draconico. O pouco que voce entende da conversa",
+			"é que os kobolds estão muito nervosos e gostariam de deixar as",
+			"minas o mais rápido possível. Infelizmente, seu comandante",
+			"determinou que eles devem permanecer por mais um tempo."};
+			proximoDialogo(janelaDialogo,"Reconhecimento",dialogo1,5);
+			aumentarXP(ficha, 150);
 
 		} else if (dadoConhecimento >= 12 and dadoConhecimento < 16) {
-				cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
-				cout << "estao falando, draconico. O que voce entende da conversa" << endl;
-				cout << "é que algum tipo de criatura tem roubado os mortos de seu" << endl;
-				cout << "acampamento enquanto eles dormem. A maioria dos humanos" << endl;
-				cout << "já foram roubados e até mesmo alguns cadáveres de kobolds" << endl;
-				cout << "se perderam." << endl << endl;
-				aumentarXP(ficha, 200);
+			string dialogo2[6] = {"Voce consegue reconhecer que sao kobolds pelo idioma que",
+			"estao falando, draconico. O que voce entende da conversa",
+			"é que algum tipo de criatura tem roubado os mortos de seu",
+			"acampamento enquanto eles dormem. A maioria dos humanos",
+			"já foram roubados e até mesmo alguns cadáveres de kobolds",
+			"se perderam."};
+			proximoDialogo(janelaDialogo,"Reconhecimento", dialogo2,6);
+			aumentarXP(ficha, 200);
 
 		} else if (dadoConhecimento >= 16) {
-			cout << "Voce consegue reconhecer que sao kobolds pelo idioma que" << endl;
-			cout << "estao falando, draconico. Voce consegue entender bastante da" << endl;
-			cout << "conversa, o mais importante que voce escuta é que" << endl;
-			cout << "deve haver alguma maldição nesta mina. Metade do seu bando" << endl;
-			cout << "já morreu de estranhas febres ou de uma tosse horrível." << endl << endl;
+			string dialogo3[5] = {"Voce consegue reconhecer que sao kobolds pelo idioma que",
+			"estao falando, draconico. Voce consegue entender bastante da",
+			"conversa, o mais importante que voce escuta é que",
+			"deve haver alguma maldição nesta mina. Metade do seu bando",
+			"já morreu de estranhas febres ou de uma tosse horrível."};
+			proximoDialogo(janelaDialogo,"Reconhecimento",dialogo3,5);
 			aumentarXP(ficha, 250);
 
 		} else {
-			cout << "Voce nao consegue entender quase nada do que estao falando." << endl;
-			cout << "No entanto, voce tem a impressao que sao kobolds." << endl << endl;
+			string dialogo4[2] = {"Voce nao consegue entender quase nada do que estao falando.",
+			"No entanto, voce tem a impressao que sao kobolds."};
+			proximoDialogo(janelaDialogo,"Reconhecimento",dialogo4,2);
 		}
 
 	}
 
 	posicaoCriaturas = "voce tambem suurpreende os tres kobolds que estao na sala";
-	cout << "Voce abre a grande porta de madeira e enxerga:" << endl << endl;
+	string checkoutDialogo2[1] = {"Voce abre a grande porta de madeira e enxerga:"};
+	mostraDialogo(janelaDialogo,"Caverna",checkoutDialogo2,1);
 	return posicaoCriaturas;
 }
 
 char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int numeroCriaturas;
-	char escolhaCombate;
+	int escolhaCombate;
 	char solucaoCombate;
 	string posicaoCriaturas;
 	char ativou = escolhas.escolhasRecepcao.ativouArmadilha;
 
 	if(tolower(ativou) != 's') {
 		numeroCriaturas = 3;
-		posicaoCriaturas = checkOuvirConhecimento(ficha);
+		posicaoCriaturas = checkOuvirConhecimento(ficha,janelaDialogo);
 	} else {
 		numeroCriaturas = 4;
-		cout << "Ter ativado a armadilha atraiu muito a atencao daqueles que" << endl;
-		cout << "estao dentro da caverna, inclusive os kobolds dentro dessa sala." << endl;
-		cout << "Voce escuta muitos gritos e passos, voce imagina que eles estao" << endl;
-		cout << "se preparando para um combate. Ao abrir a porta você ve o seguinte:" << endl;
+		string reveitorioCavernaDialogos1[4] = {"Ter ativado a armadilha atraiu muito a atencao daqueles que",
+		"estao dentro da caverna, inclusive os kobolds dentro dessa sala.","Voce escuta muitos gritos e passos, voce imagina que eles estao",
+		"se preparando para um combate. Ao abrir a porta você ve o seguinte:"}; 
+		mostraDialogo(janelaDialogo,"Armadilha",reveitorioCavernaDialogos1,4);
 
 		posicaoCriaturas = "Voce também exerga quatro kobolds apontando para voce.";
 	}
 
-	cout << "Uma sala larga e quadrada abriga quatro longas mesas de" << endl;
-	cout << "madeira, cada uma com um banco de cada lado. Em cima" << endl;
-	cout << "das mesas estao um numero de tigelas de madeira e talheres" << endl;
-	cout << "No canto sudeste da sala, um pequeno caldeirao fumega" << endl;
-	cout << "sobre um fogao cravado no chao. Um cheiro pungente esta" << endl;
-	cout << "suspenso no ar. "<< endl;
-	cout <<  posicaoCriaturas << endl;
+	string refCarverna1[7] =  {"Uma sala larga e quadrada abriga quatro longas mesas de",
+	"madeira, cada uma com um banco de cada lado. Em cima","das mesas estao um numero de tigelas de madeira e talheres",
+	"No canto sudeste da sala, um pequeno caldeirao fumega","sobre um fogao cravado no chao. Um cheiro pungente esta",
+	"suspenso no ar. ",posicaoCriaturas};
+	proximoDialogo(janelaDialogo,"Rfeitorio",refCarverna1,7);
 
-	cout << "Os kobolds parecem bastante nervosos, o que voce irá fazer?" << endl << endl;
+	string opcoesCaverna[2] =  {"Tentar conversar com eles.", "Atacar imediatamente."};
+	escolhaCombate =  realizaPergunta(janelaMenu,"Os kobolds parecem bastante nervosos, o que voce irá fazer?", opcoesCaverna,2);
 
-	cout << "a) Tentar conversar com eles." << endl;
-	cout << "b) Atacar imediatamente." << endl << endl;
 
-	while(true) {
-		cin >> escolhaCombate;
-
-		if(tolower(escolhaCombate) == 'a') {
-				solucaoCombate = dialogoCombateRefeitorio(ficha, janelaDialogo, janelaMenu);
-				break;
-		} else if (tolower(escolhaCombate) == 'b') {
-			cout << "Voce imediatamente comeca a preparar o seu ataque enquanto" << endl;
-			cout << "os kobolds correm em direcao a voce." << endl;
-			solucaoCombate = 'c';
-			break;
-		} else {
-			cout << "Opcao invalida!" << endl;
-		}
-
-	}
-
+	if(escolhaCombate == 0) {
+			solucaoCombate = dialogoCombateRefeitorio(ficha, janelaDialogo, janelaMenu);
+	} else if (escolhaCombate == 1) {
+		string refCarverna2[2] = {"Voce imediatamente comeca a preparar o seu ataque enquanto",
+		"os kobolds correm em direcao a voce."};
+		proximoDialogo(janelaDialogo,"Confronto",refCarverna2,2);
+		solucaoCombate = 'c';	
+	} 
 	return solucaoCombate;
 
 }
 
-char depensaCaverna(Ficha &ficha) {
+char depensaCaverna(Ficha &ficha, WINDOW *janelaDialogo) {
 	int checkResistencia;
 	char ficouContaminado;
+	string cavernaDialogo[10] = {"Uma porta de madeira fechada barra a entrada para essa",
+	"sala. Ao abrir porta você observa que esta sala longa",
+	"e estreita possui fileiras de estantes carregadas","de alimentos e outros suprimentos. Pesados sacos",
+	"de estopa estão empilhados até o teto no canto","oposto da câmara. Uns poucos rasgados, espalhando",
+	"aveia e farinha no chão. Muitos barris estão", "agrupados próximos à parede norte.",
+	"Ao entrar na sala, uma armadilha é ativada!","Uma flecha é lançada em sua direção."};
 
-	cout << "Uma porta de madeira fechada barra a entrada para essa" << endl;
-	cout << "sala. Ao abrir porta você observa que esta sala longa" << endl;
-	cout << "e estreita possui fileiras de estantes carregadas" << endl;
-	cout << "de alimentos e outros suprimentos. Pesados sacos" << endl;
-	cout << "de estopa estão empilhados até o teto no canto" << endl;
-	cout << "oposto da câmara. Uns poucos rasgados, espalhando" << endl;
-	cout << "aveia e farinha no chão. Muitos barris estão" << endl;
-	cout << "agrupados próximos à parede norte." << endl << endl;
-
-	cout << "Ao entrar na sala, uma armadilha é ativada!";
-	cout << "Uma flecha é lançada em sua direção." << endl;
+	proximoDialogo(janelaDialogo,"Caverna",cavernaDialogo,10);
 
 	checkResistencia = rolarDado(20) + (ficha.atributos.sorte / 4);
 	// Remover depois.
-	cout << checkResistencia << endl;
+	//cout << checkResistencia << endl;
 
 	if(checkResistencia >= 11) {
-		cout << "Por sorte, a armadilha não te acerta." << endl;
+		string resultado[1] = {"Por sorte, a armadilha não te acerta."};
+		proximoDialogo(janelaDialogo,"Armadilha",resultado,1);
 	} else {
-		cout << "A flecha perfura o seu ombro. Causando" << endl;
-		cout << "um ferimento moderado." << endl;
+		string resultado[2] = {"A flecha perfura o seu ombro. Causando",
+		"um ferimento moderado."};
+		proximoDialogo(janelaDialogo,"Armadilha",resultado,2);
 		//Diminuir vida.
 	}
 
-	cout << "" << endl;
-	cout << "A armadilha chama a atenção de algumas criaturas" << endl;
-	cout << "que estavam nos barris e elas irão atacar você." << endl;
-	cout << "Essas criaturas são ratos, no entanto, bem maiores" << endl;
-	cout << "que o normal, e você tem a impressão que pode pegar" << endl;
-	cout << "a praga lutando com elas." << endl;
+	string cavernaDialogo2[5] = {"A armadilha chama a atenção de algumas criaturas",
+	"que estavam nos barris e elas irão atacar você.","Essas criaturas são ratos, no entanto, bem maiores",
+	"que o normal, e você tem a impressão que pode pegar","a praga lutando com elas."};
+
+	proximoDialogo(janelaDialogo,"Caverna",cavernaDialogo2,5);
 
 	//iniciaBatlha(ficha) Drops: Arma +2 da classe, óleo;
 
@@ -580,92 +570,82 @@ char depensaCaverna(Ficha &ficha) {
 	cout << checkResistencia << endl;
 
 	if(checkResistencia >= 10) {
-		cout << "Apesar do contato com os ratos, você consegue" << endl;
-		cout << "resistir a praga." << endl;
+		string resultado[2] = {"Apesar do contato com os ratos, você consegue",
+		 "resistir a praga."};
+		proximoDialogo(janelaDialogo,"Praga",resultado,2);
 		ficouContaminado = 'n';
 	} else {
-		cout << "Após o combate, você sente que algo está errado..." << endl;
-		cout << "Você está se sentindo um pouco mais fraco, talvez" << endl;
-		cout << "você tenha contraído a praga." << endl;
+		string resultado[3] = {"Após o combate, você sente que algo está errado...",
+		"Você está se sentindo um pouco mais fraco, talvez","você tenha contraído a praga."};
+		proximoDialogo(janelaDialogo,"Praga",resultado,3);
 		ficouContaminado = 's';
 	}
 
-	cout << "" << endl;
-	cout << "Em um dos barris, você encontra duas poções de vida" << endl;
-	cout << "e duas poções de mana, naturalmente você guarda elas." << endl;
-	cout << "Elas podem ser bastante úteis no futuro." << endl << endl;
+	string cavernaDialogo3[3] = {"Em um dos barris, você encontra duas poções de vida",
+	"e duas poções de mana, naturalmente você guarda elas.","Elas podem ser bastante úteis no futuro."};
+	proximoDialogo(janelaDialogo,"Caverna",cavernaDialogo3,3);
 
-
-	cout << "Após os achados, você começa a descer uma rampa que" << endl;
-	cout << "leva a uma parte inferior da caverna. Aos poucos " << endl;
-	cout << "ela vai ficando muito íngrime, a um ponto que te" << endl;
-	cout << "faz perder o equilíbrio e descer o resto da rampa" << endl;
-	cout << "deslizando a mesma." << endl << endl;
+	string cavernaDialogo4[5] = {"Após os achados, você começa a descer uma rampa que",
+	"leva a uma parte inferior da caverna. Aos poucos ","ela vai ficando muito íngrime, a um ponto que te",
+	"faz perder o equilíbrio e descer o resto da rampa","deslizando a mesma."};
+	proximoDialogo(janelaDialogo,"Caverna",cavernaDialogo4,5);
 	
 	return ficouContaminado;
 }
 
-void rampaCaverna(Ficha &ficha) {
-	char escolhaCaminho;
+void rampaCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+	int escolhaCaminho;
 
-	cout << "Após descer a rampa e chegar no fundo da caverna" << endl;
-	cout << "você olha que esta caverna enorme se estende" << endl;
-	cout << "para cima até pelo menos 30 m, subindo alto para" << endl;
-	cout << "dentro das entranhas da montanha. A iluminação" << endl;
-	cout << "ocasionalmente reflete pequenos grãos prateados," << endl;
-	cout << "que brilham na face parede oeste da caverna." << endl;
-	cout << "Muitos cabos estão pendurados na beirada de um" << endl;
-	cout << "largo vazio na parede. O buraco penetra a face" << endl;
-	cout << "oeste da caverna e começa a cerca de 6 m de" << endl;
-	cout << "onde você está. O ar aqui é mais frio e úmido." << endl << endl;
+	string rampaCavernaDialogo1[10] = {"Após descer a rampa e chegar no fundo da caverna",
+	"você olha que esta caverna enorme se estende","para cima até pelo menos 30 m, subindo alto para",
+	"dentro das entranhas da montanha. A iluminação","ocasionalmente reflete pequenos grãos prateados,",
+	"que brilham na face parede oeste da caverna.","Muitos cabos estão pendurados na beirada de um",
+	"largo vazio na parede. O buraco penetra a face","oeste da caverna e começa a cerca de 6 m de",
+	"onde você está. O ar aqui é mais frio e úmido."};
 
-	cout << "De repente, você escuta vários passos. Não de" << endl;
-	cout << "humanoides, mas de animais. Uma matilha de" << endl;
-	cout << "lobos aparece por trás de algumas pedras e" << endl;
-	cout << "começa a te cercar, e eles vão te atacar!" << endl << endl;
+	proximoDialogo(janelaDialogo,"Rampa da Caverna", rampaCavernaDialogo1,10);
+
+	string rampaCavernaDialogo2[4] = {"De repente, você escuta vários passos. Não de",
+	 "humanoides, mas de animais. Uma matilha de","lobos aparece por trás de algumas pedras e",
+	 "começa a te cercar, e eles vão te atacar!"};
+
+	proximoDialogo(janelaDialogo,"Rampa da Caverna",rampaCavernaDialogo2,4);
 
 	//IniciaCombate(ficha);
 	aumentarXP(ficha, 2000);
 
-	cout << "Após o combate, você percebe que pode escalar" << endl;
-	cout << "aqueles cabos pendurados. No entanto, também" << endl;
-	cout << "existe um túnel à frente, o que você vai" << endl;
-	cout << "fazer?" << endl << endl;
-	cout << "a) Escalar os cabos." << endl << endl;
-	cout << "b) Seguir em frente." << endl << endl;
+	string rampaCavernaDialogo3[3] = {"Após o combate, você percebe que pode escalar",
+	"aqueles cabos pendurados. No entanto, também","existe um túnel à frente"};
 
-	while(true) {
-		cin >> escolhaCaminho;
+	proximoDialogo(janelaDialogo,"Rampa da Caverna",rampaCavernaDialogo3,3);
 
-		if(tolower(escolhaCaminho) == 'a') {
-			int checkObservar = rolarDado(20);
+	string opcoesRampa[2] =  {"Escalar os cabos", "Seguir em frente"};
 
-			if(checkObservar >= 5) {
-				cout << "Aṕos escalar os cabos, você sobe em uma" << endl;
-				cout << "pedra e exerga uma passagem para o que" << endl;
-				cout << "parece um acampamento, você consegue" << endl;
-				cout << "exergar que existem muitos tesouros" << endl;
-				cout << "lá dentro." << endl << endl;
+	escolhaCaminho =  realizaPergunta(janelaMenu,"O que voce vai fazer?", opcoesRampa,2);
 
-				acampamentoSecreto(ficha);
 
-			} else {
-				cout << "Você escala os cabos, mas devido ao escuro," << endl;
-				cout << "você não consegue enxergar nada. Sua única" << endl;
-				cout << "opção é voltar e seguir o outro caminho." << endl << endl;
-			}
+	if(escolhaCaminho == 0) {
+		int checkObservar = rolarDado(20);
+		if(checkObservar >= 5) {
+			string respostaRampa1[5] = {"Aṕos escalar os cabos, você sobe em uma",
+			"pedra e exerga uma passagem para o que","parece um acampamento, você consegue",
+			"exergar que existem muitos tesouros","lá dentro."};
+			proximoDialogo(janelaDialogo,"Passagem",respostaRampa1,5);
+			acampamentoSecreto(ficha, janelaDialogo,janelaMenu);
 
-			break;
-		} else if (tolower(escolhaCaminho) == 'b') {
-			cout << "Você prefere não se arriscar escalando esses" << endl;
-			cout << "cabos. É mais sensato manter o foco e seguir" << endl;
-			cout << "o caminho." << endl << endl;
-			break;
 		} else {
-			cout << "Opcao invalida!" << endl;
+			string respostaRampa2[3] = {"Você escala os cabos, mas devido ao escuro,",
+			"você não consegue enxergar nada. Sua única","opção é voltar e seguir o outro caminho."};
+			proximoDialogo(janelaDialogo, "Passagem", respostaRampa2,3);
 		}
 
-	}
+	} else if (escolhaCaminho == 1) {
+		string respostaRampa3[3] = {"Você prefere não se arriscar escalando esses",
+		"cabos. É mais sensato manter o foco e seguir" ,"o caminho."};
+		proximoDialogo(janelaDialogo,"Pssagem",respostaRampa3,3);
+		
+	} 
+
 }
 
 void acampamentoSecreto(Ficha &ficha,WINDOW *janelaDialogo, WINDOW *janelaMenu) {
@@ -789,8 +769,9 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *
 
 char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int escolhaConversa;
-	char respostaJakk;
+	int respostaJakk;
 	int convencerJakk;
+	char respostaDet;
 	int solucaoJakk;
 	bool interpretouSimbolos = escolhas.conversaFinal.interpretouSimbolos;
 
@@ -804,7 +785,6 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 
 	escolhaConversa =  realizaPergunta(janelaMenu,"O que voce irá responder:",escolhaConversaJakk,4);
 
-	
 	if(escolhaConversa == 0) {
 		string respostaJakk1[3] = {"Jakk: Eu que criei e estou matendo essa praga.",
 		"Jakk: Eu enfeiticei a agua para causar essa doenca.","Jakk: Portanto, cuspa logo o que voce quer ou lute comigo!"};
@@ -817,7 +797,8 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 			
 	} else if (escolhaConversa == 2) {
 		string respostaJakk3[1] = {"Jakk: Voce nao tem uma chance, seu verme."};
-		proximoDialogo(janelaDialogo,"Afronta",respostaJakk3,1);	
+		proximoDialogo(janelaDialogo,"Afronta",respostaJakk3,1);
+		return 'c';	
 	} 
 	
 	string escolhaConversaJakk2[2] = {"Por que está fazendo isso?","Então eu tenho o dever de pará-lo."};
@@ -833,7 +814,7 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 	} else if (respostaJakk == 1) {
 		string respostaJakk5[1] = {"Jakk: É hora de morrer, seu verme insolente!"};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk5,1);	
-		respostaJakk = 'c';	
+		return 'c';	
 	} 
 
 	string escolhaConversaJakk3[3] = {"Matando eles voce fica tao errado quanto aquelesque mataram o seu cla. Voce nao combate odio com odio.",
@@ -853,6 +834,7 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 	} else if (convencerJakk == 2) {
 		string respostaJakk8[1] = {"Jakk: Voce nao tem uma chance, seu verme."};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk8,1);
+		return 'c';
 	}
 
 	int tamanho = 2;
@@ -873,16 +855,19 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 	if(solucaoJakk == 0 or solucaoJakk == 1 and checkCarisma >= 10) {
 		string respostaJakk9[3] = {"Jakk: É verdade... Meu povo está sofrendo demais com isso.",
 		"Jakk: Eu vou quebrar o feitico imediatamente. Obrigado por","Jakk: trazer razao ao meu pensamento, humano."};
-		proximoDialogo(janelaDialogo,"Jakk",respostaJakk9,3);		
+		proximoDialogo(janelaDialogo,"Jakk",respostaJakk9,3);	
+		return 'p';	
 	
 	} else if (solucaoJakk == 2 and interpretouSimbolos) {
 		string respostaJakk10[3] = {"Jakk: Voce tem toda a razao... O que eu estava pensando?",
 		"Jakk: Eu vou quebrar o feitico imediatamente. Obrigado","Jakk: por trazer sensatez, humano."};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk10,3);
+		return 'p';
 	} else if (checkCarisma < 10) {
 		string respostaJakk11[2] = {"Jakk: Voce parece sensato, mas tenho que honrar meu clã",
 		"Jakk: É hora de lutar, humano."};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk11,2);
+		return 'c';
 	} 
 
 }
