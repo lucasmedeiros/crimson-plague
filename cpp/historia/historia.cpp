@@ -11,7 +11,7 @@ char perguntaSimNao(WINDOW *janelaMenu) {
 }
 
 void introducaoCidade(WINDOW *janelaDialogo) {
-	string falas[6] = {"É uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade",
+	string falas[6] = {"Uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade",
 	"situada em um dos pequenos vales que cruzam as Montanhas Serpente.",
 	"Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros",
 	"procurando descansar membros doloridos e afogar memórias ruins dentro de seus portões.",
@@ -792,7 +792,7 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *
 	proximoDialogo(janelaDialogo,"Caverna - A fonte",dialogofinalJakk,12);
 
 	if(dadoReligiao >= 8) {
-		string dialogoFinalJakk2[6] = {"\nOs símbolos entalhados aqui estão escritos","no idioma orc e servem como uma súplica a",
+		string dialogoFinalJakk2[6] = {"Os símbolos entalhados aqui estão escritos","no idioma orc e servem como uma súplica a",
 		"Gruumsh (o deus dos orcs) para destruir","os inimigos com uma terrível pestilência.","Eles também recontam a história das minas e o destino",
 		"do clã Garra Despedaçante"};
 
@@ -975,6 +975,13 @@ void imprimeFinalPacifico(WINDOW *janelaDialogo) {
 }
 
 void imprimeFinalViolento(WINDOW *janelaDialogo) {
+	string dialogoFinalJakk[4] = {"Extremamente abatido, Jakk fala baixo:",
+	"Jakk: Eu apenas queria vingar o meu clã...",
+	"Jakk: Infelizmente eu acho que o mal prevaleceu...",
+	"Jakk, solta sua maça, e cai no chão."};
+
+	proximoDialogo(janelaDialogo, "Final Violento", dialogoFinalJakk, 4);
+
 	string finalViolento[5] = {"Derrotar Jakk já possui um efeito visível imediato",
 	"nas águas da nascente, que	começa a ficar limpa da sujeira","da Febre logo após sua morte. Os sintomas",
 	"da Febre que afetam as pessoas de Passagem de Duvik","começaram a diminuir. E a ordem voltou a reinar na cidade."};
