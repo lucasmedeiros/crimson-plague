@@ -570,6 +570,7 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, 
 		string refCarverna2[2] = {"Voce imediatamente comeca a preparar o seu ataque enquanto",
 		"os kobolds correm em direcao a voce."};
 		proximoDialogo(janelaDialogo,"Confronto",refCarverna2,2);
+		iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
 		solucaoCombate = 'c';
 	}
 	return solucaoCombate;
@@ -814,6 +815,10 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *
 	if(escolhaLuta == 0) {
 		solucao = ConversaJakk(ficha, escolhas,janelaDialogo,janelaMenu);
 		escolhas.conversaFinal.resultadoConversa = solucao;
+
+		if (solucao == 'c') {
+			iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
+		}
 
 	}else{
 		string dialogofinalJakk4[2] = {"O Orc prepara sua maça enquanto você corre","em sua direção."};

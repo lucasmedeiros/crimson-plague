@@ -178,8 +178,13 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
     carregaHabilidades();
     defineAtributosMonstro(monstro);
 
-    string falaIntroducaoBatalha[1] = {"Um desafio se aproxima, um " + monstro.nome + " te ataca..."};
-    proximoDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 1);
+    string falaIntroducaoBatalha[4] = {
+        "Um desafio se aproxima, um " + monstro.nome + " te ataca...",
+        "Seu HP: " + to_string(getHP(ficha)),
+        "Seu MP: " + to_string(getMP(ficha)),
+        "HP monstro: " + to_string(hpMonstro)
+    };
+    proximoDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 4);
 
     bool batalhaFinalizada = false;
     fugiu = false;
@@ -233,15 +238,19 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
                 opcao, 2);
 
             if (infoDrop == 0) {
-                string inforDrop[1] = {item.descricao};
-                proximoDialogo(janelaDialogo, "VITORIA - INFORMACAO DO DROP", inforDrop, 1);
+                string inforDrop[2] = {
+                    "Descrição do item " + item.nome + ", dropado pelo " + monstro.nome + ":",
+                    item.descricao
+                };
+                proximoDialogo(janelaDialogo, "VITORIA - INFORMACAO DO DROP", inforDrop, 2);
             }
         } else {
             string arrayParabens[1] = {parabens};
             proximoDialogo(janelaDialogo, "VITORIA", arrayParabens, 1);
         }
     } else if (!fugiu){
-        string derrota[1] = {"Morreu..."};
-        proximoDialogo(janelaDialogo, "DERROTA", derrota, 1);
+        string derrota[2] = {"Você perde a batalha, desmaia e fica com 1 de HP...", "Tenha mais cuidado!"};
+        ficha.personagem.hp = 1;
+        proximoDialogo(janelaDialogo, "DERROTA", derrota, 2);
     }
 }
