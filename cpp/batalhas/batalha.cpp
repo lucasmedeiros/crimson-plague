@@ -90,8 +90,9 @@ string ataquePersonagem(WINDOW* janelaMenu,Ficha &ficha) {
 }
 
 string ataqueMonstro(Ficha &ficha) {
-    int defesaPersonagem = getDefesa(ficha);
-    int danoInfligido = max((danoMonstro - defesaPersonagem), 0);
+    int defesaPersonagem = 10 + getArmadura(ficha.inventario) + getModificadorDES(ficha);
+    defesaPersonagem = min(defesaPersonagem, 17);
+    int danoInfligido = (danoMonstro > defesaPersonagem) ? danoMonstro : 3;
     int novoHP = getHP(ficha);
     novoHP -= danoInfligido;
     ficha.personagem.hp = max(novoHP, 0);
@@ -105,14 +106,14 @@ void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
 
     for(int i = 0; i < numElementos; i++)
         opcoes[i] = ficha.inventario.mochila[i].nome;
-    
+
     opcoes[numElementos] = "Voltar";
-    
+
     int opcao = realizaPergunta(janelaMenu, "Selecione um item", opcoes, numElementos + 1);
 
     if (opcao < numElementos) {
         Item itemSelecionado = ficha.inventario.mochila[opcao];
-    
+
         bool confirmou = confirmacao(janelaMenu);
         if (confirmou) {
             if (itemSelecionado.consumivel) {
@@ -159,7 +160,7 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
     defineAtributosMonstro(monstro);
 
     string falaIntroducaoBatalha[1] = {"Um desafio se aproxima, um " + monstro.nome + " te ataca..."};
-    mostraDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 1);
+    proximoDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 1);
 
     bool batalhaFinalizada = false;
     bool fugiu = false;
@@ -201,7 +202,7 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
             string dropMonster = "O monstro deixou cair " + item.nome;
             string drops[] = {parabens, dropMonster};
 
-            mostraDialogo(janelaDialogo, "DROP", drops, 2);
+            proximoDialogo(janelaDialogo, "VITORIA", drops, 2);
 
             string opcao[2] = {"Sim", "Nao"};
             int infoDrop = realizaPergunta(janelaMenu, "Obter informações sobre o drop?",
@@ -209,7 +210,7 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
 
             if (infoDrop == 0) {
                 string inforDrop[1] = {item.descricao};
-                proximoDialogo(janelaDialogo, "VITORIA", inforDrop, 1);
+                proximoDialogo(janelaDialogo, "VITORIA - INFORMACAO DO DROP", inforDrop, 1);
             }
         } else {
             string arrayParabens[1] = {parabens};

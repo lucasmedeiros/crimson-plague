@@ -33,7 +33,7 @@ int calcularHPMonstro(Monstro monstro) {
 
 	int *valores = rolarDados(monstro.tipoDado, monstro.numDado);
 	for(int i = 0; i < monstro.numDado; i++) hp += valores[i];
-	hp = (hp / monstro.divisorDado) + monstro.somadorDado;
+	hp = max(((hp / monstro.divisorDado) + monstro.somadorDado), 3);
 
 	return hp;
 };
