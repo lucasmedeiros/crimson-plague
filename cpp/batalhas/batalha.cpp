@@ -7,6 +7,7 @@ using namespace std;
 int hpMonstro;
 int danoMonstro;
 int defesaMonstro;
+bool fugiu;
 Habilidade* habilidades;
 
 void carregaHabilidades() {
@@ -56,7 +57,7 @@ int getDanoHabilidade(WINDOW* janelaMenu, Ficha &ficha) {
 }
 
 void recuperaManaPassiva(Ficha &ficha) {
-    if (getMP(ficha) < getMaxMP(ficha)) 
+    if (getMP(ficha) < getMaxMP(ficha))
         ficha.personagem.mp++;
 }
 
@@ -131,9 +132,9 @@ void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
         if (confirmou) {
             if (itemSelecionado.consumivel)
                 usarItemConsumivel(opcao, ficha);
-            else 
+            else
                 equiparItem(opcao, ficha.inventario);
-            
+
         }
     }
 }
@@ -153,6 +154,10 @@ int menuCombate(WINDOW* janelaMenu, Ficha &ficha) {
 
 bool venceu() {
     return hpMonstro == ZERO_HP;
+}
+
+bool fugiuDaBatalha() {
+    return fugiu;
 }
 
 bool personagemFugiu() {
@@ -176,7 +181,7 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
     proximoDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 1);
 
     bool batalhaFinalizada = false;
-    bool fugiu = false;
+    fugiu = false;
 
     while (!batalhaFinalizada and !fugiu) {
         int op = menuCombate(janelaMenu, ficha);
