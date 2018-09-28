@@ -125,7 +125,6 @@ void abrirMochila(Ficha &ficha) {
 }
 
 int menuCombate(WINDOW* janelaMenu, Ficha &ficha) {
-    cout << "O que você faz? (Digite a opção...)" << endl;
     string opcaoATK = "";
     if (ficha.personagem.classe == Classe::MAGO) {
         opcaoATK = "Lançar magia?";

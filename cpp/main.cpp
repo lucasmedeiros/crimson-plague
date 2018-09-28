@@ -10,6 +10,7 @@ using namespace std;
 
 Ficha ficha;
 Item* itens;
+Monstro* monstros;
 
 // Variáveis referente a GUI
 WINDOW *janelaDialogo;
@@ -25,6 +26,10 @@ void imprimeInformacoes(Ficha ficha) {
 
 void carregarItens() {
   itens = carregarTdsItens();
+}
+
+void carregarMonstros() {
+    monstros = carregarAtributosMonstros();
 }
 
 int* iniciaArrayZerado(int tamanho){
@@ -63,13 +68,14 @@ int main() {
 
   Escolhas escolhas;
   carregarItens();
+  carregarMonstros();
   ficha = criarPersonagem(janelaMenu);
   ficha.inventario = iniciaInventario(ficha);
   // imprimeInformacoes(ficha);
   // imprimeInventario(ficha.inventario);
   // cout << "========================= História =========================" << endl;
-  //iniciaBatalha(ficha);
-  contaHistoria(ficha, escolhas, janelaDialogo, janelaMenu);
+  iniciaBatalha(janelaMenu, janelaDialogo, ficha, monstros[0]);
+  //contaHistoria(ficha, escolhas, janelaDialogo, janelaMenu);
   getch();
   endwin();
   return 0;

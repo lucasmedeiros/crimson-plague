@@ -19,7 +19,7 @@ Monstro getMonstro(string* informacoes) {
 	return monstro;
 }
 
-Monstro* carregarAtributos() {
+Monstro* carregarAtributosMonstros() {
 	string** atributos = importarTodos("../db/atrMonstros.txt"
 		,QTD_COLUNAS_MONSTROS, QTD_LINHAS_MONSTROS, QTD_COMENTARIOS_MONSTROS);
 	Monstro* monstros = new Monstro[QTD_LINHAS_MONSTROS];

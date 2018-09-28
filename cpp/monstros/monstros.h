@@ -20,7 +20,7 @@ struct Monstro {
 /**
  * @return todos os atributos dos monstros
  */
-Monstro* carregarAtributos();
+Monstro* carregarAtributosMonstros();
 
 /**
  * Recebe um monstro como argumento. Calcula o HP do monstro a partir dos dados rolados;
