@@ -158,7 +158,7 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
     carregaHabilidades();
     defineAtributosMonstro(monstro);
 
-    string falaIntroducaoBatalha[1] = {"Um desafio se aproxima, um monstro te ataca..."};
+    string falaIntroducaoBatalha[1] = {"Um desafio se aproxima, um " + monstro.nome + " te ataca..."};
     mostraDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 1);
 
     bool batalhaFinalizada = false;
@@ -173,6 +173,7 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
         } else if (op == OpcoesBatalha::ABRIR) {
             abrirMochila(ficha); // NAO USAR AINDA
         } else if (op == OpcoesBatalha::FUGIR) {
+            fugiu = personagemFugiu();
             resultadoDaOpcao = tentaFugir(janelaMenu, fugiu);
         }
 
@@ -185,6 +186,9 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
 
             mostraDialogo(janelaDialogo, "Resultado do turno", resultadoDoTurno, 5);
             batalhaFinalizada = (hpMonstro == ZERO_HP or getHP(ficha) == ZERO_HP);
+        } else {
+            string arrayConseguiuFugir[1] = {resultadoDaOpcao};
+            mostraDialogo(janelaDialogo, "Resultado do turno", arrayConseguiuFugir, 1);
         }
     }
 
@@ -193,20 +197,20 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
         int drop = dropMonstro(monstro);
         if (drop != -1) {
             adicionarItem(drop, ficha.inventario);
-            Item item = getItemPeloId(drop, ficha.inventario);
-            string dropMonster = "O monstro deixou cair " + item.nome;
-
-            string drops[] = {parabens, dropMonster};
-
-            mostraDialogo(janelaDialogo, "DROP", drops, 5);
-
-            bool infoDrop = false;
-            infoDrop = confirmacao(janelaMenu);
-
-            if (infoDrop) {
-                string inforDrop[1] = {item.descricao};
-                proximoDialogo(janelaDialogo, "VITORIA", inforDrop, 1);
-            }
+        //     Item item = getItemPeloId(drop, ficha.inventario);
+        //     string dropMonster = "O monstro deixou cair " + item.nome;
+        //
+        //     string drops[] = {parabens, dropMonster};
+        //
+        //     mostraDialogo(janelaDialogo, "DROP", drops, 5);
+        //
+        //     bool infoDrop = false;
+        //     infoDrop = confirmacao(janelaMenu);
+        //
+        //     if (infoDrop) {
+        //         string inforDrop[1] = {item.descricao};
+        //         proximoDialogo(janelaDialogo, "VITORIA", inforDrop, 1);
+        //     }
         } else {
             string arrayParabens[1] = {parabens};
             proximoDialogo(janelaDialogo, "VITORIA", arrayParabens, 1);
