@@ -550,7 +550,7 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, 
 
 	if(tolower(ativou) != 's') {
 		numeroCriaturas = 3;
-		posicaoCriaturas = checkOuvirConhecimento(ficha,janelaDialogo);
+		posicaoCriaturas = checkOuvirConhecimento(ficha,janelaDialogo, janelaMenu, inimigo);
 	} else {
 		numeroCriaturas = 4;
 		string reveitorioCavernaDialogos1[4] = {"Ter ativado a armadilha atraiu muito a atencao daqueles que",
@@ -1013,7 +1013,7 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WIND
 	} else {
 		entradaMina(ficha, janelaDialogo, janelaMenu, monstros[0]);
 		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha, janelaDialogo, janelaMenu);
-		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas, janelaDialogo, janelaMenu);
+		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas, janelaDialogo, janelaMenu, inimigo);
 		escolhas.combateDespensa.contiminado = depensaCaverna(ficha, janelaDialogo, janelaMenu, monstros[3]);
 		rampaCaverna(ficha, janelaDialogo, janelaMenu, monstros[1]);
 		fossoCadaveres(ficha, janelaDialogo, janelaMenu, monstros[4]);
