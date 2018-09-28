@@ -24,7 +24,10 @@ WINDOW* criaJanelaMenu() {
 }
 
 void mostraDialogo(WINDOW* window, string title, string linhas[], int numLinhas) {
+    wclear(window);
     box(window, 0, 0);
+    refresh();
+    wrefresh(window);
 
     // (window, yo, xo, msg)
     string msg = " " + title + " ";
