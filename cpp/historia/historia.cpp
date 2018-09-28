@@ -24,7 +24,7 @@ void introducaoCidade(WINDOW *janelaDialogo) {
 int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int escolhaGancho;
 	char retornoGancho;
-	int concordou;
+	char concordou;
 	int dialogo;
 
 	string descricaoPessoas[5] = {"Você está na praça principal da cidade e, percebe",
@@ -127,7 +127,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	return retornoGancho;
 }
 
-bool segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+char segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
     int escolhaDialogo;
 	char retornoDialogo;
     bool escolhaDialogo2;
@@ -174,7 +174,7 @@ bool segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janela
     
     escolhaDialogo2 = perguntaSimNao(janelaMenu);
 
-    if(escolhaDialogo2 == 0) {
+    if(escolhaDialogo2 == 'y') {
         string respostaMeruen[2] = {"Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina.",
         "Meruen: Muito obrigado, amigo."};
 		proximoDialogo(janelaDialogo, "Meruen responde:", respostaMeruen, 2);
@@ -193,8 +193,8 @@ bool segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janela
 void imprimePrimeiroFinal(WINDOW *janelaDialogo) {
 	string primeiroFinal[7] = {"Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila.",
 	"Duas semanas depois, em outra vila a procura de um artefato.",
-	"Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela",
-	"praga. Aqueles que sobreviveram foram os que fugiram",
+	"Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela praga.",
+	"Aqueles que sobreviveram foram os que fugiram",
 	"de Passagem de Duvik enquanto nao tinham sido contaminados",
 	"A promissora cidade comerciante, se tornou apenas uma ruina",
 	"uma promessa do que poderia se tornar."};
@@ -265,8 +265,6 @@ void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstr
 
 	}
 
-
-
 }
 
 void primeiraEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialogo) {
@@ -335,10 +333,11 @@ char recepcaoCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	"Sangue seco mancha a parede norte em varios locais.",
 	"Há uma saída para o oeste"};
 
+
+	proximoDialogo(janelaDialogo, "Recepção da Caverna", descricaoRecepcao, 8);
 	string opcoesRecepcao[2] = {"Analisar o corpo da carroca.",
 	"Seguir em frente."};
 
-	mostraDialogo(janelaDialogo, "Recepção da Caverna", descricaoRecepcao, 8);
 	escolhaDialogo = realizaPergunta(janelaMenu, "O que voce vai fazer?", opcoesRecepcao, 2);
 
 	if(escolhaDialogo == 0) {
@@ -364,7 +363,6 @@ char verificarCarroca(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int checkReflexo;
 	bool coletou;
 	char ativou = 'n';
-	int tamanho;
 
 	checkReflexo = rolarDado(20) + ficha.atributos.destreza;
 
@@ -374,17 +372,15 @@ char verificarCarroca(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		"mecanismos, voce rapidamente entende que e uma armadilha",
 		"e salta para tras, conseguindo desviar do ataque sonico",
 		"produzido pela mesma."};
-		tamanho = 4;
 		aumentarXP(ficha, 250);
-		mostraDialogo(janelaDialogo, "Ao arrastar o corpo", analiseCarroca, tamanho);
+		mostraDialogo(janelaDialogo, "Ao arrastar o corpo", analiseCarroca, 4);
 	} else {
 		string analiseCarroca[3] = {"Voce escuta um barulho de",
 		"mecanismos, e uma armadilha que produz um som ensurdecedor",
 		"que deixa voce temporariamente surdo."};
 		ativou = 's';
-		tamanho = 3;
 		ficha.personagem.hp -= 3;
-		mostraDialogo(janelaDialogo, "Ao arrastar o corpo", analiseCarroca, tamanho);
+		mostraDialogo(janelaDialogo, "Ao arrastar o corpo", analiseCarroca, 3);
 	}
 
 
@@ -402,7 +398,7 @@ char verificarCarroca(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 
 	coletou = perguntaSimNao(janelaMenu);
 
-	if(coletou) {
+	if(coletou == 'y') {
 		string conclusaoAnalise[1] = {"Voce coleta os minerios sem problemas."};
 		adicionaDinheiro(ficha, 250);
 		mostraDialogo(janelaDialogo, "Decisão dos minérios", conclusaoAnalise, 1);
