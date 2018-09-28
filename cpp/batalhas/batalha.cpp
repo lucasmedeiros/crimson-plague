@@ -249,8 +249,19 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
             proximoDialogo(janelaDialogo, "VITORIA", arrayParabens, 1);
         }
     } else if (!fugiu){
-        string derrota[2] = {"Você perde a batalha, desmaia e fica com 1 de HP...", "Tenha mais cuidado!"};
-        ficha.personagem.hp = 1;
-        proximoDialogo(janelaDialogo, "DERROTA", derrota, 2);
+        string msgDerrota = "";
+        if (monstro.id == 7) {
+            msgDerrota = "VOCE MORREU...";
+            string derrota[1] = {msgDerrota};
+            ficha.personagem.hp = 1;
+            proximoDialogo(janelaDialogo, "DERROTA", derrota, 1);
+        } else {
+            msgDerrota = "Você perde a batalha contra o " + monstro.nome + ", desmaia e fica com 1 de HP...";
+            string derrota[2] = {msgDerrota, "Tenha mais cuidado!"};
+            ficha.personagem.hp = 1;
+            proximoDialogo(janelaDialogo, "DERROTA", derrota, 2);
+        }
+
+        
     }
 }
