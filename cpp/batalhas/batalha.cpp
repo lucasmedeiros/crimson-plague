@@ -190,21 +190,30 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
     }
 
     if (venceu()) {
-        cout << "Parabéns pela vitória!" << endl;
+        string parabens = "Parabéns pela vitória!";
         int drop = dropMonstro(monstro);
         if (drop != -1) {
             adicionarItem(drop, ficha.inventario);
             Item item = getItemPeloId(drop, ficha.inventario);
-            cout << "O monstro deixou cair " << item.nome << endl;
-            char infoDrop = 'n';
+            string dropMonster = "O monstro deixou cair " + item.nome;
 
-            cout << "Exibir informações? (S/N) ";
-            cin >> infoDrop;
-            if (tolower(infoDrop) == 's') {
-                cout << item.descricao << endl;
+            string drops[] = {parabens, dropMonster};
+
+            mostraDialogo(janelaDialogo, "DROP", drops, 5);
+
+            bool infoDrop = false;
+            infoDrop = confirmacao(janelaMenu);
+
+            if (infoDrop) {
+                string inforDrop[1] = {item.descricao};
+                proximoDialogo(janelaDialogo, "VITORIA", inforDrop, 1);
             }
+        } else {
+            string arrayParabens[1] = {parabens};
+            proximoDialogo(janelaDialogo, "VITORIA", arrayParabens, 1);
         }
     } else if (!fugiu){
-        cout << "Morreu..." << endl;
+        string derrota[1] = {"Morreu..."};
+        proximoDialogo(janelaDialogo, "DERROTA", derrota, 1);
     }
 }
