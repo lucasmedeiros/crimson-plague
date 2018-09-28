@@ -55,6 +55,11 @@ int getDanoHabilidade(WINDOW* janelaMenu, Ficha &ficha) {
     return dano;
 }
 
+void recuperaManaPassiva(Ficha &ficha) {
+    if (getMP(ficha) < getMaxMP(ficha)) 
+        ficha.personagem.mp++;
+}
+
 string ataquePersonagem(WINDOW* janelaMenu,Ficha &ficha) {
     int danoInfligido = 0;
 
@@ -64,6 +69,8 @@ string ataquePersonagem(WINDOW* janelaMenu,Ficha &ficha) {
         if (rolarDado(D20) < RESULTADO_DEFESA_MAGIA) {
             danoInfligido /= 2;
         }
+
+        recuperaManaPassiva(ficha);
     } else {
         danoInfligido = getDano(ficha) + rolarDado(D20);
 
