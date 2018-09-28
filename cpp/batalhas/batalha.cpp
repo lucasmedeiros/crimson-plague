@@ -1,6 +1,7 @@
 #include <iostream>
 #include "batalha.h"
 #include "../util.h"
+#include <string>
 using namespace std;
 
 int hpMonstro;
@@ -104,8 +105,14 @@ void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
     int numElementos = qtdItens(ficha.inventario);
     string *opcoes = new string[numElementos + 1];
 
-    for(int i = 0; i < numElementos; i++)
-        opcoes[i] = ficha.inventario.mochila[i].nome;
+    string nome;
+    int quantidade;
+    for(int i = 0; i < numElementos; i++) {
+        nome = ficha.inventario.mochila[i].nome;
+        quantidade = ficha.inventario.quantidade[i];
+        string label(nome + " (" + to_string(quantidade) + "x)");
+        opcoes[i] = label;
+    }
 
     opcoes[numElementos] = "Voltar";
 
