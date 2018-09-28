@@ -819,7 +819,12 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *
 		string dialogofinalJakk4[2] = {"O Orc prepara sua maça enquanto você corre","em sua direção."};
 		proximoDialogo(janelaDialogo,"Jakk",dialogofinalJakk4,2);
 		iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
-		escolhas.conversaFinal.resultadoConversa = 'c';
+
+		if(fugiuDaBatalha() or !venceu()) {
+			escolhas.conversaFinal.resultadoConversa = 'f';
+		} else {
+			escolhas.conversaFinal.resultadoConversa = 'c';
+		}
 	}
 
 }
@@ -966,6 +971,15 @@ void imprimeVarianciasFinal(Escolhas &escolhas,WINDOW *janelaDialogo) {
 	}
 }
 
+void imprimeFinalDerrota(WINDOW * janelaDialogo) {
+	string finalDerrota[4] = {"Apesar dos seus esforços, você não conseguiu derrotar Jakk.",
+	"Portanto, você não conseguiu acabar com o mal da praga.",
+	"Todos de Passagem de Duvik pereceram à doença, e a promissora cidade",
+	"comerciante, virou apenas uma promessa do que poderia ser..."};
+
+	proximoDialogo(janelaDialogo, "Derrota", finalDerrota, 4);
+}
+
 void imprimeFinalPacifico(WINDOW *janelaDialogo) {
 	string finalPacifico[5] = {"Após convencer Jakk a terminar a maldição. A água",
 	"amaldiçoada, que servia como abastecimento de Passagem","de Duvik, foi aos poucos sendo purificada. Os sintomas",
@@ -1034,12 +1048,16 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WIND
 
 		if(escolhas.conversaFinal.resultadoConversa == 'p') {
 			imprimeFinalPacifico(janelaDialogo);
-		} else {
+			imprimeVarianciasFinal(escolhas, janelaDialogo);
+			imprimeFuturoVila(janelaDialogo);
+		} else  if (escolhas.conversaFinal.resultadoConversa == 'c'){
 			imprimeFinalViolento(janelaDialogo);
+			imprimeVarianciasFinal(escolhas, janelaDialogo);
+			imprimeFuturoVila(janelaDialogo);
+		} else if (escolhas.conversaFinal.resultadoConversa == 'f') {
+			imprimeFinalDerrota(janelaDialogo);
+			imprimeCreditos(janelaDialogo);
 		}
 
-		imprimeVarianciasFinal(escolhas, janelaDialogo);
-		imprimeFuturoVila(janelaDialogo);
-		imprimeCreditos(janelaDialogo);
 	}
 }
