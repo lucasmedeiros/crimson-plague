@@ -899,17 +899,17 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 		return 'c';
 	}
 
-	int tamanho = 2;
-	string escolhaConversaJakk4[2] = {"Jakk, esqueca isso... Voce salvara a vida de muitas Pessoas do seu cla, desistindo disso.",
-	"Seja um pouco racional... Isso nao trara alegria a ninguem."};
 
 	if(interpretouSimbolos) {
 		string escolhaConversaJakk4[3] = {"Jakk, esqueca isso... Voce salvara a vida de muitas Pessoas do seu cla, desistindo disso.",
 		"Seja um pouco racional... Isso nao trara alegria a ninguem.","Eu tenho certeza que a vontade de Gruumsh eh que isso acabe pacificamente."};
-		tamanho = 3;
-	}
+		solucaoJakk = realizaPergunta(janelaMenu,"O que voce ira responder:",escolhaConversaJakk4,3);
 
-	solucaoJakk = realizaPergunta(janelaMenu,"O que voce ira responder:",escolhaConversaJakk4,tamanho);
+	}else{
+		string escolhaConversaJakk4[2] = {"Jakk, esqueca isso... Voce salvara a vida de muitas Pessoas do seu cla, desistindo disso.",
+		"Seja um pouco racional... Isso nao trara alegria a ninguem."};
+		solucaoJakk = realizaPergunta(janelaMenu,"O que voce ira responder:",escolhaConversaJakk4,2);
+	}
 
 	//TO DO
 	int checkCarisma = rolarDado(20) + ficha.atributos.carisma;
