@@ -174,7 +174,7 @@ char segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janela
 
     escolhaDialogo2 = perguntaSimNao(janelaMenu);
 
-    if(escolhaDialogo2 == 'y') {
+    if(escolhaDialogo2 == 's') {
         string respostaMeruen[2] = {"Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina.",
         "Meruen: Muito obrigado, amigo."};
 		proximoDialogo(janelaDialogo, "Meruen responde:", respostaMeruen, 2);
