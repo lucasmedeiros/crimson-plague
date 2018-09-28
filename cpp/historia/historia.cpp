@@ -21,7 +21,7 @@ void introducaoCidade(WINDOW *janelaDialogo) {
 	mostraDialogo(janelaDialogo, "Introdução", falas, 6);
 }
 
-int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+char ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int escolhaGancho;
 	char retornoGancho;
 	char concordou;
@@ -33,7 +33,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	"Um grupo de pessoas com manchas de carvão no rosto e braços.",
 	"Alguns moradores que estão claramente abatidos."};
 
-	mostraDialogo(janelaDialogo, "Praça da cidade", descricaoPessoas, 5);
+	proximoDialogo(janelaDialogo, "Praça da cidade", descricaoPessoas, 5);
 
 	// Escolha do gancho para a aventura
 
@@ -116,11 +116,11 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
     	if(concordou == 'n') {
     		string respostaPessoa[1] = {"Com um olhar de desaprovação, lentamente começam a se afastar de você."};
 			retornoGancho = 'd';
-			mostraDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
+			proximoDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
 
     	} else {
     		string respostaPessoa[1] =  {"Mal sei o que dizer. Muito obrigado!!"};
-			mostraDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
+			proximoDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
     	}
     }
 
@@ -130,7 +130,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 char segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
     int escolhaDialogo;
 	char retornoDialogo;
-    bool escolhaDialogo2;
+    char escolhaDialogo2;
 
     string apresentacaoAmigo1[5] = {"Uma pessoa se aproxima de você, ela te parece familiar",
     "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen.",
@@ -141,7 +141,7 @@ char segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janela
     "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo",
     "Meruen: é provável que ela esteja causando a praga que está assolando essa vila."};
 
-    mostraDialogo(janelaDialogo, "Meruen", apresentacaoAmigo1, 5);
+    proximoDialogo (janelaDialogo, "Meruen", apresentacaoAmigo1, 5);
 	proximoDialogo(janelaDialogo,"Meruen",apresentacaoAmigo2,3);
 
     string escolhaFala[3] = {"Voce poderia falar mais sobre essa praga?",
@@ -199,7 +199,7 @@ void imprimePrimeiroFinal(WINDOW *janelaDialogo) {
 	"A promissora cidade comerciante, se tornou apenas uma ruina",
 	"uma promessa do que poderia se tornar."};
 	
-	mostraDialogo(janelaDialogo, "Conclusão", primeiroFinal, 7);
+	proximoDialogo(janelaDialogo, "Conclusão", primeiroFinal, 7);
 }
 
 void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
@@ -226,7 +226,7 @@ void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstr
 	"vale abaixo. Alem do suave assobio do vento, um completo",
 	"silencio preenche a abertura nas montanhas."};
 
-	mostraDialogo(janelaDialogo, "Entrada da caverna", descricaoEntradaP1, 5);
+	proximoDialogo(janelaDialogo, "Entrada da caverna", descricaoEntradaP1, 5);
 	proximoDialogo(janelaDialogo, "Entrada da caverna", descricaoEntradaP2, 5);
 	proximoDialogo(janelaDialogo, "Entrada da caverna", descricaoEntradaP3, 5);
 
@@ -334,7 +334,7 @@ char recepcaoCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	"Há uma saída para o oeste"};
 
 
-	proximoDialogo(janelaDialogo, "Recepção da Caverna", descricaoRecepcao, 8);
+	proximoDialogo(janelaDialogo, "Recepção da Caverna", descricaoRecepcao, 7);
 	string opcoesRecepcao[2] = {"Analisar o corpo da carroca.",
 	"Seguir em frente."};
 
@@ -401,10 +401,10 @@ char verificarCarroca(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	if(coletou == 'y') {
 		string conclusaoAnalise[1] = {"Voce coleta os minerios sem problemas."};
 		adicionaDinheiro(ficha, 250);
-		mostraDialogo(janelaDialogo, "Decisão dos minérios", conclusaoAnalise, 1);
+		proximoDialogo(janelaDialogo, "Decisão dos minérios", conclusaoAnalise, 1);
 	} else {
 		string conclusaoAnalise[1] = {"Voce prefere nao arricar a pegar esses minerios."};
-		mostraDialogo(janelaDialogo, "Decisão dos minérios", conclusaoAnalise, 1);
+		proximoDialogo(janelaDialogo, "Decisão dos minérios", conclusaoAnalise, 1);
 	}
 	aumentarXP(ficha, 250);
 
@@ -982,7 +982,7 @@ void imprimeCreditos(WINDOW *janelaDialogo) {
 	string creditos[9] = {"Obrigado por jogar: A Praga Carmesim!","Sistema inspirado: Dungeons and Dragons, quinta edicao.",
 	"Feito por:","Jadson Luan","Jesse Souza","Lucas de Medeiros","Marcella Siqueira","Mikael Brasileiro",
 	"Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!"};
-	mostraDialogo(janelaDialogo,"Créditos",creditos,9);
+	proximoDialogo(janelaDialogo,"Créditos",creditos,9);
 }
 
 void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro *monstros) {

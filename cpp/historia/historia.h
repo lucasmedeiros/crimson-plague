@@ -41,7 +41,7 @@ struct Escolhas {
 
 char perguntaSimNao(WINDOW *janelaMenu);
 void introducaoCidade(WINDOW *janelaDialogo);
-int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu);
+char ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu);
 char segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janelaMenu);
 char recepcaoCaverna(Ficha &ficha, WINDOW *janelaMenu);
 char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW *janelaMenu);
