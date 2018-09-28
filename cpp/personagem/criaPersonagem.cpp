@@ -5,22 +5,18 @@
 using namespace std;
 
 void informacoesClasses(WINDOW *janelaDialogo) {
-
-    string linha1 = "Guerreiro:";
-    string linha2 = "Guerreiros são exímios lutadores marciais, sempre prontos para lutar. Possuem extremas habilidades de combate corpo a corpo.";
-    string linha3 = "";
-    string linha4 = "Mago:";
-    string linha5 = "Magos são pesquisadores das artes arcanas da Idade Média e utilizam-as em suas batalhas, porém são fisicamente fracos e não possuem habilidades de combate com armas.";
-    string linha6 = "";
-    string linha7 = "Ladino:";
-    string linha8 = "Bem furtivos e escorregadios, ladinos, se não estão roubando algo, estão trabalhando numa busca por um tesouro. Possuem altas habilidades em combates de longa distância e armas de longo";
-    string linha9 = "alcance.";
-
-    string informacoes[9] = {
-        linha1, linha2, linha3, linha4, linha5, linha6, linha7, linha8, linha9
+    string informacoes[] = {
+        "Guerreiros são exímios lutadores marciais, sempre prontos para lutar.",
+        "Possuem extremas habilidades de combate corpo a corpo.",
+        "",
+        "Magos são pesquisadores das artes arcanas da Idade Média e utilizam-as em suas batalhas,",
+        "porém são fisicamente fracos e não possuem habilidades de combate com armas.",
+        "",
+        "Furtivos e escorregadios, ladinos, se não estão roubando algo, estão trabalhando numa busca por um tesouro.",
+        "Possuem altas habilidades em combates de longa distância e armas de longo alcance."
     };
 
-    mostraDialogo(janelaDialogo, "INFORMACOES", informacoes, 9);
+    mostraDialogo(janelaDialogo, "Sobre as classes", informacoes, 8);
 }
 
 
@@ -58,7 +54,7 @@ string defineNomePersonagem() {
 }
 
 Classe defineClassePersonagem(WINDOW *janelaMenu, WINDOW *janelaDialogo) {
-    string classes[4] = {"Guerreiro", "Mago", "Ladino", "INFORMACOES DAS CLASSES"};
+    string classes[4] = {"Guerreiro", "Mago", "Ladino", "Mais informações"};
     bool confirmou = false;
     int classe;
     while (!confirmou) {
