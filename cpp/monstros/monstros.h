@@ -1,3 +1,5 @@
+#ifndef MONSTRO_H
+#define MONSTRO_H
 #include <iostream>
 #include "../util.h"
 #define QTD_COMENTARIOS_MONSTROS 2
@@ -28,3 +30,4 @@ Monstro* carregarAtributosMonstros();
  * @return hp do monstro
  */
 int calcularHPMonstro(Monstro monstro);
+#endif

@@ -23,6 +23,7 @@ void introducaoCidade(WINDOW *janelaDialogo) {
 
 int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int escolhaGancho = 0;
+	char retornoGancho;
 	int concordou = 0;
 	int dialogo = 0;
 
@@ -51,6 +52,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		"Prefeito: que você é um aventureiro, você poderia nos ajudar",
 		"Prefeito: a acabar com essa doença? Por favor, muitos já",
 		"Prefeito: morreram com essa praga."};
+		retornoGancho = 'a';
 
 		mostraDialogo(janelaDialogo, "Ao se aproximar dele, voce escuta:", dialogoMorador, 7);
 
@@ -59,7 +61,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		"Ao se aproximar, um dos mineradores, com os olhos arregalados grita:",
 		"Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
 		"Minerador: voce parece forte. Por favor, acabe com esse mal!"};
-
+		retornoGancho = 'b';
 		mostraDialogo(janelaDialogo, "Dialogo Minerador", dialogoMorador, 4);
 
 	} else if (escolhaGancho == 2) {
@@ -91,6 +93,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 			"Apesar de tentar disfaçar, você percebe que ela começa a chorar."
 			};
 
+			retornoGancho = 'c';
 			mostraDialogo(janelaDialogo, "Ela responde:", falasSenhora, 4);
 
 		} 
@@ -99,6 +102,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		string descricaoNinguem[3] = {"Isso não é problema seu. Você já tem problemas demais pra resolver.",
 		"Esses camponeses conseguem resolver esse problema sozinho.",
 		"Ao menos você acha isso."};
+		retornoGancho = 'd';
 		mostraDialogo(janelaDialogo, "Conclusão", descricaoNinguem, 3);
 	}
     
@@ -108,6 +112,7 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 
     	if(concordou == 'n') {
     		respostaPessoa[0] = "Com um olhar de desaprovação, lentamente começam a se afastar de você.";
+			retornoGancho = 'd';
     	} else {
     		respostaPessoa[0] =  "Mal sei o que dizer. Muito obrigado!!";
     	}
@@ -115,11 +120,12 @@ int ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		mostraDialogo(janelaDialogo, "Resposta", respostaPessoa, 1);
     }
 
-	return escolhaGancho;
+	return retornoGancho;
 }
 
 bool segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
     int escolhaDialogo;
+	char retornoDialogo;
     bool escolhaDialogo2;
     int tamanho;
     string *falaMeruen;
@@ -174,9 +180,11 @@ bool segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janela
     if(escolhaDialogo2) {
         respostaMeruen[2] = {"Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina.",
         "Meruen: Muito obrigado, amigo."};
+		retornoDialogo = 'y';
     } else {
         respostaMeruen[2] = {"Meruen: Você é tão vazio quanto sua alma.",
         "Meruen se afasta lentamente de você."};
+		retornoDialogo = 'n';
     }
 
     mostraDialogo(janelaDialogo, "Meruen responde:", respostaMeruen, 2);
@@ -197,7 +205,7 @@ void imprimePrimeiroFinal(WINDOW *janelaDialogo) {
 	mostraDialogo(janelaDialogo, "Conclusão", primeiroFinal, 7);
 }
 
-void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
 	int conversa;
 	int dadoObservar;
 
@@ -220,6 +228,12 @@ void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	"silencio preenche a abertura nas montanhas."};
 
 	mostraDialogo(janelaDialogo, "Entrada da caverna", descricaoEntrada, 15);
+
+	string descricaoBatalha[2] {"Você encontra um kobolds, ele parece hostil"
+	, "E irá atacar você! Prepare-se para o combate!"};
+	
+	proximoDialogo(janelaDialogo, "Entrada da caverna", descricaoBatalha, 2);
+	iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
 
 	//Escolha do setor.
 
@@ -308,6 +322,45 @@ void segundaEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialogo
 
 }
 
+char recepcaoCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+	char ativou = 'n';
+	int escolhaDialogo;
+	int checkReflexo;
+
+	string descricaoRecepcao[8] = {"O tunel se abre em uma camara pequena e aproximadamente",
+	"O tunel se abre em uma camara pequena e aproximadamente",
+	"regular. Pedacos espalhados de minerio de prata cercam",
+	"um par de carroças de madeira. A parte de baixo do que",
+	"aparenta ser um corpo humano se sobressai debaixo de uma",
+	"das carrocas. E nao mostra nenhum sinal de movimento.",
+	"Sangue seco mancha a parede norte em varios locais.",
+	"Há uma saída para o oeste"};
+
+	string opcoesRecepcao[2] = {"Analisar o corpo da carroca.",
+	"Seguir em frente."};
+
+	mostraDialogo(janelaDialogo, "Recepção da Caverna", descricaoRecepcao, 8);
+	escolhaDialogo = realizaPergunta(janelaMenu, "O que voce vai fazer?", opcoesRecepcao, 2);
+
+	if(escolhaDialogo == 0) {
+		ativou = verificarCarroca(ficha, janelaDialogo, janelaMenu);
+	} else {
+
+		string precaucaoCarroca[3] = {"Voce prefere nao se arriscar e mexer nesse corpo.",
+		"E quase certo que havia alguma armadilha ali. Seria uma coin-",
+		"cidencia muito grande tantos minerios de prata espalhados uniformemente."};
+		
+		mostraDialogo(janelaDialogo, "Recepção da Caverna", precaucaoCarroca, 3);
+	}
+
+	string conclusaoRecepcao[2] = {"Apos passar da carroca, voce so ve uma grande porta a sua frente.",
+	"Voce nao ve outra opcao a nao ser entrar nela."};
+	
+	mostraDialogo(janelaDialogo, "Conclusão da área", conclusaoRecepcao, 2);
+	
+	return ativou;
+}
+
 char verificarCarroca(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	int checkReflexo;
 	bool coletou;
@@ -365,7 +418,7 @@ char verificarCarroca(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	return ativou;
 }
 
-int dialogoCombateRefeitorio(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+int dialogoCombateRefeitorio(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
 	int escolhaCombate;
 	char dialogoCombate;
 	int dadoCarisma = rolarDado(20) + ficha.atributos.carisma;
@@ -422,7 +475,7 @@ int dialogoCombateRefeitorio(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janela
 		string dialogoRefeitorio2[2] = {"O que parece ser o capitao daquele pequeno grupo fala:",
 		"Capitao: Nao importa o que humano fale, voce morre agora!"};
 		proximoDialogo(janelaDialogo,"Ameaca",dialogoRefeitorio2,2);
-		//Iniciar combate. 
+		iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
 		//Drops: 2 poções de vida e 2 de mana, bem como um minério de moonstone.
 		aumentarXP(ficha, 2000);
 	}
@@ -431,7 +484,7 @@ int dialogoCombateRefeitorio(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janela
 
 }
 
-string checkOuvirConhecimento(Ficha &ficha, WINDOW *janelaDialogo) {
+string checkOuvirConhecimento(Ficha &ficha, WINDOW *janelaDialogo, Monstro inimigo) {
 	string posicaoCriaturas;
 	char escolhaCombate;
 	int dadoOuvir;
@@ -488,7 +541,7 @@ string checkOuvirConhecimento(Ficha &ficha, WINDOW *janelaDialogo) {
 	return posicaoCriaturas;
 }
 
-char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
 	int numeroCriaturas;
 	int escolhaCombate;
 	char solucaoCombate;
@@ -519,7 +572,7 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, 
 
 
 	if(escolhaCombate == 0) {
-			solucaoCombate = dialogoCombateRefeitorio(ficha, janelaDialogo, janelaMenu);
+			solucaoCombate = dialogoCombateRefeitorio(ficha, janelaDialogo, janelaMenu, inimigo);
 	} else if (escolhaCombate == 1) {
 		string refCarverna2[2] = {"Voce imediatamente comeca a preparar o seu ataque enquanto",
 		"os kobolds correm em direcao a voce."};
@@ -530,7 +583,7 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, 
 
 }
 
-char depensaCaverna(Ficha &ficha, WINDOW *janelaDialogo) {
+char depensaCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
 	int checkResistencia;
 	char ficouContaminado;
 	string cavernaDialogo[10] = {"Uma porta de madeira fechada barra a entrada para essa",
@@ -543,8 +596,6 @@ char depensaCaverna(Ficha &ficha, WINDOW *janelaDialogo) {
 	proximoDialogo(janelaDialogo,"Caverna",cavernaDialogo,10);
 
 	checkResistencia = rolarDado(20) + (ficha.atributos.sorte / 4);
-	// Remover depois.
-	//cout << checkResistencia << endl;
 
 	if(checkResistencia >= 11) {
 		string resultado[1] = {"Por sorte, a armadilha não te acerta."};
@@ -556,18 +607,18 @@ char depensaCaverna(Ficha &ficha, WINDOW *janelaDialogo) {
 		//Diminuir vida.
 	}
 
-	string cavernaDialogo2[5] = {"A armadilha chama a atenção de algumas criaturas",
-	"que estavam nos barris e elas irão atacar você.","Essas criaturas são ratos, no entanto, bem maiores",
-	"que o normal, e você tem a impressão que pode pegar","a praga lutando com elas."};
+	string cavernaDialogo2[5] = {"A armadilha chama a atenção de uma criatura",
+	"que estava em um barril e ela irá atacar você.","Essas criatura é um rato, no entanto, bem maior",
+	"que o normal, e você tem a impressão que pode pegar","a praga lutando com ela."};
 
 	proximoDialogo(janelaDialogo,"Caverna",cavernaDialogo2,5);
 
-	//iniciaBatlha(ficha) Drops: Arma +2 da classe, óleo;
+	//iniciaBatalha(ficha) Drops: Arma +2 da classe;
+	iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
 
 
 	checkResistencia = rolarDado(20) + (ficha.atributos.vitalidade / 4);
 	aumentarXP(ficha, 2000);
-	cout << checkResistencia << endl;
 
 	if(checkResistencia >= 10) {
 		string resultado[2] = {"Apesar do contato com os ratos, você consegue",
@@ -593,7 +644,7 @@ char depensaCaverna(Ficha &ficha, WINDOW *janelaDialogo) {
 	return ficouContaminado;
 }
 
-void rampaCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+void rampaCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
 	int escolhaCaminho;
 
 	string rampaCavernaDialogo1[10] = {"Após descer a rampa e chegar no fundo da caverna",
@@ -606,12 +657,13 @@ void rampaCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	proximoDialogo(janelaDialogo,"Rampa da Caverna", rampaCavernaDialogo1,10);
 
 	string rampaCavernaDialogo2[4] = {"De repente, você escuta vários passos. Não de",
-	 "humanoides, mas de animais. Uma matilha de","lobos aparece por trás de algumas pedras e",
-	 "começa a te cercar, e eles vão te atacar!"};
+	 "humanoides, mas de animais. Um imenso","lobo aparece por trás de algumas pedras e",
+	 "começa a te cercar, e ele vai te atacar!"};
 
 	proximoDialogo(janelaDialogo,"Rampa da Caverna",rampaCavernaDialogo2,4);
 
 	//IniciaCombate(ficha);
+	iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
 	aumentarXP(ficha, 2000);
 
 	string rampaCavernaDialogo3[3] = {"Após o combate, você percebe que pode escalar",
@@ -681,7 +733,7 @@ void acampamentoSecreto(Ficha &ficha,WINDOW *janelaDialogo, WINDOW *janelaMenu) 
 
 }
 
-void pioraCondicao (Ficha &ficha, WINDOW *janelaDialogo) {
+void pioraCondicao (Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
 	string dialogo[6] = {"A leve fraqueza que você estava sentindo",
 	"está demasiadamente pior, você já sente","um pouco de dificuldade em movimentos",
 	"bruscos ou que precisam de força. No entanto,","você continua determinado a acabar com esse","problema."};
@@ -690,7 +742,7 @@ void pioraCondicao (Ficha &ficha, WINDOW *janelaDialogo) {
 	//TODO alterar a vitalidade.
 }
 
-void fossoCadaveres(Ficha &ficha, WINDOW *janelaDialogo) {
+void fossoCadaveres(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
 	int checkInteligencia;
 
 	string dialogoFosso1[7] = {"Você passa pelo túnel. Ondas de calor banham",
@@ -712,6 +764,7 @@ void fossoCadaveres(Ficha &ficha, WINDOW *janelaDialogo) {
 	
 	proximoDialogo(janelaDialogo,"Zumbies",dialogoFosso2,2);
 	//IniciaCombate(ficha);
+	iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
 	aumentarXP(ficha, 2000);
 
 	string dialogoFosso3[4] = {"","Algo dentro de você diz que isso está perto","de acabar. Ao calmo som de água corrente. Você",
@@ -720,7 +773,7 @@ void fossoCadaveres(Ficha &ficha, WINDOW *janelaDialogo) {
 	proximoDialogo(janelaDialogo,"Passagem estreita",dialogoFosso3,4);
 }
 
-void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
 	int escolhaLuta;
 	char solucao;
 	bool interpretouSimbolos = false;
@@ -762,6 +815,7 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *
 	}else{
 		string dialogofinalJakk4[2] = {"O Orc prepara sua maça enquanto você corre","em sua direção."};
 		proximoDialogo(janelaDialogo,"Combate",dialogofinalJakk4,2);
+		iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
 		escolhas.conversaFinal.resultadoConversa = 'c';	
 	}
 
@@ -873,7 +927,7 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 }
 
 
-void imprimeVarianciasFinal(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo) {
+void imprimeVarianciasFinal(Escolhas &escolhas,WINDOW *janelaDialogo) {
 	char gancho = escolhas.escolhasCidade.ganchoAventura;
 	
 	if(tolower(gancho) == 'a') {
@@ -938,43 +992,41 @@ void imprimeCreditos(WINDOW *janelaDialogo) {
 	mostraDialogo(janelaDialogo,"Créditos",creditos,9);
 }
 
-void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
+void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro *monstros) {
 	EscolhasCidade escolhasCidade = escolhas.escolhasCidade;
 	EscolhasRecepcao escolhasRecepcao = escolhas.escolhasRecepcao;
 	Personagem personagem = ficha.personagem;
 
 	introducaoCidade(janelaDialogo);
 
-	// escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
+	escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
 
-	// if(tolower(escolhasCidade.ganchoAventura) == 'd') {
-	// 	escolhasCidade.segundaChance = segundaChance(personagem);
-	// } else {
-	// 	escolhasCidade.segundaChance = 'y';
-	// }
+	if(tolower(escolhasCidade.ganchoAventura) == 'd') {
+	escolhasCidade.segundaChance = segundaChance(personagem, janelaDialogo, janelaMenu);
+	} else {
+		escolhasCidade.segundaChance = 'y';
+	}
 
-	// cout << escolhas.escolhasCidade.ganchoAventura << endl;
-	// cout << escolhas.escolhasCidade.segundaChance << endl;
+	if(tolower(escolhasCidade.segundaChance) == 'n') {
+		imprimePrimeiroFinal(janelaDialogo);
+		imprimeCreditos(janelaDialogo);
+	} else {
+		entradaMina(ficha, janelaDialogo, janelaMenu, monstros[0]);
+		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha, janelaDialogo, janelaMenu);
+		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas, janelaDialogo, janelaMenu);
+		escolhas.combateDespensa.contiminado = depensaCaverna(ficha, janelaDialogo, janelaMenu, monstros[3]);
+		rampaCaverna(ficha, janelaDialogo, janelaMenu, monstros[1]);
+		fossoCadaveres(ficha, janelaDialogo, janelaMenu, monstros[4]);
+		finalJakk(ficha, escolhas, janelaDialogo, janelaMenu, monstros[6]);
 
-	// if(tolower(escolhasCidade.segundaChance) == 'n') {
-	// 	imprimePrimeiroFinal();
-	// 	imprimeCreditos();
-	// } else {
-	// 	entradaMina(ficha);
-	// 	escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha);
-	// 	escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas);
-	// 	escolhas.combateDespensa.contiminado = depensaCaverna(ficha);
-	// 	rampaCaverna(ficha);
-	// 	finalJakk(ficha, escolhas);
+		if(escolhas.conversaFinal.resultadoConversa == 'p') {
+			imprimeFinalPacifico(janelaDialogo);
+		} else {
+			imprimeFinalViolento(janelaDialogo);
+		}
 
-	// 	if(escolhas.conversaFinal.resultadoConversa == 'p') {
-	// 		imprimeFinalPacifico();
-	// 	} else {
-	// 		imprimeFinalViolento();
-	// 	}
-
-	// 	imprimeVarianciasFinal(ficha, escolhas);
-	// 	imprimeFuturoVila();
-	// 	imprimeCreditos();
-	// }
+		imprimeVarianciasFinal(escolhas, janelaDialogo);
+		imprimeFuturoVila(janelaDialogo);
+		imprimeCreditos(janelaDialogo);
+	}
 }

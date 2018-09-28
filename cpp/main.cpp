@@ -75,7 +75,7 @@ int main() {
   // imprimeInventario(ficha.inventario);
   // cout << "========================= História =========================" << endl;
   iniciaBatalha(janelaMenu, janelaDialogo, ficha, monstros[0]);
-  //contaHistoria(ficha, escolhas, janelaDialogo, janelaMenu);
+  contaHistoria(ficha, escolhas, janelaDialogo, janelaMenu, monstros);
   getch();
   endwin();
   return 0;
