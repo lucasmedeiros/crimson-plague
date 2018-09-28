@@ -148,7 +148,7 @@ void adicionarItem(int id, Inventario &inventario){
 
 void equiparItem(int numero, Inventario &inventario){
     Item* itens = inventario.mochila;
-    Item itemEqp = itens[numero -1];
+    Item itemEqp = itens[numero];
     if(contemItem(itemEqp.id,inventario)){
         if(itemEqp.atrb.classe == TODOS || itemEqp.atrb.classe == inventario.classe){
             Item nEquipado;
@@ -156,27 +156,27 @@ void equiparItem(int numero, Inventario &inventario){
                 case ARMA:
                     nEquipado = inventario.equipados.arma;
                     inventario.equipados.arma = itemEqp;
-                    itens[numero - 1] = nEquipado;
+                    itens[numero] = nEquipado;
                     break;
                 case ARMADURA:
                     nEquipado = inventario.equipados.armadura;
                     inventario.equipados.armadura = itemEqp;
-                    itens[numero - 1] = nEquipado;
+                    itens[numero] = nEquipado;
                     break;
                 case CAPACETE:
                     nEquipado = inventario.equipados.capacete;
                     inventario.equipados.capacete = itemEqp;
-                    itens[numero - 1] = nEquipado;
+                    itens[numero] = nEquipado;
                     break;
                 case BOTAS:
                     nEquipado = inventario.equipados.botas;
                     inventario.equipados.botas = itemEqp;
-                    itens[numero - 1] = nEquipado;
+                    itens[numero] = nEquipado;
                     break;
                  case ESCUDO:
                     nEquipado = inventario.equipados.escudo;
                     inventario.equipados.escudo = itemEqp;
-                    itens[numero - 1] = nEquipado;
+                    itens[numero] = nEquipado;
                     break;
             }
         }
