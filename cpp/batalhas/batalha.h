@@ -6,6 +6,7 @@
 #include "../monstros/monstros.h"
 #include "../itens/inventario.h"
 #include "../itens/item.h"
+#include "../gui.h"
 using namespace std;
 
 // definições fixas
@@ -26,15 +27,11 @@ enum OpcoesBatalha{
 * @param ficha ficha do personagem
 * @param monstro o inimigo que será enfrentado
 */
-void iniciaBatalha(Ficha &ficha, Monstro monstro);
+void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Monstro monstro);
 
 /**
 * Função que diz se o personagem venceu a batalha.
 */
 bool venceu();
 
-/**
-* Função que diz se o personagem fugiu.
-*/
-bool personagemFugiu();
 #endif

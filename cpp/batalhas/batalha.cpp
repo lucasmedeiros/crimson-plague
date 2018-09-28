@@ -36,45 +36,30 @@ int dropMonstro(Monstro monstro) {
     return monstro.drop;
 }
 
-int getDanoHabilidade(Ficha &ficha) {
+int getDanoHabilidade(WINDOW* janelaMenu, Ficha &ficha) {
     int qtdHabs = qtdHabilidadesDisponiveis(ficha);
     int dano = -2;
 
     if (temManaParaAlgumaHabilidade(ficha, qtdHabs)) {
-        cout << endl;
-
-        cout << "==================================================" << endl;
-        cout << "Habilidades:" << endl;
+        string opcoesHabilidade[qtdHabs];
 
         for(int i = 0; i < qtdHabs; i++) {
-            cout << "| " << (i + 1) << ". " << habilidades[i].nome.c_str() << endl;
-        }
-        cout << "==================================================" << endl;
-
-        int opcao = 0;
-
-        while (true) {
-            cout << endl << "Escolha uma habilidade... -> ";
-            cin >> opcao;
-
-            if (opcao > 0 && opcao <= qtdHabs) {
-                break;
-            }
+            int pos = i+1;
+            opcoesHabilidade[i] = "| " + to_string((i + 1)) + ". " + habilidades[i].nome.c_str();
         }
 
-        cout << endl << "-> você usa " << habilidades[opcao-1].nome.c_str() << "...\n\n";
-        dano = usarHabilidade(habilidades[opcao - 1], ficha);
+        int opcao = realizaPergunta(janelaMenu, "Magias", opcoesHabilidade, qtdHabs);
+        dano = usarHabilidade(habilidades[opcao], ficha);
     }
-
 
     return dano;
 }
 
-void ataquePersonagem(Ficha &ficha) {
+string ataquePersonagem(WINDOW* janelaMenu,Ficha &ficha) {
     int danoInfligido = 0;
 
     if (ficha.personagem.classe == Classe::MAGO) {
-        danoInfligido = getDanoHabilidade(ficha);
+        danoInfligido = getDanoHabilidade(janelaMenu, ficha);
 
         if (rolarDado(D20) < RESULTADO_DEFESA_MAGIA) {
             danoInfligido /= 2;
@@ -87,36 +72,31 @@ void ataquePersonagem(Ficha &ficha) {
         }
     }
 
-    cout << endl << "RESULTADO DO ATAQUE:" << endl;
+    string resultadoDoAtaque = "";
 
     if (danoInfligido > 0) {
-        hpMonstro = max (hpMonstro - danoInfligido, 0);
-
-        cout << "==================================================" << endl;
-        cout << " Você infligiu um total de " << danoInfligido;
-        cout << " danos no monstro." << endl;
-        cout << "==================================================" << endl;
+        hpMonstro = max(hpMonstro - danoInfligido, 0);
+        resultadoDoAtaque = "Você infligiu um total de " + to_string(danoInfligido) + " danos no monstro.";
     } else {
-        cout << "==================================================" << endl;
         if (danoInfligido == 0) {
-            cout << " Você errou o ataque..." << endl;
+            resultadoDoAtaque = "Você errou o ataque...";
         } else {
-            cout << " Você não tem mana para habilidade alguma..." << endl;
+            resultadoDoAtaque = "Você não tem mana para habilidade alguma...";
         }
-        cout << " O monstro ri de você..." << endl;
-        cout << "==================================================" << endl;
+        resultadoDoAtaque += " O monstro ri de você...";
     }
+
+    return resultadoDoAtaque;
 }
 
-void ataqueMonstro(Ficha &ficha) {
+string ataqueMonstro(Ficha &ficha) {
     int defesaPersonagem = getDefesa(ficha);
     int danoInfligido = max((danoMonstro - defesaPersonagem), 0);
     int novoHP = getHP(ficha);
     novoHP -= danoInfligido;
     ficha.personagem.hp = max(novoHP, 0);
 
-    cout << "O monstro infligiu um total de " << danoInfligido;
-    cout << " danos a você." << endl;
+    return "O monstro infligiu um total de " + to_string(danoInfligido) + " danos a você.";
 }
 
 void abrirMochila(Ficha &ficha) {
@@ -144,29 +124,18 @@ void abrirMochila(Ficha &ficha) {
     }
 }
 
-int menuCombate(Ficha &ficha) {
+int menuCombate(WINDOW* janelaMenu, Ficha &ficha) {
     cout << "O que você faz? (Digite a opção...)" << endl;
-    int op = -1;
-
-    while(true) {
-        if (ficha.personagem.classe == Classe::MAGO) {
-            cout << "(1) -> Lançar Magia? " << endl;
-        } else {
-            cout << "(1) -> Atacar? " << endl;
-        }
-
-        cout << "(2) -> Abrir mochila? " << endl;
-        cout << "(3) -> Tentar fugir?" << endl;
-
-        cin >> op;
-
-        if (op < 1 && op > 3) {
-            cout << "Opcao Invalida!" << endl;
-        } else {
-            break;
-        }
+    string opcaoATK = "";
+    if (ficha.personagem.classe == Classe::MAGO) {
+        opcaoATK = "Lançar magia?";
+    } else {
+        opcaoATK = "Atacar? ";
     }
-    return op;
+    string opcoesMenu[3] = {opcaoATK, "Abrir mochila?", "Tentar fugir?"};
+    int op = realizaPergunta(janelaMenu, "O que você faz?", opcoesMenu, 3);
+
+    return op + 1;
 }
 
 bool venceu() {
@@ -178,50 +147,44 @@ bool personagemFugiu() {
     return rolagem >= 15;
 }
 
-void tentaFugir(bool fugiu) {
-    cout << endl << "Você tenta fugir e..." << endl;
+string tentaFugir(WINDOW* janelaMenu, bool fugiu) {
+    string str =  "Você tenta fugir e... ";
 
-    (fugiu) ? cout << "Escapou..." : cout << "Não consegue... O monstro está rindo de você...";
+    (fugiu) ? str += "Escapou..." : str+= "Não consegue... O monstro está rindo de você...";
 
-    cout << endl << endl;
+    return str;
 }
 
-void iniciaBatalha(Ficha &ficha, Monstro monstro) {
+void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Monstro monstro) {
     carregaHabilidades();
     defineAtributosMonstro(monstro);
 
-    cout << "==================================================" << endl;
-    cout << " Um desafio se aproxima, um monstro te ataca..." << endl;
-    cout << "==================================================" << endl;
+    string falaIntroducaoBatalha[1] = {"Um desafio se aproxima, um monstro te ataca..."};
+    mostraDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 1);
+
     bool batalhaFinalizada = false;
     bool fugiu = false;
 
     while (!batalhaFinalizada and !fugiu) {
-        int op = menuCombate(ficha);
+        int op = menuCombate(janelaMenu, ficha);
 
+        string resultadoDaOpcao = "";
         if (op == OpcoesBatalha::ATACAR) {
-            ataquePersonagem(ficha);
+            resultadoDaOpcao = ataquePersonagem(janelaMenu, ficha);
         } else if (op == OpcoesBatalha::ABRIR) {
-            abrirMochila(ficha);
+            abrirMochila(ficha); // NAO USAR AINDA
         } else if (op == OpcoesBatalha::FUGIR) {
-            fugiu = personagemFugiu();
-
-            tentaFugir(fugiu);
+            resultadoDaOpcao = tentaFugir(janelaMenu, fugiu);
         }
 
         if (!fugiu) {
-            cout << endl << "==================================================" << endl;
-            cout << endl << "Turno do monstro..." << endl;
-            ataqueMonstro(ficha);
-            cout << endl << "==================================================" << endl;
+            string atkMonstro = ataqueMonstro(ficha);
+            string strHP = "Seu HP: " + to_string(getHP(ficha));
+            string strMP =  "Seu MP: " + to_string(getMP(ficha));
+            string strHPMonstro = "HP monstro: " + to_string(hpMonstro);
+            string resultadoDoTurno[5] = {resultadoDaOpcao, atkMonstro, strHP, strMP, strHPMonstro};
 
-            cout << endl << "==================================================" << endl;
-            cout << "-> Seu HP: " << getHP(ficha) << endl;
-            cout << "-> Seu MP: " << getMP(ficha) << endl;
-            cout << "==================================================" << endl;
-
-            cout << endl << "HP monstro: " << hpMonstro << endl << endl;
-
+            mostraDialogo(janelaDialogo, "Resultado do turno", resultadoDoTurno, 5);
             batalhaFinalizada = (hpMonstro == ZERO_HP or getHP(ficha) == ZERO_HP);
         }
     }
