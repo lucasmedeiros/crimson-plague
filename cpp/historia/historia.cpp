@@ -986,26 +986,24 @@ void imprimeCreditos(WINDOW *janelaDialogo) {
 }
 
 void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro *monstros) {
-	EscolhasCidade escolhasCidade = escolhas.escolhasCidade;
-	EscolhasRecepcao escolhasRecepcao = escolhas.escolhasRecepcao;
 	Personagem personagem = ficha.personagem;
 
 	introducaoCidade(janelaDialogo);
 
-	escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
+	escolhas.escolhasCidade.ganchoAventura = ganchoAventura(janelaDialogo, janelaMenu);
 
-	if(tolower(escolhasCidade.ganchoAventura) == 'd') {
-	escolhasCidade.segundaChance = segundaChance(personagem, janelaDialogo, janelaMenu);
+	if(tolower(escolhas.escolhasCidade.ganchoAventura) == 'd') {
+	escolhas.escolhasCidade.segundaChance = segundaChance(personagem, janelaDialogo, janelaMenu);
 	} else {
-		escolhasCidade.segundaChance = 'y';
+		escolhas.escolhasCidade.segundaChance = 'y';
 	}
 
-	if(tolower(escolhasCidade.segundaChance) == 'n') {
+	if(tolower(escolhas.escolhasCidade.segundaChance) == 'n') {
 		imprimePrimeiroFinal(janelaDialogo);
 		imprimeCreditos(janelaDialogo);
 	} else {
 		entradaMina(ficha, janelaDialogo, janelaMenu, monstros[0]);
-		escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha, janelaDialogo, janelaMenu);
+		escolhas.escolhasRecepcao.ativouArmadilha = recepcaoCaverna(ficha, janelaDialogo, janelaMenu);
 		escolhas.escolhasRefeitorio.solucaoCombate = refeitorioCaverna(ficha, escolhas, janelaDialogo, janelaMenu, monstros[2]);
 		escolhas.combateDespensa.contiminado = depensaCaverna(ficha, janelaDialogo, janelaMenu, monstros[3]);
 		rampaCaverna(ficha, janelaDialogo, janelaMenu, monstros[1]);
