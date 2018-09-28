@@ -99,27 +99,27 @@ string ataqueMonstro(Ficha &ficha) {
     return "O monstro infligiu um total de " + to_string(danoInfligido) + " danos a você.";
 }
 
-void abrirMochila(Ficha &ficha) {
-    imprimeMochila(ficha.inventario);
-    int op = -1;
+void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
+    int numElementos = qtdItens(ficha.inventario);
+    string *opcoes = new string[numElementos + 1];
 
-    while(true) {
-        cout << "Quer usar qual? " << endl;
-        cin >> op;
+    for(int i = 0; i < numElementos; i++)
+        opcoes[i] = ficha.inventario.mochila[i].nome;
+    
+    opcoes[numElementos] = "Voltar";
+    
+    int opcao = realizaPergunta(janelaMenu, "Selecione um item", opcoes, numElementos + 1);
 
-        if (op < 1 && op >= ficha.inventario.tamInvent) {
-            Item itemSelecionado = ficha.inventario.mochila[op];
-            int id = itemSelecionado.id;
-            if (id != 34) {
-                if (itemSelecionado.consumivel) {
-                    usarItemConsumivel(op, ficha);
-                } else {
-                    equiparItem(op, ficha.inventario);
-                }
-                break;
+    if (opcao < numElementos) {
+        Item itemSelecionado = ficha.inventario.mochila[opcao];
+    
+        bool confirmou = confirmacao(janelaMenu);
+        if (confirmou) {
+            if (itemSelecionado.consumivel) {
+                usarItemConsumivel(opcao, ficha);
+            } else {
+                equiparItem(opcao, ficha.inventario);
             }
-        } else {
-            cout << "Opção INVÁLIDA!" << endl;
         }
     }
 }
@@ -171,7 +171,7 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
         if (op == OpcoesBatalha::ATACAR) {
             resultadoDaOpcao = ataquePersonagem(janelaMenu, ficha);
         } else if (op == OpcoesBatalha::ABRIR) {
-            abrirMochila(ficha); // NAO USAR AINDA
+            abrirMochila(ficha, janelaMenu); // NAO USAR AINDA
         } else if (op == OpcoesBatalha::FUGIR) {
             fugiu = personagemFugiu();
             resultadoDaOpcao = tentaFugir(janelaMenu, fugiu);
@@ -203,7 +203,7 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
 
             mostraDialogo(janelaDialogo, "DROP", drops, 2);
 
-            string opcao[2] = {"Sim", "Não"};
+            string opcao[2] = {"Sim", "Nao"};
             int infoDrop = realizaPergunta(janelaMenu, "Obter informações sobre o drop?",
                 opcao, 2);
 
