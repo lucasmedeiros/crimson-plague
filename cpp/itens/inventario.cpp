@@ -150,7 +150,7 @@ void equiparItem(int numero, Inventario &inventario){
     Item* itens = inventario.mochila;
     Item itemEqp = itens[numero];
     if(contemItem(itemEqp.id,inventario)){
-        if(itemEqp.atrb.classe == TODOS || itemEqp.atrb.classe == inventario.classe){
+        if(itemEqp.atrb.classe == TODOS || itemEqp.atrb.classe == inventario.classe && itemEqp.atrb.tipoEquipavel != NEQUIPAVEL){
             Item nEquipado;
             switch(itemEqp.atrb.tipoEquipavel){
                 case ARMA:
