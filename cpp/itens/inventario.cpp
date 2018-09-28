@@ -96,6 +96,10 @@ int qtdVazios(Inventario inventario){
   return vazio;
 }
 
+int qtdItens(Inventario inv){
+    return inv.tamInvent - qtdVazios(inv); 
+}
+
 bool contemItem(int id, Inventario inventario){
     Item* itens = inventario.mochila;
     bool contem = false;

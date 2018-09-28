@@ -11,7 +11,7 @@ char perguntaSimNao(WINDOW *janelaMenu) {
 }
 
 void introducaoCidade(WINDOW *janelaDialogo) {
-	string falas[6] = {"uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade",
+	string falas[6] = {"É uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade",
 	"situada em um dos pequenos vales que cruzam as Montanhas Serpente.",
 	"Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros",
 	"procurando descansar membros doloridos e afogar memórias ruins dentro de seus portões.",

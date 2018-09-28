@@ -24,6 +24,9 @@ struct Inventario{
     int dinheiro;
 
 };
+
+int qtdItens(Inventario inv);
+
 void imprimeMochila(Inventario inventario);
 
 /**
