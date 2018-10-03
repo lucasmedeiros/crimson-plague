@@ -12,7 +12,6 @@
 9;Moon Stone;Pode ser trocado por moedas de ouro;1;0;0;60
 10;Manto da Resistência;Um fino manto feito de pequenos cristais e muito resistente;1;0;0;10
 11;Escudo de Metal Grande;Um escudo feito de metal e é empunhado com uma mão;1;0;0;15
-12;Granada Violeta;NAO USAVEL;1;0;0;100
 13;Poção de Força;DESATIVADO;0;0;0;0
 14;Virotes de Besta;DESATIVADO;0;0;0;0
 15;Simbolo Sagrado de Gruumsh;Uma pequena peça de prata com escrituras de uma lingua antiga;1;0;0;0
