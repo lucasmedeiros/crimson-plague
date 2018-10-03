@@ -80,8 +80,8 @@ Item getItem(string *informacoes, string *atributos){
 Item* carregarTdsItens(){
       string** informacoes;
       string** atributos;
-      atributos = importarTodos("../db/atrbItens.txt",QTD_COLUNAS_EQUIPAVEIS,QTD_LINHAS_EQUIPAVEIS,QTD_COMENTARIOS_EQUIPAVEIS);
-      informacoes = importarTodos("../db/item.txt",QTD_COLUNAS_ITENS,QTD_LINHAS_ITENS,QTD_COMENTARIOS_ITENS);
+      atributos = importarTodos("../db/atributos_itens_db.txt",QTD_COLUNAS_EQUIPAVEIS,QTD_LINHAS_EQUIPAVEIS,QTD_COMENTARIOS_EQUIPAVEIS);
+      informacoes = importarTodos("../db/itens_db.txt",QTD_COLUNAS_ITENS,QTD_LINHAS_ITENS,QTD_COMENTARIOS_ITENS);
       Item* itens = new Item[QTD_LINHAS_ITENS];
       for(int i = 0; i < QTD_LINHAS_ITENS; i++){
             itens[i] = getItem(informacoes[i],atributos[i]);
