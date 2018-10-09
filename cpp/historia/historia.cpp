@@ -11,7 +11,7 @@ char perguntaSimNao(WINDOW *janelaMenu) {
 }
 
 void introducaoCidade(WINDOW *janelaDialogo) {
-	string falas[6] = {"É uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade",
+	string falas[6] = {"Uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade",
 	"situada em um dos pequenos vales que cruzam as Montanhas Serpente.",
 	"Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros",
 	"procurando descansar membros doloridos e afogar memórias ruins dentro de seus portões.",
@@ -81,7 +81,7 @@ char ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		if(dialogo == 0) {
 				string falasSenhora[6] = {"Senhora: Chamam de praga Carmesim, ela começa de forma inofensiva.",
 				"Senhora: Porem, aos poucos ela vai ficando pior. Cada vez mais roubando a sua forca.",
-				"Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca.", 
+				"Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca.",
 				"Senhora: Fazem quatro dias que meus filhos estao doentes...",
 				"Ela comeca a chorar. Solucando um pouco, ela diz:" ,
 				"Senhora: Esse problema comecou na mina, tenho certeza que esse mal vem de la. Por favor, me ajude..."};
@@ -90,7 +90,7 @@ char ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 
 		} else {
 			string falasSenhora[5] = {"Senhora: Esse problema comecou na mina, tenho certeza que esse mal vem de la.",
-			"Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca.", 
+			"Senhora: Ninguem aguentou mais de uma semana apos ficar com essa doenca.",
 			"Senhora: Fazem quatro dias que meus filhos estao doentes...",
 			"Senhora: Eu nao sei quanto tempo eles ainda podem aguentar... Por favor, acabe com essa praga.",
 			"Apesar de tentar disfaçar, você percebe que ela começa a chorar."
@@ -99,7 +99,7 @@ char ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 			retornoGancho = 'c';
 			mostraDialogo(janelaDialogo, "Cidade", falasSenhora, 4);
 
-		} 
+		}
 
     } else {
 		string descricaoNinguem[3] = {"Isso não é problema seu. Você já tem problemas demais pra resolver.",
@@ -108,10 +108,10 @@ char ganchoAventura(WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		retornoGancho = 'd';
 		mostraDialogo(janelaDialogo, "Cidades", descricaoNinguem, 3);
 	}
-    
+
     if(escolhaGancho != 3) {
     	concordou = perguntaSimNao(janelaMenu);
-		
+
 
     	if(concordou == 'n') {
     		string respostaPessoa[1] = {"Com um olhar de desaprovação, lentamente começam a se afastar de você."};
@@ -170,11 +170,11 @@ char segundaChance(Personagem &personagem, WINDOW *janelaDialogo, WINDOW *janela
         "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
         "Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"};
 		proximoDialogo(janelaDialogo, "Meruen responde: ", falaMeruen, 3);
-    } 
-    
+    }
+
     escolhaDialogo2 = perguntaSimNao(janelaMenu);
 
-    if(escolhaDialogo2 == 'y') {
+    if(escolhaDialogo2 == 's') {
         string respostaMeruen[2] = {"Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina.",
         "Meruen: Muito obrigado, amigo."};
 		proximoDialogo(janelaDialogo, "Meruen responde:", respostaMeruen, 2);
@@ -198,7 +198,7 @@ void imprimePrimeiroFinal(WINDOW *janelaDialogo) {
 	"de Passagem de Duvik enquanto nao tinham sido contaminados",
 	"A promissora cidade comerciante, se tornou apenas uma ruina",
 	"uma promessa do que poderia se tornar."};
-	
+
 	proximoDialogo(janelaDialogo, "Conclusão", primeiroFinal, 7);
 }
 
@@ -219,7 +219,7 @@ void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstr
 	"estruturas de suporte de madeira, esta coberto com escombros",
 	"de pedra, uns pedacos ocasionalmente brilham com o menor",
 	"pedaco de minerio. Nenhuma luz lanca-se para fora"};
-	string descricaoEntradaP3[5] = { 
+	string descricaoEntradaP3[5] = {
 	"do tunel. Tochas queimadas estão espalhadas pelo chao,",
 	"seus suportes quebrados nas paredes do tunel. Atras de",
 	"voce, a estrada gasta conduz atraves dos precipicios para o",
@@ -232,7 +232,7 @@ void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstr
 
 	string descricaoBatalha[2] {"Você encontra um kobolds, ele parece hostil"
 	, "E irá atacar você! Prepare-se para o combate!"};
-	
+
 	proximoDialogo(janelaDialogo, "Entrada da caverna", descricaoBatalha, 2);
 	iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
 
@@ -255,7 +255,7 @@ void entradaMina(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstr
 
 	} else if (conversa == 1) {
 			dadoObservar = rolarDado(20) + 2;
-			segundaEscolhaEntrada(dadoObservar, ficha,janelaDialogo);			
+			segundaEscolhaEntrada(dadoObservar, ficha,janelaDialogo);
 
 	} else {
 		string semAnalise[3] = {"Analisar as coisas é perda de tempo, seus inimigos não tem",
@@ -280,7 +280,7 @@ void primeiraEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialog
 			proximoDialogo(janelaDialogo, "Ao analisar a entrada", detalhe, 1);
 			aumentarXP(ficha, 300);
 		}
-	
+
 	} else {
 		string analiseEntrada[2] = {"Voce tenta analisar a entrada, porém não consegue",
 		"encontrar nada relevante na estrutura."};
@@ -289,7 +289,7 @@ void primeiraEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialog
 	}
 
 	string prosseguimentoHistoria[1] = {"Você acende uma tocha e entra na caverna."};
-	
+
 	proximoDialogo(janelaDialogo, "Logo após a analise", prosseguimentoHistoria, 1);
 }
 
@@ -347,15 +347,15 @@ char recepcaoCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 		string precaucaoCarroca[3] = {"Voce prefere nao se arriscar e mexer nesse corpo.",
 		"E quase certo que havia alguma armadilha ali. Seria uma coin-",
 		"cidencia muito grande tantos minerios de prata espalhados uniformemente."};
-		
+
 		mostraDialogo(janelaDialogo, "Recepção da Caverna", precaucaoCarroca, 3);
 	}
 
 	string conclusaoRecepcao[2] = {"Apos passar da carroca, voce so ve uma grande porta a sua frente.",
 	"Voce nao ve outra opcao a nao ser entrar nela."};
-	
+
 	mostraDialogo(janelaDialogo, "Conclusão da área", conclusaoRecepcao, 2);
-	
+
 	return ativou;
 }
 
@@ -393,7 +393,7 @@ char verificarCarroca(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 
 	string continuacaoAnalise[2] = {"Voce tambem percebe inumeros pedacoes de prata ao redor da carroca.",
 	"Voce ira coletar?"};
-	
+
 	proximoDialogo(janelaDialogo, "Continuação", continuacaoAnalise, 2);
 
 	coletou = perguntaSimNao(janelaMenu);
@@ -426,7 +426,7 @@ int dialogoCombateRefeitorio(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janela
 		"Nao ousem me atacar se quiserem continuar vivos. (Intimidacao)",
 		"Eu posso pagar uma quantia generosa se vocês esquecerem que me viram. (Suborno)"};
 		dialogoCombate = realizaPergunta(janelaMenu,"O que vocẽ ira falar para eles?",escolhaRefeitorio1,3);
-		
+
 		dadoPersuasao = rolarDado(20) + ficha.atributos.carisma;
 
 		if(dialogoCombate == 0) {
@@ -461,7 +461,7 @@ int dialogoCombateRefeitorio(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janela
 				} else {
 					escolhaCombate = 2;
 				}
-			} 
+			}
 	}
 
 	if(dadoCarisma < 13 or escolhaCombate == 2) {
@@ -548,7 +548,7 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, 
 		numeroCriaturas = 4;
 		string reveitorioCavernaDialogos1[4] = {"Ter ativado a armadilha atraiu muito a atencao daqueles que",
 		"estao dentro da caverna, inclusive os kobolds dentro dessa sala.","Voce escuta muitos gritos e passos, voce imagina que eles estao",
-		"se preparando para um combate. Ao abrir a porta você ve o seguinte:"}; 
+		"se preparando para um combate. Ao abrir a porta você ve o seguinte:"};
 		mostraDialogo(janelaDialogo,"Armadilha",reveitorioCavernaDialogos1,4);
 
 		posicaoCriaturas = "Voce também exerga quatro kobolds apontando para voce.";
@@ -570,8 +570,9 @@ char refeitorioCaverna(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, 
 		string refCarverna2[2] = {"Voce imediatamente comeca a preparar o seu ataque enquanto",
 		"os kobolds correm em direcao a voce."};
 		proximoDialogo(janelaDialogo,"Confronto",refCarverna2,2);
-		solucaoCombate = 'c';	
-	} 
+		iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
+		solucaoCombate = 'c';
+	}
 	return solucaoCombate;
 
 }
@@ -627,13 +628,19 @@ char depensaCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Mon
 
 	string cavernaDialogo3[3] = {"Em um dos barris, você encontra duas poções de vida",
 	"e duas poções de mana, naturalmente você guarda elas.","Elas podem ser bastante úteis no futuro."};
+
+	adicionarItem(2, ficha.inventario);
+	adicionarItem(2, ficha.inventario);
+	adicionarItem(4, ficha.inventario);
+	adicionarItem(4, ficha.inventario);
+
 	proximoDialogo(janelaDialogo,"Caverna",cavernaDialogo3,3);
 
 	string cavernaDialogo4[5] = {"Após os achados, você começa a descer uma rampa que",
 	"leva a uma parte inferior da caverna. Aos poucos ","ela vai ficando muito íngrime, a um ponto que te",
 	"faz perder o equilíbrio e descer o resto da rampa","deslizando a mesma."};
 	proximoDialogo(janelaDialogo,"Caverna",cavernaDialogo4,5);
-	
+
 	return ficouContaminado;
 }
 
@@ -688,8 +695,8 @@ void rampaCaverna(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monst
 		string respostaRampa3[3] = {"Você prefere não se arriscar escalando esses",
 		"cabos. É mais sensato manter o foco e seguir" ,"o caminho."};
 		proximoDialogo(janelaDialogo,"Passagem",respostaRampa3,3);
-		
-	} 
+
+	}
 
 }
 
@@ -702,7 +709,7 @@ void acampamentoSecreto(Ficha &ficha,WINDOW *janelaDialogo, WINDOW *janelaMenu) 
 	"jovens Kobolds, que estão olhando para você",
     "e estão amedrontados. Um deles utiliza um capuz",
 	"que parece valioso."};
-	
+
 	mostraDialogo(janelaDialogo,"Passagem",acampamentoSecreto,5);
 
 	string opcoesAcampamento[2] = {"Matar eles e ficar com a capa.","Poupar a vida deles e pegar apenas o tesouro."};
@@ -711,17 +718,21 @@ void acampamentoSecreto(Ficha &ficha,WINDOW *janelaDialogo, WINDOW *janelaMenu) 
 
 	string dialogo1[4] = {"Para você, a capa é mais valiosa que a vida","deles. Você os mata sem remorso e pega a"
 	,"capa deles, com um pouco de investigação","você descobre que é uma capa da proteção."};
-	
+
 	string dialogo2[5] = {"Você poupa a vida deles, afinal, eles não","fizeram absolutamente nada. Simplesmente não",
 	"seria justo. Você pega três poções de vida","e duas de mana. Logo após, você desce os cabos","E segue o outro caminho."};
 
 	if(escolhaAcampamento == 0) {
 		proximoDialogo(janelaDialogo,"Mercenário",dialogo1,4);
-		//Drop: Capa da proteção +1	
+		adicionarItem(42, ficha.inventario);
 	} else {
 		proximoDialogo(janelaDialogo,"Mercy",dialogo2,5);
 		aumentarXP(ficha, 1000);
-		//Drop: Três poções de vida e duas de mana.
+		adicionarItem(2, ficha.inventario);
+		adicionarItem(2, ficha.inventario);
+		adicionarItem(2, ficha.inventario);
+		adicionarItem(4, ficha.inventario);
+		adicionarItem(4, ficha.inventario);
 	}
 
 }
@@ -730,9 +741,9 @@ void pioraCondicao (Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu) {
 	string dialogo[6] = {"A leve fraqueza que você estava sentindo",
 	"está demasiadamente pior, você já sente","um pouco de dificuldade em movimentos",
 	"bruscos ou que precisam de força. No entanto,","você continua determinado a acabar com esse","problema."};
-	
+
 	proximoDialogo(janelaDialogo,"As coisas estão piorando..",dialogo,6);
-	
+
 }
 
 void fossoCadaveres(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro inimigo) {
@@ -754,7 +765,7 @@ void fossoCadaveres(Ficha &ficha, WINDOW *janelaDialogo, WINDOW *janelaMenu, Mon
 	}
 
 	string dialogoFosso2[2] = {"Quatro zumbis levantam-se de um dos montes","de corpos! Prepare-se para o combate!"};
-	
+
 	proximoDialogo(janelaDialogo,"Caverna - Fosso",dialogoFosso2,2);
 	//IniciaCombate(ficha);
 	iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
@@ -782,7 +793,7 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *
 	proximoDialogo(janelaDialogo,"Caverna - A fonte",dialogofinalJakk,12);
 
 	if(dadoReligiao >= 8) {
-		string dialogoFinalJakk2[6] = {"\nOs símbolos entalhados aqui estão escritos","no idioma orc e servem como uma súplica a",
+		string dialogoFinalJakk2[6] = {"Os símbolos entalhados aqui estão escritos","no idioma orc e servem como uma súplica a",
 		"Gruumsh (o deus dos orcs) para destruir","os inimigos com uma terrível pestilência.","Eles também recontam a história das minas e o destino",
 		"do clã Garra Despedaçante"};
 
@@ -803,13 +814,22 @@ void finalJakk(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *
 
 	if(escolhaLuta == 0) {
 		solucao = ConversaJakk(ficha, escolhas,janelaDialogo,janelaMenu);
-		escolhas.conversaFinal.resultadoConversa = solucao;	
+		escolhas.conversaFinal.resultadoConversa = solucao;
+
+		if (solucao == 'c') {
+			iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
+		}
 
 	}else{
 		string dialogofinalJakk4[2] = {"O Orc prepara sua maça enquanto você corre","em sua direção."};
 		proximoDialogo(janelaDialogo,"Jakk",dialogofinalJakk4,2);
 		iniciaBatalha(janelaMenu, janelaDialogo, ficha, inimigo);
-		escolhas.conversaFinal.resultadoConversa = 'c';	
+
+		if(fugiuDaBatalha() or !venceu()) {
+			escolhas.conversaFinal.resultadoConversa = 'f';
+		} else {
+			escolhas.conversaFinal.resultadoConversa = 'c';
+		}
 	}
 
 }
@@ -836,20 +856,20 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 		string respostaJakk1[3] = {"Jakk: Eu que criei e estou matendo essa praga.",
 		"Jakk: Eu enfeiticei a agua para causar essa doenca.","Jakk: Portanto, cuspa logo o que voce quer ou lute comigo!"};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk1,3);
-			
+
 	} else if (escolhaConversa == 1) {
 		string respostaJakk2[4] = {"Jakk: Pare de mentir, humano insolente!","Jakk: Eu que criei e estou mantendo essa praga.",
 		"Jakk: Eu enfeiticei a agua para causar essa doenca.","Jakk: Entao cuspa logo o que voce quer ou lute comigo!"};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk2,4);
-			
+
 	} else if (escolhaConversa == 2) {
 		string respostaJakk3[1] = {"Jakk: Voce nao tem uma chance, seu verme."};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk3,1);
-		return 'c';	
-	} 
-	
+		return 'c';
+	}
+
 	string escolhaConversaJakk2[2] = {"Por que esta fazendo isso?","Entao eu tenho o dever de para-lo."};
-	
+
 	respostaJakk = realizaPergunta(janelaMenu,"O que voce ira responder:",escolhaConversaJakk2,2);
 
 	if(respostaJakk == 0) {
@@ -857,23 +877,23 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 		"Jakk: exterminou o meu clã, o clã Garra Despedaçante, pois","Jakk: achavam que nós éramos uma ameaça. Eles não quiseram",
 		"Jakk: ter nenhuma forma de conversa. Essa é a vinganca","Jakk: do meu clã."};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk4,5);
-			
+
 	} else if (respostaJakk == 1) {
 		string respostaJakk5[1] = {"Jakk: É hora de morrer, seu verme insolente!"};
-		proximoDialogo(janelaDialogo,"Jakk",respostaJakk5,1);	
-		return 'c';	
-	} 
+		proximoDialogo(janelaDialogo,"Jakk",respostaJakk5,1);
+		return 'c';
+	}
 
 	string escolhaConversaJakk3[3] = {"Matando eles voce fica tao errado quanto aquelesque mataram o seu cla. Voce nao combate odio com odio.",
 	" Voce esta matando ainda mais pessoas do seu cla. Voce nao viu a quantidade de kobolds mortos? Pare com isso,todos os seus soldados querem sair daqui e esquecer","Isso nao justifica os seus erros. Voce morrera agora!"};
 
 	convencerJakk = realizaPergunta(janelaMenu,"O que voce ira responder:",escolhaConversaJakk3,3);
-	
+
 	if(convencerJakk == 0) {
 		string respostaJakk6[3] = {"Jakk: O que voce sabe sobre meu cla? Voce nao sabe o que",
 		"Jakk: esta falando... Voce nao sabe o quanto meu cla sofreu.","Jakk: Pare de falar sobre o que você não tem ideia."};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk6,3);
-			
+
 	} else if (convencerJakk == 1) {
 		string respostaJakk7[4] = {"Jakk parece um pouco relutante.","Jakk: Eu sei, eu sou o que mais sofro com isso. No entanto,",
 		"Jakk: todos eles concordaram com isso, eu tenho que valorizar","Jakk: as mortes daqueles que se sacrificaram pela causa!"};
@@ -884,17 +904,17 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 		return 'c';
 	}
 
-	int tamanho = 2;
-	string escolhaConversaJakk4[2] = {"Jakk, esqueca isso... Voce salvara a vida de muitas Pessoas do seu cla, desistindo disso.",
-	"Seja um pouco racional... Isso nao trara alegria a ninguem."};
 
 	if(interpretouSimbolos) {
 		string escolhaConversaJakk4[3] = {"Jakk, esqueca isso... Voce salvara a vida de muitas Pessoas do seu cla, desistindo disso.",
 		"Seja um pouco racional... Isso nao trara alegria a ninguem.","Eu tenho certeza que a vontade de Gruumsh eh que isso acabe pacificamente."};
-		tamanho = 3;	
-	}
+		solucaoJakk = realizaPergunta(janelaMenu,"O que voce ira responder:",escolhaConversaJakk4,3);
 
-	solucaoJakk = realizaPergunta(janelaMenu,"O que voce ira responder:",escolhaConversaJakk4,tamanho);
+	}else{
+		string escolhaConversaJakk4[2] = {"Jakk, esqueca isso... Voce salvara a vida de muitas Pessoas do seu cla, desistindo disso.",
+		"Seja um pouco racional... Isso nao trara alegria a ninguem."};
+		solucaoJakk = realizaPergunta(janelaMenu,"O que voce ira responder:",escolhaConversaJakk4,2);
+	}
 
 	//TO DO
 	int checkCarisma = rolarDado(20) + ficha.atributos.carisma;
@@ -902,9 +922,9 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 	if(solucaoJakk == 0 or solucaoJakk == 1 and checkCarisma >= 10) {
 		string respostaJakk9[3] = {"Jakk: É verdade... Meu povo está sofrendo demais com isso.",
 		"Jakk: Eu vou quebrar o feitico imediatamente. Obrigado por","Jakk: trazer razao ao meu pensamento, humano."};
-		proximoDialogo(janelaDialogo,"Jakk",respostaJakk9,3);	
-		return 'p';	
-	
+		proximoDialogo(janelaDialogo,"Jakk",respostaJakk9,3);
+		return 'p';
+
 	} else if (solucaoJakk == 2 and interpretouSimbolos) {
 		string respostaJakk10[3] = {"Jakk: Voce tem toda a razao... O que eu estava pensando?",
 		"Jakk: Eu vou quebrar o feitico imediatamente. Obrigado","Jakk: por trazer sensatez, humano."};
@@ -915,14 +935,14 @@ char ConversaJakk(Ficha &ficha, Escolhas &escolhas,WINDOW *janelaDialogo, WINDOW
 		"Jakk: É hora de lutar, humano."};
 		proximoDialogo(janelaDialogo,"Jakk",respostaJakk11,2);
 		return 'c';
-	} 
+	}
 
 }
 
 
 void imprimeVarianciasFinal(Escolhas &escolhas,WINDOW *janelaDialogo) {
 	char gancho = escolhas.escolhasCidade.ganchoAventura;
-	
+
 	if(tolower(gancho) == 'a') {
 		string dialogoFinal[7] = {"O prefeito se aproxima de voce e fala:",
 		"Prefeito: Eu só tenho a agradecer a você, nobre aventureiro","Prefeito: Voce salvou a vida de quase todos da cidade!",
@@ -956,6 +976,15 @@ void imprimeVarianciasFinal(Escolhas &escolhas,WINDOW *janelaDialogo) {
 	}
 }
 
+void imprimeFinalDerrota(WINDOW * janelaDialogo) {
+	string finalDerrota[4] = {"Apesar dos seus esforços, você não conseguiu derrotar Jakk.",
+	"Portanto, você não conseguiu acabar com o mal da praga.",
+	"Todos de Passagem de Duvik pereceram à doença, e a promissora cidade",
+	"comerciante, virou apenas uma promessa do que poderia ser..."};
+
+	proximoDialogo(janelaDialogo, "Derrota", finalDerrota, 4);
+}
+
 void imprimeFinalPacifico(WINDOW *janelaDialogo) {
 	string finalPacifico[5] = {"Após convencer Jakk a terminar a maldição. A água",
 	"amaldiçoada, que servia como abastecimento de Passagem","de Duvik, foi aos poucos sendo purificada. Os sintomas",
@@ -965,6 +994,13 @@ void imprimeFinalPacifico(WINDOW *janelaDialogo) {
 }
 
 void imprimeFinalViolento(WINDOW *janelaDialogo) {
+	string dialogoFinalJakk[4] = {"Extremamente abatido, Jakk fala baixo:",
+	"Jakk: Eu apenas queria vingar o meu clã...",
+	"Jakk: Infelizmente eu acho que o mal prevaleceu...",
+	"Jakk, solta sua maça, e cai no chão."};
+
+	proximoDialogo(janelaDialogo, "Final Violento", dialogoFinalJakk, 4);
+
 	string finalViolento[5] = {"Derrotar Jakk já possui um efeito visível imediato",
 	"nas águas da nascente, que	começa a ficar limpa da sujeira","da Febre logo após sua morte. Os sintomas",
 	"da Febre que afetam as pessoas de Passagem de Duvik","começaram a diminuir. E a ordem voltou a reinar na cidade."};
@@ -979,10 +1015,12 @@ void imprimeFuturoVila(WINDOW *janelaDialogo) {
 }
 
 void imprimeCreditos(WINDOW *janelaDialogo) {
-	string creditos[9] = {"Obrigado por jogar: A Praga Carmesim!","Sistema inspirado: Dungeons and Dragons, quinta edicao.",
+	string creditos[] = {"Obrigado por jogar: A Praga Carmesim!",
+	"Sistema inspirado: Dungeons and Dragons, quinta edicao.",
+	"",
 	"Feito por:","Jadson Luan","Jesse Souza","Lucas de Medeiros","Marcella Siqueira","Mikael Brasileiro",
 	"Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!"};
-	proximoDialogo(janelaDialogo,"Créditos",creditos,9);
+	proximoDialogo(janelaDialogo,"Créditos",creditos,10);
 }
 
 void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WINDOW *janelaMenu, Monstro *monstros) {
@@ -1017,12 +1055,16 @@ void contaHistoria(Ficha &ficha, Escolhas &escolhas, WINDOW *janelaDialogo, WIND
 
 		if(escolhas.conversaFinal.resultadoConversa == 'p') {
 			imprimeFinalPacifico(janelaDialogo);
-		} else {
+			imprimeVarianciasFinal(escolhas, janelaDialogo);
+			imprimeFuturoVila(janelaDialogo);
+		} else  if (escolhas.conversaFinal.resultadoConversa == 'c'){
 			imprimeFinalViolento(janelaDialogo);
+			imprimeVarianciasFinal(escolhas, janelaDialogo);
+			imprimeFuturoVila(janelaDialogo);
+		} else if (escolhas.conversaFinal.resultadoConversa == 'f') {
+			imprimeFinalDerrota(janelaDialogo);
+			imprimeCreditos(janelaDialogo);
 		}
 
-		imprimeVarianciasFinal(escolhas, janelaDialogo);
-		imprimeFuturoVila(janelaDialogo);
-		imprimeCreditos(janelaDialogo);
 	}
 }

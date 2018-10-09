@@ -34,4 +34,9 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
 */
 bool venceu();
 
+/**
+* Função que diz se o personagem fugiu da batalha.
+*/
+bool fugiuDaBatalha();
+
 #endif

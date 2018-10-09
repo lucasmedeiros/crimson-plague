@@ -6,7 +6,7 @@ using namespace std;
 // CONSTANTES
 #define MULT_VIT_HP 2
 #define MULT_INT_MP 2
-#define HP_BASE 20
+#define HP_BASE 35
 #define SP_BASE 20
 
 void adicionaDinheiro(Ficha &ficha, int quantia) { ficha.inventario.dinheiro += quantia; }
@@ -38,9 +38,7 @@ void usarItemConsumivel(int numeroListado,Ficha &ficha){
 
 	venderItem(numeroListado,ficha.inventario);
 
-	}else{
-		cout << "Item não é consumivel" << endl;
-	} 
+	}
 }
 
 void aumentarXP(Ficha &ficha, int xp) {

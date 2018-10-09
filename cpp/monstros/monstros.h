@@ -14,7 +14,7 @@ struct Monstro {
 	int divisorDado;
 	int somadorDado;
 	int xp;
-	int drop; // defini como item pq ele pega o id do item
+	int drop;
 	int ca;
 	int danoAtaque;
 };

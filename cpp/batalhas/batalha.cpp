@@ -7,6 +7,7 @@ using namespace std;
 int hpMonstro;
 int danoMonstro;
 int defesaMonstro;
+bool fugiu;
 Habilidade* habilidades;
 
 void carregaHabilidades() {
@@ -56,7 +57,7 @@ int getDanoHabilidade(WINDOW* janelaMenu, Ficha &ficha) {
 }
 
 void recuperaManaPassiva(Ficha &ficha) {
-    if (getMP(ficha) < getMaxMP(ficha)) 
+    if (getMP(ficha) < getMaxMP(ficha))
         ficha.personagem.mp++;
 }
 
@@ -72,9 +73,9 @@ string ataquePersonagem(WINDOW* janelaMenu,Ficha &ficha) {
 
         recuperaManaPassiva(ficha);
     } else {
-        danoInfligido = getDano(ficha) + rolarDado(D20);
+        danoInfligido = getDano(ficha);
 
-        if (danoInfligido < defesaMonstro) {
+        if (getDano(ficha) + rolarDado(D20) < defesaMonstro) {
             danoInfligido = 0;
         }
     }
@@ -99,7 +100,7 @@ string ataquePersonagem(WINDOW* janelaMenu,Ficha &ficha) {
 string ataqueMonstro(Ficha &ficha) {
     int defesaPersonagem = 10 + getArmadura(ficha.inventario) + getModificadorDES(ficha);
     defesaPersonagem = min(defesaPersonagem, 17);
-    int danoInfligido = (danoMonstro > defesaPersonagem) ? danoMonstro : 3;
+    int danoInfligido = (danoMonstro + rolarDado(20) > defesaPersonagem) ? danoMonstro : 3;
     int novoHP = getHP(ficha);
     novoHP -= danoInfligido;
     ficha.personagem.hp = max(novoHP, 0);
@@ -113,11 +114,14 @@ void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
 
     string nome;
     int quantidade;
-    for(int i = 0; i < numElementos; i++) {
-        nome = ficha.inventario.mochila[i].nome;
-        quantidade = ficha.inventario.quantidade[i];
-        string label(nome + " (" + to_string(quantidade) + "x)");
-        opcoes[i] = label;
+    int j = 0;
+    for(int i = 0; i < ficha.inventario.tamInvent; i++) {
+        if (ficha.inventario.mochila[i].id != 34) {
+            nome = ficha.inventario.mochila[i].nome;
+            quantidade = ficha.inventario.quantidade[i];
+            string label(nome + " (" + to_string(quantidade) + "x)");
+            opcoes[j++] = label;
+        }
     }
 
     opcoes[numElementos] = "Voltar";
@@ -126,14 +130,12 @@ void abrirMochila(Ficha &ficha, WINDOW *janelaMenu) {
 
     if (opcao < numElementos) {
         Item itemSelecionado = ficha.inventario.mochila[opcao];
-
         bool confirmou = confirmacao(janelaMenu);
         if (confirmou) {
             if (itemSelecionado.consumivel)
                 usarItemConsumivel(opcao, ficha);
-            else 
+            else
                 equiparItem(opcao, ficha.inventario);
-            
         }
     }
 }
@@ -155,6 +157,10 @@ bool venceu() {
     return hpMonstro == ZERO_HP;
 }
 
+bool fugiuDaBatalha() {
+    return fugiu;
+}
+
 bool personagemFugiu() {
     int rolagem = rolarDado(20);
     return rolagem >= 15;
@@ -172,20 +178,30 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
     carregaHabilidades();
     defineAtributosMonstro(monstro);
 
-    string falaIntroducaoBatalha[1] = {"Um desafio se aproxima, um " + monstro.nome + " te ataca..."};
-    proximoDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 1);
+    string falaIntroducaoBatalha[4] = {
+        "Um desafio se aproxima, um " + monstro.nome + " te ataca...",
+        "Seu HP: " + to_string(getHP(ficha)),
+        "Seu MP: " + to_string(getMP(ficha)),
+        "HP monstro: " + to_string(hpMonstro)
+    };
+    proximoDialogo(janelaDialogo, "BATALHA", falaIntroducaoBatalha, 4);
 
     bool batalhaFinalizada = false;
-    bool fugiu = false;
+    fugiu = false;
 
     while (!batalhaFinalizada and !fugiu) {
+        if (ficha.personagem.classe == Classe::MAGO) {
+            int mp = getMP(ficha);
+            mp += 1;
+            ficha.personagem.mp = min(mp, getMaxMP(ficha));
+        }
         int op = menuCombate(janelaMenu, ficha);
 
         string resultadoDaOpcao = "";
         if (op == OpcoesBatalha::ATACAR) {
             resultadoDaOpcao = ataquePersonagem(janelaMenu, ficha);
         } else if (op == OpcoesBatalha::ABRIR) {
-            abrirMochila(ficha, janelaMenu); // NAO USAR AINDA
+            abrirMochila(ficha, janelaMenu);
         } else if (op == OpcoesBatalha::FUGIR) {
             fugiu = personagemFugiu();
             resultadoDaOpcao = tentaFugir(janelaMenu, fugiu);
@@ -222,15 +238,30 @@ void iniciaBatalha(WINDOW* janelaMenu, WINDOW* janelaDialogo, Ficha &ficha, Mons
                 opcao, 2);
 
             if (infoDrop == 0) {
-                string inforDrop[1] = {item.descricao};
-                proximoDialogo(janelaDialogo, "VITORIA - INFORMACAO DO DROP", inforDrop, 1);
+                string inforDrop[2] = {
+                    "Descrição do item " + item.nome + ", dropado pelo " + monstro.nome + ":",
+                    item.descricao
+                };
+                proximoDialogo(janelaDialogo, "VITORIA - INFORMACAO DO DROP", inforDrop, 2);
             }
         } else {
             string arrayParabens[1] = {parabens};
             proximoDialogo(janelaDialogo, "VITORIA", arrayParabens, 1);
         }
     } else if (!fugiu){
-        string derrota[1] = {"Morreu..."};
-        proximoDialogo(janelaDialogo, "DERROTA", derrota, 1);
+        string msgDerrota = "";
+        if (monstro.id == 7) {
+            msgDerrota = "VOCE MORREU...";
+            string derrota[1] = {msgDerrota};
+            ficha.personagem.hp = 1;
+            proximoDialogo(janelaDialogo, "DERROTA", derrota, 1);
+        } else {
+            msgDerrota = "Você perde a batalha contra o " + monstro.nome + ", desmaia e fica com 1 de HP...";
+            string derrota[2] = {msgDerrota, "Tenha mais cuidado!"};
+            ficha.personagem.hp = 1;
+            proximoDialogo(janelaDialogo, "DERROTA", derrota, 2);
+        }
+
+        
     }
 }

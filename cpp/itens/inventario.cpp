@@ -69,21 +69,24 @@ int getDestreza(Inventario inventario){
     return DestrezaTotal;
 }
 
-void venderItem(int numero,Inventario &inventario){
-    Item* itens = inventario.mochila;
-    if(itens[numero - 1].id != 34){
-        inventario.dinheiro += itens[numero - 1].valorVenda;
-        if(inventario.quantidade[numero - 1] == 1){
-            itens[numero - 1] = inventario.tdsItens[33];
-            inventario.quantidade[numero - 1] = 0;
-        }else{
-            inventario.quantidade[numero - 1] -= 1;
-        }
-    }else{
-        cout << "Posição Vazia!" << endl;
-    }
+void shift(Inventario &inventario, int index, int last) {
+    inventario.mochila[index] = inventario.mochila[last];
 }
 
+void venderItem(int numero,Inventario &inventario){
+    Item* itens = inventario.mochila;
+    if(itens[numero].id != 34){
+        inventario.dinheiro += itens[numero].valorVenda;
+        if(inventario.quantidade[numero] == 1){
+            itens[numero] = inventario.tdsItens[33];
+            inventario.quantidade[numero] = 0;
+        }else{
+            inventario.quantidade[numero] -= 1;
+        }
+    }
+
+    shift(inventario, numero, qtdItens(inventario));
+}
 
 int qtdVazios(Inventario inventario){
   int vazio  = 0;

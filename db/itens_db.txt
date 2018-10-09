@@ -7,12 +7,11 @@
 4;Poção de MP média;Recupera 16 de MP;0;0;16;0
 5;Chave de ferro;Pode ser usado para abrir fechaduras antigas;1;0;0;0
 6;Ametista;pedra brilhante, pode ser usada para venda;1;0;0;30
-7;Carne Seca Contaminada;Recupera 10 de Hp,mas eu nao arriscaria...;0;10;0;6
+7;Carne Seca Contaminada;Recupera 10 de Hp;0;10;0;6
 8;Óleo;Usada pelos mineradores,muito inflamável;1;0;0;0
 9;Moon Stone;Pode ser trocado por moedas de ouro;1;0;0;60
 10;Manto da Resistência;Um fino manto feito de pequenos cristais e muito resistente;1;0;0;10
 11;Escudo de Metal Grande;Um escudo feito de metal e é empunhado com uma mão;1;0;0;15
-12;Granada Violeta;NAO USAVEL;1;0;0;100
 13;Poção de Força;DESATIVADO;0;0;0;0
 14;Virotes de Besta;DESATIVADO;0;0;0;0
 15;Simbolo Sagrado de Gruumsh;Uma pequena peça de prata com escrituras de uma lingua antiga;1;0;0;0

@@ -9,8 +9,8 @@ using namespace std;
 struct Personagem {
   string nome;
   Classe classe;
-  int hp = 20;
-  int mp = 10;
+  int hp;
+  int mp;
   int xpAtual = 0;
   int xpMaxima = 1000;
   int level = 1;
