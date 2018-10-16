@@ -5,7 +5,8 @@ module CharInfo.Character (
 ) where
 
 import CharInfo.Attributes
-import qualified System.Process
+import Util
+
 -- Stats iniciais
 initial_hp = 100
 initial_mp = 30
@@ -36,17 +37,6 @@ data Character = Character {
   stats :: Stats,
   attributes :: Attributes
 } deriving (Show)
-
-clearScreen :: IO()
-clearScreen = do
-  _ <- System.Process.system "clear"
-  return ()
-
-getOption :: IO Int
-getOption = do
-  putStr "Informe o número da opção desejada: "
-  option <- getLine
-  return $ read option
 
 showRolesInfo = do
   putStrLn "Guerreiros são exímios lutadores marciais, sempre prontos para lutar."
