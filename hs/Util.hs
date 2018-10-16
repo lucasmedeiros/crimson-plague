@@ -2,12 +2,14 @@ module Util (
   getOption,
   clearScreen,
   prompt,
-  size_list,
+  rollDice,
+  sizeList,
   contains,
-  lists_equals
+  listsEquals
 ) where
 
 import qualified System.Process
+import System.Random
 
 -- Dado um titulo, apresenta o titulo e aguarda uma resposta
 -- Por fim, retorna a resposta.
@@ -31,10 +33,14 @@ getOption = do
   option <- getLine
   return $ read option
 
+-- Rola um dado de numero determinado por parametro
+rollDice :: Int -> IO Int
+rollDice num = randomRIO (1::Int, num)
+
 -- Retona o tamanho de uma lista genérica.
-size_list :: (Eq t) => [t] -> Int
-size_list [] = 0
-size_list (h:t) = 1 + size_list t
+sizeList :: (Eq t) => [t] -> Int
+sizeList [] = 0
+sizeList (h:t) = 1 + sizeList t
 
 -- Procura um item em uma lista de mesmo tipo,
 -- retorna True se encontrar, False caso contrário.
@@ -43,8 +49,8 @@ contains _ [] = False
 contains a (h:t) = if a == h then True else contains a t
 
 -- Verifica se duas listas são iguais.
-lists_equals :: (Eq t) => [t] -> [t] -> Bool
-lists_equals [] [] = True
-lists_equals _ [] = False
-lists_equals [] _ = False
-lists_equals (h:t) (x:xs) = if h == x then lists_equals t xs else False
+listsEquals :: (Eq t) => [t] -> [t] -> Bool
+listsEquals [] [] = True
+listsEquals _ [] = False
+listsEquals [] _ = False
+listsEquals (h:t) (x:xs) = if h == x then listsEquals t xs else False
