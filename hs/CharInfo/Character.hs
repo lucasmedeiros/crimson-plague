@@ -20,8 +20,6 @@ mago = "mago"
 guerreiro = "guerreiro"
 ladino = "ladino"
 
--- end
-
 -- Stats
 data Stats = Stats {
   hp :: Int,
@@ -73,8 +71,7 @@ fillStats = Stats initial_hp initial_mp initial_xp max_xp initial_lvl
 createCharacter :: IO Character
 createCharacter = do
   clearScreen
-  putStr "Insira o nome do seu personagem: "
-  nome_entrada <- getLine
+  nome_entrada <- (prompt "Insira seu nome: ")
   clearScreen
   role <- chooseRole
   return $ Character nome_entrada role fillStats (adjustAttr role)
