@@ -1,36 +1,46 @@
 module Battles.Battle(
-    iniciaBatalha
+    startBattle
 ) where
 
 import Util
 import CharInfo.Character
 
-hpMonstro :: Int
-hpMonstro = 20
+hpMonster :: Int
+hpMonster = 20
 
-atkMonstro :: Int
-atkMonstro = 10
+atkMonster :: Int
+atkMonster = 10
 
-defMonstro :: Int
-defMonstro = 5
+defMonster :: Int
+defMonster = 5
 
-tentaFugir :: String
-tentaFugir = "Tentou Fugir!"
+escape :: String
+escape = "escape!"
 
-atacou :: String
-atacou = "Atacou!"
+attack :: String
+attack = "attack!"
 
-escolhaAcao = do
+startBattleMessage :: IO()
+startBattleMessage = do
+    putStrLn "Uma batalha se aproxima..."
+
+battleMenu :: IO()
+battleMenu = do
     putStrLn "1) Atacar"
     putStrLn "2) Fugir"
 
-executarAcao :: Int -> String
-executarAcao escolha | (escolha == 1) = atacou
-                     | otherwise = tentaFugir
+evaluate :: Int -> String
+evaluate escolha | (escolha == 1) = attack
+                 | otherwise      = escape
 
-iniciaBatalha :: IO()
-iniciaBatalha = do
+startBattle :: Character -> IO()
+startBattle char = do 
+    startBattleMessage
+    auxStartBattle char
+
+auxStartBattle :: Character -> IO()
+auxStartBattle char = do
     clearScreen
-    escolhaAcao
+    battleMenu
     escolha <- getOption
-    putStrLn (executarAcao escolha)
+    putStrLn (evaluate escolha)
