@@ -1,7 +1,10 @@
 module Util (
   getOption,
   clearScreen,
-  prompt
+  prompt,
+  size_list,
+  contains,
+  lists_equals
 ) where
 
 import qualified System.Process
