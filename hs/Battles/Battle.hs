@@ -5,15 +5,6 @@ module Battles.Battle(
 import Util
 import CharInfo.Character
 
-hpMonster :: Int
-hpMonster = 20
-
-atkMonster :: Int
-atkMonster = 10
-
-defMonster :: Int
-defMonster = 5
-
 escape :: String
 escape = "escape!"
 
@@ -35,12 +26,12 @@ evaluate escolha | (escolha == 1) = attack
 
 startBattle :: Character -> IO()
 startBattle char = do 
+    clearScreen
     startBattleMessage
     auxStartBattle char
 
 auxStartBattle :: Character -> IO()
 auxStartBattle char = do
-    clearScreen
     battleMenu
     escolha <- getOption
     putStrLn (evaluate escolha)
