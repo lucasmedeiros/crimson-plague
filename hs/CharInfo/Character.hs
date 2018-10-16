@@ -6,6 +6,8 @@ module CharInfo.Character (
   getMP,
   getMaxMP,
   getLevel,
+  calculateDamage,
+  calculateDefense,
   getStrModifier,
   getDexModifier,
   getIntModifier,
@@ -71,6 +73,9 @@ getMaxMP character = max_mp (stats character)
 getLevel :: Character -> Int
 getLevel character = level (stats character)
 
+getRole :: Character -> String
+getRole character = role character
+
 -- Métodos de acesso aos modificadores
 getDexModifier :: Character -> Int
 getDexModifier c = (dex (attributes c)) `div` 4
@@ -80,6 +85,23 @@ getStrModifier c = (str (attributes c)) `div` 4
 
 getIntModifier :: Character -> Int
 getIntModifier c = (int (attributes c)) `div` 4
+
+-- Métodos de cálculo de defesa e ataque (temporários, aguardando equipamentos)
+calculateDamage :: Character -> Int
+calculateDamage character = do
+  let weapon = 5
+  let classe = getRole character
+  let modifier = (if (classe == mago) then (getIntModifier character)
+                  else if (classe == guerreiro) then (getStrModifier character)
+                  else if (classe == ladino) then (getDexModifier character)
+                  else 0)
+
+  modifier + weapon
+
+calculateDefense :: Character -> Int
+calculateDefense character = do
+  let armadura = 0
+  10 + armadura + (getDexModifier character)
 
 -- Métodos relacionadoso a experiência e level do personagem
 increaseExperience :: Int -> Character -> Character
