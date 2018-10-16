@@ -1,5 +1,5 @@
 import CharInfo.Character
 
 main = do
-  character <- createCharacter
+  -- character = createCharacter
   putStrLn "Fim"
