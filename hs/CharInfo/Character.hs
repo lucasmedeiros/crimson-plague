@@ -1,7 +1,11 @@
 module CharInfo.Character (
   Stats (..),
   Character (..),
-  createCharacter
+  createCharacter,
+  getHP,
+  getMaxHP,
+  getMP,
+  getMaxMP
 ) where
 
 import CharInfo.Attributes
@@ -23,9 +27,10 @@ ladino = "ladino"
 -- Stats
 data Stats = Stats {
   hp :: Int,
+  max_hp :: Int,
   mp :: Int,
+  max_mp :: Int,
   xp :: Int,
-  xp_max :: Int,
   level :: Int
 } deriving (Show)
 
@@ -64,8 +69,20 @@ chooseRole = do
       chooseRole
   else chooseRole
 
+getHP :: Character -> Int
+getHP character = hp (stats character)
+
+getMaxHP :: Character -> Int
+getMaxHP character = max_hp (stats character)
+
+getMP :: Character -> Int
+getMP character = mp (stats character)
+
+getMaxMP :: Character -> Int
+getMaxMP character = max_mp (stats character)
+
 fillStats :: Stats
-fillStats = Stats initial_hp initial_mp initial_xp max_xp initial_lvl
+fillStats = Stats initial_hp initial_hp initial_mp initial_mp initial_xp initial_lvl
 
 -- criacao de Character
 createCharacter :: IO Character
