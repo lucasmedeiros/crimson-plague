@@ -5,11 +5,8 @@ module Battles.Battle(
 import Util
 import CharInfo.Character
 
-escape :: String
-escape = "escape!"
-
 attack :: String
-attack = "attack!"
+attack = "atacou!"
 
 startBattleMessage :: IO()
 startBattleMessage = do
@@ -20,9 +17,15 @@ battleMenu = do
     putStrLn "1) Atacar"
     putStrLn "2) Fugir"
 
-evaluate :: Int -> String
-evaluate escolha | (escolha == 1) = attack
-                 | otherwise      = escape
+evaluate :: Character -> Int -> IO ()
+evaluate char option = do
+    if (option == 1) then do putStrLn attack
+    else do
+        resultado <- rollDice(20)
+        if (resultado >= 10) then do putStrLn "escapou"
+        else do
+            putStrLn "nao conseguiu escapar..."
+            auxStartBattle char
 
 startBattle :: Character -> IO()
 startBattle char = do 
@@ -33,5 +36,5 @@ startBattle char = do
 auxStartBattle :: Character -> IO()
 auxStartBattle char = do
     battleMenu
-    escolha <- getOption
-    putStrLn (evaluate escolha)
+    option <- getOption
+    evaluate char option
