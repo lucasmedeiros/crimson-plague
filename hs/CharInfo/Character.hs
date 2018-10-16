@@ -6,6 +6,9 @@ module CharInfo.Character (
   getMP,
   getMaxMP,
   getLevel,
+  getStrModifier,
+  getDexModifier,
+  getIntModifier,
   increaseExperience
 ) where
 
@@ -67,6 +70,16 @@ getMaxMP character = max_mp (stats character)
 
 getLevel :: Character -> Int
 getLevel character = level (stats character)
+
+-- Métodos de acesso aos modificadores
+getDexModifier :: Character -> Int
+getDexModifier c = (dex (attributes c)) `div` 4
+
+getStrModifier :: Character -> Int
+getStrModifier c = (str (attributes c)) `div` 4
+
+getIntModifier :: Character -> Int
+getIntModifier c = (int (attributes c)) `div` 4
 
 -- Métodos relacionadoso a experiência e level do personagem
 increaseExperience :: Int -> Character -> Character
