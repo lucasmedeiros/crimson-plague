@@ -1,5 +1,4 @@
 module CharInfo.Character (
-  Stats (..),
   Character (..),
   createCharacter,
   getHP,
@@ -9,30 +8,13 @@ module CharInfo.Character (
 ) where
 
 import CharInfo.Attributes
+import CharInfo.Stats
 import Util
-
--- Stats iniciais
-initial_hp = 100
-initial_mp = 30
-initial_xp = 0
-initial_lvl = 1
-
-max_xp = 1000
 
 roles = ["mago", "guerreiro", "ladino"]
 mago = "mago"
 guerreiro = "guerreiro"
 ladino = "ladino"
-
--- Stats
-data Stats = Stats {
-  hp :: Int,
-  max_hp :: Int,
-  mp :: Int,
-  max_mp :: Int,
-  xp :: Int,
-  level :: Int
-} deriving (Show)
 
 data Character = Character {
   name :: String,
@@ -51,7 +33,6 @@ showRolesInfo = do
   putStrLn "Furtivos e escorregadios, ladinos, se não estão roubando algo, estão trabalhando numa busca por um tesouro."
   putStrLn "Possuem altas habilidades em combates de longa distância e armas de longo alcance."
 
--- chooseRole :: IO String
 chooseRole = do
   putStrLn "Escolha uma classe: "
   putStrLn "0. Mago"
@@ -69,6 +50,7 @@ chooseRole = do
       chooseRole
   else chooseRole
 
+-- Métodos de acesso a informações do personagem
 getHP :: Character -> Int
 getHP character = hp (stats character)
 
@@ -81,8 +63,12 @@ getMP character = mp (stats character)
 getMaxMP :: Character -> Int
 getMaxMP character = max_mp (stats character)
 
-fillStats :: Stats
-fillStats = Stats initial_hp initial_hp initial_mp initial_mp initial_xp initial_lvl
+-- Métodos de atualização da ficha do personagem
+updateStats :: Character -> Stats -> Character
+updateStats c st = Character (name c) (role c) st (attributes c)
+
+updateAttributes :: Character -> Attributes -> Character
+updateAttributes c attr = Character (name c) (role c) (stats c) attr
 
 -- criacao de Character
 createCharacter :: IO Character
