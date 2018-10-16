@@ -4,7 +4,8 @@ module CharInfo.Character (
   getHP,
   getMaxHP,
   getMP,
-  getMaxMP
+  getMaxMP,
+  levelUp
 ) where
 
 import CharInfo.Attributes
@@ -62,6 +63,11 @@ getMP character = mp (stats character)
 
 getMaxMP :: Character -> Int
 getMaxMP character = max_mp (stats character)
+
+-- Métodos relacionadoso a experiência e level do personagem
+levelUp :: Character -> Character
+levelUp character = updateStats updatedCharacter (addLevel 1 (stats updatedCharacter))
+  where updatedCharacter = (updateStats character (setXP 0 (stats character)))
 
 -- Métodos de atualização da ficha do personagem
 updateStats :: Character -> Stats -> Character
