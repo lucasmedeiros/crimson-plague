@@ -1,16 +1,15 @@
 module CharInfo.Stats (
   Stats(..),
   fillStats,
-  addLevel,
-  setXP
+  addXP
 ) where
 
 -- Stats iniciais
-initial_hp = 100
-initial_mp = 30
-initial_xp = 0
-initial_lvl = 1
-max_xp = 1000
+initialHP = 100
+initialMP = 30
+initialXP = 0
+initialLVL = 1
+xpToLevelUp = 100
 
 data Stats = Stats {
   hp :: Int,
@@ -27,5 +26,14 @@ addLevel n stats = Stats (hp stats) (max_hp stats) (mp stats) (max_mp stats) (xp
 setXP :: Int -> Stats -> Stats
 setXP n stats = Stats (hp stats) (max_hp stats) (mp stats) (max_mp stats) n (level stats)
 
+addXP :: Int -> Stats -> Stats
+addXP amount stats = do
+  let newXP = amount + (xp stats)
+  if (newXP >= xpToLevelUp) then do
+    let remnant = newXP `mod` xpToLevelUp
+    let levelsGained = newXP `div` xpToLevelUp
+    setXP remnant (addLevel levelsGained stats)
+  else setXP newXP stats
+
 fillStats :: Stats
-fillStats = Stats initial_hp initial_hp initial_mp initial_mp initial_xp initial_lvl
+fillStats = Stats initialHP initialHP initialMP initialMP initialXP initialLVL
