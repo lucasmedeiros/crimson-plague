@@ -66,8 +66,7 @@ getMaxMP character = max_mp (stats character)
 
 -- Métodos relacionadoso a experiência e level do personagem
 levelUp :: Character -> Character
-levelUp character = updateStats updatedCharacter (addLevel 1 (stats updatedCharacter))
-  where updatedCharacter = (updateStats character (setXP 0 (stats character)))
+levelUp character = updateStats character (addLevel 1 (stats character))
 
 -- Métodos de atualização da ficha do personagem
 updateStats :: Character -> Stats -> Character
