@@ -21,8 +21,8 @@ evaluate :: Character -> Int -> IO ()
 evaluate char option = do
     if (option == 1) then do putStrLn attack
     else do
-        resultado <- rollDice(20)
-        if (resultado >= 10) then do putStrLn "escapou"
+        rolling <- rollDice(20)
+        if (rolling >= 10) then do putStrLn "escapou"
         else do
             putStrLn "nao conseguiu escapar..."
             auxStartBattle char
