@@ -1,5 +1,8 @@
-import CharInfo.Character
+import qualified CharInfo.CharacterSheet as Sheet
+import qualified CharInfo.Spell as Spells
 
 main = do
-  character = createCharacter
+  character <- Sheet.createCharacter
+  -- Inicializa lista de habilidades
+  spells <- Spells.loadSpells
   return character
