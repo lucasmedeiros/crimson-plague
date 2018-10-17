@@ -5,6 +5,22 @@ module Battles.Battle(
 import Util
 import CharInfo.Sheet
 
+zeroHP = 0
+d20 = 20
+resultadoDefesaMagica = 10
+
+startBattle :: Character -> IO()
+startBattle char = do 
+    clearScreen
+    startBattleMessage
+    auxStartBattle char
+
+auxStartBattle :: Character -> IO()
+auxStartBattle char = do
+    battleMenu
+    option <- Util.getOption
+    evaluate char option
+
 attack :: String
 attack = "atacou!"
 
@@ -21,20 +37,8 @@ evaluate :: Character -> Int -> IO ()
 evaluate char option = do
     if (option == 1) then do putStrLn attack
     else do
-        rolling <- rollDice(20)
-        if (rolling >= 10) then do putStrLn "escapou"
+        rolling <- rollDice(d20)
+        if (rolling >= resultadoDefesaMagica) then do putStrLn "escapou"
         else do
             putStrLn "nao conseguiu escapar..."
             auxStartBattle char
-
-startBattle :: Character -> IO()
-startBattle char = do 
-    clearScreen
-    startBattleMessage
-    auxStartBattle char
-
-auxStartBattle :: Character -> IO()
-auxStartBattle char = do
-    battleMenu
-    option <- getOption
-    evaluate char option
