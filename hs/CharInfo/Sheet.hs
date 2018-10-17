@@ -1,4 +1,4 @@
-module CharInfo.Character (
+module CharInfo.Sheet (
   Character (..),
   createCharacter,
   getHP,
