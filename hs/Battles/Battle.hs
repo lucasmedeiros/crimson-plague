@@ -3,7 +3,7 @@ module Battles.Battle(
 ) where
 
 import Util
-import CharInfo.Character
+import CharInfo.Sheet
 
 attack :: String
 attack = "atacou!"
