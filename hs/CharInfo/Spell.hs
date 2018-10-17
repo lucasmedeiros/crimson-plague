@@ -5,10 +5,10 @@ module CharInfo.Spell (
   getDice,
   getCircle,
   getMP,
-  buildSpell
+  loadAll
 ) where
 
-import Database
+import qualified Database
 import Util (split)
 
 -- id;nome;descr;circulo;dado;mp
@@ -21,7 +21,7 @@ data Spell = Spell {
   mp :: Int
 } deriving (Show)
 
--- buildSpell :: [String] -> Spell
+buildSpell :: [String] -> Spell
 buildSpell txt = do
   let id' = read (txt !! 0) :: Int
   let name' = txt !! 1
@@ -31,7 +31,12 @@ buildSpell txt = do
   let dice'' = ((read (dice' !! 0) :: Int), (read (dice' !! 1) :: Int))
   let mp' = read (txt !! 5) :: Int
   -- print id'
-  return $ Spell id' name' descr circle' dice'' mp'
+  Spell id' name' descr circle' dice'' mp'
+
+loadAll :: IO [Spell]
+loadAll = do
+  spellsTxt <- Database.importFromDB "../db/habilidades_db.txt" 2
+  return $ map buildSpell spellsTxt
 
 -- Métodos de acesso a informações da habilidade
 getID :: Spell -> Int
