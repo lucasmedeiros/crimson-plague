@@ -39,9 +39,10 @@ geraMonstro x = do
           div = read (x!!3) ::Int
           som = read (x!!4) ::Int
 
-getMonstros :: [[String]] -> [Monster]
-getMonstros [] = []
-getMonstros (x:xs) = (geraMonstro x : getMonstros xs)
+loadAll :: IO [Monster]
+loadAll = do
+  monstersTxt <- Database.importFromDB "../db/monstros_db.txt" 2
+  return $ map geraMonstro monstersTxt
 
 calculaVida :: String -> Int -> Int -> Int
 calculaVida str divisor somador = do
