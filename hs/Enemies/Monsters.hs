@@ -1,7 +1,7 @@
 module Enemies.Monster (
     Monster(..),
     geraMonstro,
-    getMonstros,
+    loadAll,
     calculaVida,
     getId,
     getName,
