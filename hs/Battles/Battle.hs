@@ -7,25 +7,22 @@ import CharInfo.Sheet
 
 zeroHP = 0
 d20 = 20
-resultadoDefesaMagica = 10
+resultMagicDefense = 10
 
 startBattle :: Character -> IO()
 startBattle char = do 
     clearScreen
-    startBattleMessage
+    showStartBattleMessage
     auxStartBattle char
 
 auxStartBattle :: Character -> IO()
 auxStartBattle char = do
     battleMenu
     option <- Util.getOption
-    evaluate char option
+    evaluateOption char option
 
-attack :: String
-attack = "atacou!"
-
-startBattleMessage :: IO()
-startBattleMessage = do
+showStartBattleMessage :: IO()
+showStartBattleMessage = do
     putStrLn "Uma batalha se aproxima..."
 
 battleMenu :: IO()
@@ -33,12 +30,25 @@ battleMenu = do
     putStrLn "1) Atacar"
     putStrLn "2) Fugir"
 
-evaluate :: Character -> Int -> IO ()
-evaluate char option = do
-    if (option == 1) then do putStrLn attack
+attack :: Character -> IO ()
+attack char = do
+    putStrLn "atacou!"
+
+wasAbleToEscape :: Int -> Bool
+wasAbleToEscape rollResult = 
+    if (rollResult >= resultMagicDefense) then True
+    else False
+
+tryEscape :: Character -> IO()
+tryEscape char = do
+    rollResult <- rollDice(d20)
+    if (wasAbleToEscape rollResult)
+        then do putStrLn "adios, amigo..."
     else do
-        rolling <- rollDice(d20)
-        if (rolling >= resultadoDefesaMagica) then do putStrLn "escapou"
-        else do
-            putStrLn "nao conseguiu escapar..."
-            auxStartBattle char
+        putStrLn "not today, amigo..."
+        auxStartBattle (char)
+
+evaluateOption :: Character -> Int -> IO ()
+evaluateOption char option
+    | (option == 1) = attack (char)
+    | otherwise     = tryEscape (char)
