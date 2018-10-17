@@ -6,10 +6,10 @@ import System.IO
 import Control.Monad
 import Util (split)
 
-importFromDB :: Int -> IO [[String]]
-importFromDB numComments = do
+importFromDB :: String -> Int -> IO [[String]]
+importFromDB path numComments = do
   let list = []
-  handle <- openFile "../db/habilidades_db.txt" ReadMode
+  handle <- openFile path ReadMode
   contents <- hGetContents handle
   let list = drop numComments (lines contents)
   -- hClose handle
