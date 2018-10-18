@@ -42,18 +42,19 @@ generateAtributes txt = do
     -- De alguma forma ou tratar os enums como int ou tentar outra solucao
     let classItem = read (txt !!7) :: Int
     let equippedType = read (txt !!8) :: Int
+
     AtrbItens dam arm str int dex vit classItem equippedType
 
 BuildItem :: [String] -> [String] -> Item
-BuildItem txt atrbtxt =  do
-    let   id = read (txt !!0) :: Int
-    let   name = txt !!1 :: String
-    let   description = txt !!2 :: String
-    let   sell = read (txt !!6) :: Int
-    let   consumable = txt !!3 :: Bool
-    let   recHPMax = read (txt !!4) :: Int
-    let   recMPMax = read (txt !!5) :: Int
-    let   atrb = generateAtributes atrbtxt :: AtrbItens
+BuildItem Itemtxt atrbtxt =  do
+    let id = read (Itemtxt !!0) :: Int
+    let name = Itemtxt !!1 :: String
+    let description = Itemtxt !!2 :: String
+    let sell = read (Itemtxt !!6) :: Int
+    let consumable = Itemtxt !!3 :: Bool
+    let recHPMax = read (Itemtxt !!4) :: Int
+    let recMPMax = read (Itemtxt !!5) :: Int
+    let atrb = generateAtributes atrbtxt :: AtrbItens
     
     Item id name description sell consumable recHPMax recMPMax atrb
 

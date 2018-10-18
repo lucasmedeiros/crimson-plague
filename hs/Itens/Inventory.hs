@@ -17,16 +17,34 @@ data Inventory = Equipped(
     boots :: Item
 )deriving (Show)
 
+data Inventory = ItensBag(
+    slot1 :: Item,
+    slot2 :: Item,
+    slot3 :: Item,
+    slot4 :: Item,
+    slot5 :: Item
+)deriving (Show)
+
 data Inventory = Bag(
     bagSize :: Int,
     allItens :: [Item],
-    bag :: [Item],
+    itens :: ItensBag,
     classCharacter :: Int,
     qtdItens :: [Int],
     itensEquipped :: Equipped,
     money :: Int
 
 )deriving (Show)
+
+fillInitialItensBag :: [Item] -> ItensBag
+fillInitialItensBag inventory itens = do
+    let slot1 = itens !!30
+    let slot2 = itens !!30
+    let slot3 = itens !!30
+    let slot4 = itens !!30
+    let slot5 = itens !!30
+
+    ItensBag slot1 slot2 slot3 slot4 slot5
 
 qtdItensInBag :: [Int] -> Int
 qtdItensInBag qtd = sum(qtd)
