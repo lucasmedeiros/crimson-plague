@@ -1,6 +1,11 @@
 module Itens.Item(
     AtrbItens(..),
     Item(..),
+    generateAtributes,
+    buildItens,
+    getName,
+    getRecHPMax,
+    getRecMPMax,
 
 )where
 
@@ -11,7 +16,8 @@ data Item = AtrbItens(
     int :: Int,
     dex :: Int,
     vit :: Int,
-    class :: String
+    classItem :: Int,
+    equippedType :: Int,
 ) deriving (Show)
 
 data Item = Item(
@@ -28,13 +34,15 @@ data Item = Item(
 generateAtributes :: [String] -> AtrbItens
 generateAtributes txt = do
     let dam = read (txt !!1) :: Int
-    let   arm = read (txt !!2) :: Int
-    let   str = read (txt !!3) :: Int
-    let   vit = read (txt !!4) :: Int
-    let   dex = read (txt !!5) :: Int
-    let   int = read (txt !!6) :: Int
-    
-    AtrbItens dam arm str int dex vit
+    let arm = read (txt !!2) :: Int
+    let str = read (txt !!3) :: Int
+    let vit = read (txt !!4) :: Int
+    let dex = read (txt !!5) :: Int
+    let int = read (txt !!6) :: Int
+    -- De alguma forma ou tratar os enums como int ou tentar outra solucao
+    let classItem = read (txt !!7) :: Int
+    let equippedType = read (txt !!8) :: Int
+    AtrbItens dam arm str int dex vit classItem equippedType
 
 BuildItem :: [String] -> [String] -> Item
 BuildItem txt atrbtxt =  do
@@ -55,6 +63,13 @@ loadAllItens = do
     atrbTxt <- Database.importFromDB "../db/atributos_itens_db.txt" 4
     return $ map BuildItem itensTxt atrbTxt
 
+getName :: Item -> String
+getName Item = name Item
 
+getRecHPMax :: Item -> Int
+getRecHPMax Item =  recHPMax Item
+
+getRecMPMax :: Item -> Int
+getRecMPMax Item = recMPMax Item
 
 
