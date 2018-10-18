@@ -1,4 +1,4 @@
-module Enemies.Monster (
+module Enemies.Monsters (
     Monster(..),
     geraMonstro,
     loadAll,
