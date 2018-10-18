@@ -9,11 +9,12 @@ import CharInfo.Sheet
 zeroHP = 0
 d20 = 20
 resultMagicDefense = 10
+resultEscape = 12
 
 startBattle :: Character -> Monster -> IO()
 startBattle char monster = do 
     clearScreen
-    showStartBattleMessage
+    showStartBattleMessage monster
     auxStartBattle char monster
 
 auxStartBattle :: Character -> Monster -> IO()
@@ -22,9 +23,11 @@ auxStartBattle char monster = do
     option <- Util.getOption
     evaluateOption char monster option
 
-showStartBattleMessage :: IO()
-showStartBattleMessage = do
-    putStrLn "Uma batalha se aproxima..."
+showStartBattleMessage :: Monster -> IO()
+showStartBattleMessage monster = do
+    let nome = getName (monster)
+    putStrLn "BATALHA!"
+    putStrLn ("Um "++nome++" se aproxima!")
 
 showBattleMenu :: IO()
 showBattleMenu = do
@@ -37,7 +40,7 @@ attack char monster = do
 
 wasAbleToEscape :: Int -> Bool
 wasAbleToEscape rollResult = 
-    if (rollResult >= resultMagicDefense) then True
+    if (rollResult >= resultEscape) then True
     else False
 
 tryEscape :: Character -> Monster -> IO()
