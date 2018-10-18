@@ -41,30 +41,30 @@ showBattleMenu = do
     putStrLn "1) Atacar"
     putStrLn "2) Fugir"
 
--- executa um ataque do personagem
-attack :: Character -> Monster -> IO ()
-attack char monster = do
-    putStrLn "atacou!"
-
--- verifica se foi possível escapar da batalha
-wasAbleToEscape :: Int -> Bool
-wasAbleToEscape rollResult = 
-    if (rollResult >= resultEscape) then True
-    else False
-
--- função chamada ao escolher a opção de fuga
--- avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
-tryEscape :: Character -> Monster -> IO()
-tryEscape char monster = do
-    rollResult <- rollDice(d20)
-    if (wasAbleToEscape rollResult)
-        then do putStrLn "Você escapou..."
-    else do
-        putStrLn "Não conseguiu escapar..."
-        auxStartBattle char monster
-
 -- avalia opção escolhida pelo usuário no menu
 evaluateOption :: Character -> Monster -> Int -> IO ()
 evaluateOption char monster option
     | (option == 1) = attack char monster
     | otherwise     = tryEscape char monster
+
+-- função chamada ao escolher a opção de fuga
+-- avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
+tryEscape :: Character -> Monster -> IO()
+tryEscape char monster = do
+    putStrLn "Você tenta fugir e..."
+    rollResult <- rollDice(d20)
+    if (wasAbleToEscape rollResult)
+        then do putStrLn "Escapou..."
+    else do
+        putStrLn "Não consegue... O monstro está rindo de você..."
+        auxStartBattle char monster
+
+-- verifica se foi possível escapar da batalha
+wasAbleToEscape :: Int -> Bool
+wasAbleToEscape rollResult = (rollResult >= resultEscape)
+
+-- executa um ataque do personagem
+attack :: Character -> Monster -> IO ()
+attack char monster = do
+    let damageCharacter = CharInfo.Sheet.calculateDamage (char)
+    putStrLn "atacou!"
