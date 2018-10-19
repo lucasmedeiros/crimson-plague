@@ -11,6 +11,7 @@ zeroHP = 0
 d20 = 20
 resultMagicDefense = 10
 resultEscape = 12
+defenseMonster = 3
 
 -- inicia a batalha entre o personagem e um monstro
 startBattle :: Character -> Monster -> IO()
@@ -53,18 +54,36 @@ tryEscape :: Character -> Monster -> IO()
 tryEscape char monster = do
     putStrLn "Você tenta fugir e..."
     rollResult <- rollDice(d20)
-    if (wasAbleToEscape rollResult)
+    if (escaped rollResult)
         then do putStrLn "Escapou..."
     else do
         putStrLn "Não consegue... O monstro está rindo de você..."
         auxStartBattle char monster
 
 -- verifica se foi possível escapar da batalha
-wasAbleToEscape :: Int -> Bool
-wasAbleToEscape rollResult = (rollResult >= resultEscape)
+escaped :: Int -> Bool
+escaped rollResult = (rollResult >= resultEscape)
 
 -- executa um ataque do personagem
 attack :: Character -> Monster -> IO ()
 attack char monster = do
-    let damageCharacter = CharInfo.Sheet.calculateDamage (char)
-    putStrLn "atacou!"
+    rollResult <- rollDice(d20)
+    if (miss char monster rollResult) then do
+        putStrLn "Errou o ataque... O monstro ri de você..."
+        auxStartBattle char monster
+    else do
+        let damageCharacter = CharInfo.Sheet.calculateDamage (char)
+            newMonster = Enemies.Monsters.reduceLife monster damageCharacter
+        putStrLn ("Você infligiu um total de " ++ show damageCharacter ++ " danos no monstro!")
+        auxStartBattle char newMonster
+
+miss :: Character -> Monster -> Int -> Bool
+miss char monster rollResult =
+    ((rollResult + damage) < defenseMonster)
+        where
+            damage = CharInfo.Sheet.calculateDamage char
+
+-- avalia se o monstro chegou a 0HP e o jogador venceu
+won :: Character -> Monster -> Bool
+won char monster = (hpMonster <= zeroHP) 
+                where hpMonster = Enemies.Monsters.getHp monster
