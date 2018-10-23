@@ -5,11 +5,12 @@ module CharInfo.Spell (
   getDice,
   getCircle,
   getMP,
+  calculateDamage,
   loadAll
 ) where
 
 import qualified Database
-import Util (split)
+import Util (split, rollDices)
 
 -- id;nome;descr;circulo;dado;mp
 data Spell = Spell {
@@ -57,3 +58,6 @@ getDice spell = dice spell
 -- Retorna a quantidade de MP que a habilidade gasta
 getMP :: Spell -> Int
 getMP spell = mp spell
+
+calculateDamage :: Spell -> IO Int
+calculateDamage spell = Util.rollDices (snd (getDice spell)) (fst (getDice spell))
