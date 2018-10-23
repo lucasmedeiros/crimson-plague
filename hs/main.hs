@@ -1,6 +1,6 @@
-import qualified CharInfo.CharacterSheet as Sheet
+import qualified CharInfo.Sheet as Sheet
 import qualified CharInfo.Spell as Spells
-import qualified Itens.Item as Item
+-- import qualified Itens.Item as Item
 
 main = do
   character <- Sheet.createCharacter
