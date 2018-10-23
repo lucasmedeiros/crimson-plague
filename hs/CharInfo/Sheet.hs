@@ -12,14 +12,15 @@ module CharInfo.Sheet (
   getDexModifier,
   getIntModifier,
   increaseExperience,
+  castSpell,
   takeDamage,
-  castSpell
+  getUsableSpells
 ) where
 
 import CharInfo.Attributes
 import CharInfo.Stats
-import qualified CharInfo.Spell as Spells
 import Util
+import qualified CharInfo.Spell as Spells
 
 roles = ["mago", "guerreiro", "ladino"]
 mago = "mago"
@@ -130,6 +131,13 @@ castSpell spell character = do
   dmg <- (Spells.calculateDamage spell)
   let characterUpdated = (spentMana spell character)
   return $ (dmg, characterUpdated)
+
+getUsableSpells :: [Spells.Spell] -> Character -> [Spells.Spell]
+getUsableSpells spells character = do
+  if (getRole character) == "mago" then
+    Spells.getUsableSpells (getLevel character) spells
+  else
+    []
 
 -- criacao de Character
 createCharacter :: IO Character
