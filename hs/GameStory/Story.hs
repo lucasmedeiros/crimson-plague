@@ -76,9 +76,3 @@ escolhaGancho3 = do
 	putStrLn "Minerador: voce parece forte. Por favor, acabe com esse mal!"
 
 escolhaGancho4 :: IO()
-
--- 
-Marcella Medeiros Siqueira Coutinho de Almeida
-Graduanda em Ciência da Computação - Universidade Federal de Campina Grande
-Coordenadora do grupo Elas@Computação UFCG
-Embaixadora Regional do Technovation Challenge Brasil
