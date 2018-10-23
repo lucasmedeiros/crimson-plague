@@ -11,7 +11,8 @@ module CharInfo.Sheet (
   getStrModifier,
   getDexModifier,
   getIntModifier,
-  increaseExperience
+  increaseExperience,
+  takeDamage
 ) where
 
 import CharInfo.Attributes
@@ -102,6 +103,9 @@ calculateDefense :: Character -> Int
 calculateDefense character = do
   let armadura = 0
   10 + armadura + (getDexModifier character)
+
+takeDamage :: Int -> Character -> Character
+takeDamage dmg character = updateStats character (increaseHP (-dmg) (stats character))
 
 -- Métodos relacionadoso a experiência e level do personagem
 increaseExperience :: Int -> Character -> Character
