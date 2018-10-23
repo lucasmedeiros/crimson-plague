@@ -166,8 +166,41 @@ escolhaGancho4 = do
  		putStrLn "Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"
  	answerMessage2
 
+primeiroFinal :: IO()
+primeiroFinal = do
+	clearScreen
+	putStrLn "Conclusao"
+	putStrLn "Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila."
+	putStrLn "Duas semanas depois, em outra vila a procura de um artefato."
+	putStrLn "Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela praga."
+	putStrLn "Aqueles que sobreviveram foram os que fugiram"
+	putStrLn "de Passagem de Duvik enquanto nao tinham sido contaminados"
+	putStrLn "A promissora cidade comerciante, se tornou apenas uma ruina"
+	putStrLn "uma promessa do que poderia se tornar."
 
+entradaMina :: IO()
+entradaMina = do
+	clearScreen
+	putStrLn "Entrada da caverna"
+	putStrLn "Apos algumas horas de caminhada, voce chega na caverna."
+	putStrLn "Uma brisa fria desce dos picos da Montanha Serpente"
+	putStrLn "Enrolada enquanto voce contempla a entrada para as"
+	putStrLn "cavernas. O chao coberto de neve esta cheio de ferramentas,"
+	putStrLn "picaretas e pas, muitas das quais sobressaindo dos montes"
+	putStrLn "de neve. Um unico corredor escuro conduz as profundezas"
+	putStrLn "da mina a frente. O caminho de terra abaixo, que possui"
+	putStrLn "estruturas de suporte de madeira, esta coberto com escombros"
+	putStrLn "de pedra, uns pedacos ocasionalmente brilham com o menor"
+	putStrLn "pedaco de minerio. Nenhuma luz lanca-se para fora"
+	putStrLn "do tunel. Tochas queimadas estão espalhadas pelo chao,"
+	putStrLn "seus suportes quebrados nas paredes do tunel. Atras de"
+	putStrLn "voce, a estrada gasta conduz atraves dos precipicios para o"
+	putStrLn "vale abaixo. Alem do suave assobio do vento, um completo"
+	putStrLn "silencio preenche a abertura nas montanhas."
+	clearScreen
+	putStrLn "Você encontra um kobolds, ele parece hostil"
+	putStrLn "E irá atacar você! Prepare-se para o combate!"
 
-
+	--inicia batalha
 
 
