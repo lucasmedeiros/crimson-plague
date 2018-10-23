@@ -14,7 +14,8 @@ module CharInfo.Sheet (
   increaseExperience,
   castSpell,
   takeDamage,
-  getUsableSpells
+  getUsableSpells,
+  hasEnoughMana
 ) where
 
 import CharInfo.Attributes
@@ -138,6 +139,9 @@ getUsableSpells spells character = do
     Spells.getUsableSpells (getLevel character) spells
   else
     []
+
+hasEnoughMana :: Spells.Spell -> Character -> Bool
+hasEnoughMana spell character = (getMP character) >= (Spells.getMP spell)
 
 -- criacao de Character
 createCharacter :: IO Character
