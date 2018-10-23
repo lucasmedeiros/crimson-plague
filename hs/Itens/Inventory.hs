@@ -2,7 +2,14 @@ module Itens.Inventory(
    	Equipped(..),
     Bag(..),
    	initializeSlot,
-
+   	addItem,
+   	getEmptySpace,
+   	qtdItensInBag,
+   	addItemInList,
+   	addItemInEspecificPosition,
+   {-	shiftList,
+   	lastToFront,
+-}
 )where
 
 import Data.List
@@ -51,40 +58,60 @@ initializeEquiped itens = do
 		boots = allItensFromBD !! (itens !!4) :: Item
 
 
-getEmptySpace :: [Int] -> Int
-getEmptySpace bag = fromJust $ elemIndex 34 bag 
+-- testado
+getEmptySpace :: [Int] -> Maybe Int
+getEmptySpace bag = elemIndex 34 bag 
 
+-- testado
 qtdItensInBag :: Inventory -> Int
 qtdItensInBag inventory = sum(qtdItens inventory)
 
+--testado
 haveEmptySlot :: Inventory -> Bool
 haveEmptySlot inventory = isNothing (elemIndex 34 (slots inventory))
 
 
 addItem :: Inventory -> Int -> Inventory
-addItem inv id
-	| isNothing == False = inv
-	| otherwise = do
-		let slots = (slots inv)
-		let newSlots = shiftList [(slots !!0), (slots !!1), (slots !!2),(slots !!3), id]
-		let classType = (classCharacter inv) 
-		let qtd = (qtdItens inv)
-		let equipped = (equipped inv)
-	
-		Inventory 5 newSlots classType qtd equipped
+addItem inventory id
+		| haveEmptySlot inventory == False = inventory 
+		| otherwise = do
+			Inventory actualBagSize newSlots actualClassCharacter newQtds actualItensEquipped
+			
+			where
+				newSlots =  addItemInList (slots inventory) id :: [Int]
+				index = fromJust $ (getEmptySpace slots inventory) :: Int
+				actualQtd = (qtdItens inventory) !! index :: Int
+				newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd + 1) index :: [Int]
+				actualBagSize = (bagSize inventory) :: Int
+				actualClassCharacter = (classCharacter inventory) :: Int
+				actualItensEquipped  = (itensEquipped inventory) :: Equipped 
 
 
+--testado
+addItemInList :: [Int] -> Int -> [Int]
+addItemInList [] id = []
+addItemInList (x:xs) id | x == 34 = id:addItemInList xs id
+						| otherwise = x:addItemInList xs id
 
+-- testado
+addItemInEspecificPosition :: [Int] -> Int -> Int -> [Int]
+addItemInEspecificPosition [] value index = []
+addItemInEspecificPosition (x:xs) value index | index == 0 = (value:xs)
+										  | otherwise = x:(addItemInEspecificPosition xs value (index-1))
+
+										  
+{---testado
 shiftList :: [Int] -> [Int]
 shiftList [] = []
 shiftList (x:xs) | x == 34 = lastToFront (x:xs)
 				 | otherwise = (x: shiftList xs)
 
 
+--testado
 lastToFront :: [Int] -> [Int]
 lastToFront [] = []
 lastToFront (x:xs) = lastToFront xs++[x]
- 
+ -}
 
 
 
