@@ -16,9 +16,9 @@ importFromDB path numComments = do
   return $ map (`split` ';') list
 
 
-  write :: String -> String -> IO()
+ {- write :: String -> String -> IO()
   write path text = do
   	arq <- openFile path WriteMode
   	hPutStr arq text
-  	hFlush arq
-  	hClose arq
+  	hFlush arq 
+  	hClose arq -}
