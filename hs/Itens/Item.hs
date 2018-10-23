@@ -9,6 +9,12 @@ module Itens.Item(
 
 )where
 
+-- Tipo equipavel 
+-- NEQUIPAVEL = 0, ARMA,ARMADURA,BOTAS,CAPACETE,ESCUDO
+
+-- classe equipavel
+-- GUERREIRO = 1,MAGO, LADINO, TODOS
+
 data Item = AtrbItens(
     dam :: Int,
     arm :: Int,

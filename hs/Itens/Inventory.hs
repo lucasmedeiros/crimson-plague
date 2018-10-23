@@ -1,13 +1,18 @@
 module Itens.Inventory(
-    Equipped(..),
+   	Equipped(..),
     Bag(..),
-    qtdItensInBag,
-    getDamage,
-    getArmor,
-    getQtdItens,
-    qtdEmpty
+   	initializeSlot,
 
 )where
+
+import Data.List
+import Data.Maybe
+import qualified DataBase
+import Itens.Item (loadAllItens)
+import qualified Util (convertStringToInt)
+
+allItensFromBD = loadAllItens
+
 
 data Inventory = Equipped(
     weapon :: Item,
@@ -17,54 +22,54 @@ data Inventory = Equipped(
     boots :: Item
 )deriving (Show)
 
-data Inventory = ItensBag(
-    slot1 :: Item,
-    slot2 :: Item,
-    slot3 :: Item,
-    slot4 :: Item,
-    slot5 :: Item
-)deriving (Show)
-
-data Inventory = Bag(
+data Inventory = Inventory(
     bagSize :: Int,
-    allItens :: [Item],
-    itens :: ItensBag,
+    slots :: [Int],
     classCharacter :: Int,
     qtdItens :: [Int],
     itensEquipped :: Equipped,
-    money :: Int
-
+    money :: Int,
 )deriving (Show)
 
-fillInitialItensBag :: [Item] -> ItensBag
-fillInitialItensBag inventory itens = do
-    let slot1 = itens !!30
-    let slot2 = itens !!30
-    let slot3 = itens !!30
-    let slot4 = itens !!30
-    let slot5 = itens !!30
+generateInventory :: Int -> Inventory
+generateInventory classType = do
+	Inventory 5 itens classType qtd equipped 0
+	where 
+		arq = importFromDB "./inventory.txt" 4
+		itens = convertStringToInt (arq !!0)
+		qtd = convertStringToInt (arq !!2)
+		equipped = initializeEquipped convertStringToInt (arq !!1)
 
-    ItensBag slot1 slot2 slot3 slot4 slot5
 
-qtdItensInBag :: [Int] -> Int
-qtdItensInBag qtd = sum(qtd)
+initializeEquippd :: [Int] -> Equipped
+initializeEquiped itens = do
+	Equipped weapon armor helmet shield boots
+	where
+		weapon = allItensFromBD !! (itens !!0) :: Item
+		armor = allItensFromBD !! (itens !!1) :: Item
+		helmet = allItensFromBD !! (itens !!2) :: Item
+		shield = allItensFromBD !! (itens !!3) :: Item
+		boots = allItensFromBD !! (itens !!4) :: Item
 
-getDamage :: Inventory -> Int
-getDamage inventory = damage (weapon Equipped)
 
-getArmor :: Inventory -> Int
-getArmor inventory = (arm (armor Equipped)) + (arm (shield Equipped)) + (arm (helmet Equipped))
+getEmptySpace :: [Int] -> Int
+getEmptySpace bag = fromJust $ elemIndex 34 bag 
 
-getQtdItens :: Inventory -> Int
-getQtdItens inventory = money Bag
+qtdItensInBag :: Inventory -> Int
+qtdItensInBag inventory = sum(qtdItens inventory)
 
-qtdEmpty :: Inventory -> Int
-qtdEmpty inventory = (bagSize Bag) - qtdItensInBag (qtdItens Bag)
+haveEmptySlot :: Inventory -> Bool
+haveEmptySlot inventory = isNothing (elemIndex 34 (slots inventory))
 
---getAgility
 
---getInteligence :: Inventory -> Int
---getInteligence inteligence = (inventory)
+addItem :: Inventory -> Int -> Inventory
+addItem inv id
+	| isNothing == False = inv
+	| otherwise = do
+		let EmptyIndex = getEmptySpace inv 
+
+
+
 
 
 

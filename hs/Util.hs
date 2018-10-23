@@ -42,3 +42,7 @@ getOption = do
 -- Rola um dado de numero determinado por parametro
 rollDice :: Int -> IO Int
 rollDice num = System.Random.randomRIO (1::Int, num)
+
+-- Converte uma lista de String em uma lista de inteiros
+convertStringToInt :: [String] -> [Int]
+convertStringToInt string = map (read :: String -> Int) string 
