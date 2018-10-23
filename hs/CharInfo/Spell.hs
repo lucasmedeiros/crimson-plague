@@ -6,7 +6,8 @@ module CharInfo.Spell (
   getCircle,
   getMP,
   calculateDamage,
-  loadAll
+  loadAll,
+  getUsableSpells
 ) where
 
 import qualified Database
@@ -61,3 +62,9 @@ getMP spell = mp spell
 
 calculateDamage :: Spell -> IO Int
 calculateDamage spell = Util.rollDices (snd (getDice spell)) (fst (getDice spell))
+
+-- Dado o banco de habilidades e o circulo de magia do personagem, retorna as habilidades usaveis
+getUsableSpells :: Int -> [Spell] -> [Spell]
+getUsableSpells level spells = do
+  let yourCircle = (div (level - 1)  2)
+  take (yourCircle + 1) spells
