@@ -3,6 +3,7 @@ module Util (
   clearScreen,
   prompt,
   rollDice,
+  rollDices,
   split
 ) where
 
@@ -46,3 +47,11 @@ rollDice num = System.Random.randomRIO (1::Int, num)
 -- Converte uma lista de String em uma lista de inteiros
 convertStringToInt :: [String] -> [Int]
 convertStringToInt string = map (read :: String -> Int) string 
+
+rollDices :: Int -> Int -> IO Int
+rollDices sides 1 = rollDice sides
+rollDices sides num = do
+  value <- (rollDice sides)
+  value2 <- (rollDices sides (num - 1))
+  return $ value + value2
+  
