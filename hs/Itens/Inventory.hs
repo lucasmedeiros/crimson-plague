@@ -28,12 +28,11 @@ data Inventory = Inventory(
     classCharacter :: Int,
     qtdItens :: [Int],
     itensEquipped :: Equipped,
-    money :: Int,
 )deriving (Show)
 
 generateInventory :: Int -> Inventory
 generateInventory classType = do
-	Inventory 5 itens classType qtd equipped 0
+	Inventory 5 itens classType qtd equipped
 	where 
 		arq = importFromDB "./inventory.txt" 4
 		itens = convertStringToInt (arq !!0)
@@ -66,10 +65,26 @@ addItem :: Inventory -> Int -> Inventory
 addItem inv id
 	| isNothing == False = inv
 	| otherwise = do
-		let EmptyIndex = getEmptySpace inv 
+		let slots = (slots inv)
+		let newSlots = shiftList [(slots !!0), (slots !!1), (slots !!2),(slots !!3), id]
+		let classType = (classCharacter inv) 
+		let qtd = (qtdItens inv)
+		let equipped = (equipped inv)
+	
+		Inventory 5 newSlots classType qtd equipped
 
 
 
+shiftList :: [Int] -> [Int]
+shiftList [] = []
+shiftList (x:xs) | x == 34 = lastToFront (x:xs)
+				 | otherwise = (x: shiftList xs)
+
+
+lastToFront :: [Int] -> [Int]
+lastToFront [] = []
+lastToFront (x:xs) = lastToFront xs++[x]
+ 
 
 
 

@@ -3,7 +3,7 @@
 // equipped itens --> weapon, armor, helmet, shield, boots
 // qtd per itens in inventory
 34;34;34;34;34
-29;35;39;46;24
+29;35;39;34;24
 0;0;0;0;0
 
 
