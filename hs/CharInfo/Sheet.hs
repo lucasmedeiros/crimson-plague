@@ -12,11 +12,13 @@ module CharInfo.Sheet (
   getDexModifier,
   getIntModifier,
   increaseExperience,
-  takeDamage
+  takeDamage,
+  castSpell
 ) where
 
 import CharInfo.Attributes
 import CharInfo.Stats
+import qualified CharInfo.Spell as Spells
 import Util
 
 roles = ["mago", "guerreiro", "ladino"]
@@ -117,6 +119,17 @@ updateStats c st = Character (name c) (role c) st (attributes c)
 
 updateAttributes :: Character -> Attributes -> Character
 updateAttributes c attr = Character (name c) (role c) (stats c) attr
+
+-- Métodos relacionados a habilidades
+spentMana :: Spells.Spell -> Character -> Character
+spentMana spell character = do
+  updateStats character (increaseMP (Spells.getMP spell) (stats character))
+
+castSpell :: Spells.Spell -> Character -> IO (Int, Character)
+castSpell spell character = do
+  dmg <- (Spells.calculateDamage spell)
+  let characterUpdated = (spentMana spell character)
+  return $ (dmg, characterUpdated)
 
 -- criacao de Character
 createCharacter :: IO Character
