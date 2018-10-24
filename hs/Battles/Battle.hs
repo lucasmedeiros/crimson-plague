@@ -18,23 +18,32 @@ startBattle :: Character -> Monster -> IO()
 startBattle char monster = do 
     clearScreen
     showStartBattleMessage monster
-    let hpMonster = Enemies.Monsters.getHp monster
-    let hpChar = CharInfo.Sheet.getHP char
     auxStartBattle char monster 
 
 -- função criada para representar um "loop"
 auxStartBattle :: Character -> Monster -> IO()
 auxStartBattle char monster = do
+    showLife char monster
     showBattleMenu
     option <- Util.getOption
     evaluateOption char monster option
 
+-- exibe a vida do personagem e do monstro
+showLife :: Character -> Monster -> IO()
+showLife char monster = do
+    let hpPersonagem = CharInfo.Sheet.getHP (char)
+    putStrLn ("Seu HP: "++ show hpPersonagem)
+    let hpMonster = Enemies.Monsters.getHp (monster)
+        monsterName = Enemies.Monsters.getName (monster)
+    putStrLn ("HP do "++monsterName++": "++ show hpMonster)
+    putStrLn("")
+
 -- exibe a mensagem inicial de batalha
 showStartBattleMessage :: Monster -> IO()
 showStartBattleMessage monster = do
-    let nome = getName (monster)
+    let monsterName = Enemies.Monsters.getName (monster)
     putStrLn "BATALHA!"
-    putStrLn ("Um "++nome++" se aproxima!")
+    putStrLn ("Um "++monsterName++" se aproxima!")
 
 -- exibe o menu de batalha
 showBattleMenu :: IO()
@@ -65,7 +74,7 @@ escaped :: Int -> Bool
 escaped rollResult = (rollResult >= resultEscape)
 
 -- executa um ataque do personagem
-attack :: Character -> Monster -> IO ()
+attack :: Character -> Monster -> IO()
 attack char monster = do
     rollResult <- rollDice(d20)
     if (miss char monster rollResult) then do
@@ -75,8 +84,16 @@ attack char monster = do
         let damageCharacter = CharInfo.Sheet.calculateDamage (char)
             newMonster = Enemies.Monsters.reduceLife monster damageCharacter
         putStrLn ("Você infligiu um total de " ++ show damageCharacter ++ " danos no monstro!")
-        auxStartBattle char newMonster
+        monsterDefeated char newMonster
 
+-- verifica se o monstro foi derrotado
+monsterDefeated :: Character -> Monster -> IO()
+monsterDefeated char monster = do
+    if (won char monster) then do
+        putStrLn "Parabéns, você venceu!!!"
+    else auxStartBattle char monster
+
+-- verifica se o personagem errou ou não o ataque
 miss :: Character -> Monster -> Int -> Bool
 miss char monster rollResult =
     ((rollResult + damage) < defenseMonster)
