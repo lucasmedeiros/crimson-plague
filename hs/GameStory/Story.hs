@@ -13,7 +13,7 @@ getYesNo = do
 	putStrLn "Sim (digite s)"
 	putStrLn "Não (digite n)"
 	option <- getLine
-	return $ read option
+	return $ (read $ show option :: Char)
 
 introCity :: IO()
 introCity = do
@@ -57,18 +57,18 @@ errorMessage = do
 	ganchoAventura
 
 answerMessage1 :: Char -> IO()
-answerMessage = do
-	answer <- getYesNo
-	if (answer == "s") 
-		then do 
-			putStrLn "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina."
-        	putStrLn "Meruen: Muito obrigado, amigo."
-	else do
-		putStrLn "Meruen: Você é tão vazio quanto sua alma."
+answerMessage1 = do
+    answer <- getYesNo
+    if (answer == "s") 
+        then do 
+            putStrLn "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina."
+            putStrLn "Meruen: Muito obrigado, amigo."
+    else do
+        putStrLn "Meruen: Você é tão vazio quanto sua alma."
         putStrLn "Meruen se afasta lentamente de você."
 
 answerMessage2 :: Char -> IO()
-answerMessage = do
+answerMessage2 = do
 	answer <- getYesNo
 	if (answer == "s") 
 		then do 
@@ -127,56 +127,56 @@ escolhaGancho3 = do
 
 escolhaGancho4 :: IO()
 escolhaGancho4 = do
-	clearScreen
-	putStrLn "Isso não é problema seu. Você já tem problemas demais pra resolver."
-	putStrLn "Esses camponeses conseguem resolver esse problema sozinho."
-	putStrLn "Ao menos você acha isso."
+    clearScreen
+    putStrLn "Isso não é problema seu. Você já tem problemas demais pra resolver."
+    putStrLn "Esses camponeses conseguem resolver esse problema sozinho."
+    putStrLn "Ao menos você acha isso."
 
- segundaChance :: IO()
- segundaChance = do
- 	clearScreen
- 	putStrLn "Uma pessoa se aproxima de você, ela te parece familiar"
- 	putStrLn "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen."
- 	putStrLn "Um guerreiro que costumava lutar com você, alguns anos atrás."
- 	putStrLn "Ele está bem magro, comparado ao tempo que ele lutava com você."
- 	putStrLn "Ele se aproxima e diz: "
- 	putStrLn "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina próxima dessa região"
- 	putStrLn "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo"
- 	putStrLn "Meruen: é provável que ela esteja causando a praga que está assolando essa vila."
- 	putStrLn "O que voce respondera pra ele:"
- 	putStrLn "1 - Voce poderia falar mais sobre essa praga?"
- 	putStrLn "2 - Voce esta bem?"
- 	putStrLn "3 - Ha alguma coisa em que eu possa ajudar?"
- 	option <- getLine
- 	clearScreen
- 	putStrLn "Meruen responde: "
- 	if (option == 1)
- 		then do
- 			putStrLn "Meruen: Estão chamando por aqui de praga Carmesim, ela começa de forma inofensiva"
- 			putStrLn "Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana."
- 			putStrLn "Meruen: Infelizmente eu acabei pegando essa doença... Não acho que tenho muitos dias..."
- 			putStrLn "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."
- 	else if (option == 2)
- 		then do
- 			putStrLn "Meruen: Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias..."
- 			putStrLn "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."
- 	else do
- 		putStrLn "Meruen: Na verdade, tem. Eu acredito que se você for pra essa mina. Deve haver uma forma de terminar"
- 		putStrLn "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias..."
- 		putStrLn "Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"
- 	answerMessage2
+segundaChance :: IO()
+segundaChance = do
+    clearScreen
+    putStrLn "Uma pessoa se aproxima de você, ela te parece familiar"
+    putStrLn "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen."
+    putStrLn "Um guerreiro que costumava lutar com você, alguns anos atrás."
+    putStrLn "Ele está bem magro, comparado ao tempo que ele lutava com você."
+    putStrLn "Ele se aproxima e diz: "
+    putStrLn "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina próxima dessa região"
+    putStrLn "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo"
+    putStrLn "Meruen: é provável que ela esteja causando a praga que está assolando essa vila."
+    putStrLn "O que voce respondera pra ele:"
+    putStrLn "1 - Voce poderia falar mais sobre essa praga?"
+    putStrLn "2 - Voce esta bem?"
+    putStrLn "3 - Ha alguma coisa em que eu possa ajudar?"
+    option <- getLine
+    clearScreen
+    putStrLn "Meruen responde: "
+    if (option == 1)
+        then do
+            putStrLn "Meruen: Estão chamando por aqui de praga Carmesim, ela começa de forma inofensiva"
+            putStrLn "Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana."
+            putStrLn "Meruen: Infelizmente eu acabei pegando essa doença... Não acho que tenho muitos dias..."
+            putStrLn "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."
+    else if (option == 2)
+        then do
+            putStrLn "Meruen: Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias..."
+            putStrLn "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."
+    else do
+        putStrLn "Meruen: Na verdade, tem. Eu acredito que se você for pra essa mina. Deve haver uma forma de terminar"
+        putStrLn "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias..."
+        putStrLn "Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"
+    answerMessage2
 
 primeiroFinal :: IO()
 primeiroFinal = do
-	clearScreen
-	putStrLn "Conclusao"
-	putStrLn "Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila."
-	putStrLn "Duas semanas depois, em outra vila a procura de um artefato."
-	putStrLn "Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela praga."
-	putStrLn "Aqueles que sobreviveram foram os que fugiram"
-	putStrLn "de Passagem de Duvik enquanto nao tinham sido contaminados"
-	putStrLn "A promissora cidade comerciante, se tornou apenas uma ruina"
-	putStrLn "uma promessa do que poderia se tornar."
+    clearScreen
+    putStrLn "Conclusao"
+    putStrLn "Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila."
+    putStrLn "Duas semanas depois, em outra vila a procura de um artefato."
+    putStrLn "Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela praga."
+    putStrLn "Aqueles que sobreviveram foram os que fugiram"
+    putStrLn "de Passagem de Duvik enquanto nao tinham sido contaminados"
+    putStrLn "A promissora cidade comerciante, se tornou apenas uma ruina"
+    putStrLn "uma promessa do que poderia se tornar."
 
 entradaMina :: IO()
 entradaMina = do
@@ -200,7 +200,80 @@ entradaMina = do
 	clearScreen
 	putStrLn "Você encontra um kobolds, ele parece hostil"
 	putStrLn "E irá atacar você! Prepare-se para o combate!"
-
+	
 	--inicia batalha
+	
+	putStrLn "Voce permanece por um tempo em frente a entrada"
+	putStrLn "Por um momento voce hesita em seguir em frente"
+	putStrLn "O que voce vai fazer?"	
+	clearScreen
+	putStrLn "a) Tentar analisar com mais detalhes a entrada da caverna."
+	putStrLn "b) Procurar por alguma coisa ao redor da entrada."
+	putStrLn "c) Acender uma tocha e entrar na caverna."
+	
+	resposta <- getLine
+	
+	analiseEntrada resposta
 
+	clearScreen
+
+analiseEntrada :: String -> IO()
+analiseEntrada "a" = primeiraEscolhaEntrada
+analiseEntrada "b" = segundaEscolhaEntrada
+analiseEntrada "c" = do
+	putStrLn "Analisar as coisas é perda de tempo, seus inimigos não tem"
+	putStrLn "uma chance contra você mesmo... Voce acende uma tocha, respira"
+	putStrLn "fundo e entra na mina."
+
+primeiraEscolhaEntrada :: IO()
+primeiraEscolhaEntrada = do
+
+	dadoObservar <- (rollDice 20)
+
+	if(dadoObservar >= 15)
+		then do
+			putStrLn "Ao analisar a entrada"
+			putStrLn "Voce percebe que os suportes de madeira do tunel"
+			putStrLn "estao lascados e despedacados, como se tivessem danificados"
+			putStrLn "em uma recente batalha."
+			putStrLn "Voce também percebe que elas estão manchadas de sangue."
+	else if(dadoObservar >= 10)
+		then do
+			putStrLn "Ao analisar a entrada"
+			putStrLn "Voce percebe que os suportes de madeira do tunel"
+			putStrLn "estao lascados e despedacados, como se tivessem danificados"
+			putStrLn "em uma recente batalha."
+	else do
+		putStrLn "Voce tenta analisar a entrada, porém não consegue"
+		putStrLn "encontrar nada relevante na estrutura."
+	
+	putStrLn "Você acende uma tocha e entra na caverna."
+
+segundaEscolhaEntrada :: IO()
+segundaEscolhaEntrada = do
+	
+	dadoObservar <- (rollDice 20)
+
+	if(dadoObservar >= 10 && dadoObservar < 15)
+		then do
+			putStrLn "Ao procurar ao redor da entrada"
+			putStrLn "No meio as picaretas e pas quebradas, voce encontra uma pedra preciosa!"
+			putStrLn "No entanto, voce nao encontrou nada que pode ser util para entender"
+			putStrLn "o que aconteceu nessa mina. Voce acende uma tocha e entra na caverna."
+			-- Aumentar xp 300
+	else if(dadoObservar >= 15)
+		then do
+			putStrLn "Ao procurar ao redor da entrada"
+			putStrLn "No meio as picaretas e pás quebradas, você encontra duas poções de vida!"
+			putStrLn "Possivelmente elas serao úteis... Voce tambem encontra um simbolo"
+			putStrLn "associados a kobolds, pequenas criaturas que são conhecidas por serem"
+			putStrLn "saqueadores. E provavel que tenha havido um combate por aqui. Você"
+			putStrLn "acende uma tocha e entra na caverna com atenção redobrada."
+			-- Adicionar item id 1
+			-- Aumentar Xp 500
+	else do
+		putStrLn "Ao procurar ao redor da entrada"
+		putStrLn "Voce buscar por alguns minutos, no entanto, voce nao encontra"
+		putStrLn "nada relevante pra voce."
+		putStrLn "Você acende uma tocha e entra na caverna."
 
