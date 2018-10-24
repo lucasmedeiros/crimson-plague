@@ -108,7 +108,7 @@ calculateMonsterDMG monster rollResult = monsterDMG + rollResult
 -- verifica se o monstro foi derrotado
 monsterDefeated :: Character -> Monster -> IO()
 monsterDefeated char monster = do
-    if (won char monster) then do
+    if (won monster) then do
         putStrLn "VITÓRIA!"
     else monsterAttack char monster
 
@@ -127,8 +127,8 @@ miss char monster rollResult =
             monsterDEF = Enemies.Monsters.getCa monster
 
 -- avalia se o monstro chegou a 0HP e o jogador venceu
-won :: Character -> Monster -> Bool
-won char monster = (hpMonster <= zeroHP) 
+won :: Monster -> Bool
+won monster = (hpMonster <= zeroHP) 
                 where hpMonster = Enemies.Monsters.getHp monster
 
 -- avalia se o personagem chegou a 0HP e perdeu
