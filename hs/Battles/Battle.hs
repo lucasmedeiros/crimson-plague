@@ -2,9 +2,10 @@ module Battles.Battle(
     startBattle
 ) where
 
-import Util
 import Enemies.Monsters
 import CharInfo.Sheet
+import CharInfo.Spell
+import Util (clearScreen, getOption, rollDice)
 
 -- algumas constantes (evitando, assim, números mágicos)
 zeroHP = 0
@@ -15,7 +16,7 @@ resultEscape = 12
 -- inicia a batalha entre o personagem e um monstro
 startBattle :: Character -> Monster -> IO()
 startBattle char monster = do 
-    clearScreen
+    Util.clearScreen
     showStartBattleMessage monster
     auxStartBattle char monster 
 
@@ -61,7 +62,7 @@ evaluateOption char monster option
 tryEscape :: Character -> Monster -> IO()
 tryEscape char monster = do
     putStrLn "Você tenta fugir e..."
-    rollResult <- rollDice(d20)
+    rollResult <- Util.rollDice(d20)
     if (escaped rollResult)
         then do putStrLn "Escapou..."
     else do
@@ -75,7 +76,7 @@ escaped rollResult = (rollResult >= resultEscape)
 -- executa um ataque do monstro
 monsterAttack :: Character -> Monster-> IO()
 monsterAttack char monster = do
-    rollResult <- rollDice(d20)
+    rollResult <- Util.rollDice(d20)
     let charDEF = CharInfo.Sheet.calculateDefense char
         monsterDMG = calculateMonsterDMG monster rollResult
     putStrLn "O monstro se prepara para um ataque..."
@@ -90,7 +91,7 @@ monsterAttack char monster = do
 -- executa um ataque do personagem
 attack :: Character -> Monster -> IO()
 attack char monster = do
-    rollResult <- rollDice(d20)
+    rollResult <- Util.rollDice(d20)
     if (miss char monster rollResult) then do
         putStrLn "Errou o ataque... O monstro ri de você..."
         auxStartBattle char monster
