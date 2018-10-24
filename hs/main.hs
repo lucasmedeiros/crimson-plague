@@ -1,5 +1,6 @@
 import qualified CharInfo.Sheet as Sheet
 import qualified CharInfo.Spell as Spells
+import qualified Enemies.Monsters as Monsters
 -- import qualified Itens.Item as Item
 
 main = do
@@ -7,5 +8,8 @@ main = do
   -- Inicializa lista de habilidades
   spells <- Spells.loadAll
   -- Inicializa lista de itens (not tested yet)
+  monsters <- Monsters.getMonsters
+  -- Inicializa lista de monstros (not tested yet)
+
   -- itens <- Item.loadAllItens
   return character
