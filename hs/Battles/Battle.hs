@@ -11,7 +11,6 @@ zeroHP = 0
 d20 = 20
 resultMagicDefense = 10
 resultEscape = 12
-defenseMonster = 3
 
 -- inicia a batalha entre o personagem e um monstro
 startBattle :: Character -> Monster -> IO()
@@ -31,8 +30,8 @@ auxStartBattle char monster = do
 -- exibe a vida do personagem e do monstro
 showLife :: Character -> Monster -> IO()
 showLife char monster = do
-    let hpPersonagem = CharInfo.Sheet.getHP (char)
-    putStrLn ("Seu HP: "++ show hpPersonagem)
+    let hpCharacter = CharInfo.Sheet.getHP (char)
+    putStrLn ("Seu HP: "++ show hpCharacter)
     let hpMonster = Enemies.Monsters.getHp (monster)
         monsterName = Enemies.Monsters.getName (monster)
     putStrLn ("HP do "++monsterName++": "++ show hpMonster)
@@ -67,11 +66,26 @@ tryEscape char monster = do
         then do putStrLn "Escapou..."
     else do
         putStrLn "Não consegue... O monstro está rindo de você..."
-        auxStartBattle char monster
+        monsterAttack char monster
 
 -- verifica se foi possível escapar da batalha
 escaped :: Int -> Bool
 escaped rollResult = (rollResult >= resultEscape)
+
+-- executa um ataque do monstro
+monsterAttack :: Character -> Monster-> IO()
+monsterAttack char monster = do
+    rollResult <- rollDice(d20)
+    let charDEF = CharInfo.Sheet.calculateDefense char
+        monsterDMG = calculateMonsterDMG monster rollResult
+    putStrLn "O monstro se prepara para um ataque..."
+    if (monsterDMG >= charDEF) then do
+        putStrLn ("E inflige um total de "++ show monsterDMG ++ " danos a você!")
+        let newChar = CharInfo.Sheet.takeDamage monsterDMG char
+        charDefeated newChar monster
+    else do
+        putStrLn ("E erra miseravelmente...")
+        auxStartBattle char monster
 
 -- executa um ataque do personagem
 attack :: Character -> Monster -> IO()
@@ -86,21 +100,38 @@ attack char monster = do
         putStrLn ("Você infligiu um total de " ++ show damageCharacter ++ " danos no monstro!")
         monsterDefeated char newMonster
 
+-- faz o cálculo para o dano do monstro
+calculateMonsterDMG :: Monster -> Int -> Int
+calculateMonsterDMG monster rollResult = monsterDMG + rollResult
+                where monsterDMG = Enemies.Monsters.getDmg monster
+
 -- verifica se o monstro foi derrotado
 monsterDefeated :: Character -> Monster -> IO()
 monsterDefeated char monster = do
     if (won char monster) then do
-        putStrLn "Parabéns, você venceu!!!"
+        putStrLn "VITÓRIA!"
+    else monsterAttack char monster
+
+charDefeated :: Character -> Monster -> IO()
+charDefeated char monster = do
+    if (lose char) then
+        putStrLn "DERROTADO!"
     else auxStartBattle char monster
 
 -- verifica se o personagem errou ou não o ataque
 miss :: Character -> Monster -> Int -> Bool
 miss char monster rollResult =
-    ((rollResult + damage) < defenseMonster)
+    ((rollResult + damage) < monsterDEF)
         where
             damage = CharInfo.Sheet.calculateDamage char
+            monsterDEF = Enemies.Monsters.getCa monster
 
 -- avalia se o monstro chegou a 0HP e o jogador venceu
 won :: Character -> Monster -> Bool
 won char monster = (hpMonster <= zeroHP) 
                 where hpMonster = Enemies.Monsters.getHp monster
+
+-- avalia se o personagem chegou a 0HP e perdeu
+lose :: Character -> Bool
+lose char = (hpCharacter <= zeroHP)
+            where hpCharacter = CharInfo.Sheet.getHP char
