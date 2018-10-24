@@ -4,7 +4,8 @@ module Util (
   prompt,
   rollDice,
   rollDices,
-  split
+  split,
+  convertStringToInt
 ) where
 
 import qualified System.Process
