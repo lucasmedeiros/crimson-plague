@@ -1,20 +1,21 @@
 module Enemies.Monsters (
     Monster(..),
-    geraMonstro,
-    loadAll,
-    calculaVida,
+    buildMonster,
+    getMonsters,
+    generateHP,
     getId,
     getName,
     getHp,
     getXp,
     getDrops,
     getCa,
-    getDano,
+    getDmg,
     reduceLife
 ) where
 
 import qualified Database
 import Data.Char
+import Util
 
 data Monster = Monster {
     monsterId :: Int,
@@ -26,12 +27,12 @@ data Monster = Monster {
     damage :: Int
 } deriving (Show)
 
-geraMonstro :: [String] -> Monster
-geraMonstro x = do
-    Monster id nome hp xp drops ca dano
+buildMonster :: [String] -> IO Monster
+buildMonster x = do
+    hp <- (generateHP (x !!2) div som)
+    return $ (Monster id nome hp xp drops ca dano)
     where id = read (x !!0) :: Int
           nome = x !!1
-          hp = calculaVida (x !!2) div som
           xp = read (x !!5) :: Int
           drops = read (x !!6) :: Int
           ca = read (x !!7) :: Int
@@ -39,14 +40,14 @@ geraMonstro x = do
           div = read (x!!3) ::Int
           som = read (x!!4) ::Int
 
-loadAll :: IO [Monster]
-loadAll = do
+getMonsters :: IO [IO Monster]
+getMonsters = do
   monstersTxt <- Database.importFromDB "../db/monstros_db.txt" 2
-  return $ map geraMonstro monstersTxt
+  return $ map buildMonster monstersTxt
 
-calculaVida :: String -> Int -> Int -> Int
-calculaVida str divisor somador = do
-    ((mult * max) `div` divisor) + somador
+generateHP str divisor somador = do
+    hp <- (rollDices max mult)
+    return $ ((hp `div` divisor) + somador)
     where mult = digitToInt (str !!0)
           max = digitToInt (str !!2) 
 
@@ -68,8 +69,8 @@ getDrops monster = drops monster
 getCa :: Monster -> Int
 getCa monster = ca monster
 
-getDano :: Monster -> Int
-getDano monster = damage monster
+getDmg :: Monster -> Int
+getDmg monster = damage monster
 
 reduceLife :: Monster -> Int -> Monster
 reduceLife monster r = Monster (monsterId monster) (name monster) ((hp monster) - r) (xp monster) (drops monster) (ca monster) (damage monster)
