@@ -41,9 +41,12 @@ auxStartBattle char monster = do
     showLife char monster
     showBattleMenu
     option <- Util.getOption
-    spells <- Spells.loadAll
-    let usable = Sheet.getUsableSpells spells char
-    evaluateOption char monster usable option
+    if (option < 1 || option > 2) then
+        auxStartBattle char monster
+    else do
+        spells <- Spells.loadAll
+        let usable = Sheet.getUsableSpells spells char
+        evaluateOption char monster usable option
 
 -- exibe a vida do personagem e do monstro
 showLife :: Sheet.Character -> Monsters.Monster -> IO()
@@ -101,14 +104,22 @@ attack char monster spells = do
             putStrLn ("Você infligiu um total de " ++ show damageCharacter ++ " danos no monstro!")
             monsterDefeated char newMonster
     else do
-        magicalAttack char monster spells rollResult
+        magicalAttackOption char monster spells rollResult
 
--- executa um ataque mágico do personagem
-magicalAttack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
-magicalAttack char monster spells rollResult = do
+-- abre menu de ataque mágico do personagem
+magicalAttackOption :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
+magicalAttackOption char monster spells rollResult = do
     putStrLn "Magias disponíveis: "
     showSpellNames spells 0
     option <- Util.getOption
+    if (option < 1 || option > (length spells)) then
+        magicalAttackOption char monster spells rollResult
+    else
+        magicalAttack char monster spells rollResult option
+
+-- executa um ataque mágico pelo personagem.
+magicalAttack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> Int -> IO Sheet.Character
+magicalAttack char monster spells rollResult option = do
     let spellCasted = spells!!(option-1)
     if (Sheet.hasEnoughMana spellCasted char) then do
         tuple <- Sheet.castSpell spellCasted char
@@ -123,7 +134,6 @@ magicalAttack char monster spells rollResult = do
         putStrLn "Você recupera 1 de mana a cada rodada..."
         let newChar = Sheet.recoverMP char
         monsterAttack newChar monster
-
 
 -- executa um ataque do monstro
 monsterAttack :: Sheet.Character -> Monsters.Monster-> IO Sheet.Character
@@ -143,10 +153,10 @@ monsterAttack char monster = do
 -- printa os nomes das magias disponíveis
 showSpellNames :: [Spells.Spell] -> Int -> IO()
 showSpellNames [] _ = return ()
-showSpellNames (x:xs) i = do
+showSpellNames (x:xs) index = do
     let spellName = Spells.getName x
-    putStrLn (show (i + 1) ++ " - " ++ spellName)
-    showSpellNames xs (i + 1)
+    putStrLn (show (index + 1) ++ " - " ++ spellName)
+    showSpellNames xs (index + 1)
 
 -- faz o cálculo para o dano do monstro
 calculateMonsterDMG :: Monsters.Monster -> Int -> Int
