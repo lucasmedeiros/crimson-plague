@@ -1,6 +1,6 @@
 // Banco de dados base dos itens completo (com os atributos tb)
 // Tipo do item: 0-Consumivel; 1- Não consumivel (equipavel,item de quest e para venda)
-// Modelo de construcão do BD:id,nome,descr,tipo,rechpMax,recmpMax,precoVenda
+// Modelo :id,nome,descr,tipo,rechpMax,recmpMax,precoVenda,dano;atrbArm;atrbForca;atrbVital;atrbDestr;atrbIntel;classe;tipo
 1;Poção de cura pequena;Recupera 8 de HP;0;8;0;0;0;0;0;0;0;0;-1;0
 2;Poção de cura média;Recupera 16 de HP;0;16;0;0;0;0;0;0;0;0;-1;0
 3;Poção de MP pequena;Recupera 8 de MP;0;0;8;0;0;0;0;0;0;0;-1;0
@@ -12,6 +12,7 @@
 9;Moon Stone;Pode ser trocado por moedas de ouro;1;0;0;60;0;0;0;0;0;0;-1;0
 10;Manto da Resistência;Um fino manto feito de pequenos cristais e muito resistente;1;0;0;10;0;2;0;0;0;0;2;2
 11;Escudo de Metal Grande;Um escudo feito de metal e é empunhado com uma mão;1;0;0;15;0;3;0;0;0;0;1;5
+12;Poção de Força;DESATIVADO;0;0;0;0;0;0;2;0;0;0;-1;0
 13;Poção de Força;DESATIVADO;0;0;0;0;0;0;2;0;0;0;-1;0
 14;Virotes de Besta;DESATIVADO;0;0;0;0;0;0;0;0;0;0;-1;0
 15;Simbolo Sagrado de Gruumsh;Uma pequena peça de prata com escrituras de uma lingua antiga;1;0;0;0;0;0;0;0;0;0;4;0

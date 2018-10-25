@@ -8,7 +8,8 @@ module Itens.Item(
     getDamage,
     getAgility,
     getStrenth,
-    getIntelig
+    getIntelig,
+    getType
 )where
 
 import qualified Database
@@ -47,14 +48,14 @@ buildItem itemtxt =  do
     consumable = trueOrFalse (itemtxt !!3) :: Bool
     recHPMax = read (itemtxt !!4) :: Int
     recMPMax = read (itemtxt !!5) :: Int
-    dam = read (itemtxt !!8) :: Int
-    arm = read (itemtxt !!9) :: Int
-    str = read (itemtxt !!10) :: Int
-    vit = read (itemtxt !!11) :: Int
-    dex = read (itemtxt !!12) :: Int
-    int = read (itemtxt !!13) :: Int
-    classItem = read (itemtxt !!7) :: Int
-    equippedType = read (itemtxt !!8) :: Int
+    dam = read (itemtxt !!7) :: Int
+    arm = read (itemtxt !!8) :: Int
+    str = read (itemtxt !!9) :: Int
+    vit = read (itemtxt !!10) :: Int
+    dex = read (itemtxt !!11) :: Int
+    int = read (itemtxt !!12) :: Int
+    classItem = read (itemtxt !!13) :: Int
+    equippedType = read (itemtxt !!14) :: Int
         
 
 -- testado
@@ -90,6 +91,9 @@ getStrenth item = str item
 
 getIntelig :: Item ->  Int
 getIntelig item = int item
+
+getType :: Item -> Int
+getType item = equippedType item
 
 
 
