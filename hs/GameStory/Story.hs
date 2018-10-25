@@ -302,13 +302,19 @@ cavernReception = do
 	putStrLn "Sangue seco mancha a parede norte em varios locais."
 	putStrLn "Há uma saída para o oeste"
 	clearScreen
+	receptionChoice
+	choice <- receptionChoice
+	activate <- (checkWagon choice)
+	clearScreen
+	return $ activate
+
+receptionChoice :: IO String
+receptionChoice = do
 	putStrLn "O que você vai fazer? (digite um número)"
 	putStrLn "1) Analisar o corpo da carroca."
 	putStrLn "2) Seguir em frente."
 	choice <- getLine
-	activate <- (checkWagon choice)
-	clearScreen
-	return $ activate
+	return $ choice
 
 checkWagon :: String -> IO String
 checkWagon "1" = do
@@ -328,6 +334,17 @@ checkWagon "1" = do
 		putStrLn "que deixa voce temporariamente surdo."
 		-- Hp -3
 		return $ "n"
+
+checkWagon "2" = do
+	putStrLn "Voce prefere nao se arriscar e mexer nesse corpo."
+	putStrLn "É quase certo que havia alguma armadilha ali. Seria uma coin-"
+	putStrLn "cidencia muito grande tantos minerios de prata espalhados uniformemente."
+	return $ "n"
+
+checkWagon str = do
+	putStrLn "Opção invalida!"
+	clearScreen
+	receptionChoice
 
 wagonDescription :: IO()
 wagonDescription = do
@@ -399,3 +416,97 @@ auxCheckKnowledge check = do
 		putStrLn "nada. No entanto, você percebe que os kobolds estão nervosos"
 		putStrLn "pelo tom de voz."
 
+koboldsCombatDialogue :: IO()
+koboldsCombatDialogue = do
+	checkCha <- (rollDice 20)
+
+	if(checkCha >= 13)
+		then do
+			koboldsCombatConversation
+	else do
+		startBattleKobolds
+		
+koboldsCombatConversation :: IO()
+koboldsCombatConversation = do
+	putStrLn "Ao comecar a falar, os kobolds apesar de receiosos"
+	putStrLn "resolvem escutar o que voce tem a dizer"
+	putStrLn "O que você irá dizer para eles?"
+	putStrLn "1) Nao precisamos brigar. Nenhum de nos quer isso! (Diplomacia)"
+	putStrLn "2) Nao ousem me atacar se quiserem continuar vivos. (Intimidacao)"
+	checkPersuation <- (rollDice 20)
+	choice <- getLine
+	--putStrLn "3) Eu posso pagar uma quantia generosa se vocês esquecerem que me viram. (Suborno)"
+	(koboldsCombatDialogue2 choice checkPersuation)	
+
+koboldsCombatDialogue2 :: String -> Int -> IO()
+koboldsCombatDialogue2 "1" n = do
+	if(n >= 13)
+		then do
+			putStrLn "Os kobolds parecem concordar com voce e abaixam as armas."
+			putStrLn "O que parece ser o capitao daquele pequeno grupo fala:"
+			putStrLn "Capitão: Nao temos forca pra lutar, doenca enfraquecer e matar"
+			putStrLn "Capitão amigos. Humano pode seguir em frente."
+			--Aumentar xp 2250
+	else do
+		startBattleKobolds
+
+koboldsCombatDialogue2 "2" n = do
+	if(n >= 13)
+		then do
+			putStrLn "Os kobolds parecem, de fato, ficarem intimidados com voce."
+			putStrLn "O que parece o capitao daquele pequeno grupo fala:"
+			putStrLn "Capitão: Tudo bem, humano pode passar. Só não nos mate, por favor."
+			--Aumentar xp 2500
+	else do
+		startBattleKobolds
+
+koboldsCombatDialogue2 str _ = do
+	putStrLn "Opção invalida!"
+	clearScreen
+	koboldsCombatConversation
+
+startBattleKobolds :: IO()
+startBattleKobolds = do
+	putStrLn "O que parece ser o capitao daquele pequeno grupo fala:"
+	putStrLn "Capitao: Nao importa o que humano fale, voce morre agora!"
+	-- Inicia batalha
+
+refectoryCavern :: String -> IO()
+refectoryCavern str = do
+	if (str /= "s")
+		then do 
+			checkListenKnowledge
+	else do
+		putStrLn "Ter ativado a armadilha atraiu muito a atencao daqueles que"
+		putStrLn "estao dentro da caverna, inclusive os kobolds dentro dessa sala."
+		putStrLn "Voce escuta muitos gritos e passos, voce imagina que eles estao"
+		putStrLn "se preparando para um combate. Ao abrir a porta você ve o seguinte:"
+		clearScreen
+	
+	putStrLn "Uma sala larga e quadrada abriga quatro longas mesas de"
+	putStrLn "madeira, cada uma com um banco de cada lado. Em cima"
+	putStrLn "das mesas estao um numero de tigelas de madeira e talheres."
+	putStrLn "No canto sudeste da sala, um pequeno caldeirao fumega"
+	putStrLn "sobre um fogao cravado no chao. Um cheiro pungente esta"
+	putStrLn "suspenso no ar. "
+	putStrLn "Voce também exerga três kobolds apontando para voce."
+	refectoryChoice
+
+refectoryChoice :: IO()
+refectoryChoice = do
+	putStrLn "Os kobolds parecem bastante nervosos, o que voce ira fazer?"
+	putStrLn "1) Tentar conversar com eles."
+	putStrLn "2) Atacar imediatamente."
+	choice <- getLine
+	refectoryChoice2 choice
+
+refectoryChoice2 :: String -> IO()
+refectoryChoice2 "1" = koboldsCombatDialogue
+refectoryChoice2 "2" = do
+	putStrLn "Voce imediatamente comeca a preparar o seu ataque enquanto"
+	putStrLn "os kobolds correm em direcao a voce."
+	--Inicia combate
+refectoryChoice2 str = do
+	putStrLn "Opção invalida!"
+	clearScreen
+	refectoryChoice
