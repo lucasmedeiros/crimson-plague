@@ -116,16 +116,22 @@ removeAloneItem inventory id index = do
 						actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 
-removeNotAloneItem :: Inventory -> Int -> Inventory
-removeNotAloneItem inventory id = do
+removeNotAloneItem :: Inventory -> Int ->Int-> Inventory
+removeNotAloneItem inventory id index = do
 						Inventory  nslots actualClassCharacter newQtds actualItensEquipped
 						where
-						index = searchValueInList (slots inventory) 0 id :: Int
 						nslots =  (slots inventory) :: [Int]
 						actualQtd = (qtdItens inventory) !! index :: Int
 						newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd - 1) index :: [Int]
 						actualClassCharacter = (classCharacter inventory) :: Int
 						actualItensEquipped  = (itensEquipped inventory) :: [Int]
+
+{-
+equipItem :: Inventory -> Int -> Inventory
+equipItem inventory indice = do-}
+						
+
+
 
 										  
 {---testado
