@@ -162,12 +162,15 @@ monsterDefeated char monster = do
         return char
     else monsterAttack char monster
 
+-- Função que verifica se o personagem morreu.
+-- Caso ele tenha morrido, retorna um personagem com 1HP
 charDefeated :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 charDefeated char monster = do
     if (lose char) then do
         putStrLn "DERROTADO!"
         putStrLn (show (Sheet.getHP char))
-        return char
+        let newChar = Sheet.die char
+        return newChar
     else auxStartBattle char monster
 
 -- verifica se o personagem errou ou não o ataque
