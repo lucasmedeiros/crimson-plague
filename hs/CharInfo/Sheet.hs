@@ -16,7 +16,8 @@ module CharInfo.Sheet (
   takeDamage,
   getUsableSpells,
   hasEnoughMana,
-  recoverMP
+  recoverMP,
+  die
 ) where
 
 import CharInfo.Attributes
@@ -152,6 +153,12 @@ recoverMP character = do
     updateStats character (increaseMP (mpRecoveryAmount) (stats character))
   else
     character
+
+
+die :: Character -> Character
+die character = updateStats character statsUpdt
+                where lifeToOne = (getHP character) - 1
+                      statsUpdt = (increaseHP (-lifeToOne) (stats character))
 
 -- criacao de Character
 createCharacter :: IO Character
