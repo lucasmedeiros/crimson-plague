@@ -10,6 +10,6 @@ main = do
   -- Inicializa lista de monstros
   monsters <- Monsters.getMonsters
 
-  -- Inicializa lista de itens (not tested yet)
+  -- Inicializa lista de itens
   -- itens <- Item.loadAllItens
   return character

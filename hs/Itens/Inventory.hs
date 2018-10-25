@@ -3,12 +3,22 @@ module Itens.Inventory(
    	addItem,
    	removeItem,
    	startInventory,
+   	qtdItensInBag,
 ) where
 
 import qualified Database as Database
 import qualified Itens.Item as Item
 import Data.List
 import Data.Maybe
+
+---Metodos para implementar
+-- imprimeMochila
+-- getDanoItens
+-- getArmadura
+-- getaForca
+-- getAgilidade
+-- getInteligencia
+-- equiparItem
 
 
 {-roles = ["mago", "guerreiro", "ladino"]
@@ -43,7 +53,7 @@ getClassWeapon classe
 getItem :: Int -> IO Item.Item
 getItem id =  do
 	allItensFromBD <- Item.loadAll
-	item <- allItensFromBD !! id :: IO Item.Item
+	item <- allItensFromBD !! (id -1) :: IO Item.Item
 	return item
 	
 
@@ -129,11 +139,13 @@ removeNotAloneItem inventory id index = do
 {-
 equipItem :: Inventory -> Int -> Inventory
 equipItem inventory indice = do-}
-						
 
 
-
-										  
+getIntel :: IO Item.Item -> IO Int
+getIntel item = do
+	it <- item
+	Item.getIntelig (it)
+											  
 {---testado
 shiftList :: [Int] -> [Int]
 shiftList [] = []
@@ -174,3 +186,9 @@ searchValueInList (x:xs) index value | value == x = index
 									 | otherwise = searchValueInList xs (index+1) value
 
 
+{-getIntelligence :: [Int] -> Int -> Int
+getIntelligence [] cont = cont
+getIntelligence (x:xs) cont = do
+				item <- getItem x :: Item.Item
+				let int =  Item.getIntelig (item) ::
+ 				getIntelligence xs (cont + int) -}

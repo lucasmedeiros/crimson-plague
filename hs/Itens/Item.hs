@@ -3,8 +3,12 @@ module Itens.Item(
     loadAll,
     getName,
     getRecHPMax,
-    getRecMPMax
-
+    getRecMPMax,
+    getArm,
+    getDamage,
+    getAgility,
+    getStrenth,
+    getIntelig
 )where
 
 import qualified Database
@@ -60,7 +64,7 @@ trueOrFalse string | string == "0" = True
  
 loadAll :: IO [IO Item]
 loadAll = do
-    itensTxt <- Database.importFromDB "./ItemBD.txt" 3
+    itensTxt <- Database.importFromDB "../db/ItemDB.txt" 3
     return $ map buildItem itensTxt
 
 getName :: Item -> String
@@ -71,6 +75,21 @@ getRecHPMax item =  recHPMax item
 
 getRecMPMax :: Item -> Int
 getRecMPMax item = recMPMax item
+
+getArm :: Item -> Int
+getArm item = arm item
+
+getDamage :: Item -> Int
+getDamage item = dam item
+
+getAgility :: Item -> Int
+getAgility item = dex item
+
+getStrenth :: Item -> Int
+getStrenth item = str item
+
+getIntelig :: Item ->  Int
+getIntelig item = int item
 
 
 
