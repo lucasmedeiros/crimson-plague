@@ -110,13 +110,16 @@ magicalAttack char monster spells rollResult = do
     if (Sheet.hasEnoughMana spellCasted char) then do
         tuple <- Sheet.castSpell spellCasted char
         let damageMagicalAttack = fst tuple
-            newChar = snd tuple
+            char = snd tuple
+            newChar = Sheet.recoverMP char
             newMonster = Monsters.reduceLife monster damageMagicalAttack
         putStrLn ("Você infligiu um total de " ++ show damageMagicalAttack ++ " danos no monstro!")
         monsterDefeated newChar newMonster
     else do
-        putStrLn ("Sem mana suficiente...")
-        monsterAttack char monster
+        putStrLn "Sem mana suficiente..."
+        putStrLn "Você recupera 1 de mana a cada rodada..."
+        let newChar = Sheet.recoverMP char
+        monsterAttack newChar monster
 
 
 -- executa um ataque do monstro
