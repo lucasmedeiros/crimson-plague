@@ -1,5 +1,4 @@
 module Itens.Item(
-    AtrbItens,
     Item,
     loadAll,
     getName,
@@ -17,7 +16,13 @@ import qualified Database
 -- classe equipavel
 -- GUERREIRO = 1,MAGO, LADINO, TODOS
 
-data AtrbItens = AtrbItens{
+data Item = Item{
+    id :: Int,
+    name :: String,
+    description :: String,
+    consumable :: Bool,
+    recHPMax :: Int,
+    recMPMax :: Int,
     dam :: Int,
     arm :: Int,
     str :: Int,
@@ -28,48 +33,32 @@ data AtrbItens = AtrbItens{
     equippedType :: Int
 } deriving (Show)
 
-data Item = Item{
-    id :: Int,
-    name :: String,
-    description :: String,
-    consumable :: Bool,
-    recHPMax :: Int,
-    recMPMax :: Int,
-    atrb :: AtrbItens
-} deriving (Show)
-
-buildAtributes :: [String] -> AtrbItens
-buildAtributes txt = do
-    let dam = read (txt !!8) :: Int
-    let arm = read (txt !!9) :: Int
-    let str = read (txt !!10) :: Int
-    let vit = read (txt !!11) :: Int
-    let dex = read (txt !!12) :: Int
-    let int = read (txt !!13) :: Int
-    -- De alguma forma ou tratar os enums como int ou tentar outra solucao
-    let classItem = read (txt !!7) :: Int
-    let equippedType = read (txt !!8) :: Int
-
-    AtrbItens dam arm str int dex vit classItem equippedType
-
-buildItem :: [String]  -> Item
+buildItem :: [String]  -> IO Item
 buildItem itemtxt =  do
-    let id = read (itemtxt !!0) :: Int
-    let name = itemtxt !!1 :: String
-    let description = itemtxt !!2 :: String
-    let consumable = trueOrFalse (itemtxt !!3) :: Bool
-    let recHPMax = read (itemtxt !!4) :: Int
-    let recMPMax = read (itemtxt !!5) :: Int
-    let atributes = buildAtributes itemtxt :: AtrbItens
+    return $ (Item id name description consumable recHPMax recMPMax dam arm str int dex vit classItem equippedType)
+    where
+    id = read (itemtxt !!0) :: Int
+    name = itemtxt !!1 :: String
+    description = itemtxt !!2 :: String
+    consumable = trueOrFalse (itemtxt !!3) :: Bool
+    recHPMax = read (itemtxt !!4) :: Int
+    recMPMax = read (itemtxt !!5) :: Int
+    dam = read (itemtxt !!8) :: Int
+    arm = read (itemtxt !!9) :: Int
+    str = read (itemtxt !!10) :: Int
+    vit = read (itemtxt !!11) :: Int
+    dex = read (itemtxt !!12) :: Int
+    int = read (itemtxt !!13) :: Int
+    classItem = read (itemtxt !!7) :: Int
+    equippedType = read (itemtxt !!8) :: Int
         
-    Item id name description consumable recHPMax recMPMax atributes
 
 -- testado
 trueOrFalse :: String -> Bool
 trueOrFalse string | string == "0" = True
                    | otherwise = False
  
-loadAll :: IO [Item]
+loadAll :: IO [IO Item]
 loadAll = do
     itensTxt <- Database.importFromDB "./ItemBD.txt" 3
     return $ map buildItem itensTxt
