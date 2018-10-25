@@ -126,7 +126,7 @@ updateAttributes c attr = Character (name c) (role c) (stats c) attr
 -- Métodos relacionados a habilidades
 spentMana :: Spells.Spell -> Character -> Character
 spentMana spell character = do
-  updateStats character (increaseMP (Spells.getMP spell) (stats character))
+  updateStats character (increaseMP (-(Spells.getMP spell)) (stats character))
 
 castSpell :: Spells.Spell -> Character -> IO (Int, Character)
 castSpell spell character = do
