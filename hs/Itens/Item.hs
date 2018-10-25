@@ -1,9 +1,7 @@
 module Itens.Item(
-    AtrbItens(..),
-    Item(..),
-    buildAtributes,
-    buildItem,
-    loadAllItens,
+    AtrbItens,
+    Item,
+    loadAll,
     getName,
     getRecHPMax,
     getRecMPMax
@@ -71,9 +69,9 @@ trueOrFalse :: String -> Bool
 trueOrFalse string | string == "0" = True
                    | otherwise = False
  
-loadAllItens :: IO [Item]
-loadAllItens = do
-    itensTxt <- Database.importFromDB "./ItemDB.txt" 3
+loadAll :: IO [Item]
+loadAll = do
+    itensTxt <- Database.importFromDB "./ItemBD.txt" 3
     return $ map buildItem itensTxt
 
 getName :: Item -> String

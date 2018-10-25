@@ -8,9 +8,16 @@ import qualified CharInfo.Spell as Spells
 import Util (clearScreen, getOption, rollDice)
 
 -- algumas constantes (evitando, assim, números mágicos)
+zeroHP :: Int
 zeroHP = 0
+
+d20 :: Int
 d20 = 20
+
+resultMagicDefense :: Int
 resultMagicDefense = 10
+
+resultEscape :: Int
 resultEscape = 12
 
 -- inicia a batalha entre o personagem e um monstro
@@ -20,13 +27,22 @@ startBattle char monster = do
     showStartBattleMessage monster
     auxStartBattle char monster 
 
+-- exibe a mensagem inicial de batalha
+showStartBattleMessage :: Monsters.Monster -> IO()
+showStartBattleMessage monster = do
+    let monsterName = Monsters.getName (monster)
+    putStrLn "BATALHA!"
+    putStrLn ("Um "++monsterName++" se aproxima!")
+
 -- função criada para representar um "loop"
 auxStartBattle :: Sheet.Character -> Monsters.Monster -> IO()
 auxStartBattle char monster = do
     showLife char monster
     showBattleMenu
     option <- Util.getOption
-    evaluateOption char monster option
+    spells <- Spells.loadAll
+    let usable = Sheet.getUsableSpells spells char
+    evaluateOption char monster usable option
 
 -- exibe a vida do personagem e do monstro
 showLife :: Sheet.Character -> Monsters.Monster -> IO()
@@ -38,29 +54,23 @@ showLife char monster = do
     putStrLn ("HP do "++monsterName++": "++ show hpMonster)
     putStrLn("")
 
--- exibe a mensagem inicial de batalha
-showStartBattleMessage :: Monsters.Monster -> IO()
-showStartBattleMessage monster = do
-    let monsterName = Monsters.getName (monster)
-    putStrLn "BATALHA!"
-    putStrLn ("Um "++monsterName++" se aproxima!")
-
 -- exibe o menu de batalha
 showBattleMenu :: IO()
 showBattleMenu = do
-    putStrLn "1) Atacar"
+    putStrLn "1) Atacar / Lançar Magia"
     putStrLn "2) Fugir"
 
 -- avalia opção escolhida pelo usuário no menu
-evaluateOption :: Sheet.Character -> Monsters.Monster -> Int -> IO ()
-evaluateOption char monster option
-    | (option == 1) = attack char monster
+evaluateOption :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO ()
+evaluateOption char monster spells option
+    | (option == 1) = attack char monster spells
     | otherwise     = tryEscape char monster
 
 -- função chamada ao escolher a opção de fuga
 -- avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
 tryEscape :: Sheet.Character -> Monsters.Monster -> IO()
 tryEscape char monster = do
+    Util.clearScreen
     putStrLn "Você tenta fugir e..."
     rollResult <- Util.rollDice(d20)
     if (escaped rollResult)
@@ -72,6 +82,42 @@ tryEscape char monster = do
 -- verifica se foi possível escapar da batalha
 escaped :: Int -> Bool
 escaped rollResult = (rollResult >= resultEscape)
+
+-- executa um ataque do personagem
+attack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> IO()
+attack char monster spells = do
+    Util.clearScreen
+    rollResult <- Util.rollDice(d20)
+    if (null spells) then do
+        if (miss char monster rollResult) then do
+            putStrLn "Errou o ataque... O monstro ri de você..."
+            monsterAttack char monster
+        else do
+            let damageCharacter = Sheet.calculateDamage (char)
+                newMonster = Monsters.reduceLife monster damageCharacter
+            putStrLn ("Você infligiu um total de " ++ show damageCharacter ++ " danos no monstro!")
+            monsterDefeated char newMonster
+    else do
+        magicalAttack char monster spells rollResult
+
+-- executa um ataque mágico do personagem
+magicalAttack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO()
+magicalAttack char monster spells rollResult = do
+    putStrLn "Magias disponíveis: "
+    showSpellNames spells 0
+    option <- Util.getOption
+    let spellCasted = spells!!(option-1)
+    if (Sheet.hasEnoughMana spellCasted char) then do
+        tuple <- Sheet.castSpell spellCasted char
+        let damageMagicalAttack = fst tuple
+            newChar = snd tuple
+            newMonster = Monsters.reduceLife monster damageMagicalAttack
+        putStrLn ("Você infligiu um total de " ++ show damageMagicalAttack ++ " danos no monstro!")
+        monsterDefeated newChar newMonster
+    else do
+        putStrLn ("Sem mana suficiente...")
+        monsterAttack char monster
+
 
 -- executa um ataque do monstro
 monsterAttack :: Sheet.Character -> Monsters.Monster-> IO()
@@ -88,18 +134,13 @@ monsterAttack char monster = do
         putStrLn ("E falha miseravelmente...")
         auxStartBattle char monster
 
--- executa um ataque do personagem
-attack :: Sheet.Character -> Monsters.Monster -> IO()
-attack char monster = do
-    rollResult <- Util.rollDice(d20)
-    if (miss char monster rollResult) then do
-        putStrLn "Errou o ataque... O monstro ri de você..."
-        monsterAttack char monster
-    else do
-        let damageCharacter = Sheet.calculateDamage (char)
-            newMonster = Monsters.reduceLife monster damageCharacter
-        putStrLn ("Você infligiu um total de " ++ show damageCharacter ++ " danos no monstro!")
-        monsterDefeated char newMonster
+-- printa os nomes das magias disponíveis
+showSpellNames :: [Spells.Spell] -> Int -> IO()
+showSpellNames [] _ = return ()
+showSpellNames (x:xs) i = do
+    let spellName = Spells.getName x
+    putStrLn (show (i + 1) ++ " - " ++ spellName)
+    showSpellNames xs (i + 1)
 
 -- faz o cálculo para o dano do monstro
 calculateMonsterDMG :: Monsters.Monster -> Int -> Int
@@ -130,9 +171,9 @@ miss char monster rollResult =
 -- avalia se o monstro chegou a 0HP e o jogador venceu
 won :: Monsters.Monster -> Bool
 won monster = (hpMonster <= zeroHP) 
-                where hpMonster = Monsters.getHp monster
+        where hpMonster = Monsters.getHp monster
 
 -- avalia se o personagem chegou a 0HP e perdeu
 lose :: Sheet.Character -> Bool
 lose char = (hpCharacter <= zeroHP)
-            where hpCharacter = Sheet.getHP char
+        where hpCharacter = Sheet.getHP char
