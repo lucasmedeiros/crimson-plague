@@ -7,13 +7,13 @@ module GameStory.Story (
 
 import Util
 
-getYesNo :: IO Char 
+getYesNo :: IO String 
 getYesNo = do
 	putStrLn "O que você irá responder? "
 	putStrLn "Sim (digite s)"
 	putStrLn "Não (digite n)"
 	option <- getLine
-	return $ (read $ show option :: Char)
+	return $ (read $ show option :: String)
 
 introCity :: IO()
 introCity = do
@@ -276,4 +276,126 @@ segundaEscolhaEntrada = do
 		putStrLn "Voce buscar por alguns minutos, no entanto, voce nao encontra"
 		putStrLn "nada relevante pra voce."
 		putStrLn "Você acende uma tocha e entra na caverna."
+
+printCredits :: IO()
+printCredits = do
+	putStrLn "Obrigado por jogar: A Praga Carmesim!"
+	putStrLn "Sistema inspirado: Dungeons and Dragons, quinta edição."
+	putStrLn ""
+	putStrLn "Feito por:"
+	putStrLn "Jadson Luan"
+	putStrLn "Jesse Souza"
+	putStrLn "Lucas de Medeiros"
+	putStrLn "Marcella Siqueira"
+	putStrLn "Mikael Brasileiro"
+	putStrLn ""
+	putStrLn "Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!"
+	clearScreen
+
+cavernReception :: IO String
+cavernReception = do
+	putStrLn "O tunel se abre em uma camara pequena e aproximadamente"
+	putStrLn "regular. Pedacos espalhados de minerio de prata cercam"
+	putStrLn "um par de carroças de madeira. A parte de baixo do que"
+	putStrLn "aparenta ser um corpo humano se sobressai debaixo de uma"
+	putStrLn "das carrocas. E nao mostra nenhum sinal de movimento."
+	putStrLn "Sangue seco mancha a parede norte em varios locais."
+	putStrLn "Há uma saída para o oeste"
+	clearScreen
+	putStrLn "O que você vai fazer? (digite um número)"
+	putStrLn "1) Analisar o corpo da carroca."
+	putStrLn "2) Seguir em frente."
+	choice <- getLine
+	activate <- (checkWagon choice)
+	clearScreen
+	return $ activate
+
+checkWagon :: String -> IO String
+checkWagon "1" = do
+	checkReflex <- (rollDice 20)
+	if(checkReflex >= 12)
+		then do
+			putStrLn "Voce escuta um barulho de"
+			putStrLn "mecanismos, voce rapidamente entende que e uma armadilha"
+			putStrLn "e salta para tras, conseguindo desviar do ataque sonico"
+			putStrLn "produzido pela mesma."
+			-- Adiciona xp 250
+			wagonDescription
+			return $ "y"
+	else do
+		putStrLn "Voce escuta um barulho de"
+		putStrLn "mecanismos, e uma armadilha que produz um som ensurdecedor"
+		putStrLn "que deixa voce temporariamente surdo."
+		-- Hp -3
+		return $ "n"
+
+wagonDescription :: IO()
+wagonDescription = do
+	putStrLn "Ao analisar o corpo, voce percebe que ele tem marcas parecidos com"
+	putStrLn "as vitimas da praga. Ele tem uma roupa diferente dos outros mineradores"
+	putStrLn "Provavelmente era o chefe deles. Ele parece ter sido uma vitima de um ataque"
+	putStrLn "tendo muitos ferimentos perfurantes no peito e pescoco."
+	clearScreen
+	putStrLn "Voce tambem percebe inumeros pedacoes de prata ao redor da carroca."
+	putStrLn "Voce ira coletar?"
+	choice <- getYesNo
+	(getSilver choice)
+
+getSilver :: String -> IO()
+getSilver "s" = do
+	putStrLn "Voce coleta os minerios sem problemas."
+	-- Adiciona Dinheiro 250
+	-- Add xp 250
+getSilver str = do
+	putStrLn "Voce prefere nao arricar a pegar esses minerios."
+	-- Add xp 250
+
+checkListenKnowledge :: IO()
+checkListenKnowledge = do
+	checkListen <- (rollDice 20)
+	if(checkListen >= 10)
+		then do
+			putStrLn "Voce consegue escutar varios passos do outro lado da porta"
+			putStrLn "Alem disso, voce escuta varias vozes"
+			checkKnowledge <- (rollDice 20)
+			(auxCheckKnowledge checkKnowledge)
+			-- Add xp 250
+	else do
+		putStrLn "Voce nao consegue entender quase nada do que estao falando."
+		putStrLn "No entanto, voce tem a impressao que sao kobolds."
+	
+	putStrLn "Voce abre a grande porta de madeira e enxerga:"
+
+auxCheckKnowledge :: Int -> IO()
+auxCheckKnowledge check = do
+	if(check >= 8 && check < 12)
+		then do
+			putStrLn "Voce consegue reconhecer que sao kobolds pelo idioma que"
+			putStrLn "estao falando, draconico. O pouco que voce entende da conversa"
+			putStrLn "é que os kobolds estão muito nervosos e gostariam de deixar as"
+			putStrLn "minas o mais rápido possível. Infelizmente, seu comandante"
+			putStrLn "determinou que eles devem permanecer por mais um tempo."
+			-- Add xp 150
+	else if (check >= 12 && check < 16)
+		then do
+			putStrLn "Voce consegue reconhecer que sao kobolds pelo idioma que"
+			putStrLn "estao falando, draconico. O que voce entende da conversa"
+			putStrLn "é que algum tipo de criatura tem roubado os mortos de seu"
+			putStrLn "acampamento enquanto eles dormem. A maioria dos humanos"
+			putStrLn "já foram roubados e até mesmo alguns cadáveres de kobolds"
+			putStrLn "se perderam."
+			-- Add xp 200
+	else if (check >= 16)
+		then do
+			putStrLn "Voce consegue reconhecer que sao kobolds pelo idioma que"
+			putStrLn "estao falando, draconico. Voce consegue entender bastante da"
+			putStrLn "conversa, o mais importante que voce escuta é que"
+			putStrLn "deve haver alguma maldição nesta mina. Metade do seu bando"
+			putStrLn "já morreu de estranhas febres ou de uma tosse horrível."
+			--Aumentar xp 250
+	else do
+		putStrLn "Voce consegue reconhecer que sao kobolds pelo idioma que"
+		putStrLn "estao falando, draconico. Você não consegue enteder quase"
+		putStrLn "nada. No entanto, você percebe que os kobolds estão nervosos"
+		putStrLn "pelo tom de voz."
 

@@ -306,7 +306,7 @@ void segundaEscolhaEntrada(int dadoObservar, Ficha &ficha, WINDOW *janelaDialogo
 	} else if (dadoObservar >= 15) {
 		string analiseEntrada[5] = {"No meio as picaretas e pás quebradas, você encontra duas poções de vida!",
 		"Possivelmente elas serao úteis... Voce tambem encontra um simbolo",
-		 "associados a kobolds, pequenas criaturas que são conhecidas por serem",
+		"associados a kobolds, pequenas criaturas que são conhecidas por serem",
 		"saqueadores. E provavel que tenha havido um combate por aqui. Você",
 		"acende uma tocha e entra na caverna com atenção redobrada."};
 		adicionarItem(1, ficha.inventario);
