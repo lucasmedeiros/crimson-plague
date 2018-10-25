@@ -21,11 +21,12 @@ resultEscape :: Int
 resultEscape = 12
 
 -- inicia a batalha entre o personagem e um monstro
-startBattle :: Sheet.Character -> Monsters.Monster -> IO()
+-- retorna um personagem com as modificações que foram feitas
+startBattle :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 startBattle char monster = do 
     Util.clearScreen
     showStartBattleMessage monster
-    auxStartBattle char monster 
+    auxStartBattle char monster
 
 -- exibe a mensagem inicial de batalha
 showStartBattleMessage :: Monsters.Monster -> IO()
@@ -35,7 +36,7 @@ showStartBattleMessage monster = do
     putStrLn ("Um "++monsterName++" se aproxima!")
 
 -- função criada para representar um "loop"
-auxStartBattle :: Sheet.Character -> Monsters.Monster -> IO()
+auxStartBattle :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 auxStartBattle char monster = do
     showLife char monster
     showBattleMenu
@@ -61,20 +62,22 @@ showBattleMenu = do
     putStrLn "2) Fugir"
 
 -- avalia opção escolhida pelo usuário no menu
-evaluateOption :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO ()
+evaluateOption :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
 evaluateOption char monster spells option
     | (option == 1) = attack char monster spells
     | otherwise     = tryEscape char monster
 
 -- função chamada ao escolher a opção de fuga
 -- avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
-tryEscape :: Sheet.Character -> Monsters.Monster -> IO()
+tryEscape :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 tryEscape char monster = do
     Util.clearScreen
     putStrLn "Você tenta fugir e..."
     rollResult <- Util.rollDice(d20)
     if (escaped rollResult)
-        then do putStrLn "Escapou..."
+        then do
+        putStrLn "Escapou..."
+        return char
     else do
         putStrLn "Não consegue... O monstro está rindo de você..."
         monsterAttack char monster
@@ -84,7 +87,7 @@ escaped :: Int -> Bool
 escaped rollResult = (rollResult >= resultEscape)
 
 -- executa um ataque do personagem
-attack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> IO()
+attack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> IO Sheet.Character
 attack char monster spells = do
     Util.clearScreen
     rollResult <- Util.rollDice(d20)
@@ -101,7 +104,7 @@ attack char monster spells = do
         magicalAttack char monster spells rollResult
 
 -- executa um ataque mágico do personagem
-magicalAttack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO()
+magicalAttack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
 magicalAttack char monster spells rollResult = do
     putStrLn "Magias disponíveis: "
     showSpellNames spells 0
@@ -123,7 +126,7 @@ magicalAttack char monster spells rollResult = do
 
 
 -- executa um ataque do monstro
-monsterAttack :: Sheet.Character -> Monsters.Monster-> IO()
+monsterAttack :: Sheet.Character -> Monsters.Monster-> IO Sheet.Character
 monsterAttack char monster = do
     rollResult <- Util.rollDice(d20)
     let charDEF = Sheet.calculateDefense char
@@ -151,16 +154,20 @@ calculateMonsterDMG monster rollResult = monsterDMG + rollResult
                 where monsterDMG = Monsters.getDmg monster
 
 -- verifica se o monstro foi derrotado
-monsterDefeated :: Sheet.Character -> Monsters.Monster -> IO()
+monsterDefeated :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 monsterDefeated char monster = do
     if (won monster) then do
         putStrLn "VITÓRIA!"
+        putStrLn (show (Sheet.getHP char))
+        return char
     else monsterAttack char monster
 
-charDefeated :: Sheet.Character -> Monsters.Monster -> IO()
+charDefeated :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 charDefeated char monster = do
-    if (lose char) then
+    if (lose char) then do
         putStrLn "DERROTADO!"
+        putStrLn (show (Sheet.getHP char))
+        return char
     else auxStartBattle char monster
 
 -- verifica se o personagem errou ou não o ataque
