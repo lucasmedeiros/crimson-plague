@@ -1,24 +1,17 @@
 module Itens.Inventory(
-   	Equipped(..),
-    Inventory(..),
+    Inventory,
    	addItem,
-   	getEmptySpace,
-   	qtdItensInBag,
-   	addItemInList,
-   	addItemInEspecificPosition,
-   	initializeEquipped,
    	startInventory,
-   	haveEmptySlot,
+   	removerItemDoInventario,
    {-	shiftList,
    	lastToFront,
 -}
 ) where
 
+import qualified Database as Database
+import qualified Itens.Item as Item
 import Data.List
 import Data.Maybe
-import qualified Database
-import Itens.Item 
-import Util (convertStringToInt)
 
 
 {-roles = ["mago", "guerreiro", "ladino"]
@@ -26,20 +19,11 @@ mago = "mago"
 guerreiro = "guerreiro"
 ladino = "ladino"-}
 
-
-data Equipped = Equipped {
-    weapon :: Item,
-    armor :: Item,
-    helmet :: Item,
-    shield :: Item,
-    boots :: Item
-} deriving (Show)
-
 data Inventory = Inventory{
     slots :: [Int],
     classCharacter :: Int,
     qtdItens :: [Int],
-    itensEquipped :: Equipped
+    itensEquipped :: [Int]
 } deriving (Show)
 
 -- Passa como parametro a classe do personagem
@@ -47,32 +31,23 @@ startInventory :: Int -> Inventory
 startInventory classType = do
 	Inventory itens classType qtd equipped
 	where 
-		itens = [34,34,34,34,34]
-		qtd = [0,0,0,0,0]
-		equipped = initializeEquipped classType
+		itens = [34,34,34,34,34] :: [Int]
+		qtd = [0,0,0,0,0] :: [Int]
+		weapon = getClassWeapon classType :: Int
+		equipped = [weapon,35,39,34,24] :: [Int]
 
-
-initializeEquipped :: Int -> Equipped
-initializeEquipped classe = do
-
-	let weapon = getClassWeapon classe
-	let armor = getItem 35 ::  Item
-	let helmet = getItem 39 ::  Item
-	let shield = getItem 34 ::  Item
-	let boots = getItem 24 ::  Item
-
-	Equipped weapon armor helmet shield boots
-
-
-getClassWeapon :: Int -> Item
+getClassWeapon :: Int -> Int
 getClassWeapon classe
-			 | classe == 1 = getItem 29
-			 | classe == 2 = getItem 36
-			 | otherwise = getItem 37
+			 | classe == 1 =  29
+			 | classe == 2 =  36
+			 | otherwise = 37
 
-getIOItem :: Int -> IO Item
-getIOItem id =  do
-	allItensFromBD <- loadAllItens
+loadAllItens
+
+
+getItens :: Int -> IO Item
+getItens id =  do
+	allItensFromBD <- Item.loadAll
 	let item = allItensFromBD !! id
 	item
 
@@ -86,7 +61,7 @@ qtdItensInBag inventory = sum(qtdItens inventory)
 
 --testado
 haveEmptySlot :: Inventory -> Bool
-haveEmptySlot inventory = isNothing (elemIndex 34 (slots inventory))
+haveEmptySlot inventory = isNothing getEmptySpace (slots inventory) 
 
 
 addItem :: Inventory -> Int -> Inventory
@@ -100,7 +75,7 @@ addItem inventory id
 				actualQtd = (qtdItens inventory) !! index :: Int
 				newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd + 1) index :: [Int]
 				actualClassCharacter = (classCharacter inventory) :: Int
-				actualItensEquipped  = (itensEquipped inventory) :: Equipped 
+				actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 
 
@@ -117,20 +92,38 @@ addItemInEspecificPosition [] value index = []
 addItemInEspecificPosition (x:xs) value index | index == 0 = (value:xs)
 										  | otherwise = x:(addItemInEspecificPosition xs value (index-1))
 
--- Precisa lidar com o caso de ter mais de um item igual armazenado
 removerItemDoInventario :: Inventory -> Int -> Inventory
 removerItemDoInventario inventory id | constainsValue (slots inventory) id == False = inventory
 									 | otherwise = do
-									 		Inventory  newSlots actualClassCharacter newQtds actualItensEquipped
-										where
-											index = searchValueInList (slots inventory) id :: Int
-											newSlots =  addItemInEspecificPosition (slots inventory) 34 index :: [Int]
-											actualQtd = (qtdItens inventory) !! index :: Int
-											newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd - 1) index :: [Int]
-											actualClassCharacter = (classCharacter inventory) :: Int
-											actualItensEquipped  = (itensEquipped inventory) :: Equipped
+									 		let index = searchValueInList (slots inventory) id :: Int
+									 		checkQtd inventory id index
+
+checkQtd :: Inventory -> Int -> Int -> Inventory
+checkQtd inventory id index | ((qtdItens inventory) !! index) == 1 = removerItemUnico inventory id
+							| otherwise = removerItemNUnico inventory id
+
+removerItemUnico :: Inventory -> Int -> Inventory
+removerItemUnico inventory id = do
+						Inventory  newSlots actualClassCharacter newQtds actualItensEquipped
+						where
+						index = searchValueInList (slots inventory) id :: Int
+						newSlots =  addItemInEspecificPosition (slots inventory) 34 index :: [Int]
+						actualQtd = (qtdItens inventory) !! index :: Int
+						newQtds = addItemInEspecificPosition (qtdItens inventory) 0 index :: [Int]
+						actualClassCharacter = (classCharacter inventory) :: Int
+						actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 
+removerItemNUnico :: Inventory -> Int -> Inventory
+removerItemNUnico inventory id = do
+						Inventory  slots actualClassCharacter newQtds actualItensEquipped
+						where
+						index = searchValueInList (slots inventory) id :: Int
+						slots =  (slots inventory) :: [Int]
+						actualQtd = (qtdItens inventory) !! index :: Int
+						newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd - 1) index :: [Int]
+						actualClassCharacter = (classCharacter inventory) :: Int
+						actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 -- testado
 constainsValue :: [Int] -> Int-> Bool
