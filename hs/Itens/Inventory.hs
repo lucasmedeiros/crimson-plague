@@ -1,8 +1,8 @@
 module Itens.Inventory(
     Inventory,
    	addItem,
+   	removeItem,
    	startInventory,
-   	removerItemDoInventario
 ) where
 
 import qualified Database as Database
@@ -39,16 +39,13 @@ getClassWeapon classe
 			 | classe == 2 =  36
 			 | otherwise = 37
 
-loadAllItens :: IO [Item]
-loadAllItens = do 
-	allItensFromBD <- Item.loadAll
-	allItensFromBD
 
-getItens :: Int -> Item
-getItens id =  do
-	allItensFromBD <- loadAllItens
-	let item = allItensFromBD !! id
-	item
+getItem :: Int -> IO Item.Item
+getItem id =  do
+	allItensFromBD <- Item.loadAll
+	item <- allItensFromBD !! id :: IO Item.Item
+	return item
+	
 
 -- testado
 getEmptySpace :: [Int] -> Maybe Int
@@ -59,17 +56,37 @@ qtdItensInBag :: Inventory -> Int
 qtdItensInBag inventory = sum(qtdItens inventory)
 
 --testado
-haveEmptySlot :: Inventory -> Bool
-haveEmptySlot inventory = isNothing getEmptySpace (slots inventory) 
+isNotFull :: Inventory -> Bool
+isNotFull inventory = (isNothing (getEmptySpace (slots inventory))) 
 
 
 addItem :: Inventory -> Int -> Inventory
 addItem inventory id 
-		| haveEmptySlot inventory == False = inventory 
-		| otherwise = do
+		| isNotFull inventory == True = inventory 
+		| otherwise = redirectAdd inventory id
+
+redirectAdd :: Inventory -> Int -> Inventory
+redirectAdd inventory id
+	   | constainsValue (slots inventory) id == True = addExistentItem inventory id
+	   | otherwise = addNewItem inventory id
+
+
+
+addExistentItem :: Inventory -> Int -> Inventory
+addExistentItem inventory id = do
+				Inventory  (slots inventory) actualClassCharacter newQtds actualItensEquipped
+				where
+				index = fromJust $ (elemIndex id (slots inventory)) :: Int
+				actualQtd = (qtdItens inventory) !! index :: Int
+				newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd + 1) index :: [Int]
+				actualClassCharacter = (classCharacter inventory) :: Int
+				actualItensEquipped  = (itensEquipped inventory) :: [Int]
+
+addNewItem :: Inventory -> Int -> Inventory
+addNewItem inventory id = do
 				Inventory  newSlots actualClassCharacter newQtds actualItensEquipped
-			where
-				newSlots =  addItemInList (slots inventory) id :: [Int]
+				where
+				newSlots =  addItemInBag (slots inventory) id :: [Int]
 				index = fromJust $ (getEmptySpace (slots inventory)) :: Int
 				actualQtd = (qtdItens inventory) !! index :: Int
 				newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd + 1) index :: [Int]
@@ -78,34 +95,20 @@ addItem inventory id
 
 
 
-
---testado
-addItemInList :: [Int] -> Int -> [Int]
-addItemInList [] id = []
-addItemInList (x:xs) id | x == 34 = id:addItemInList xs id
-						| otherwise = x:addItemInList xs id
-
--- testado
-addItemInEspecificPosition :: [Int] -> Int -> Int -> [Int]
-addItemInEspecificPosition [] value index = []
-addItemInEspecificPosition (x:xs) value index | index == 0 = (value:xs)
-										  | otherwise = x:(addItemInEspecificPosition xs value (index-1))
-
-removerItemDoInventario :: Inventory -> Int -> Inventory
-removerItemDoInventario inventory id | constainsValue (slots inventory) id == False = inventory
+removeItem :: Inventory -> Int -> Inventory
+removeItem inventory id | constainsValue (slots inventory) id == False = inventory
 									 | otherwise = do
-									 		let index = searchValueInList (slots inventory) id :: Int
-									 		checkQtd inventory id index
+									 		let index = searchValueInList (slots inventory) 0 id :: Int
+									 		redirectRemove inventory id index
 
-checkQtd :: Inventory -> Int -> Int -> Inventory
-checkQtd inventory id index | ((qtdItens inventory) !! index) == 1 = removerItemUnico inventory id
-							| otherwise = removerItemNUnico inventory id
+redirectRemove :: Inventory -> Int -> Int -> Inventory
+redirectRemove inventory id index | ((qtdItens inventory) !!index) == 1 = removeAloneItem inventory id index
+							| otherwise = removeNotAloneItem inventory id index
 
-removerItemUnico :: Inventory -> Int -> Inventory
-removerItemUnico inventory id = do
+removeAloneItem :: Inventory -> Int -> Int -> Inventory
+removeAloneItem inventory id index = do
 						Inventory  newSlots actualClassCharacter newQtds actualItensEquipped
 						where
-						index = searchValueInList (slots inventory) id :: Int
 						newSlots =  addItemInEspecificPosition (slots inventory) 34 index :: [Int]
 						actualQtd = (qtdItens inventory) !! index :: Int
 						newQtds = addItemInEspecificPosition (qtdItens inventory) 0 index :: [Int]
@@ -113,27 +116,17 @@ removerItemUnico inventory id = do
 						actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 
-removerItemNUnico :: Inventory -> Int -> Inventory
-removerItemNUnico inventory id = do
-						Inventory  slots actualClassCharacter newQtds actualItensEquipped
+removeNotAloneItem :: Inventory -> Int -> Inventory
+removeNotAloneItem inventory id = do
+						Inventory  nslots actualClassCharacter newQtds actualItensEquipped
 						where
-						index = searchValueInList (slots inventory) id :: Int
-						slots =  (slots inventory) :: [Int]
+						index = searchValueInList (slots inventory) 0 id :: Int
+						nslots =  (slots inventory) :: [Int]
 						actualQtd = (qtdItens inventory) !! index :: Int
 						newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd - 1) index :: [Int]
 						actualClassCharacter = (classCharacter inventory) :: Int
 						actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
--- testado
-constainsValue :: [Int] -> Int-> Bool
-constainsValue (x:xs) value | searchValueInList (x:xs) 0 value == (-1) = False
-					 | otherwise = True
-
--- testado
-searchValueInList :: [Int] -> Int -> Int -> Int
-searchValueInList [] index value= (-1)
-searchValueInList (x:xs) index value | value == x = index
-									 | otherwise = searchValueInList xs (index+1) value
 										  
 {---testado
 shiftList :: [Int] -> [Int]
@@ -148,8 +141,30 @@ lastToFront [] = []
 lastToFront (x:xs) = lastToFront xs++[x]
  -}
 
+-- Ajudas --
+--testado
+
+addItemInBag :: [Int] -> Int -> [Int]
+addItemInBag [] id = []
+addItemInBag (x:xs) id | x == 34 = id:xs
+						| otherwise = x:addItemInBag xs id
+
+-- testado
+addItemInEspecificPosition :: [Int] -> Int -> Int -> [Int]
+addItemInEspecificPosition [] value index = []
+addItemInEspecificPosition (x:xs) value index | index == 0 = (value:xs)
+										  	  | otherwise = x:(addItemInEspecificPosition xs value (index-1))
 
 
+-- testado
+constainsValue :: [Int] -> Int-> Bool
+constainsValue (x:xs) value | searchValueInList (x:xs) 0 value == (-1) = False
+					 		| otherwise = True
 
+-- testado
+searchValueInList :: [Int] -> Int -> Int -> Int
+searchValueInList [] index value= (-1)
+searchValueInList (x:xs) index value | value == x = index
+									 | otherwise = searchValueInList xs (index+1) value
 
 
