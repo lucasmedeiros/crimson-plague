@@ -15,7 +15,8 @@ module CharInfo.Sheet (
   castSpell,
   takeDamage,
   getUsableSpells,
-  hasEnoughMana
+  hasEnoughMana,
+  recoverMP
 ) where
 
 import CharInfo.Attributes
@@ -142,6 +143,15 @@ getUsableSpells spells character = do
 
 hasEnoughMana :: Spells.Spell -> Character -> Bool
 hasEnoughMana spell character = (getMP character) >= (Spells.getMP spell)
+
+mpRecoveryAmount = 1
+
+recoverMP :: Character -> Character
+recoverMP character = do
+  if ((getMP character) < (getMaxMP character)) then do
+    updateStats character (increaseMP (mpRecoveryAmount) (stats character))
+  else
+    character
 
 -- criacao de Character
 createCharacter :: IO Character
