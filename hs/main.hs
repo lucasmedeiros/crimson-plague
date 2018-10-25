@@ -7,9 +7,9 @@ main = do
   character <- Sheet.createCharacter
   -- Inicializa lista de habilidades
   spells <- Spells.loadAll
-  -- Inicializa lista de itens (not tested yet)
+  -- Inicializa lista de monstros
   monsters <- Monsters.getMonsters
-  -- Inicializa lista de monstros (not tested yet)
 
+  -- Inicializa lista de itens (not tested yet)
   -- itens <- Item.loadAllItens
   return character
