@@ -9,7 +9,8 @@ module Itens.Item(
     getAgility,
     getStrenth,
     getIntelig,
-    getType
+    getType,
+    isConsumable
 )where
 
 import qualified Database
@@ -95,6 +96,8 @@ getIntelig item = int item
 getType :: Item -> Int
 getType item = equippedType item
 
+isConsumable :: Item -> Bool
+isConsumable item = (consumable item)
 
 
 

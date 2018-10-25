@@ -1,14 +1,17 @@
 module Itens.Inventory(
     Inventory,
-   	addItem,
-   	removeItem,
    	startInventory,
+   	addItem,
+   	equipItem,
+   	removeItem,
    	qtdItensInBag,
+   	getItem,
+   	getDamage,
    	getArm,
    	getStr,
    	getIntel,
    	getDex,
-   	equipItem,
+   	consumeItem,
 
 ) where
 
@@ -67,6 +70,15 @@ removeItem inventory id | containsValue (slots inventory) id == False = inventor
 									 | otherwise = do
 									 		let index = searchValueInList (slots inventory) 0 id :: Int
 									 		redirectRemove inventory id index
+-- Usado por outras classes
+consumeItem :: Int -> [Int]
+consumeItem inventory id | isConsumible id == False = [0,0]
+              			 | otherwise = do
+               				let item = unsafePerformIO (getItem id) :: Item.Item
+               				let getHp = Item.getRecHPMax (item) :: Int
+               				let getMp = Item.getRecMPMax (item) :: Int
+               				[getHp,getMp]
+
 
 
 --------------- Verificacoes ----------------
@@ -74,6 +86,17 @@ removeItem inventory id | containsValue (slots inventory) id == False = inventor
 isEquippable :: Item.Item -> Bool
 isEquippable item | Item.getType(item) == 0 = False
 				  | otherwise = True
+
+
+
+isConsumible :: Int -> Bool
+isConsumible id = do
+				let item = unsafePerformIO (getItem id) :: Item.Item
+				isConsumibleAux item
+
+
+isConsumibleAux :: Item.Item -> Bool
+isConsumibleAux item = Item.isConsumable (item) 
 	
 --testado
 isNotFull :: Inventory -> Bool
