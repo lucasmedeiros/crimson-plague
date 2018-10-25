@@ -2,10 +2,7 @@ module Itens.Inventory(
     Inventory,
    	addItem,
    	startInventory,
-   	removerItemDoInventario,
-   {-	shiftList,
-   	lastToFront,
--}
+   	removerItemDoInventario
 ) where
 
 import qualified Database as Database
@@ -33,8 +30,8 @@ startInventory classType = do
 	where 
 		itens = [34,34,34,34,34] :: [Int]
 		qtd = [0,0,0,0,0] :: [Int]
-		weapon = getClassWeapon classType :: Int
-		equipped = [weapon,35,39,34,24] :: [Int]
+		weaponId = getClassWeapon classType :: Int
+		equipped = [weaponId,35,39,34,24] :: [Int]
 
 getClassWeapon :: Int -> Int
 getClassWeapon classe
@@ -42,12 +39,14 @@ getClassWeapon classe
 			 | classe == 2 =  36
 			 | otherwise = 37
 
-loadAllItens
-
-
-getItens :: Int -> IO Item
-getItens id =  do
+loadAllItens :: IO [Item]
+loadAllItens = do 
 	allItensFromBD <- Item.loadAll
+	allItensFromBD
+
+getItens :: Int -> Item
+getItens id =  do
+	allItensFromBD <- loadAllItens
 	let item = allItensFromBD !! id
 	item
 

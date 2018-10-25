@@ -1,7 +1,7 @@
 module Itens.Item(
     AtrbItens,
     Item,
-    loadAllItens,
+    loadAll,
     getName,
     getRecHPMax,
     getRecMPMax
@@ -71,7 +71,7 @@ trueOrFalse string | string == "0" = True
  
 loadAll :: IO [Item]
 loadAll = do
-    itensTxt <- Database.importFromDB "./ItemDB.txt" 3
+    itensTxt <- Database.importFromDB "./ItemBD.txt" 3
     return $ map buildItem itensTxt
 
 getName :: Item -> String
