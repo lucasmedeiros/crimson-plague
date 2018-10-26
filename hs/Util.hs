@@ -5,7 +5,8 @@ module Util (
   rollDice,
   rollDices,
   split,
-  convertStringToInt
+  convertStringToInt,
+  skip
 ) where
 
 import qualified System.Process
@@ -47,7 +48,7 @@ rollDice num = System.Random.randomRIO (1::Int, num)
 
 -- Converte uma lista de String em uma lista de inteiros
 convertStringToInt :: [String] -> [Int]
-convertStringToInt string = map (read :: String -> Int) string 
+convertStringToInt string = map (read :: String -> Int) string
 
 rollDices :: Int -> Int -> IO Int
 rollDices sides 1 = rollDice sides
@@ -55,4 +56,9 @@ rollDices sides num = do
   value <- (rollDice sides)
   value2 <- (rollDices sides (num - 1))
   return $ value + value2
-  
+
+skip = do
+	putStrLn ""
+	putStr "Pressione [Enter] para continuar"
+	_ <- getLine
+	clearScreen
