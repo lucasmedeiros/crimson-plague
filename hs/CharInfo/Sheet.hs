@@ -211,11 +211,16 @@ updateStatsByItem char (x:xs) option = do
     putStrLn "Item não consumivel!"
     return $ char
   else do
+    showBenefits (x:xs)
     let
       newChar = updateInventory char (removeItem (inventory char) option)
       newChar2 = updateStats newChar (increaseHP x (stats newChar))
     return $ updateStats newChar2 (increaseMP (head xs) (stats newChar2))
 
+showBenefits :: [Int] -> IO()
+showBenefits (x:xs) = do
+  putStrLn ("Você recuperou " ++ show x ++ " de vida!")
+  putStrLn ("Você recuperou " ++ show (head xs) ++ " de mana!")
 mpRecoveryAmount = 1
 
 recoverMP :: Character -> Character

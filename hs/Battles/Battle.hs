@@ -43,7 +43,7 @@ auxStartBattle char monster = do
     showLife char monster
     showBattleMenu
     option <- Util.getOption
-    if (option < 1 || option > 2) then
+    if (option < 1 || option > 3) then
         auxStartBattle char monster
     else do
         spells <- Spells.loadAll
