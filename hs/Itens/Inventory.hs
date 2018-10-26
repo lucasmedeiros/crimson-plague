@@ -11,8 +11,9 @@ module Itens.Inventory(
    	getStr,
    	getIntel,
    	getDex,
-   	consumeItem,
-
+	consumeItem,
+	printInventory,   
+	printForBattle
 ) where
 
 import qualified Database as Database
