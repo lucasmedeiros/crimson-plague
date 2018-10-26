@@ -109,7 +109,7 @@ escolhaGancho3 = do
 	putStrLn "2 - Onde eu posso acabar com isso?"
 	option <- getLine
 	clearScreen
-	if (option == 1) 
+	if (option == "1") 
 		then do
 			 putStrLn "Senhora: Chamam de praga Carmesim, ela começa de forma inofensiva."
 			 putStrLn "Senhora: Porem, aos poucos ela vai ficando pior. Cada vez mais roubando a sua forca."
@@ -150,13 +150,13 @@ segundaChance = do
     option <- getLine
     clearScreen
     putStrLn "Meruen responde: "
-    if (option == 1)
+    if (option == "1")
         then do
             putStrLn "Meruen: Estão chamando por aqui de praga Carmesim, ela começa de forma inofensiva"
             putStrLn "Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana."
             putStrLn "Meruen: Infelizmente eu acabei pegando essa doença... Não acho que tenho muitos dias..."
             putStrLn "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."
-    else if (option == 2)
+    else if (option == "2")
         then do
             putStrLn "Meruen: Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias..."
             putStrLn "Meruen: Eu te peço, por todos os nossos anos de aventura. Acabe com essa praga, por favor."
@@ -526,6 +526,32 @@ pantryCavern = do
 	else do
 		putStrLn "A flecha perfura o seu ombro. Causando"
 		putStrLn "um ferimento moderado."
+	--Diminuir vida
 	clearScreen
-
-
+	putStrLn "A armadilha chama a atenção de uma criatura"
+	putStrLn "que estava em um barril e ela irá atacar você."
+	putStrLn "Essas criatura é um rato, no entanto, bem maior"
+	putStrLn "que o normal, e você tem a impressão que pode pegar"
+	putStrLn "a praga lutando com ela."
+	--inicia batalha
+	checkResistance <- (rollDice 20)
+	--add xp 2000
+	if (checkResistance >= 10)
+		then do
+			putStrLn "Apesar do contato com os ratos, você consegue"
+			putStrLn "resistir a praga."
+			return $ "n"
+	else do
+		putStrLn "Após o combate, você sente que algo está errado..."
+		putStrLn "Você está se sentindo um pouco mais fraco, talvez"
+		putStrLn "você tenha contraído a praga."
+		return $ "s"
+	putStrLn "Em um dos barris, você encontra duas poções de vida"
+	putStrLn "e duas poções de mana, naturalmente você guarda elas."
+	putStrLn "Elas podem ser bastante úteis no futuro."
+	--adicionar item
+	putStrLn "Após os achados, você começa a descer uma rampa que"
+	putStrLn "leva a uma parte inferior da caverna. Aos poucos "
+	putStrLn "ela vai ficando muito íngrime, a um ponto que te"
+	putStrLn "faz perder o equilíbrio e descer o resto da rampa"
+	putStrLn "deslizando a mesma."
