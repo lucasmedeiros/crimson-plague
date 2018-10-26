@@ -26,7 +26,7 @@ import Util (clearScreen)
 
 data Inventory = Inventory{
     slots :: [Int],
-    classCharacter :: Int,
+    classCharacter :: String,
     qtdItens :: [Int],
     itensEquipped :: [Int]
 
@@ -34,7 +34,7 @@ data Inventory = Inventory{
 
 --------------------------------- INICIALIZANDO O INVENTÁRIO ---------------------------------
 
-startInventory :: Int -> Inventory
+startInventory :: String -> Inventory
 startInventory classType = do
 	Inventory itens classType qtd equipped
 	where 
@@ -43,14 +43,15 @@ startInventory classType = do
 		equipped = initialItens classType :: [Int]
 
 		
-initialItens :: Int -> [Int]
-initialItens classType  | classType == 1 = [34,30,36,25,40,47]
-					    | classType == 2 = [34,37,39,25,41,35]
-					    | classType == 3 = [34,38,45,25,43,35]
+initialItens :: String -> [Int]
+initialItens classType  | classType == "guerreiro" = [34,30,36,25,40,47]
+					    | classType == "mago" = [34,37,39,25,41,35]
+					    | classType == "ladino" = [34,38,45,25,43,35]
+					    | otherwise = [34,30,36,25,40,47]
 
 
 
- --------------- Funcionalidades ---------------
+ --------------- --------------------Funcionalidades -------------------------------------------
 
 equipItem :: Inventory -> Int -> Inventory
 equipItem inventory pos = do
@@ -88,7 +89,7 @@ consumeItem inventory pos = do
 				let id = (slots inventory) !! pos :: Int
 				consumeItemById id
 
---------------- Verificacoes ----------------
+--------------- ------------------------Verificacoes ----------------------------------------------------
 
 isEquippable :: Item.Item -> Bool
 isEquippable item | Item.getType(item) == 0 = False
@@ -117,7 +118,7 @@ isNotFull inventory = (isNothing (getEmptySpace (slots inventory)))
 
 
 
---------------------- Gets ------------------------
+------------------------------------------- Gets ------------------------------------------------------
 
 getDamage :: Inventory -> Int
 getDamage inventory = do
@@ -151,7 +152,7 @@ getItem id =  do
 	return item
 
 											  
------------------- Ajudas -------------------------
+----------------------------------------- Ajudas --------------------------------------------------------
 
 -- testado
 qtdItensInBag :: Inventory -> Int
@@ -224,7 +225,7 @@ removeAloneItem inventory id index = do
 						newSlots =  addItemInEspecificPosition (slots inventory) 34 index :: [Int]
 						actualQtd = (qtdItens inventory) !! index :: Int
 						newQtds = addItemInEspecificPosition (qtdItens inventory) 0 index :: [Int]
-						actualClassCharacter = (classCharacter inventory) :: Int
+						actualClassCharacter = (classCharacter inventory) :: String
 						actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 
@@ -235,7 +236,7 @@ removeNotAloneItem inventory id index = do
 						nslots =  (slots inventory) :: [Int]
 						actualQtd = (qtdItens inventory) !! index :: Int
 						newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd - 1) index :: [Int]
-						actualClassCharacter = (classCharacter inventory) :: Int
+						actualClassCharacter = (classCharacter inventory) :: String
 						actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 
@@ -253,7 +254,7 @@ addExistentItem inventory id = do
 				index = fromJust $ (elemIndex id (slots inventory)) :: Int
 				actualQtd = (qtdItens inventory) !! index :: Int
 				newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd + 1) index :: [Int]
-				actualClassCharacter = (classCharacter inventory) :: Int
+				actualClassCharacter = (classCharacter inventory) :: String
 				actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 addNewItem :: Inventory -> Int -> Inventory
@@ -264,7 +265,7 @@ addNewItem inventory id = do
 				index = fromJust $ (getEmptySpace (slots inventory)) :: Int
 				actualQtd = (qtdItens inventory) !! index :: Int
 				newQtds = addItemInEspecificPosition (qtdItens inventory) (actualQtd + 1) index :: [Int]
-				actualClassCharacter = (classCharacter inventory) :: Int
+				actualClassCharacter = (classCharacter inventory) :: String
 				actualItensEquipped  = (itensEquipped inventory) :: [Int]
 
 
@@ -279,7 +280,7 @@ equipItemAux2 inventory typeEquiped id pos = do
 							Inventory newSlots nclassCharacter nqtdItens newEquipped
 							where
 							nqtdItens = (qtdItens inventory) :: [Int]
-							nclassCharacter = (classCharacter inventory) :: Int 
+							nclassCharacter = (classCharacter inventory) :: String
 							actualItem = (itensEquipped inventory) !! typeEquiped :: Int
 						   	newEquipped = addItemInEspecificPosition (itensEquipped inventory) id typeEquiped :: [Int]
 						   	newSlots = addItemInEspecificPosition (slots inventory) actualItem pos :: [Int]
@@ -287,7 +288,7 @@ equipItemAux2 inventory typeEquiped id pos = do
 
 
 
-
+------------------------------------------ Impressão em tela --------------------------------------------------------
 
 printInventory :: Inventory -> IO ()
 printInventory inventory = do
@@ -334,6 +335,7 @@ printInventory inventory = do
 	putStrLn " 1) Equipar (digite 1 e posicão do Item)"
 	putStrLn " 2) Excluir (digite 2 e slot do Item)"
 	putStrLn " 3) Voltar (digite 3)"
+
 
 printForBattle :: Inventory -> IO()
 printForBattle inventory = do
