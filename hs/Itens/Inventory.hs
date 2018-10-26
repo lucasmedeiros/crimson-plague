@@ -94,6 +94,10 @@ isEquippable :: Item.Item -> Bool
 isEquippable item | Item.getType(item) == 0 = False
 				  | otherwise = True
 
+isConsumibleByPosition :: Int -> Inventory -> Bool
+isConsumibleByPosition pos inventory = do
+								let id = (slots inventory) !! (pos - 1) :: Int
+								isConsumible id
 
 
 isConsumible :: Int -> Bool
