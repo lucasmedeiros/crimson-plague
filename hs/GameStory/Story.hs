@@ -510,3 +510,22 @@ refectoryChoice2 str = do
 	putStrLn "Opção invalida!"
 	clearScreen
 	refectoryChoice
+
+pantryCavern :: String -> IO()
+pantryCavern = do
+	putStrLn "Uma porta de madeira fechada barra a entrada para essa"
+	putStrLn "sala. Ao abrir porta você observa que esta sala longa"
+	putStrLn "e estreita possui fileiras de estantes carregadas","de alimentos e outros suprimentos. Pesados sacos"
+	putStrLn "de estopa estão empilhados até o teto no canto","oposto da câmara. Uns poucos rasgados, espalhando"
+	putStrLn "aveia e farinha no chão. Muitos barris estão", "agrupados próximos à parede norte."
+	putStrLn "Ao entrar na sala, uma armadilha é ativada!","Uma flecha é lançada em sua direção."
+	checkResistance <- (rollDice 20) 
+	if (checkResistance >= 11) 
+		then do
+			putStrLn "Por sorte, a armadilha não te acerta."
+	else do
+		putStrLn "A flecha perfura o seu ombro. Causando"
+		putStrLn "um ferimento moderado."
+	clearScreen
+
+
