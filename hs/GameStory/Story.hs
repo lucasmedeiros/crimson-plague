@@ -560,6 +560,31 @@ pantryCavern = do
 	putStrLn "faz perder o equilíbrio e descer o resto da rampa"
 	putStrLn "deslizando a mesma."
 
+fossoCadaveres :: IO()
+fossoCadaveres = do
+	putStrLn "Você passa pelo túnel. Ondas de calor banham"
+	putStrLn "respiração difícil. Esta caverna pequena e"
+	putStrLn "em forma de tigela possui o chão cheio de"
+	putStrLn "cadáveres humanóides. A abertura de um túnel"
+	putStrLn "é visível na parede leste da câmara"
+	putStrLn "e, na distância, o som de água corrente"
+	putStrLn "pode ser ouvido."
+	skip
+	checkInteligence <- (rollDice 20)
+	if (checkInteligence >= 8)
+		then do
+			putStrLn "Você acredita que aqui é o fosso da criação"
+			putStrLn "da praga. Sejá la quem for que está fazendo"
+			putStrLn "isso, não deve ficar longe de onde você está."
+	putStrLn "Quatro zumbis levantam-se de um dos montes"
+	putStrLn "de corpos! Prepare-se para o combate!"
+	--inicia batalha
+	--add xp 2000
+	putStrLn "Algo dentro de você diz que isso está perto"
+	putStrLn "de acabar. Ao calmo som de água corrente. Você"
+	putStrLn "entra no estreito túnel a leste."
+	
+
 rampCavern :: IO()
 rampCavern = do
 	putStrLn "Após descer a rampa e chegar no fundo da caverna"
