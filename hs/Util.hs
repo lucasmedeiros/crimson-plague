@@ -57,6 +57,7 @@ rollDices sides num = do
   value2 <- (rollDices sides (num - 1))
   return $ value + value2
 
+skip :: IO()
 skip = do
 	putStrLn ""
 	putStr "Pressione [Enter] para continuar"

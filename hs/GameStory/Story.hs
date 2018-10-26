@@ -1,11 +1,18 @@
 module GameStory.Story (
 	getYesNo,
 	adventureClincher,
-	secondChance,
-	skip
+	secondChance
 ) where
 
 import Util
+
+-- algumas constantes para evitar números mágicos
+d20 :: Int
+d20 = 20
+
+jakkPos :: Int
+jakkPos = 6
+-- Fim da declaração de constantes.
 
 getYesNo :: IO String
 getYesNo = do
@@ -580,6 +587,7 @@ corpsesGrave = do
 			putStrLn "Você acredita que aqui é o fosso da criação"
 			putStrLn "da praga. Sejá la quem for que está fazendo"
 			putStrLn "isso, não deve ficar longe de onde você está."
+	else do putStr ""
 	putStrLn "Quatro zumbis levantam-se de um dos montes"
 	putStrLn "de corpos! Prepare-se para o combate!"
 	--inicia batalha
@@ -588,8 +596,8 @@ corpsesGrave = do
 	putStrLn "de acabar. Ao calmo som de água corrente. Você"
 	putStrLn "entra no estreito túnel a leste."
 
-JakkEnding :: IO()
-JakkEnding = do
+jakkEnding :: IO()
+jakkEnding = do
 	putStrLn "Ao entrar, nessa parte da caverna, você observa um"
 	putStrLn "único pilar irregular, de pedra e cheio de um musgo"
 	putStrLn "emerge das profundezas de um lago no centro da caverna."
@@ -602,8 +610,8 @@ JakkEnding = do
 	putStrLn "linhas apenas visíveis por baixo da luz do musgo. Uma"
 	putStrLn "sensação estranha de desconforto impregna este lugar."
 	skip
-	ReligionDice <- (rollDice 20)
-	if (ReligionDice >= 8)
+	religionDice <- (rollDice 20)
+	if (religionDice >= 8)
 		then do
 			putStrLn "Os símbolos entalhados aqui estão escritos"
 			putStrLn "no idioma orc e servem como uma súplica a"
@@ -612,6 +620,7 @@ JakkEnding = do
 			putStrLn "Eles também recontam a história das minas e o destino"
 			putStrLn "do clã Garra Despedaçante."
 			skip
+	else do putStr ""
 	putStrLn "No centro, voce percebe uma imponente presenca"
 	putStrLn "Um grande orc, com uma armadura de metal e uma"
 	putStrLn "clava de aço na mão direita."
@@ -622,6 +631,7 @@ JakkEnding = do
 	option <- getLine
 	if (option == "1")
 		then do
+			putStrLn "AQUI INICIA UMA BATALHA..."
 			--inicia batalha
 	else do
 		putStrLn "O Orc prepara sua maça enquanto você corre"
@@ -653,6 +663,7 @@ chatJakk = do
 	else if (option == "3")
 		then do
 			putStrLn "Jakk: Voce nao tem uma chance, seu verme."
+	else do putStr ""
 
 
 
@@ -759,29 +770,6 @@ secretCampDecision str = do
 	putStrLn "Opção inválida!"
 	clearScreen
 	secretCampChoice
-
-printViolentEnding = do
-	putStrLn "Extremamente abatido, Jakk fala baixo:"
-	putStrLn "Jakk: Eu apenas queria vingar o meu clã..."
-	putStrLn "Jakk: Infelizmente eu acho que o mal prevaleceu..."
-	putStrLn "Jakk, solta sua maça, e cai no chão."
-	skip
-
-	putStrLn "Derrotar Jakk já possui um efeito visível imediato"
-	putStrLn "nas águas da nascente, que começa a ficar limpa da sujeira"
-	putStrLn "da Febre logo após sua morte. Os sintomas"
-	putStrLn "da Febre que afetam as pessoas de Passagem de Duvik"
-	putStrLn "começaram a diminuir. E a ordem voltou a reinar na cidade."
-	skip
-
-printVillageFuture = do
-	putStrLn "Lentamente, Passagem de Duvik começou a se"
-	putStrLn "reestruturar e a prosperar novamente. Alguns"
-	putStrLn "anos depois, Passagem de Duvik se tornou uma das maiores"
-	putStrLn "e ricas cidades do reino. No centro dela, há uma estatua sua,"
-	putStrLn "para relembrar quem tornou o sucesso dessa cidade possível!"
-	skip
-
 
 printViolentEnding = do
 	putStrLn "Extremamente abatido, Jakk fala baixo:"
