@@ -5,8 +5,7 @@ import qualified Itens.Item as Item
 import qualified GameStory.Story as Story
 
 main = do
-  let character = Sheet.createCharacter
-  character
+  character <- Sheet.createCharacter
   -- Inicializa lista de habilidades
   spells <- Spells.loadAll
   -- Inicializa lista de monstros

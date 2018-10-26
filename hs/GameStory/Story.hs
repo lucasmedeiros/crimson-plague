@@ -39,14 +39,13 @@ introCity = do
 
 adventureClincher :: IO Char
 adventureClincher = do
-	clearScreen
 	putStrLn "Você está na praça principal da cidade e, percebe"
 	putStrLn "algumas pessoas que te chamam a atenção:"
 	putStrLn "Um homem com roupas nobres, não parece ser dessa cidade."
 	putStrLn "Um grupo de pessoas com manchas de carvão no rosto e braços."
 	putStrLn "Alguns moradores que estão claramente abatidos."
 	putStrLn ""
-	clearScreen
+	
 	putStrLn "Qual deles voce ira se aproximar:"
 	putStrLn "1 - O homem aparentemente rico."
 	putStrLn "2 - As pessoas sujas de carvao."
@@ -69,26 +68,33 @@ errorMessage = do
 	clearScreen
 	adventureClincher
 
-answerMessage1 :: IO ()
+answerMessage1 :: IO Char
 answerMessage1 = do
-    answer <- getYesNo
-    if (answer == "s")
-		then do
-			putStrLn "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina."
-			putStrLn "Meruen: Muito obrigado, amigo."
+	answer <- getYesNo
+
+	if (answer == "s") then do
+		putStrLn "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina."
+		putStrLn "Meruen: Muito obrigado, amigo."
 	else do
 		putStrLn "Meruen: Você é tão vazio quanto sua alma."
 		putStrLn "Meruen se afasta lentamente de você."
 
+	skip
+
+	return $ (answer !! 0)
+
 answerMessage2 :: IO Char
 answerMessage2 = do
 	answer <- getYesNo
+	clearScreen
 	if (answer == "s")
 		then do
 			putStrLn "Mal sei o que dizer. Muito obrigado!!"
+			skip
 			return $ 'y'
 	else do
 		putStrLn "Com um olhar de desaprovação, lentamente começam a se afastar de você."
+		skip
 		return $ 'n'
 
 clincherChoice1 :: IO Char
@@ -101,7 +107,8 @@ clincherChoice1 = do
 	putStrLn "Prefeito: que você é um aventureiro, você poderia nos ajudar"
 	putStrLn "Prefeito: a acabar com essa doença? Por favor, muitos já"
 	putStrLn "Prefeito: morreram com essa praga."
-	answerMessage1
+
+	answerMessage2
 	return 'a'
 
 clincherChoice2 :: IO Char
@@ -183,7 +190,7 @@ secondChance = do
         putStrLn "Meruen: Na verdade, tem. Eu acredito que se você for pra essa mina. Deve haver uma forma de terminar"
         putStrLn "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias..."
         putStrLn "Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"
-    answerMessage2
+    answerMessage1
 
 firstEnding :: IO()
 firstEnding = do
@@ -198,7 +205,7 @@ firstEnding = do
     putStrLn "uma promessa do que poderia se tornar."
     skip
 
-entradaMina :: IO Character -> IO Enemies.Monster -> IO Character
+entradaMina :: Character -> IO Enemies.Monster -> IO Character
 entradaMina character monster = do
 	clearScreen
 	putStrLn "Entrada da caverna"
@@ -222,34 +229,39 @@ entradaMina character monster = do
 	putStrLn "E irá atacar você! Prepare-se para o combate!"
 
 	monster' <- monster
-	character' <- character
-	response <- (Battle.startBattle character' monster')
+	response <- (Battle.startBattle character monster')
 	let updatedCharacter = fst response
+
+	skip
 
 	putStrLn "Voce permanece por um tempo em frente a entrada"
 	putStrLn "Por um momento voce hesita em seguir em frente"
 	putStrLn "O que voce vai fazer?"
-	skip
-	putStrLn "a) Tentar analisar com mais detalhes a entrada da caverna."
-	putStrLn "b) Procurar por alguma coisa ao redor da entrada."
-	putStrLn "c) Acender uma tocha e entrar na caverna."
+	putStrLn ""
+	putStrLn "1) Tentar analisar com mais detalhes a entrada da caverna."
+	putStrLn "2) Procurar por alguma coisa ao redor da entrada."
+	putStrLn "3) Acender uma tocha e entrar na caverna."
 
+	putStrLn ""
+	putStr "Seleciona uma das opções: "
 	resposta <- getLine
 	analiseEntrada resposta
 	clearScreen
 	return $ updatedCharacter
 
 analiseEntrada :: String -> IO()
-analiseEntrada "a" = primeiraEscolhaEntrada
-analiseEntrada "b" = segundaEscolhaEntrada
-analiseEntrada "c" = do
+analiseEntrada "1" = primeiraEscolhaEntrada
+analiseEntrada "2" = segundaEscolhaEntrada
+analiseEntrada _ = do
+	clearScreen
 	putStrLn "Analisar as coisas é perda de tempo, seus inimigos não tem"
 	putStrLn "uma chance contra você mesmo... Voce acende uma tocha, respira"
 	putStrLn "fundo e entra na mina."
+	skip
 
 primeiraEscolhaEntrada :: IO()
 primeiraEscolhaEntrada = do
-
+	clearScreen
 	dadoObservar <- (rollDice 20)
 
 	if(dadoObservar >= 15)
@@ -270,10 +282,11 @@ primeiraEscolhaEntrada = do
 		putStrLn "encontrar nada relevante na estrutura."
 
 	putStrLn "Você acende uma tocha e entra na caverna."
+	skip
 
 segundaEscolhaEntrada :: IO()
 segundaEscolhaEntrada = do
-
+	clearScreen
 	dadoObservar <- (rollDice 20)
 
 	if(dadoObservar >= 10 && dadoObservar < 15)
@@ -299,6 +312,8 @@ segundaEscolhaEntrada = do
 		putStrLn "nada relevante pra voce."
 		putStrLn "Você acende uma tocha e entra na caverna."
 
+	skip
+
 printCredits :: IO()
 printCredits = do
 	putStrLn "Obrigado por jogar: A Praga Carmesim!"
@@ -312,10 +327,11 @@ printCredits = do
 	putStrLn "Mikael Brasileiro"
 	putStrLn ""
 	putStrLn "Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!"
-	clearScreen
+	skip
 
 cavernReception :: IO String
 cavernReception = do
+	clearScreen
 	putStrLn "O tunel se abre em uma camara pequena e aproximadamente"
 	putStrLn "regular. Pedacos espalhados de minerio de prata cercam"
 	putStrLn "um par de carroças de madeira. A parte de baixo do que"
@@ -323,8 +339,8 @@ cavernReception = do
 	putStrLn "das carrocas. E nao mostra nenhum sinal de movimento."
 	putStrLn "Sangue seco mancha a parede norte em varios locais."
 	putStrLn "Há uma saída para o oeste"
-	clearScreen
-	receptionChoice
+	putStrLn ""
+	
 	choice <- receptionChoice
 	activate <- (checkWagon choice)
 	clearScreen
@@ -340,20 +356,22 @@ receptionChoice = do
 
 checkWagon :: String -> IO String
 checkWagon "1" = do
+	clearScreen
 	checkReflex <- (rollDice 20)
-	if(checkReflex >= 12)
-		then do
-			putStrLn "Voce escuta um barulho de"
-			putStrLn "mecanismos, voce rapidamente entende que e uma armadilha"
-			putStrLn "e salta para tras, conseguindo desviar do ataque sonico"
-			putStrLn "produzido pela mesma."
-			-- Adiciona xp 250
-			wagonDescription
-			return $ "y"
+	if(checkReflex >= 12) then do
+		putStrLn "Voce escuta um barulho de"
+		putStrLn "mecanismos, voce rapidamente entende que e uma armadilha"
+		putStrLn "e salta para tras, conseguindo desviar do ataque sonico"
+		putStrLn "produzido pela mesma."
+		-- Adiciona xp 250
+		skip
+		wagonDescription
+		return $ "y"
 	else do
 		putStrLn "Voce escuta um barulho de"
 		putStrLn "mecanismos, e uma armadilha que produz um som ensurdecedor"
 		putStrLn "que deixa voce temporariamente surdo."
+		skip
 		-- Hp -3
 		return $ "n"
 
@@ -370,11 +388,12 @@ checkWagon str = do
 
 wagonDescription :: IO()
 wagonDescription = do
+	clearScreen
 	putStrLn "Ao analisar o corpo, voce percebe que ele tem marcas parecidos com"
 	putStrLn "as vitimas da praga. Ele tem uma roupa diferente dos outros mineradores"
 	putStrLn "Provavelmente era o chefe deles. Ele parece ter sido uma vitima de um ataque"
 	putStrLn "tendo muitos ferimentos perfurantes no peito e pescoco."
-	clearScreen
+	putStrLn ""
 	putStrLn "Voce tambem percebe inumeros pedacoes de prata ao redor da carroca."
 	putStrLn "Voce ira coletar?"
 	choice <- getYesNo
@@ -383,14 +402,16 @@ wagonDescription = do
 getSilver :: String -> IO()
 getSilver "s" = do
 	putStrLn "Voce coleta os minerios sem problemas."
+	skip
 	-- Adiciona Dinheiro 250
 	-- Add xp 250
 getSilver str = do
 	putStrLn "Voce prefere nao arricar a pegar esses minerios."
+	skip
 	-- Add xp 250
 
-checkListenKnowledge :: IO()
-checkListenKnowledge = do
+checkListenKnowledge :: Character -> Enemies.Monster -> IO()
+checkListenKnowledge character monster = do
 	checkListen <- (rollDice 20)
 	if(checkListen >= 10)
 		then do
@@ -404,9 +425,11 @@ checkListenKnowledge = do
 		putStrLn "No entanto, voce tem a impressao que sao kobolds."
 
 	putStrLn "Voce abre a grande porta de madeira e enxerga:"
+	skip
 
 auxCheckKnowledge :: Int -> IO()
 auxCheckKnowledge check = do
+	clearScreen
 	if(check >= 8 && check < 12)
 		then do
 			putStrLn "Voce consegue reconhecer que sao kobolds pelo idioma que"
@@ -437,19 +460,21 @@ auxCheckKnowledge check = do
 		putStrLn "estao falando, draconico. Você não consegue enteder quase"
 		putStrLn "nada. No entanto, você percebe que os kobolds estão nervosos"
 		putStrLn "pelo tom de voz."
+	
+	skip
 
-koboldsCombatDialogue :: IO()
-koboldsCombatDialogue = do
+-- koboldsCombatDialogue :: Character -> Enemies.Monster -> IO Char
+koboldsCombatDialogue character monster = do
 	checkCha <- (rollDice 20)
 
-	if(checkCha >= 13)
-		then do
-			koboldsCombatConversation
-	else do
-		startBattleKobolds
+	if(checkCha >= 13) then
+		koboldsCombatConversation character monster
+	else
+		startBattleKobolds character monster 
 
-koboldsCombatConversation :: IO()
-koboldsCombatConversation = do
+koboldsCombatConversation :: Character -> Enemies.Monster -> IO Character 
+koboldsCombatConversation character monster = do
+	clearScreen
 	putStrLn "Ao comecar a falar, os kobolds apesar de receiosos"
 	putStrLn "resolvem escutar o que voce tem a dizer"
 	putStrLn "O que você irá dizer para eles?"
@@ -458,52 +483,65 @@ koboldsCombatConversation = do
 	checkPersuation <- (rollDice 20)
 	choice <- getLine
 	--putStrLn "3) Eu posso pagar uma quantia generosa se vocês esquecerem que me viram. (Suborno)"
-	(koboldsCombatDialogue2 choice checkPersuation)
+	(koboldsCombatDialogue2 choice checkPersuation character monster)
+	return $ character
 
-koboldsCombatDialogue2 :: String -> Int -> IO()
-koboldsCombatDialogue2 "1" n = do
+-- koboldsCombatDialogue2 :: String -> Int -> Character -> Enemies.Monster -> IO Character
+koboldsCombatDialogue2 "1" n character monster = do
+	clearScreen
 	if(n >= 13)
 		then do
 			putStrLn "Os kobolds parecem concordar com voce e abaixam as armas."
 			putStrLn "O que parece ser o capitao daquele pequeno grupo fala:"
 			putStrLn "Capitão: Nao temos forca pra lutar, doenca enfraquecer e matar"
 			putStrLn "Capitão amigos. Humano pode seguir em frente."
+			return $ character
 			--Aumentar xp 2250
 	else do
-		startBattleKobolds
+		startBattleKobolds character monster
+	
+	skip
+	return $ character
 
-koboldsCombatDialogue2 "2" n = do
+koboldsCombatDialogue2 "2" n character monster = do
+	clearScreen
 	if(n >= 13)
 		then do
 			putStrLn "Os kobolds parecem, de fato, ficarem intimidados com voce."
 			putStrLn "O que parece o capitao daquele pequeno grupo fala:"
 			putStrLn "Capitão: Tudo bem, humano pode passar. Só não nos mate, por favor."
+			return $ character
 			--Aumentar xp 2500
 	else do
-		startBattleKobolds
+		startBattleKobolds character monster 
 
-koboldsCombatDialogue2 str _ = do
+	skip
+	return $ character
+
+koboldsCombatDialogue2 str _ character monster = do
 	putStrLn "Opção invalida!"
-	clearScreen
-	koboldsCombatConversation
+	skip
+	koboldsCombatConversation character monster
 
-startBattleKobolds :: IO()
-startBattleKobolds = do
+startBattleKobolds :: Character -> Enemies.Monster -> IO Character
+startBattleKobolds character monster = do
 	putStrLn "O que parece ser o capitao daquele pequeno grupo fala:"
 	putStrLn "Capitao: Nao importa o que humano fale, voce morre agora!"
-	-- Inicia batalha
+	response <- Battle.startBattle character monster
+	return $ (fst response)
 
-refectoryCavern :: String -> IO()
-refectoryCavern str = do
+refectoryCavern :: String -> Character -> Enemies.Monster -> IO Character
+refectoryCavern str character monster = do
+	clearScreen
 	if (str /= "s")
 		then do
-			checkListenKnowledge
+			checkListenKnowledge character monster
 	else do
 		putStrLn "Ter ativado a armadilha atraiu muito a atencao daqueles que"
 		putStrLn "estao dentro da caverna, inclusive os kobolds dentro dessa sala."
 		putStrLn "Voce escuta muitos gritos e passos, voce imagina que eles estao"
 		putStrLn "se preparando para um combate. Ao abrir a porta você ve o seguinte:"
-		clearScreen
+		skip
 
 	putStrLn "Uma sala larga e quadrada abriga quatro longas mesas de"
 	putStrLn "madeira, cada uma com um banco de cada lado. Em cima"
@@ -512,26 +550,31 @@ refectoryCavern str = do
 	putStrLn "sobre um fogao cravado no chao. Um cheiro pungente esta"
 	putStrLn "suspenso no ar. "
 	putStrLn "Voce também exerga três kobolds apontando para voce."
-	refectoryChoice
+	putStrLn ""
+	refectoryChoice character monster
+	return $ character
 
-refectoryChoice :: IO()
-refectoryChoice = do
+refectoryChoice :: Character -> Enemies.Monster -> IO Character
+refectoryChoice character monster = do
 	putStrLn "Os kobolds parecem bastante nervosos, o que voce ira fazer?"
 	putStrLn "1) Tentar conversar com eles."
 	putStrLn "2) Atacar imediatamente."
 	choice <- getLine
-	refectoryChoice2 choice
+	refectoryChoice2 choice character monster
 
-refectoryChoice2 :: String -> IO()
-refectoryChoice2 "1" = koboldsCombatDialogue
-refectoryChoice2 "2" = do
+refectoryChoice2 :: String -> Character -> Enemies.Monster -> IO Character
+refectoryChoice2 "1" character monster = koboldsCombatDialogue character monster
+refectoryChoice2 "2" character monster = do
 	putStrLn "Voce imediatamente comeca a preparar o seu ataque enquanto"
 	putStrLn "os kobolds correm em direcao a voce."
+	return $ character
 	--Inicia combate
-refectoryChoice2 str = do
+
+refectoryChoice2 str character monster = do
 	putStrLn "Opção invalida!"
-	clearScreen
-	refectoryChoice
+	skip
+	refectoryChoice character monster
+	return $ character
 
 pantryCavern :: IO()
 pantryCavern = do
@@ -553,7 +596,7 @@ pantryCavern = do
 		putStrLn "A flecha perfura o seu ombro. Causando"
 		putStrLn "um ferimento moderado."
 	--Diminuir vida
-	clearScreen
+	skip
 	putStrLn "A armadilha chama a atenção de uma criatura"
 	putStrLn "que estava em um barril e ela irá atacar você."
 	putStrLn "Essas criatura é um rato, no entanto, bem maior"
@@ -562,6 +605,7 @@ pantryCavern = do
 	--inicia batalha
 	checkResistance <- (rollDice 20)
 	--add xp 2000
+	skip
 	if (checkResistance >= 10)
 		then do
 			putStrLn "Apesar do contato com os ratos, você consegue"
@@ -579,14 +623,16 @@ pantryCavern = do
 	--adicionar item 2
 	--adicionar item 4
 	--adicionar item 4
+	skip
 	putStrLn "Após os achados, você começa a descer uma rampa que"
 	putStrLn "leva a uma parte inferior da caverna. Aos poucos "
 	putStrLn "ela vai ficando muito íngrime, a um ponto que te"
 	putStrLn "faz perder o equilíbrio e descer o resto da rampa"
 	putStrLn "deslizando a mesma."
+	skip
 
-corpsesGrave :: IO()
-corpsesGrave = do
+corpsesGrave character monster = do
+	clearScreen
 	putStrLn "Você passa pelo túnel. Ondas de calor banham"
 	putStrLn "respiração difícil. Esta caverna pequena e"
 	putStrLn "em forma de tigela possui o chão cheio de"
@@ -604,14 +650,14 @@ corpsesGrave = do
 	else do putStr ""
 	putStrLn "Quatro zumbis levantam-se de um dos montes"
 	putStrLn "de corpos! Prepare-se para o combate!"
-	--inicia batalha
+	Battle.startBattle character monster 
 	--add xp 2000
+	skip
 	putStrLn "Algo dentro de você diz que isso está perto"
 	putStrLn "de acabar. Ao calmo som de água corrente. Você"
 	putStrLn "entra no estreito túnel a leste."
 
-jakkEnding :: IO()
-jakkEnding = do
+jakkEnding character monster = do
 	putStrLn "Ao entrar, nessa parte da caverna, você observa um"
 	putStrLn "único pilar irregular, de pedra e cheio de um musgo"
 	putStrLn "emerge das profundezas de um lago no centro da caverna."
@@ -642,11 +688,13 @@ jakkEnding = do
 	putStrLn "O Orc prepara sua maça enquanto você corre"
 	putStrLn "em sua direção."
 	
-	-- Inicia batalha
+	response <- Battle.startBattle character monster
+	return $ (fst response)
 
 
 rampCavern :: IO()
 rampCavern = do
+	clearScreen
 	putStrLn "Após descer a rampa e chegar no fundo da caverna"
 	putStrLn "você olha que esta caverna enorme se estende"
 	putStrLn "para cima até pelo menos 30 m, subindo alto para"
@@ -657,14 +705,15 @@ rampCavern = do
 	putStrLn "largo vazio na parede. O buraco penetra a face"
 	putStrLn "oeste da caverna e começa a cerca de 6 m de"
 	putStrLn "onde você está. O ar aqui é mais frio e úmido."
-	clearScreen
+	skip
 	putStrLn "De repente, você escuta vários passos. Não de"
 	putStrLn "humanoides, mas de um animal. Um imenso"
 	putStrLn "lobo aparece por trás de algumas pedras e"
 	putStrLn "começa a te cercar, e ele vai te atacar!"
 	-- Inicia batalha
-	clearScreen
+	skip
 	rampChoice
+	putStrLn ""
 	putStrLn "Após o combate, você percebe que pode escalar"
 	putStrLn "aqueles cabos pendurados. No entanto, também"
 	putStrLn "existe um túnel à frente"
@@ -692,15 +741,18 @@ rampProgress "1" = do
 		putStrLn "Você escala os cabos, mas devido ao escuro,"
 		putStrLn "você não consegue enxergar nada. Sua única"
 		putStrLn "opção é voltar e seguir o outro caminho."
+	
+	skip
 
 rampProgress "2" = do
 	putStrLn "Você prefere não se arriscar escalando esses"
 	putStrLn "cabos. É mais sensato manter o foco e seguir"
 	putStrLn "o caminho."
+	skip
 
 rampProgress str = do
 	putStrLn "Opção inválida!"
-	clearScreen
+	skip
 	rampChoice
 
 secretCamp :: IO()
@@ -841,7 +893,7 @@ printVariantEnding_Else = do
 	skip
 
 
-start :: IO Character -> IO ()
+start :: Character -> IO ()
 start character = do
 	monsters <- Enemies.getMonsters
 
@@ -862,14 +914,18 @@ start character = do
 		entradaMina character (monsters !! 0)
 
 		trapOn <- cavernReception
-		combatSolution <- (refectoryCavern trapOn)
+		monster' <- (monsters !! 1)
+		refectoryCavern trapOn character monster'
 
 		pantryCavern
 		rampCavern
-		corpsesGrave
+		monster3 <- (monsters !! 5)
+		corpsesGrave character monster3
 
-		jakkEnding
+		monster'' <- (monsters !! 6)
+		jakkEnding character monster''
 
 		printViolentEnding
 		printVariantEnding clincherChoice
 		printVillageFuture
+		printCredits
