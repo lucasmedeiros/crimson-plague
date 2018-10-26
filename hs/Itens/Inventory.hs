@@ -362,6 +362,5 @@ printForBattle inventory = do
 	putStrLn "|"
 	putStrLn "| "
 	putStrLn "--------------------------------------"
-	putStrLn " 1) Equipar (digite 1 e posicão do Item)"
-	putStrLn " 2) Excluir (digite 2 e slot do Item)"
-	putStrLn " 3) Voltar (digite 3)"
+	putStrLn " 1) Equipar"
+	putStrLn " 2) Voltar"

@@ -47,22 +47,8 @@ auxStartBattle char monster = do
 evaluateOption :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
 evaluateOption char monster spells option
     | (option == 1) = attack char monster spells
+    | (option == 2) = openBag char monster
     | otherwise     = tryEscape char monster
-
--- função chamada ao escolher a opção de fuga
--- avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
-tryEscape :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
-tryEscape char monster = do
-    Util.clearScreen
-    putStrLn "Você tenta fugir e..."
-    rollResult <- Util.rollDice(d20)
-    if (escaped rollResult)
-        then do
-        putStrLn "Escapou..."
-        return char
-    else do
-        putStrLn "Não consegue... O monstro está rindo de você..."
-        monsterAttack char monster
 
 -- executa um ataque do personagem
 attack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> IO Sheet.Character
@@ -154,6 +140,27 @@ charDefeated char monster =
         return newChar
     else auxStartBattle char monster
 
+-- função chamada ao escolher a opção de abrir mochila
+openBag :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
+openBag char monster = do
+    newChar <- Sheet.openBag char
+    monsterAttack newChar monster
+
+-- função chamada ao escolher a opção de fuga
+-- avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
+tryEscape :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
+tryEscape char monster = do
+    Util.clearScreen
+    putStrLn "Você tenta fugir e..."
+    rollResult <- Util.rollDice(d20)
+    if (escaped rollResult)
+        then do
+        putStrLn "Escapou..."
+        return char
+    else do
+        putStrLn "Não consegue... O monstro está rindo de você..."
+        monsterAttack char monster
+
 -- exibe a mensagem inicial de batalha
 showStartBattleMessage :: Monsters.Monster -> IO()
 showStartBattleMessage monster = do
@@ -175,7 +182,8 @@ showLife char monster = do
 showBattleMenu :: IO()
 showBattleMenu = do
     putStrLn "1) Atacar / Lançar Magia"
-    putStrLn "2) Fugir"
+    putStrLn "2) Abrir mochila"
+    putStrLn "3) Fugir"
 
 -- printa os nomes das magias disponíveis
 showSpellNames :: [Spells.Spell] -> Int -> IO()

@@ -16,12 +16,14 @@ module CharInfo.Sheet (
   takeDamage,
   getUsableSpells,
   hasEnoughMana,
+  openBag,
   recoverMP,
   die
 ) where
 
 import CharInfo.Attributes
 import CharInfo.Stats
+import Itens.Inventory
 import Util
 import qualified CharInfo.Spell as Spells
 
@@ -34,7 +36,8 @@ data Character = Character {
   name :: String,
   role :: String,
   stats :: Stats,
-  attributes :: Attributes
+  attributes :: Attributes,
+  inventory :: Inventory
 } deriving (Show)
 
 showRolesInfo = do
@@ -119,10 +122,13 @@ increaseExperience xp' character = updateStats character (addXP xp' (stats chara
 
 -- Métodos de atualização da ficha do personagem
 updateStats :: Character -> Stats -> Character
-updateStats c st = Character (name c) (role c) st (attributes c)
+updateStats c st = Character (name c) (role c) st (attributes c) (inventory c)
 
 updateAttributes :: Character -> Attributes -> Character
-updateAttributes c attr = Character (name c) (role c) (stats c) attr
+updateAttributes c attr = Character (name c) (role c) (stats c) attr (inventory c)
+
+updateInventory :: Character-> Inventory -> Character
+updateInventory c inv = Character (name c) (role c) (stats c) (attributes c) inv
 
 -- Métodos relacionados a habilidades
 spentMana :: Spells.Spell -> Character -> Character
@@ -144,6 +150,36 @@ getUsableSpells spells character = do
 
 hasEnoughMana :: Spells.Spell -> Character -> Bool
 hasEnoughMana spell character = (getMP character) >= (Spells.getMP spell)
+
+openBag :: Character -> IO Character
+openBag c = do
+  printForBattle (inventory c)
+  option <- getOption
+  if (option < 1 || option > 2) then openBag c
+  else evaluateOptionBag c option
+
+evaluateOptionBag :: Character -> Int -> IO Character
+evaluateOptionBag char option =
+  if (option == 1) then do
+    putStrLn ""
+    putStrLn "Agora para o slot..."
+    option2 <- getOption
+    if (option2 < 1 || option2 > 5) then
+      evaluateOptionBag char option
+    else do
+      let stats = consumeItem (inventory char) (option2 - 1)
+      updateStatsByItem char stats option2
+  else do return $ char
+
+updateStatsByItem :: Character -> [Int] -> Int -> IO Character
+updateStatsByItem char (x:xs) option = do
+  if (x == 0 && head (xs) == 0) then do
+    return $ char
+  else do
+    let
+      newChar = updateInventory char (removeItem (inventory char) option)
+      newChar2 = updateStats newChar (increaseHP x (stats newChar))
+    return $ updateStats newChar2 (increaseMP (head xs) (stats newChar2))
 
 mpRecoveryAmount = 1
 
@@ -167,4 +203,4 @@ createCharacter = do
   nome_entrada <- (prompt "Insira seu nome: ")
   clearScreen
   role <- chooseRole
-  return $ Character nome_entrada role fillStats (adjustAttr role)
+  return $ Character nome_entrada role fillStats (adjustAttr role) (startInventory role)
