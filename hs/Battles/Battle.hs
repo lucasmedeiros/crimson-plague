@@ -7,6 +7,8 @@ module Battles.Battle(
 import qualified Enemies.Monsters as Monsters
 import qualified CharInfo.Sheet as Sheet
 import qualified CharInfo.Spell as Spells
+import qualified Itens.Inventory as Inventory
+import qualified Itens.Item as Item
 import Util (clearScreen, getOption, rollDice)
 
 -- algumas constantes (evitando, assim, números mágicos)
@@ -132,7 +134,12 @@ monsterDefeated :: Sheet.Character -> Monsters.Monster -> IO (Sheet.Character, M
 monsterDefeated char monster =
     if (won monster) then do
         putStrLn "VITÓRIA!"
-        return (char, monster)
+        let drop = Monsters.getDrops monster
+            newChar = Sheet.addItemInventory drop char
+        item <- Inventory.getItem drop
+        let dropName = Item.getName item
+        putStrLn ("O monstro deixou cair um " ++ dropName)
+        return (newChar, monster)
     else monsterAttack char monster
 
 -- Função que verifica se o personagem morreu.
