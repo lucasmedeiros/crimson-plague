@@ -685,3 +685,95 @@ printVillageFuture = do
 	putStrLn "e ricas cidades do reino. No centro dela, há uma estatua sua,"
 	putStrLn "para relembrar quem tornou o sucesso dessa cidade possível!"
 	skip
+
+
+printViolentEnding = do
+	putStrLn "Extremamente abatido, Jakk fala baixo:"
+	putStrLn "Jakk: Eu apenas queria vingar o meu clã..."
+	putStrLn "Jakk: Infelizmente eu acho que o mal prevaleceu..."
+	putStrLn "Jakk, solta sua maça, e cai no chão."
+	skip
+
+	putStrLn "Derrotar Jakk já possui um efeito visível imediato"
+	putStrLn "nas águas da nascente, que começa a ficar limpa da sujeira"
+	putStrLn "da Febre logo após sua morte. Os sintomas"
+	putStrLn "da Febre que afetam as pessoas de Passagem de Duvik"
+	putStrLn "começaram a diminuir. E a ordem voltou a reinar na cidade."
+	skip
+
+printVillageFuture = do
+	putStrLn "Lentamente, Passagem de Duvik começou a se"
+	putStrLn "reestruturar e a prosperar novamente. Alguns"
+	putStrLn "anos depois, Passagem de Duvik se tornou uma das maiores"
+	putStrLn "e ricas cidades do reino. No centro dela, há uma estatua sua,"
+	putStrLn "para relembrar quem tornou o sucesso dessa cidade possível!"
+	skip
+
+printPacificEnding = do
+	putStrLn "Após convencer Jakk a terminar a maldição. A água"
+	putStrLn "amaldiçoada, que servia como abastecimento de Passagem"
+	putStrLn "de Duvik, foi aos poucos sendo purificada. Os sintomas"
+	putStrLn "da Febre que afetam as pessoas de Passagem de Duvik"
+	putStrLn "começaram a diminuir. E a ordem voltou a reinar na cidade."
+	skip
+
+printDefeatEnding = do
+	putStrLn "Apesar dos seus esforços, você não conseguiu derrotar Jakk."
+	putStrLn "Portanto, você não conseguiu acabar com o mal da praga."
+	putStrLn "Todos de Passagem de Duvik pereceram à doença, e a promissora cidade"
+	putStrLn "comerciante, virou apenas uma promessa do que poderia ser..."
+	skip
+
+printVariantEnding :: Char -> IO ()
+printVariantEnding choice = do
+	if 			(choice == 'a') then printVariantEnding_A
+	else if (choice == 'b') then printVariantEnding_B
+	else if (choice == 'c') then printVariantEnding_C
+	else printVariantEnding_Else
+
+printVariantEnding_A = do
+	putStrLn "O prefeito se aproxima de voce e fala:"
+	putStrLn "Prefeito: Eu só tenho a agradecer a você, nobre aventureiro"
+	putStrLn "Prefeito: Voce salvou a vida de quase todos da cidade!"
+	putStrLn "Prefeito: Aqui estão 500 peças de ouro como recompensa"
+	putStrLn "Prefeito: pelo seu feito. Sempre que você voltar,"
+	putStrLn "Prefeito: tenha a certeza que você será sempre bem recebido"
+	putStrLn "Prefeito: aqui!"
+	skip
+
+printVariantEnding_B = do
+	putStrLn "O minerador que falou com voce anteriormente, se aproxima"
+	putStrLn "e com um grande sorriso grita:"
+	putStrLn "Minerador: Eu sabia! Eu sabia que você conseguiria!"
+	putStrLn "Minerador: Voce salvou a vida de todos da cidade. E nós"
+	putStrLn "Minerador: somos extremamente gratos a você! Eu não tenho"
+	putStrLn "Minerador: muito, mas aqui está o que eu tenho, 500 peças"
+	putStrLn "Minerador: de ouro."
+	putStrLn "Minerador: Ei! Sempre que vir aqui, minha casa sempre estará"
+	putStrLn "Minerador: de portas abertas! Nós não esqueceremos de você."
+	skip
+
+printVariantEnding_C = do
+	putStrLn "A camponesa que falou com você anteriormente, se aproxima"
+	putStrLn "e com um grande sorriso fala:"
+	putStrLn "Camponesa: Voce conseguiu! Meus filhos e os outros moradores"
+	putStrLn "Camponesa: já estão melhorando e tudo isso graças a você!"
+	putStrLn "Camponesa: Não me esquecerei do que você fez aqui!"
+	putStrLn "Camponesa: Aqui estão 500 peças de ouro por tudo, que você"
+	putStrLn "Camponesa: fez. Nós da vila nos juntamos para pode pagar"
+	putStrLn "Camponesa: a você!"
+	putStrLn "Camponesa: Volte aqui de vez em quando! Tenho certeza"
+	putStrLn "Camponesa: que todos daqui adorariam te ver novamente!"
+	skip
+
+printVariantEnding_Else = do
+	putStrLn "Meruen, o seu amigo que requisitou a missão, se aproxima"
+	putStrLn "e diz:"
+	putStrLn "Meruen: Eu tinha certeza que você conseguiria"
+	putStrLn "Meruen: Você não só salvou minha vida como a de quase"
+	putStrLn "Meruen: todos daqui da vila. Somos todos muito gratos"
+	putStrLn "Meruen: a você. Aqui estão 500 peças de ouro, como uma"
+	putStrLn "Meruen: forma de agradadecimento. Por fim, volte"
+	putStrLn "Meruen: aqui de vez em quando. Seria muito bom"
+	putStrLn "Meruen: te ver novamente!"
+	skip
