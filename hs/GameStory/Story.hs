@@ -76,14 +76,16 @@ answerMessage1 = do
 		putStrLn "Meruen: Você é tão vazio quanto sua alma."
 		putStrLn "Meruen se afasta lentamente de você."
 
-answerMessage2 :: IO ()
+answerMessage2 :: IO Char
 answerMessage2 = do
 	answer <- getYesNo
 	if (answer == "s")
 		then do
 			putStrLn "Mal sei o que dizer. Muito obrigado!!"
+			return $ 'y'
 	else do
 		putStrLn "Com um olhar de desaprovação, lentamente começam a se afastar de você."
+		return $ 'n'
 
 clincherChoice1 :: IO Char
 clincherChoice1 = do
@@ -145,7 +147,7 @@ clincherChoice4 = do
 	putStrLn "Ao menos você acha isso."
 	return 'd'
 
-secondChance :: IO ()
+secondChance :: IO Char
 secondChance = do
     clearScreen
     putStrLn "Uma pessoa se aproxima de você, ela te parece familiar"
