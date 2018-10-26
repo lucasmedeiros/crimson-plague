@@ -1,12 +1,12 @@
 module GameStory.Story (
 	getYesNo,
 	adventureClincher,
-	secondChance,
-	start
+	secondChance
 ) where
 
 import Util
-import CharInfo.Sheet (Character)
+import Battles.Battle
+import CharInfo.Sheet
 
 -- algumas constantes para evitar números mágicos
 d20 :: Int
@@ -33,7 +33,7 @@ introCity = do
 	putStrLn "E você não é uma exceção. No entanto algo te parece estranho, a cidade parece bem vazia"
 	putStrLn "Você não consegue encontrar, os inúmeros animais que existiam ao redor da cidade."
 
-adventureClincher :: IO()
+adventureClincher :: IO Char
 adventureClincher = do
 	clearScreen
 	putStrLn "Você está na praça principal da cidade e, percebe"
@@ -52,31 +52,31 @@ adventureClincher = do
 	option <- Util.getOption
 	changeDirection option
 
-changeDirection :: Int -> IO()
+changeDirection :: Int -> IO Char
 changeDirection 1 = clincherChoice1
 changeDirection 2 = clincherChoice2
 changeDirection 3 = clincherChoice3
 changeDirection 4 = clincherChoice4
 changeDirection n = errorMessage
 
-errorMessage :: IO()
+errorMessage :: IO Char
 errorMessage = do
 	putStrLn "Opção inválida. Tente novamente!"
 	clearScreen
 	adventureClincher
 
-answerMessage1 :: IO()
+answerMessage1 :: IO ()
 answerMessage1 = do
     answer <- getYesNo
     if (answer == "s")
-        then do
-            putStrLn "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina."
-            putStrLn "Meruen: Muito obrigado, amigo."
-    else do
-        putStrLn "Meruen: Você é tão vazio quanto sua alma."
-        putStrLn "Meruen se afasta lentamente de você."
+		then do
+			putStrLn "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina."
+			putStrLn "Meruen: Muito obrigado, amigo."
+	else do
+		putStrLn "Meruen: Você é tão vazio quanto sua alma."
+		putStrLn "Meruen se afasta lentamente de você."
 
-answerMessage2 :: IO()
+answerMessage2 :: IO ()
 answerMessage2 = do
 	answer <- getYesNo
 	if (answer == "s")
@@ -85,7 +85,7 @@ answerMessage2 = do
 	else do
 		putStrLn "Com um olhar de desaprovação, lentamente começam a se afastar de você."
 
-clincherChoice1 :: IO()
+clincherChoice1 :: IO Char
 clincherChoice1 = do
 	clearScreen
 	putStrLn "Ao se aproximar dele, voce escuta:"
@@ -96,8 +96,9 @@ clincherChoice1 = do
 	putStrLn "Prefeito: a acabar com essa doença? Por favor, muitos já"
 	putStrLn "Prefeito: morreram com essa praga."
 	answerMessage1
+	return 'a'
 
-clincherChoice2 :: IO()
+clincherChoice2 :: IO Char
 clincherChoice2 = do
 	clearScreen
 	putStrLn "Você nao demora muito pra perceber que eles sao mineradores"
@@ -105,8 +106,9 @@ clincherChoice2 = do
 	putStrLn "Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte."
 	putStrLn "Minerador: voce parece forte. Por favor, acabe com esse mal!"
 	answerMessage1
+	return 'b'
 
-clincherChoice3 :: IO()
+clincherChoice3 :: IO Char
 clincherChoice3 = do
 	clearScreen
 	putStrLn "Voce encontra diversos moradores atonitos na vila."
@@ -133,15 +135,17 @@ clincherChoice3 = do
 		putStrLn "Senhora: Eu nao sei quanto tempo eles ainda podem aguentar... Por favor, acabe com essa praga."
 		putStrLn "Apesar de tentar disfaçar, você percebe que ela começa a chorar."
 	answerMessage1
+	return 'c'
 
-clincherChoice4 :: IO()
+clincherChoice4 :: IO Char
 clincherChoice4 = do
-    clearScreen
-    putStrLn "Isso não é problema seu. Você já tem problemas demais pra resolver."
-    putStrLn "Esses camponeses conseguem resolver esse problema sozinho."
-    putStrLn "Ao menos você acha isso."
+	clearScreen
+	putStrLn "Isso não é problema seu. Você já tem problemas demais pra resolver."
+	putStrLn "Esses camponeses conseguem resolver esse problema sozinho."
+	putStrLn "Ao menos você acha isso."
+	return 'd'
 
-secondChance :: IO()
+secondChance :: IO ()
 secondChance = do
     clearScreen
     putStrLn "Uma pessoa se aproxima de você, ela te parece familiar"
@@ -773,7 +777,6 @@ secretCampDecision str = do
 	clearScreen
 	secretCampChoice
 
-printViolentEnding :: IO ()
 printViolentEnding = do
 	putStrLn "Extremamente abatido, Jakk fala baixo:"
 	putStrLn "Jakk: Eu apenas queria vingar o meu clã..."
@@ -788,7 +791,6 @@ printViolentEnding = do
 	putStrLn "começaram a diminuir. E a ordem voltou a reinar na cidade."
 	skip
 
-printVillageFuture :: IO ()
 printVillageFuture = do
 	putStrLn "Lentamente, Passagem de Duvik começou a se"
 	putStrLn "reestruturar e a prosperar novamente. Alguns"
@@ -865,6 +867,7 @@ printVariantEnding_Else = do
 	putStrLn "Meruen: aqui de vez em quando. Seria muito bom"
 	putStrLn "Meruen: te ver novamente!"
 	skip
+
 
 start :: Character -> IO ()
 start character = do
