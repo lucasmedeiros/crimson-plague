@@ -1,13 +1,12 @@
 module GameStory.Story (
 	getYesNo,
-	introducaoCidade,
 	ganchoAventura,
 	segundaChance
 ) where
 
 import Util
 
-getYesNo :: IO String 
+getYesNo :: IO String
 getYesNo = do
 	putStrLn "O que você irá responder? "
 	putStrLn "Sim (digite s)"
@@ -40,7 +39,7 @@ ganchoAventura = do
 	putStrLn "3 - Os moradores da cidade."
 	putStrLn "4 - Ninguem."
 	putStrLn ""
-	option <- getLine
+	option <- Util.getOption
 	mudaDirecionamento option
 
 mudaDirecionamento :: Int -> IO()
@@ -56,25 +55,25 @@ errorMessage = do
 	clearScreen
 	ganchoAventura
 
-answerMessage1 :: Char -> IO()
+answerMessage1 :: IO()
 answerMessage1 = do
     answer <- getYesNo
-    if (answer == "s") 
-        then do 
+    if (answer == "s")
+        then do
             putStrLn "Meruen: Eu sempre soube que podia contar com você. Eu acredito que você deveria investigar essa mina."
             putStrLn "Meruen: Muito obrigado, amigo."
     else do
         putStrLn "Meruen: Você é tão vazio quanto sua alma."
         putStrLn "Meruen se afasta lentamente de você."
 
-answerMessage2 :: Char -> IO()
+answerMessage2 :: IO()
 answerMessage2 = do
 	answer <- getYesNo
-	if (answer == "s") 
-		then do 
+	if (answer == "s")
+		then do
 			putStrLn "Mal sei o que dizer. Muito obrigado!!"
 	else do
-		putStrLn "Com um olhar de desaprovação, lentamente começam a se afastar de você."				
+		putStrLn "Com um olhar de desaprovação, lentamente começam a se afastar de você."
 
 escolhaGancho1 :: IO()
 escolhaGancho1 = do
@@ -86,7 +85,7 @@ escolhaGancho1 = do
 	putStrLn "Prefeito: que você é um aventureiro, você poderia nos ajudar"
 	putStrLn "Prefeito: a acabar com essa doença? Por favor, muitos já"
 	putStrLn "Prefeito: morreram com essa praga."
-	answerMessage1	
+	answerMessage1
 
 escolhaGancho2 :: IO()
 escolhaGancho2 = do
@@ -109,7 +108,7 @@ escolhaGancho3 = do
 	putStrLn "2 - Onde eu posso acabar com isso?"
 	option <- getLine
 	clearScreen
-	if (option == "1") 
+	if (option == "1")
 		then do
 			 putStrLn "Senhora: Chamam de praga Carmesim, ela começa de forma inofensiva."
 			 putStrLn "Senhora: Porem, aos poucos ela vai ficando pior. Cada vez mais roubando a sua forca."
@@ -200,19 +199,19 @@ entradaMina = do
 	clearScreen
 	putStrLn "Você encontra um kobolds, ele parece hostil"
 	putStrLn "E irá atacar você! Prepare-se para o combate!"
-	
+
 	--inicia batalha
-	
+
 	putStrLn "Voce permanece por um tempo em frente a entrada"
 	putStrLn "Por um momento voce hesita em seguir em frente"
-	putStrLn "O que voce vai fazer?"	
+	putStrLn "O que voce vai fazer?"
 	clearScreen
 	putStrLn "a) Tentar analisar com mais detalhes a entrada da caverna."
 	putStrLn "b) Procurar por alguma coisa ao redor da entrada."
 	putStrLn "c) Acender uma tocha e entrar na caverna."
-	
+
 	resposta <- getLine
-	
+
 	analiseEntrada resposta
 
 	clearScreen
@@ -246,12 +245,12 @@ primeiraEscolhaEntrada = do
 	else do
 		putStrLn "Voce tenta analisar a entrada, porém não consegue"
 		putStrLn "encontrar nada relevante na estrutura."
-	
+
 	putStrLn "Você acende uma tocha e entra na caverna."
 
 segundaEscolhaEntrada :: IO()
 segundaEscolhaEntrada = do
-	
+
 	dadoObservar <- (rollDice 20)
 
 	if(dadoObservar >= 10 && dadoObservar < 15)
@@ -380,7 +379,7 @@ checkListenKnowledge = do
 	else do
 		putStrLn "Voce nao consegue entender quase nada do que estao falando."
 		putStrLn "No entanto, voce tem a impressao que sao kobolds."
-	
+
 	putStrLn "Voce abre a grande porta de madeira e enxerga:"
 
 auxCheckKnowledge :: Int -> IO()
@@ -425,7 +424,7 @@ koboldsCombatDialogue = do
 			koboldsCombatConversation
 	else do
 		startBattleKobolds
-		
+
 koboldsCombatConversation :: IO()
 koboldsCombatConversation = do
 	putStrLn "Ao comecar a falar, os kobolds apesar de receiosos"
@@ -436,7 +435,7 @@ koboldsCombatConversation = do
 	checkPersuation <- (rollDice 20)
 	choice <- getLine
 	--putStrLn "3) Eu posso pagar uma quantia generosa se vocês esquecerem que me viram. (Suborno)"
-	(koboldsCombatDialogue2 choice checkPersuation)	
+	(koboldsCombatDialogue2 choice checkPersuation)
 
 koboldsCombatDialogue2 :: String -> Int -> IO()
 koboldsCombatDialogue2 "1" n = do
@@ -474,7 +473,7 @@ startBattleKobolds = do
 refectoryCavern :: String -> IO()
 refectoryCavern str = do
 	if (str /= "s")
-		then do 
+		then do
 			checkListenKnowledge
 	else do
 		putStrLn "Ter ativado a armadilha atraiu muito a atencao daqueles que"
@@ -482,7 +481,7 @@ refectoryCavern str = do
 		putStrLn "Voce escuta muitos gritos e passos, voce imagina que eles estao"
 		putStrLn "se preparando para um combate. Ao abrir a porta você ve o seguinte:"
 		clearScreen
-	
+
 	putStrLn "Uma sala larga e quadrada abriga quatro longas mesas de"
 	putStrLn "madeira, cada uma com um banco de cada lado. Em cima"
 	putStrLn "das mesas estao um numero de tigelas de madeira e talheres."
@@ -511,16 +510,20 @@ refectoryChoice2 str = do
 	clearScreen
 	refectoryChoice
 
-pantryCavern :: String -> IO()
+pantryCavern :: IO()
 pantryCavern = do
 	putStrLn "Uma porta de madeira fechada barra a entrada para essa"
 	putStrLn "sala. Ao abrir porta você observa que esta sala longa"
-	putStrLn "e estreita possui fileiras de estantes carregadas","de alimentos e outros suprimentos. Pesados sacos"
-	putStrLn "de estopa estão empilhados até o teto no canto","oposto da câmara. Uns poucos rasgados, espalhando"
-	putStrLn "aveia e farinha no chão. Muitos barris estão", "agrupados próximos à parede norte."
-	putStrLn "Ao entrar na sala, uma armadilha é ativada!","Uma flecha é lançada em sua direção."
-	checkResistance <- (rollDice 20) 
-	if (checkResistance >= 11) 
+	putStrLn "e estreita possui fileiras de estantes carregadas"
+	putStrLn "de alimentos e outros suprimentos. Pesados sacos"
+	putStrLn "de estopa estão empilhados até o teto no canto"
+	putStrLn "oposto da câmara. Uns poucos rasgados, espalhando"
+	putStrLn "aveia e farinha no chão. Muitos barris estão"
+	putStrLn  "agrupados próximos à parede norte."
+	putStrLn "Ao entrar na sala, uma armadilha é ativada!"
+	putStrLn "Uma flecha é lançada em sua direção."
+	checkResistance <- (rollDice 20)
+	if (checkResistance >= 11)
 		then do
 			putStrLn "Por sorte, a armadilha não te acerta."
 	else do
