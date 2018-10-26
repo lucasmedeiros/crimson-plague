@@ -1,10 +1,17 @@
 module GameStory.Story (
 	getYesNo,
 	ganchoAventura,
-	segundaChance
+	segundaChance,
+	skip
 ) where
 
 import Util
+
+skip = do
+	putStrLn ""
+	putStrLn "Pressione [Enter] para continuar"
+	_ <- getLine
+	clearScreen
 
 getYesNo :: IO String
 getYesNo = do
