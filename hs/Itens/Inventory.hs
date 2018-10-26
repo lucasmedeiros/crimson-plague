@@ -11,8 +11,9 @@ module Itens.Inventory(
    	getStr,
    	getIntel,
    	getDex,
-   	consumeItem,
-
+	consumeItem,
+	printInventory,   
+	printForBattle
 ) where
 
 import qualified Database as Database
@@ -20,6 +21,7 @@ import qualified Itens.Item as Item
 import Data.List
 import Data.Maybe
 import System.IO.Unsafe
+import Util (clearScreen)
 
 ---Metodos para implementar
 -- imprimeMochila
@@ -72,7 +74,7 @@ removeItem inventory id | containsValue (slots inventory) id == False = inventor
 									 		redirectRemove inventory id index
 -- Usado por outras classes
 consumeItem :: Int -> [Int]
-consumeItem inventory id | isConsumible id == False = [0,0]
+consumeItem  id | isConsumible id == False = [0,0]
               			 | otherwise = do
                				let item = unsafePerformIO (getItem id) :: Item.Item
                				let getHp = Item.getRecHPMax (item) :: Int
@@ -272,3 +274,83 @@ equipItemAux2 inventory typeEquiped id pos = do
 							actualItem = (itensEquipped inventory) !! typeEquiped :: Int
 						   	newEquipped = addItemInEspecificPosition (itensEquipped inventory) id typeEquiped :: [Int]
 						   	newSlots = addItemInEspecificPosition (slots inventory) actualItem pos :: [Int]
+
+
+
+
+
+
+printInventory :: Inventory -> IO ()
+printInventory inventory = do
+	clearScreen
+	let eq = (itensEquipped inventory) :: [Int]
+	let nslots = (slots inventory) :: [Int]
+	let nQtd = (qtdItens inventory) :: [Int]
+	let weapon = unsafePerformIO (getItem (eq !! 1)) :: Item.Item
+	let armor = unsafePerformIO (getItem (eq !! 2)) :: Item.Item
+	let boots = unsafePerformIO (getItem (eq !! 3)) :: Item.Item
+	let helmet = unsafePerformIO (getItem (eq !! 4)) :: Item.Item
+	let shield = unsafePerformIO (getItem (eq !! 5)) :: Item.Item
+	let slot1 = unsafePerformIO (getItem (nslots !! 0)) :: Item.Item
+	let slot2 = unsafePerformIO (getItem (nslots !! 1)) :: Item.Item
+	let slot3 = unsafePerformIO (getItem (nslots !! 2)) :: Item.Item
+	let slot4 = unsafePerformIO (getItem (nslots !! 3)) :: Item.Item
+	let slot5 = unsafePerformIO (getItem (nslots !! 4)) :: Item.Item
+
+	putStrLn "-------------------------------------------------------------------------  INVENTÁRIO ----------------------------------------------------------------"
+	putStrLn "| "
+	putStrLn ("| 1.Arma : " ++ Item.getName (weapon))
+	putStrLn ("| 2.Armadura : "++ Item.getName (armor))
+	putStrLn ("| 3.Bota : "++ Item.getName (boots))
+	putStrLn ("| 4.Capacete : " ++ Item.getName (helmet))
+	putStrLn ("| 5.Escudo : " ++ Item.getName (shield))
+	putStrLn "|"
+	putStrLn "|"
+	putStrLn "|"
+	putStrLn "|"
+	putStrLn "|------------- Slots -----------------"
+	putStrLn "|"
+	putStrLn "| "
+	putStrLn ("|1. " ++ Item.getName (slot1) ++ "(x" ++  (show (nQtd !!0)) ++ ")") 
+	putStrLn ("|2. " ++ Item.getName (slot2) ++ "(x" ++ (show (nQtd !!1)) ++ ")")
+	putStrLn ("|3. " ++ Item.getName (slot3) ++ "(x" ++  (show (nQtd !!2)) ++ ")")
+	putStrLn ("|4. " ++ Item.getName (slot4) ++ "(x" ++  (show (nQtd !!3)) ++ ")")
+	putStrLn ("|5. " ++ Item.getName (slot5) ++ "(x" ++ (show (nQtd !!4)) ++ ")")
+	putStrLn "|"
+	putStrLn "| "
+	putStrLn "| "
+	putStrLn "|                                                                         " 
+	putStrLn "|"
+	putStrLn "------------------------------------------------------------------------------------------------------------------------------------------------------"
+	putStrLn " 1) Equipar (digite 1 e posicão do Item)"
+	putStrLn " 2) Excluir (digite 2 e slot do Item)"
+	putStrLn " 3) Voltar (digite 3)"
+
+printForBattle :: Inventory -> IO()
+printForBattle inventory = do
+	clearScreen
+	let nslots = (slots inventory) :: [Int]
+	let nQtd = (qtdItens inventory) :: [Int]
+	let slot1 = unsafePerformIO (getItem (nslots !! 0)) :: Item.Item
+	let slot2 = unsafePerformIO (getItem (nslots !! 1)) :: Item.Item
+	let slot3 = unsafePerformIO (getItem (nslots !! 2)) :: Item.Item
+	let slot4 = unsafePerformIO (getItem (nslots !! 3)) :: Item.Item
+	let slot5 = unsafePerformIO (getItem (nslots !! 4)) :: Item.Item
+
+	putStrLn "------------- Mochila ----------------"
+	putStrLn "|"
+	putStrLn "|"
+	putStrLn "|------------- Slots -----------------"
+	putStrLn "|"
+	putStrLn "|"
+	putStrLn ("|1. " ++ Item.getName (slot1) ++ "(x" ++  (show (nQtd !!0)) ++ ")") 
+	putStrLn ("|2. " ++ Item.getName (slot2) ++ "(x" ++ (show (nQtd !!1)) ++ ")")
+	putStrLn ("|3. " ++ Item.getName (slot3) ++ "(x" ++  (show (nQtd !!2)) ++ ")")
+	putStrLn ("|4. " ++ Item.getName (slot4) ++ "(x" ++  (show (nQtd !!3)) ++ ")")
+	putStrLn ("|5. " ++ Item.getName (slot5) ++ "(x" ++ (show (nQtd !!4)) ++ ")")
+	putStrLn "|"
+	putStrLn "| "
+	putStrLn "--------------------------------------"
+	putStrLn " 1) Equipar (digite 1 e posicão do Item)"
+	putStrLn " 2) Excluir (digite 2 e slot do Item)"
+	putStrLn " 3) Voltar (digite 3)"
