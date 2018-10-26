@@ -1,7 +1,7 @@
 module GameStory.Story (
 	getYesNo,
-	ganchoAventura,
-	segundaChance,
+	adventureClincher,
+	secondChance,
 	skip
 ) where
 
@@ -24,8 +24,8 @@ introCity = do
 	putStrLn "E você não é uma exceção. No entanto algo te parece estranho, a cidade parece bem vazia"
 	putStrLn "Você não consegue encontrar, os inúmeros animais que existiam ao redor da cidade."
 
-ganchoAventura :: IO()
-ganchoAventura = do
+adventureClincher :: IO()
+adventureClincher = do
 	clearScreen
 	putStrLn "Você está na praça principal da cidade e, percebe"
 	putStrLn "algumas pessoas que te chamam a atenção:"
@@ -41,20 +41,20 @@ ganchoAventura = do
 	putStrLn "4 - Ninguem."
 	putStrLn ""
 	option <- Util.getOption
-	mudaDirecionamento option
+	changeDirection option
 
-mudaDirecionamento :: Int -> IO()
-mudaDirecionamento 1 = escolhaGancho1
-mudaDirecionamento 2 = escolhaGancho2
-mudaDirecionamento 3 = escolhaGancho3
-mudaDirecionamento 4 = escolhaGancho4
-mudaDirecionamento n = errorMessage
+changeDirection :: Int -> IO()
+changeDirection 1 = clincherChoice1
+changeDirection 2 = clincherChoice2
+changeDirection 3 = clincherChoice3
+changeDirection 4 = clincherChoice4
+changeDirection n = errorMessage
 
 errorMessage :: IO()
 errorMessage = do
 	putStrLn "Opção inválida. Tente novamente!"
 	clearScreen
-	ganchoAventura
+	adventureClincher
 
 answerMessage1 :: IO()
 answerMessage1 = do
@@ -76,8 +76,8 @@ answerMessage2 = do
 	else do
 		putStrLn "Com um olhar de desaprovação, lentamente começam a se afastar de você."
 
-escolhaGancho1 :: IO()
-escolhaGancho1 = do
+clincherChoice1 :: IO()
+clincherChoice1 = do
 	clearScreen
 	putStrLn "Ao se aproximar dele, voce escuta:"
 	putStrLn "Prefeito: Saudações. Eu sou o prefeito dessa cidade."
@@ -88,8 +88,8 @@ escolhaGancho1 = do
 	putStrLn "Prefeito: morreram com essa praga."
 	answerMessage1
 
-escolhaGancho2 :: IO()
-escolhaGancho2 = do
+clincherChoice2 :: IO()
+clincherChoice2 = do
 	clearScreen
 	putStrLn "Você nao demora muito pra perceber que eles sao mineradores"
 	putStrLn "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:"
@@ -97,8 +97,8 @@ escolhaGancho2 = do
 	putStrLn "Minerador: voce parece forte. Por favor, acabe com esse mal!"
 	answerMessage1
 
-escolhaGancho3 :: IO()
-escolhaGancho3 = do
+clincherChoice3 :: IO()
+clincherChoice3 = do
 	clearScreen
 	putStrLn "Voce encontra diversos moradores atonitos na vila."
 	putStrLn "Uma das moradoras se aproxima de voce e diz:"
@@ -125,15 +125,15 @@ escolhaGancho3 = do
 		putStrLn "Apesar de tentar disfaçar, você percebe que ela começa a chorar."
 	answerMessage1
 
-escolhaGancho4 :: IO()
-escolhaGancho4 = do
+clincherChoice4 :: IO()
+clincherChoice4 = do
     clearScreen
     putStrLn "Isso não é problema seu. Você já tem problemas demais pra resolver."
     putStrLn "Esses camponeses conseguem resolver esse problema sozinho."
     putStrLn "Ao menos você acha isso."
 
-segundaChance :: IO()
-segundaChance = do
+secondChance :: IO()
+secondChance = do
     clearScreen
     putStrLn "Uma pessoa se aproxima de você, ela te parece familiar"
     putStrLn "quando ela fica mais próxima, você percebe que ela é um amigo de longa data, Meruen."
@@ -166,8 +166,8 @@ segundaChance = do
         putStrLn "Meruen: Então, o que você tem a dizer? Você poderia acabar com essa praga?"
     answerMessage2
 
-primeiroFinal :: IO()
-primeiroFinal = do
+firstEnding :: IO()
+firstEnding = do
     clearScreen
     putStrLn "Conclusao"
     putStrLn "Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila."
@@ -177,6 +177,7 @@ primeiroFinal = do
     putStrLn "de Passagem de Duvik enquanto nao tinham sido contaminados"
     putStrLn "A promissora cidade comerciante, se tornou apenas uma ruina"
     putStrLn "uma promessa do que poderia se tornar."
+    skip
 
 entradaMina :: IO()
 entradaMina = do
@@ -197,7 +198,7 @@ entradaMina = do
 	putStrLn "voce, a estrada gasta conduz atraves dos precipicios para o"
 	putStrLn "vale abaixo. Alem do suave assobio do vento, um completo"
 	putStrLn "silencio preenche a abertura nas montanhas."
-	clearScreen
+	skip
 	putStrLn "Você encontra um kobolds, ele parece hostil"
 	putStrLn "E irá atacar você! Prepare-se para o combate!"
 
@@ -206,7 +207,7 @@ entradaMina = do
 	putStrLn "Voce permanece por um tempo em frente a entrada"
 	putStrLn "Por um momento voce hesita em seguir em frente"
 	putStrLn "O que voce vai fazer?"
-	clearScreen
+	skip
 	putStrLn "a) Tentar analisar com mais detalhes a entrada da caverna."
 	putStrLn "b) Procurar por alguma coisa ao redor da entrada."
 	putStrLn "c) Acender uma tocha e entrar na caverna."
@@ -553,15 +554,18 @@ pantryCavern = do
 	putStrLn "Em um dos barris, você encontra duas poções de vida"
 	putStrLn "e duas poções de mana, naturalmente você guarda elas."
 	putStrLn "Elas podem ser bastante úteis no futuro."
-	--adicionar item
+	--adicionar item 2
+	--adicionar item 2
+	--adicionar item 4
+	--adicionar item 4
 	putStrLn "Após os achados, você começa a descer uma rampa que"
 	putStrLn "leva a uma parte inferior da caverna. Aos poucos "
 	putStrLn "ela vai ficando muito íngrime, a um ponto que te"
 	putStrLn "faz perder o equilíbrio e descer o resto da rampa"
 	putStrLn "deslizando a mesma."
 
-fossoCadaveres :: IO()
-fossoCadaveres = do
+corpsesGrave :: IO()
+corpsesGrave = do
 	putStrLn "Você passa pelo túnel. Ondas de calor banham"
 	putStrLn "respiração difícil. Esta caverna pequena e"
 	putStrLn "em forma de tigela possui o chão cheio de"
@@ -583,7 +587,74 @@ fossoCadaveres = do
 	putStrLn "Algo dentro de você diz que isso está perto"
 	putStrLn "de acabar. Ao calmo som de água corrente. Você"
 	putStrLn "entra no estreito túnel a leste."
-	
+
+JakkEnding :: IO()
+JakkEnding = do
+	putStrLn "Ao entrar, nessa parte da caverna, você observa um"
+	putStrLn "único pilar irregular, de pedra e cheio de um musgo"
+	putStrLn "emerge das profundezas de um lago no centro da caverna."
+	putStrLn "A água cai pelas suas laterais de uma fonte"
+	putStrLn "próxima ao seu topo, cascateando até a lagoa abaixo."
+	putStrLn "A lagoa alimenta uma larga correnteza que flui rapidamente"
+	putStrLn "ao longo da extensão da sala e então por baixo da parede de"
+	putStrLn "pedra na extremidade sul da caverna. Muitos símbolos estão"
+	putStrLn "entalhados profundamente na face de pedra do pilar, suas"
+	putStrLn "linhas apenas visíveis por baixo da luz do musgo. Uma"
+	putStrLn "sensação estranha de desconforto impregna este lugar."
+	skip
+	ReligionDice <- (rollDice 20)
+	if (ReligionDice >= 8)
+		then do
+			putStrLn "Os símbolos entalhados aqui estão escritos"
+			putStrLn "no idioma orc e servem como uma súplica a"
+			putStrLn "Gruumsh (o deus dos orcs) para destruir"
+			putStrLn "os inimigos com uma terrível pestilência."
+			putStrLn "Eles também recontam a história das minas e o destino"
+			putStrLn "do clã Garra Despedaçante."
+			skip
+	putStrLn "No centro, voce percebe uma imponente presenca"
+	putStrLn "Um grande orc, com uma armadura de metal e uma"
+	putStrLn "clava de aço na mão direita."
+	skip
+	putStrLn "O que voce vai fazer?"
+	putStrLn "1 - Tentar conversar com ele."
+	putStrLn "2 - Atacar imediatamente."
+	option <- getLine
+	if (option == "1")
+		then do
+			--inicia batalha
+	else do
+		putStrLn "O Orc prepara sua maça enquanto você corre"
+		putStrLn "em sua direção."
+		--fugiu da batalha ou nao venceu
+
+chatJakk :: IO()
+chatJakk = do
+	putStrLn "Jakk: Meu nome é Jakk, o que voce quer? Voce"
+	putStrLn "Jakk: se arricou muito para chegar aqui."
+	putStrLn "Jakk: Que tolice."
+	skip
+	putStrLn "O que voce ira responder:"
+	putStrLn "1 - O que voce sabe sobre a praga?"
+	putStrLn "2 - Eu tenho a cura, me mate e voce nunca a obtera.(Enganacao)"
+	putStrLn "3 - Nao importa o que voce sabe, eu vim aqui para lutar com voce"
+	option <- getLine
+	if (option == "1")
+		then do
+			putStrLn "Jakk: Eu que criei e estou matendo essa praga."
+			putStrLn "Jakk: Eu enfeiticei a agua para causar essa doenca."
+			putStrLn "Jakk: Portanto, cuspa logo o que voce quer ou lute comigo!"
+	else if (option == "2")
+		then do
+			putStrLn "Jakk: Pare de mentir, humano insolente!"
+			putStrLn "Jakk: Eu que criei e estou mantendo essa praga."
+			putStrLn "Jakk: Eu enfeiticei a agua para causar essa doenca."
+			putStrLn "Jakk: Entao cuspa logo o que voce quer ou lute comigo!"
+	else if (option == "3")
+		then do
+			putStrLn "Jakk: Voce nao tem uma chance, seu verme."
+
+
 
 rampCavern :: IO()
 rampCavern = do
