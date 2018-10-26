@@ -565,3 +565,107 @@ pantryCavern = do
 	putStrLn "ela vai ficando muito íngrime, a um ponto que te"
 	putStrLn "faz perder o equilíbrio e descer o resto da rampa"
 	putStrLn "deslizando a mesma."
+
+rampCavern :: IO()
+rampCavern = do
+	putStrLn "Após descer a rampa e chegar no fundo da caverna"
+	putStrLn "você olha que esta caverna enorme se estende"
+	putStrLn "para cima até pelo menos 30 m, subindo alto para"
+	putStrLn "dentro das entranhas da montanha. A iluminação"
+	putStrLn "ocasionalmente reflete pequenos grãos prateados,"
+	putStrLn "que brilham na face parede oeste da caverna."
+	putStrLn "Muitos cabos estão pendurados na beirada de um"
+	putStrLn "largo vazio na parede. O buraco penetra a face"
+	putStrLn "oeste da caverna e começa a cerca de 6 m de"
+	putStrLn "onde você está. O ar aqui é mais frio e úmido."
+	clearScreen
+	putStrLn "De repente, você escuta vários passos. Não de"
+	putStrLn "humanoides, mas de um animal. Um imenso"
+	putStrLn "lobo aparece por trás de algumas pedras e"
+	putStrLn "começa a te cercar, e ele vai te atacar!"
+	-- Inicia batalha
+	clearScreen
+	rampChoice
+	putStrLn "Após o combate, você percebe que pode escalar"
+	putStrLn "aqueles cabos pendurados. No entanto, também"
+	putStrLn "existe um túnel à frente"
+
+rampChoice :: IO()
+rampChoice = do
+	putStrLn "O que voce vai fazer?"
+	putStrLn "1) Escalar os cabos"
+	putStrLn "2) Seguir em frente"
+	choice <- getLine
+	rampProgress choice
+
+rampProgress :: String -> IO()
+rampProgress "1" = do
+	checkLook <- (rollDice 20)
+	if(checkLook >= 5)
+		then do
+			putStrLn "Aṕos escalar os cabos, você sobe em uma"
+			putStrLn "pedra e exerga uma passagem para o que"
+			putStrLn "parece um acampamento, você consegue"
+			putStrLn "exergar que existem muitos tesouros"
+			putStrLn "lá dentro."
+			--secretCamp
+	else do
+		putStrLn "Você escala os cabos, mas devido ao escuro,"
+		putStrLn "você não consegue enxergar nada. Sua única"
+		putStrLn "opção é voltar e seguir o outro caminho."
+
+rampProgress "2" = do
+	putStrLn "Você prefere não se arriscar escalando esses"
+	putStrLn "cabos. É mais sensato manter o foco e seguir"
+	putStrLn "o caminho."
+
+rampProgress str = do
+	putStrLn "Opção inválida!"
+	clearScreen
+	rampChoice
+
+secretCamp :: IO()
+secretCamp = do
+	putStrLn "Ao entrar na passagem, você encontra o acampa-"
+	putStrLn "mento dos Kobolds, usado como área de estoque"
+	putStrLn "e dormitório. Você encontra um baú e dois"
+	putStrLn "jovens Kobolds, que estão olhando para você"
+	putStrLn "e estão amedrontados. Um deles utiliza um capuz"
+	putStrLn "que parece valioso."
+	putStrLn ""
+	secretCampChoice
+
+secretCampChoice :: IO()
+secretCampChoice = do
+	putStrLn "O que voce ira fazer?"
+	putStrLn "Matar eles e ficar com a capa."
+	putStrLn "Poupar a vida deles e pegar apenas o tesouro."
+	choice <- getLine
+	putStrLn ""
+	secretCampDecision choice
+
+secretCampDecision :: String -> IO()
+secretCampDecision "1" = do
+	putStrLn "Para você, a capa é mais valiosa que a vida"
+	putStrLn "deles. Você os mata sem remorso e pega a"
+	putStrLn "capa deles, com um pouco de investigação"
+	putStrLn "você descobre que é uma capa da proteção."
+	-- Add item 42
+
+secretCampDecision "2" = do
+	putStrLn "Você poupa a vida deles, afinal, eles não"
+	putStrLn "fizeram absolutamente nada. Simplesmente não"
+	putStrLn "seria justo. Você pega três poções de vida"
+	putStrLn "e duas de mana. Logo após, você desce os cabos"
+	putStrLn "E segue o outro caminho."
+	-- Add item 1
+	-- Add item 1
+	-- Add item 1
+	-- Add item 2
+	-- Add item 2
+	-- Add xp 1000
+
+secretCampDecision str = do
+	putStrLn "Opção inválida!"
+	clearScreen
+	secretCampChoice
