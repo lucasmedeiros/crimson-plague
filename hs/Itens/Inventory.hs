@@ -4,6 +4,7 @@ module Itens.Inventory(
    	addItem,
    	equipItem,
    	removeItem,
+   	removeItemById,
    	qtdItensInBag,
    	getItem,
    	getDamage,
@@ -22,10 +23,6 @@ import Data.List
 import Data.Maybe
 import System.IO.Unsafe
 import Util (clearScreen)
-
----Metodos para implementar
--- imprimeMochila
-
 
 data Inventory = Inventory{
     slots :: [Int],
@@ -47,9 +44,9 @@ startInventory classType = do
 
 		
 initialItens :: Int -> [Int]
-initialItens classType  | classType == 1 = [34,29,35,24,39,46]
-					    | classType == 2 = [34,36,38,24,40,34]
-					    | classType == 3 = [34,37,44,24,42,34]
+initialItens classType  | classType == 1 = [34,30,36,25,40,47]
+					    | classType == 2 = [34,37,39,25,41,35]
+					    | classType == 3 = [34,38,45,25,43,35]
 
 
 
@@ -66,15 +63,19 @@ addItem inventory id
 		| isNotFull inventory == True = inventory 
 		| otherwise = redirectAdd inventory id
 
+removeItem:: Inventory -> Int -> Inventory
+removeItem inventory pos =  do
+				let id = (slots inventory) !! (pos - 1) :: Int
+				removeItemById inventory id 
 
-removeItem :: Inventory -> Int -> Inventory
-removeItem inventory id | containsValue (slots inventory) id == False = inventory
+removeItemById :: Inventory -> Int -> Inventory
+removeItemById inventory id | containsValue (slots inventory) id == False = inventory
 									 | otherwise = do
 									 		let index = searchValueInList (slots inventory) 0 id :: Int
 									 		redirectRemove inventory id index
 -- Usado por outras classes
-consumeItem :: Int -> [Int]
-consumeItem  id | isConsumible id == False = [0,0]
+consumeItemById :: Int -> [Int]
+consumeItemById id | isConsumible id == False = [0,0]
               			 | otherwise = do
                				let item = unsafePerformIO (getItem id) :: Item.Item
                				let getHp = Item.getRecHPMax (item) :: Int
@@ -82,6 +83,10 @@ consumeItem  id | isConsumible id == False = [0,0]
                				[getHp,getMp]
 
 
+consumeItem :: Inventory -> Int -> [Int]
+consumeItem inventory pos = do
+				let id = (slots inventory) !! pos :: Int
+				consumeItemById id
 
 --------------- Verificacoes ----------------
 
