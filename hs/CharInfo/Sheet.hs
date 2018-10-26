@@ -16,6 +16,8 @@ module CharInfo.Sheet (
   takeDamage,
   getUsableSpells,
   hasEnoughMana,
+  openInventory,
+  addItemInventory,
   openBag,
   recoverMP,
   die
@@ -151,6 +153,37 @@ getUsableSpells spells character = do
 hasEnoughMana :: Spells.Spell -> Character -> Bool
 hasEnoughMana spell character = (getMP character) >= (Spells.getMP spell)
 
+openInventory :: Character -> IO Character
+openInventory c = do
+  printInventory (inventory c)
+  option <- getOption
+  if (option < 1 || option > 3) then openInventory c
+  else evaluateOptionInventory c option
+-- TODO
+
+evaluateOptionInventory :: Character -> Int -> IO Character
+evaluateOptionInventory char option =
+  if (option == 1) then do
+    putStrLn ""
+    putStrLn "Informe a posição do item..."
+    option2 <- getOption
+    if (option2 < 1 || option2 > 5) then
+      evaluateOptionInventory char option
+    else do
+      return $ updateInventory char (equipItem (inventory char) option2)
+  else if (option == 1) then do
+    putStrLn ""
+    putStrLn "Informe a posição do item..."
+    option2 <- getOption
+    if (option2 < 1 || option2 > 5) then
+      evaluateOptionInventory char option
+    else do
+      return $ updateInventory char (removeItem (inventory char) option2)
+  else do return $ char
+
+addItemInventory :: Int -> Character -> Character
+addItemInventory id c = updateInventory c (addItem (inventory c) id)
+
 openBag :: Character -> IO Character
 openBag c = do
   printForBattle (inventory c)
@@ -162,7 +195,7 @@ evaluateOptionBag :: Character -> Int -> IO Character
 evaluateOptionBag char option =
   if (option == 1) then do
     putStrLn ""
-    putStrLn "Agora para o slot..."
+    putStrLn "Informe a posição do item..."
     option2 <- getOption
     if (option2 < 1 || option2 > 5) then
       evaluateOptionBag char option
@@ -173,7 +206,9 @@ evaluateOptionBag char option =
 
 updateStatsByItem :: Character -> [Int] -> Int -> IO Character
 updateStatsByItem char (x:xs) option = do
+  clearScreen
   if (x == 0 && head (xs) == 0) then do
+    putStrLn "Item não consumivel!"
     return $ char
   else do
     let
@@ -189,7 +224,6 @@ recoverMP character = do
     updateStats character (increaseMP (mpRecoveryAmount) (stats character))
   else
     character
-
 
 die :: Character -> Character
 die character = updateStats character statsUpdt
