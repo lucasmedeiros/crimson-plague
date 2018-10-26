@@ -7,12 +7,6 @@ module GameStory.Story (
 
 import Util
 
-skip = do
-	putStrLn ""
-	putStrLn "Pressione [Enter] para continuar"
-	_ <- getLine
-	clearScreen
-
 getYesNo :: IO String
 getYesNo = do
 	putStrLn "O que você irá responder? "
@@ -669,3 +663,25 @@ secretCampDecision str = do
 	putStrLn "Opção inválida!"
 	clearScreen
 	secretCampChoice
+
+printViolentEnding = do
+	putStrLn "Extremamente abatido, Jakk fala baixo:"
+	putStrLn "Jakk: Eu apenas queria vingar o meu clã..."
+	putStrLn "Jakk: Infelizmente eu acho que o mal prevaleceu..."
+	putStrLn "Jakk, solta sua maça, e cai no chão."
+	skip
+
+	putStrLn "Derrotar Jakk já possui um efeito visível imediato"
+	putStrLn "nas águas da nascente, que começa a ficar limpa da sujeira"
+	putStrLn "da Febre logo após sua morte. Os sintomas"
+	putStrLn "da Febre que afetam as pessoas de Passagem de Duvik"
+	putStrLn "começaram a diminuir. E a ordem voltou a reinar na cidade."
+	skip
+
+printVillageFuture = do
+	putStrLn "Lentamente, Passagem de Duvik começou a se"
+	putStrLn "reestruturar e a prosperar novamente. Alguns"
+	putStrLn "anos depois, Passagem de Duvik se tornou uma das maiores"
+	putStrLn "e ricas cidades do reino. No centro dela, há uma estatua sua,"
+	putStrLn "para relembrar quem tornou o sucesso dessa cidade possível!"
+	skip
