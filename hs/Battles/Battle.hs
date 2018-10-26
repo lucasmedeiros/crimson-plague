@@ -19,21 +19,16 @@ resultMagicDefense = 10
 
 resultEscape :: Int
 resultEscape = 12
+-- fim da declaração de constantes!
 
 -- inicia a batalha entre o personagem e um monstro
 -- retorna um personagem com as modificações que foram feitas
+-- as modificações podem ser: personagem perdeu vida, perdeu mana, etc...
 startBattle :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 startBattle char monster = do 
     Util.clearScreen
     showStartBattleMessage monster
     auxStartBattle char monster
-
--- exibe a mensagem inicial de batalha
-showStartBattleMessage :: Monsters.Monster -> IO()
-showStartBattleMessage monster = do
-    let monsterName = Monsters.getName (monster)
-    putStrLn "BATALHA!"
-    putStrLn ("Um "++monsterName++" se aproxima!")
 
 -- função criada para representar um "loop"
 auxStartBattle :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
@@ -47,22 +42,6 @@ auxStartBattle char monster = do
         spells <- Spells.loadAll
         let usable = Sheet.getUsableSpells spells char
         evaluateOption char monster usable option
-
--- exibe a vida do personagem e do monstro
-showLife :: Sheet.Character -> Monsters.Monster -> IO()
-showLife char monster = do
-    let hpCharacter = Sheet.getHP (char)
-    putStrLn ("Seu HP: "++ show hpCharacter)
-    let hpMonster = Monsters.getHp (monster)
-        monsterName = Monsters.getName (monster)
-    putStrLn ("HP do "++monsterName++": "++ show hpMonster)
-    putStrLn("")
-
--- exibe o menu de batalha
-showBattleMenu :: IO()
-showBattleMenu = do
-    putStrLn "1) Atacar / Lançar Magia"
-    putStrLn "2) Fugir"
 
 -- avalia opção escolhida pelo usuário no menu
 evaluateOption :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
@@ -85,10 +64,6 @@ tryEscape char monster = do
         putStrLn "Não consegue... O monstro está rindo de você..."
         monsterAttack char monster
 
--- verifica se foi possível escapar da batalha
-escaped :: Int -> Bool
-escaped rollResult = (rollResult >= resultEscape)
-
 -- executa um ataque do personagem
 attack :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> IO Sheet.Character
 attack char monster spells = do
@@ -104,7 +79,18 @@ attack char monster spells = do
             putStrLn ("Você infligiu um total de " ++ show damageCharacter ++ " danos no monstro!")
             monsterDefeated char newMonster
     else do
+        analyzeMana char monster spells rollResult
+
+-- analisa se o personagem tem mana para alguma habilidade
+analyzeMana :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
+analyzeMana char monster spells rollResult =
+    if (hasManaForSpells char spells) then
         magicalAttackOption char monster spells rollResult
+    else do
+        putStrLn "Não há mana alguma para suas habilidades..."
+        putStrLn "Você recupera 1 de MP a cada rodada..."
+        let newChar = Sheet.recoverMP char
+        monsterAttack newChar monster
 
 -- abre menu de ataque mágico do personagem
 magicalAttackOption :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
@@ -131,7 +117,7 @@ magicalAttack char monster spells rollResult option = do
         monsterDefeated newChar newMonster
     else do
         putStrLn "Sem mana suficiente..."
-        putStrLn "Você recupera 1 de mana a cada rodada..."
+        putStrLn "Você recupera 1 de MP a cada rodada..."
         let newChar = Sheet.recoverMP char
         monsterAttack newChar monster
 
@@ -150,6 +136,47 @@ monsterAttack char monster = do
         putStrLn ("E falha miseravelmente...")
         auxStartBattle char monster
 
+-- verifica se o monstro foi derrotado
+monsterDefeated :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
+monsterDefeated char monster =
+    if (won monster) then do
+        putStrLn "VITÓRIA!"
+        return char
+    else monsterAttack char monster
+
+-- Função que verifica se o personagem morreu.
+-- Caso ele tenha morrido, retorna um personagem com 1HP
+charDefeated :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
+charDefeated char monster =
+    if (lose char) then do
+        putStrLn "DERROTADO!"
+        let newChar = Sheet.die char
+        return newChar
+    else auxStartBattle char monster
+
+-- exibe a mensagem inicial de batalha
+showStartBattleMessage :: Monsters.Monster -> IO()
+showStartBattleMessage monster = do
+    let monsterName = Monsters.getName (monster)
+    putStrLn "BATALHA!"
+    putStrLn ("Um "++monsterName++" se aproxima!")
+
+-- exibe a vida do personagem e do monstro
+showLife :: Sheet.Character -> Monsters.Monster -> IO()
+showLife char monster = do
+    let hpCharacter = Sheet.getHP (char)
+    putStrLn ("Seu HP: "++ show hpCharacter)
+    let hpMonster = Monsters.getHp (monster)
+        monsterName = Monsters.getName (monster)
+    putStrLn ("HP do "++monsterName++": "++ show hpMonster)
+    putStrLn("")
+
+-- exibe o menu de batalha
+showBattleMenu :: IO()
+showBattleMenu = do
+    putStrLn "1) Atacar / Lançar Magia"
+    putStrLn "2) Fugir"
+
 -- printa os nomes das magias disponíveis
 showSpellNames :: [Spells.Spell] -> Int -> IO()
 showSpellNames [] _ = return ()
@@ -157,31 +184,6 @@ showSpellNames (x:xs) index = do
     let spellName = Spells.getName x
     putStrLn (show (index + 1) ++ " - " ++ spellName)
     showSpellNames xs (index + 1)
-
--- faz o cálculo para o dano do monstro
-calculateMonsterDMG :: Monsters.Monster -> Int -> Int
-calculateMonsterDMG monster rollResult = monsterDMG + rollResult
-                where monsterDMG = Monsters.getDmg monster
-
--- verifica se o monstro foi derrotado
-monsterDefeated :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
-monsterDefeated char monster = do
-    if (won monster) then do
-        putStrLn "VITÓRIA!"
-        putStrLn (show (Sheet.getHP char))
-        return char
-    else monsterAttack char monster
-
--- Função que verifica se o personagem morreu.
--- Caso ele tenha morrido, retorna um personagem com 1HP
-charDefeated :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
-charDefeated char monster = do
-    if (lose char) then do
-        putStrLn "DERROTADO!"
-        putStrLn (show (Sheet.getHP char))
-        let newChar = Sheet.die char
-        return newChar
-    else auxStartBattle char monster
 
 -- verifica se o personagem errou ou não o ataque
 miss :: Sheet.Character -> Monsters.Monster -> Int -> Bool
@@ -200,3 +202,19 @@ won monster = (hpMonster <= zeroHP)
 lose :: Sheet.Character -> Bool
 lose char = (hpCharacter <= zeroHP)
         where hpCharacter = Sheet.getHP char
+
+-- verifica se foi possível escapar da batalha
+escaped :: Int -> Bool
+escaped rollResult = (rollResult >= resultEscape)
+
+-- faz o cálculo para o dano do monstro
+calculateMonsterDMG :: Monsters.Monster -> Int -> Int
+calculateMonsterDMG monster rollResult = monsterDMG + rollResult
+                where monsterDMG = Monsters.getDmg monster
+
+-- verifica se o personagem tem mana para alguma habilidade
+hasManaForSpells :: Sheet.Character -> [Spells.Spell] -> Bool
+hasManaForSpells _ [] = False
+hasManaForSpells char (x:xs) =
+    if (Sheet.hasEnoughMana x char) then True
+    else hasManaForSpells char xs
