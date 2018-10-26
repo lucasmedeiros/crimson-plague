@@ -30,13 +30,6 @@ startBattle char monster = do
     showStartBattleMessage monster
     auxStartBattle char monster
 
--- exibe a mensagem inicial de batalha
-showStartBattleMessage :: Monsters.Monster -> IO()
-showStartBattleMessage monster = do
-    let monsterName = Monsters.getName (monster)
-    putStrLn "BATALHA!"
-    putStrLn ("Um "++monsterName++" se aproxima!")
-
 -- função criada para representar um "loop"
 auxStartBattle :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 auxStartBattle char monster = do
@@ -49,22 +42,6 @@ auxStartBattle char monster = do
         spells <- Spells.loadAll
         let usable = Sheet.getUsableSpells spells char
         evaluateOption char monster usable option
-
--- exibe a vida do personagem e do monstro
-showLife :: Sheet.Character -> Monsters.Monster -> IO()
-showLife char monster = do
-    let hpCharacter = Sheet.getHP (char)
-    putStrLn ("Seu HP: "++ show hpCharacter)
-    let hpMonster = Monsters.getHp (monster)
-        monsterName = Monsters.getName (monster)
-    putStrLn ("HP do "++monsterName++": "++ show hpMonster)
-    putStrLn("")
-
--- exibe o menu de batalha
-showBattleMenu :: IO()
-showBattleMenu = do
-    putStrLn "1) Atacar / Lançar Magia"
-    putStrLn "2) Fugir"
 
 -- avalia opção escolhida pelo usuário no menu
 evaluateOption :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
@@ -102,7 +79,7 @@ attack char monster spells = do
             putStrLn ("Você infligiu um total de " ++ show damageCharacter ++ " danos no monstro!")
             monsterDefeated char newMonster
     else do
-        magicalAttackOption char monster spells rollResult
+        analyzeMana char monster spells rollResult
 
 -- analisa se o personagem tem mana para alguma habilidade
 analyzeMana :: Sheet.Character -> Monsters.Monster -> [Spells.Spell] -> Int -> IO Sheet.Character
@@ -159,14 +136,6 @@ monsterAttack char monster = do
         putStrLn ("E falha miseravelmente...")
         auxStartBattle char monster
 
--- printa os nomes das magias disponíveis
-showSpellNames :: [Spells.Spell] -> Int -> IO()
-showSpellNames [] _ = return ()
-showSpellNames (x:xs) index = do
-    let spellName = Spells.getName x
-    putStrLn (show (index + 1) ++ " - " ++ spellName)
-    showSpellNames xs (index + 1)
-
 -- verifica se o monstro foi derrotado
 monsterDefeated :: Sheet.Character -> Monsters.Monster -> IO Sheet.Character
 monsterDefeated char monster =
@@ -184,6 +153,37 @@ charDefeated char monster =
         let newChar = Sheet.die char
         return newChar
     else auxStartBattle char monster
+
+-- exibe a mensagem inicial de batalha
+showStartBattleMessage :: Monsters.Monster -> IO()
+showStartBattleMessage monster = do
+    let monsterName = Monsters.getName (monster)
+    putStrLn "BATALHA!"
+    putStrLn ("Um "++monsterName++" se aproxima!")
+
+-- exibe a vida do personagem e do monstro
+showLife :: Sheet.Character -> Monsters.Monster -> IO()
+showLife char monster = do
+    let hpCharacter = Sheet.getHP (char)
+    putStrLn ("Seu HP: "++ show hpCharacter)
+    let hpMonster = Monsters.getHp (monster)
+        monsterName = Monsters.getName (monster)
+    putStrLn ("HP do "++monsterName++": "++ show hpMonster)
+    putStrLn("")
+
+-- exibe o menu de batalha
+showBattleMenu :: IO()
+showBattleMenu = do
+    putStrLn "1) Atacar / Lançar Magia"
+    putStrLn "2) Fugir"
+
+-- printa os nomes das magias disponíveis
+showSpellNames :: [Spells.Spell] -> Int -> IO()
+showSpellNames [] _ = return ()
+showSpellNames (x:xs) index = do
+    let spellName = Spells.getName x
+    putStrLn (show (index + 1) ++ " - " ++ spellName)
+    showSpellNames xs (index + 1)
 
 -- verifica se o personagem errou ou não o ataque
 miss :: Sheet.Character -> Monsters.Monster -> Int -> Bool
