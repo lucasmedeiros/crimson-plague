@@ -2,9 +2,11 @@ import qualified CharInfo.Sheet as Sheet
 import qualified CharInfo.Spell as Spells
 import qualified Enemies.Monsters as Monsters
 import qualified Itens.Item as Item
+import qualified GameStory.Story as Story
 
 main = do
-  character <- Sheet.createCharacter
+  let character = Sheet.createCharacter
+  character
   -- Inicializa lista de habilidades
   spells <- Spells.loadAll
   -- Inicializa lista de monstros
@@ -12,5 +14,4 @@ main = do
 
   -- Inicializa lista de itens, mas não é necessario passar como parametro no inventario
   itens <- Item.loadAll
-
-  return character
+  Story.start character

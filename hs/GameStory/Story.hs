@@ -1,11 +1,13 @@
 module GameStory.Story (
 	getYesNo,
 	adventureClincher,
-	secondChance
+	secondChance,
+	start
 ) where
 
-import Util
-import Battles.Battle
+import Util 
+import qualified Battles.Battle as Battle
+import qualified Enemies.Monsters as Enemies
 import CharInfo.Sheet
 
 -- algumas constantes para evitar números mágicos
@@ -26,12 +28,14 @@ getYesNo = do
 
 introCity :: IO()
 introCity = do
+	clearScreen
 	putStrLn "Uma manhã ensolarada, você se encontra em Passagem de Duvik, uma pequena cidade"
 	putStrLn "situada em um dos pequenos vales que cruzam as Montanhas Serpente."
 	putStrLn "Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros"
 	putStrLn "procurando descansar membros doloridos e afogar memórias ruins dentro de seus portões."
 	putStrLn "E você não é uma exceção. No entanto algo te parece estranho, a cidade parece bem vazia"
 	putStrLn "Você não consegue encontrar, os inúmeros animais que existiam ao redor da cidade."
+	skip
 
 adventureClincher :: IO Char
 adventureClincher = do
@@ -194,8 +198,8 @@ firstEnding = do
     putStrLn "uma promessa do que poderia se tornar."
     skip
 
-entradaMina :: IO()
-entradaMina = do
+entradaMina :: IO Character -> IO Enemies.Monster -> IO Character
+entradaMina character monster = do
 	clearScreen
 	putStrLn "Entrada da caverna"
 	putStrLn "Apos algumas horas de caminhada, voce chega na caverna."
@@ -217,7 +221,10 @@ entradaMina = do
 	putStrLn "Você encontra um kobolds, ele parece hostil"
 	putStrLn "E irá atacar você! Prepare-se para o combate!"
 
-	--inicia batalha
+	monster' <- monster
+	character' <- character
+	response <- (Battle.startBattle character' monster')
+	let updatedCharacter = fst response
 
 	putStrLn "Voce permanece por um tempo em frente a entrada"
 	putStrLn "Por um momento voce hesita em seguir em frente"
@@ -228,10 +235,9 @@ entradaMina = do
 	putStrLn "c) Acender uma tocha e entrar na caverna."
 
 	resposta <- getLine
-
 	analiseEntrada resposta
-
 	clearScreen
+	return $ updatedCharacter
 
 analiseEntrada :: String -> IO()
 analiseEntrada "a" = primeiraEscolhaEntrada
@@ -633,46 +639,10 @@ jakkEnding = do
 	putStrLn "Um grande orc, com uma armadura de metal e uma"
 	putStrLn "clava de aço na mão direita."
 	skip
-	putStrLn "O que voce vai fazer?"
-	putStrLn "1 - Tentar conversar com ele."
-	putStrLn "2 - Atacar imediatamente."
-	option <- getLine
-	if (option == "1")
-		then do
-			putStrLn "AQUI INICIA UMA BATALHA..."
-			--inicia batalha
-	else do
-		putStrLn "O Orc prepara sua maça enquanto você corre"
-		putStrLn "em sua direção."
-		--fugiu da batalha ou nao venceu
-
-chatJakk :: IO()
-chatJakk = do
-	putStrLn "Jakk: Meu nome é Jakk, o que voce quer? Voce"
-	putStrLn "Jakk: se arricou muito para chegar aqui."
-	putStrLn "Jakk: Que tolice."
-	skip
-	putStrLn "O que voce ira responder:"
-	putStrLn "1 - O que voce sabe sobre a praga?"
-	putStrLn "2 - Eu tenho a cura, me mate e voce nunca a obtera.(Enganacao)"
-	putStrLn "3 - Nao importa o que voce sabe, eu vim aqui para lutar com voce"
-	option <- getLine
-	if (option == "1")
-		then do
-			putStrLn "Jakk: Eu que criei e estou matendo essa praga."
-			putStrLn "Jakk: Eu enfeiticei a agua para causar essa doenca."
-			putStrLn "Jakk: Portanto, cuspa logo o que voce quer ou lute comigo!"
-	else if (option == "2")
-		then do
-			putStrLn "Jakk: Pare de mentir, humano insolente!"
-			putStrLn "Jakk: Eu que criei e estou mantendo essa praga."
-			putStrLn "Jakk: Eu enfeiticei a agua para causar essa doenca."
-			putStrLn "Jakk: Entao cuspa logo o que voce quer ou lute comigo!"
-	else if (option == "3")
-		then do
-			putStrLn "Jakk: Voce nao tem uma chance, seu verme."
-	else do putStr ""
-
+	putStrLn "O Orc prepara sua maça enquanto você corre"
+	putStrLn "em sua direção."
+	
+	-- Inicia batalha
 
 
 rampCavern :: IO()
@@ -871,19 +841,25 @@ printVariantEnding_Else = do
 	skip
 
 
-start :: Character -> IO ()
+start :: IO Character -> IO ()
 start character = do
+	monsters <- Enemies.getMonsters
+
 	let updatedCharacter = character
 	introCity
 
 	clincherChoice <- adventureClincher
-	let secondChanceChoice = (if clincherChoice == 'd' then secondChance else 'y')
+	secondChanceChoice <- (
+		if clincherChoice == 'd' then do
+			secondChance
+		else do
+			return $ 'y')
 
 	if (secondChanceChoice == 'n') then do
 		firstEnding
 		printCredits
 	else do
-		entradaMina
+		entradaMina character (monsters !! 0)
 
 		trapOn <- cavernReception
 		combatSolution <- (refectoryCavern trapOn)
@@ -892,7 +868,7 @@ start character = do
 		rampCavern
 		corpsesGrave
 
-		finalJakk
+		jakkEnding
 
 		printViolentEnding
 		printVariantEnding clincherChoice
