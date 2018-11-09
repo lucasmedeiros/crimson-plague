@@ -17,7 +17,6 @@ Componentes:
 - Jadson Luan;
 - Jessé Souza;
 - Lucas de Medeiros;
-- Marcella Siqueira;
 - Mikael Brasileiro.
 
 Professor: Éverton L. G. Alves
