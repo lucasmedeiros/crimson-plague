@@ -21,7 +21,7 @@ item(39,"Manto simples","Manto de magos aprendizes").
 item(40,"Capacete de Latão","Capacete simples de jovens aventureiros").
 item(41,"Chapéu inicial","Vestimentas simples para cosplayers de magos").
 item(45,"Sobretudo de Couro","Dizem que você ganha mais agilidade com ele,mesmo que não faça sentido").
-item(47,"EScudo simples","Escudo simples feito de madeira").
+item(47,"Escudo simples","Escudo simples feito de madeira").
 
 
 % Estrutura do equipavel: id dano atrbArm atrbForca atrbDest atrbIntel tipoEquipavel 

@@ -1,6 +1,5 @@
 setup_bd_itens:-
-	reconsult('bd_Itens.pl').
-
+	consult('bd_Itens.pl').
 
 % --------------- GETS -------------------
 
@@ -31,3 +30,11 @@ getIntelig(Id,Intel):-
 getType(Id,Type):-
 	setup_bd_itens,
 	equipavel(Id,_,_,_,_,_,Type).
+
+isEquipable(Id):-
+	setup_bd_itens,
+	equipavel(Id,_,_,_,_,_,_).
+
+getAtrb(Id,HP,MP):-
+	setup_bd_itens,
+	consumivel(Id,HP,MP).
