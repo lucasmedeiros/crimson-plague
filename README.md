@@ -1,6 +1,4 @@
-![plague](https://cdn1.iconfinder.com/data/icons/monocromatic-vol-1/24/bio-hazard-512.png)
-
-# Crimson Plague:
+# Crimson Plague ☣️:
 
 Jogo de RPG chamado Crimson Plague, feito para o projeto da disciplina de PLP (Paradigmas de Linguagem de Programação) - UFCG 2018.
 
