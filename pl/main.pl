@@ -3,6 +3,7 @@
 classe("1", "guerreiro").
 classe("2", "mago").
 classe("3", "ladino").
+classe("0", ).
 
 escolheClasse() :-
     writeln("0) Informações"),
