@@ -16,12 +16,13 @@ Partindo do princípio de que qualquer problema de computação deve ser possív
 - Implementação em Prolog [aqui](https://github.com/LukeHxH/crimson-plague/tree/master/pl)
 
 ## Componentes:
-- Jadson Luan;
-- Jessé Souza;
-- Lucas de Medeiros;
-- Mikael Brasileiro.
+- [Jadson Luan](https://github.com/jadsonluan);
+- [Jessé Souza](https://github.com/jessesouza21);
+- [Lucas de Medeiros](https://github.com/LukeHxH);
+- [Mikael Brasileiro](https://github.com/Mikaelbfaa).
 
 Professor: Éverton L. G. Alves
 
 ## Especificação do projeto:
+
 https://docs.google.com/document/d/1feBUv065swe0NQHP5fwrXVWxD-tYL29CKwCvG25VflQ/
