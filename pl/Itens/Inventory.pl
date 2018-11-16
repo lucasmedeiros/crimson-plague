@@ -1,6 +1,8 @@
+% Falta apenas o print do inventário completo e iniciar os itens dependendo da classe do personagem
+
+
 setup_Itens:-
 	consult('itens.pl').
-
 
 % --------------------- LISTS AND GETS ---------------------
 :- dynamic(equipped/1).
@@ -25,7 +27,14 @@ getEquipped(Z):-
 
 % ------------------- MANIPULATE ITENS ---------------------
 
-% Equip Item
+% Equipa item a partir da sua posicao na lista
+
+equip(Pos):-
+	getBag(X),
+	RealPos is Pos - 1,
+	findValueByIndex(RealPos,X,Id),
+	equipItem(Id, RealPos).
+
 
 % Add item in Bag (CHECKED).
 
@@ -33,7 +42,7 @@ addItem(Id):-
 	setup_Itens,
 	isItem(Id),
 	getBag(A),
-	nth0(X,A,Id) ->
+	nth0(_,A,Id) ->
 		isConsumible(Id),
 		addQtdItem(Id);
 
@@ -42,20 +51,18 @@ addItem(Id):-
 	asserta(bag(Y)),
 	addQtdItem(Id).
 
-% Remove item da b0ag (CHECKED)
+% Remove item da bag pela posicao (CHECKED)
 
-removeItem(Id):-
+remove(Pos):-
 	getBag(X),
-	getQtd(Y),
-	findIndexByValue(Id,X,Index),
-	findValueByIndex(Index,Y,Qtd),
-	Qtd > 1 -> removeNoSoloItem(Id);
-	removeSoloItem(Id).  	
+	Index is Pos - 1,
+	findValueByIndex(Index,X, Id),
+	removeById(Id).
+	
 
 % Retorna atributos do item consumivel (MP E HP)
 
 consumeItem(Id,MP,HP):-
-	removeItem(Id),
 	setup_Itens,
 	getAtrbConsumable(Id,MP,HP).
 
@@ -160,6 +167,38 @@ addQtdItem(Id):-
 	replace(Nq,Index,Y,[],NewQtd),
 	asserta(qtd(NewQtd)).
 
+
+% Equipa item da bag pelo id (CHECKED)
+
+equipItem(IdBag, RealPos):-
+	getBag(X),
+	getEquipped(Y),
+	setup_Itens,
+	
+	getType(IdBag,Type),
+	PosType is Type - 1,
+
+	findValueByIndex(PosType,Y,IdEquiped),
+
+	retract(bag(X)),
+	retract(equipped(Y)),
+
+	replace(IdEquiped,RealPos,X,[],NewBag),
+	replace(IdBag,PosType,Y,[],NewEquipped),
+
+	asserta(bag(NewBag)),
+	asserta(equipped(NewEquipped)).
+
+
+% Remove item da bag pelo id (CHECKED)
+
+removeById(Id):-
+	getBag(X),
+	getQtd(Y),
+	findIndexByValue(Id,X,Index),
+	findValueByIndex(Index,Y,Qtd),
+	Qtd > 1 -> removeNoSoloItem(Id);
+	removeSoloItem(Id).  
 
 % Função aux para somar o Dano total
 sumDAM([],0).
