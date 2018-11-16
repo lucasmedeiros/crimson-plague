@@ -35,6 +35,14 @@ isEquipable(Id):-
 	setup_bd_itens,
 	equipavel(Id,_,_,_,_,_,_).
 
-getAtrb(Id,HP,MP):-
+getAtrbConsumable(Id,HP,MP):-
 	setup_bd_itens,
 	consumivel(Id,HP,MP).
+
+isItem(Id):-
+	setup_bd_itens,
+	item(Id,_,_).
+
+isConsumible(Id):-
+	setup_bd_itens,
+	consumivel(Id,_,_).

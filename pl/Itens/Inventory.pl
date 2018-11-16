@@ -12,48 +12,68 @@ bag([34,34,34,34,34]).
 :- dynamic(qtd/1).
 qtd([0,0,0,0,0]).
 
+getBag(X):-
+	bag(X).
+
+getQtd(Y):-
+	qtd(Y).
+
+getEquipped(Z):-
+	equipped(Z).
 
 % -------------------- PREDICATES --------------------------
 
 % ------------------- MANIPULATE ITENS ---------------------
+
 % Equip Item
 
-equipItem(Id):-
-	setup_Itens,
-	isEquipable(Id),
-	retract(equipped(X)),
-	replaceItem(Id,34,X,Y),
-	asserta(equipped(Y)).
-
-% Add item in Bag
+% Add item in Bag (CHECKED).
 
 addItem(Id):-
+	setup_Itens,
+	isItem(Id),
+	getBag(A),
+	nth0(X,A,Id) ->
+		isConsumible(Id),
+		addQtdItem(Id);
+
 	retract(bag(X)),
 	replaceItem(Id,34,X,Y),
-	asserta(bag(Y)).
+	asserta(bag(Y)),
+	addQtdItem(Id).
 
 
-% Remove item in Bag
+% Remove item in Bag (CHECKED)
 
 removeItem(Id):-
-	retract(bag(X)),
-	replaceItem(34,Id,X,Y),
-	asserta(bag(Y)).
+	getBag(X),
+	getQtd(Y),
+	findIndexByValue(Id,X,Index),
+	findValueByIndex(Index,Y,Qtd),
+	Qtd > 1 -> removeNoSoloItem(Id);
+	removeSoloItem(Id).  	
 
 % Consume item in bag and return Mp and Hp
 
 consumeItem(Id,MP,HP):-
 	removeItem(Id),
 	setup_Itens,
-	getAtrb(Id,MP,HP).
+	getAtrbConsumable(Id,MP,HP).
 
-% ------------------- GET ATRIBUTES ---------------------
+
+% ------------------- GET ATRIBUTES (ALL CHECKED) ---------------------
 
 % Sum damage of the equipped itens 
 
 sumDamage(Dam):-
 	equipped(X),
 	sumDAM(X,Dam).
+
+% Sum armor of the equipped itens
+
+sumArmor(Arm):-
+	equipped(X),
+	sumARM(X,Arm).
 
 % Sum streigth of the equipped itens
 
@@ -74,12 +94,65 @@ sumAgility(Dex):-
 	sumDEX(X,Dex).
 
 
-
 % ------------------ AUX PREDICATES ------------------------
 
-replaceItem(NewValue,OldValue,[],[]).
+replaceItem(_,_,[],[]):- !.
 replaceItem(NewValue,OldValue,[OldValue|T],[NewValue|T]).
 replaceItem(NewValue,OldValue,[H|T],[H|T1]):- replaceItem(NewValue,OldValue,T,T1).
+
+% CHECK
+findIndexByValue(E,[E|_],0):- !.
+findIndexByValue(E,[_|T],I):- findIndexByValue(E,T,X), I is X + 1.
+
+% CHECK
+findValueByIndex(0, [H|_], H):- !.
+findValueByIndex(I, [_|T], E):- X is I - 1, findValueByIndex(X, T, E).
+
+replace(_,_,[],_,_).
+replace(V,0,[_|T],E,U):- append(E,[V],Y), append(Y,T,U).
+replace(V,I,[X|T],E,U):- In is I - 1,append(E,[X],Y),replace(V,In,T,Y,U).
+
+
+removeSoloItem(Id):-
+	getQtd(Y),
+	getBag(X),
+
+	findIndexByValue(Id,X,Index),
+
+	retract(bag(X)),
+	retract(qtd(Y)),
+	
+	replace(34,Index,X,[],NewBag),
+	replace(0,Index,Y,[],NewQtd),
+
+	asserta(bag(NewBag)),
+	asserta(qtd(NewQtd)).
+
+
+removeNoSoloItem(Id):-
+	getQtd(Y),
+	getBag(X),
+
+	findIndexByValue(Id,X,Index),
+	findValueByIndex(Index,Y,Qtd),
+	Nq is Qtd - 1,
+
+	retract(qtd(Y)),
+	replace(Nq,Index,Y,[],NewQtd),
+	asserta(qtd(NewQtd)).
+
+
+addQtdItem(Id):-
+	retract(qtd(Y)),
+	getBag(X),
+
+	findIndexByValue(Id,X,Index),
+	findValueByIndex(Index,Y,Qtd),
+	Nq is Qtd +1,
+
+	replace(Nq,Index,Y,[],NewQtd),
+	asserta(qtd(NewQtd)).
+
 
 
 sumDAM([],0).
@@ -106,35 +179,28 @@ sumDEX([X|T],Y):-
 	 getAgility(X,DEX),
 	 sumDEX(T,Z), Y is Z+DEX.
 
+sumARM([],0).
+sumARM([X|T],Y):-
+	setup_Itens,
+	getArmor(X,ARM),
+	sumARM(T,Z), Y is Z+ARM.
 
-printInventory:-
+% ------------------------------------ PRINT --------------------------------------
 
-	writeln("-------------------------------------------------------------------------  INVENTÁRIO ----------------------------------------------------------------"),
-	writeln("| "),
-	% atom_concat("| 1.Arma : ", "Ola",X),
-	% writeln(X),
-	% writeln("| 2.Armadura : "++ Item.getName (armor)).
-	% writeln("| 3.Bota : "++ Item.getName (boots)).
-	% writeln("| 4.Capacete : " ++ Item.getName (helmet)).
-	% writeln("| 5.Escudo : " ++ Item.getName (shield)).
-	writeln("|"),
-	writeln("|"),
-	writeln("|"),
-	writeln("|"),
-	writeln("|------------- Slots -----------------"),
-	writeln("|"),
-	writeln("|"),
-	% writeln("|1. " ++ Item.getName (slot1) ++ "(x" ++  (show (nQtd !!0)) ++ ")") 
-	% writeln("|2. " ++ Item.getName (slot2) ++ "(x" ++ (show (nQtd !!1)) ++ ")")
-	% writeln("|3. " ++ Item.getName (slot3) ++ "(x" ++  (show (nQtd !!2)) ++ ")")
-	% writeln("|4. " ++ Item.getName (slot4) ++ "(x" ++  (show (nQtd !!3)) ++ ")")
-	% writeln("|5. " ++ Item.getName (slot5) ++ "(x" ++ (show (nQtd !!4)) ++ ")")
-	writeln("|"),
-	writeln("|"),
-	writeln("|"),
-	writeln("|"), 
-	writeln("|"),
-	writeln("------------------------------------------------------------------------------------------------------------------------------------------------------").
+printInBag(Index,X):-
+	setup_Itens,
+	qtd(C),
+	bag(A),
+	findValueByIndex(Index,A,Id),
+	getName(Id,Name),
+	findValueByIndex(Index,C,Qtd),
+	Ind is Index+1,
+	string_concat(Ind,".",Indice),
+	string_concat(Indice,Name,String1),
+	string_concat(String1,"(x",String2),
+	string_concat("|",String2,String3),
+	string_concat(String3,Qtd,String4),
+	string_concat(String4,")",X).
 
 printBag:-
 	printInBag(0,Item1),
@@ -159,33 +225,4 @@ printBag:-
 	writeln("--------------------------------------"),
 	writeln(" 1) Equipar"),
 	writeln(" 2) Voltar").
-
-
-% Format Item for output
-
-printInBag(Index,X):-
-	setup_Itens,
-	qtd(C),
-	bag(A),
-	getItemInList(Index,A,Id),
-	getName(Id,Name),
-	getItemInList(Index,C,Qtd),
-	Ind is Index+1,
-	string_concat(Ind,".",Indice),
-	string_concat(Indice,Name,String1),
-	string_concat(String1,"(x",String2),
-	string_concat("|",String2,String3),
-	string_concat(String3,Qtd,String4),
-	string_concat(String4,")",X).
-
-
-% Get item in a especific position in a list
-
-getItemInList(0,[H|_],H).
-getItemInList(I,[_|T],E):- Z is I - 1, getItemInList(Z,T,E).
-
-% Add item in a index of a list
-
-addItemInIndex(0,Value,[H|_],[Value|_]).
-addItemInIndex(I,Value,[_,T], E):- Z is I - 1, addItemInIndex(Z,Value,T,E).
  
