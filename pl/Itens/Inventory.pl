@@ -276,3 +276,41 @@ printBag:-
 	writeln(" 1) Equipar"),
 	writeln(" 2) Voltar").
  
+getNameEquiped(Pos,Name):-
+	setup_Itens,
+	getEquipped(Y),
+	findValueByIndex(Pos,Y,Item1),
+	getName(Item1,Name).
+
+printInventory:-
+	getNameEquiped(0,ARMA),
+	getNameEquiped(1,ARMADURA),
+	getNameEquiped(2,BOTAS),
+	getNameEquiped(3,CAPACETE),
+	getNameEquiped(4,ESCUDO),
+
+	writeln("-------------------------------------------------------------------------  INVENTÁRIO ----------------------------------------------------------------"),
+	writeln("|"),
+	string_concat("| 1.Arma : ",ARMA,ArmaString),
+	writeln(ArmaString),
+	string_concat("| 2.Armadura : ",ARMADURA,ArmorString),
+	writeln(ArmorString),
+	string_concat("| 3.Bota : ",BOTAS,BootString),
+	writeln(BootString),
+	string_concat("| 4.Capacete : ",CAPACETE,HelmetString),
+	writeln(HelmetString),
+	string_concat("| 5.Escudo : ",ESCUDO,ShieldString),
+	writeln(ShieldString),
+	writeln("|"),
+	writeln("|"),
+	writeln("|"),
+	writeln("|"),
+	printBag,
+	writeln("|"),
+	writeln("|"),
+	writeln("|"),                                                                        
+	writeln("|"),
+	writeln("------------------------------------------------------------------------------------------------------------------------------------------------------").
+	
+
+ 	
