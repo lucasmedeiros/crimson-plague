@@ -24,6 +24,18 @@ getEquipped(Z):-
 	equipped(Z).
 
 % -------------------- PREDICATES --------------------------
+% --------------------    START   --------------------------
+
+startInventory(ClassCharacter):-
+	ClassCharacter == "mago" -> startEquipments([37,39,25,41,34]);
+	ClassCharacter == "ladino" -> startEquipments([32,45,25,44,34]);
+	startEquipments([30,36,25,40,47]).
+
+startEquipments(A):-
+	getEquipped(X),
+	retract(equipped(X)),
+	asserta(equipped(A)).
+
 
 % ------------------- MANIPULATE ITENS ---------------------
 
@@ -252,7 +264,12 @@ printInBag(Index,X):-
 	string_concat(String3,Qtd,String4),
 	string_concat(String4,")",X).
 
+
 printBag:-
+	bagPrint,
+	options.
+
+bagPrint:-
 	printInBag(0,Item1),
 	printInBag(1,Item2),
 	printInBag(2,Item3),
@@ -272,15 +289,18 @@ printBag:-
 	writeln(Item5),
 	writeln("|"),
 	writeln("| "),
-	writeln("--------------------------------------"),
-	writeln(" 1) Equipar"),
-	writeln(" 2) Voltar").
- 
+	writeln("--------------------------------------").
+
+
 getNameEquiped(Pos,Name):-
 	setup_Itens,
 	getEquipped(Y),
 	findValueByIndex(Pos,Y,Item1),
 	getName(Item1,Name).
+
+options:-
+	writeln(" 1) Equipar"),
+	writeln(" 2) Voltar").
 
 printInventory:-
 	getNameEquiped(0,ARMA),
@@ -305,7 +325,8 @@ printInventory:-
 	writeln("|"),
 	writeln("|"),
 	writeln("|"),
-	printBag,
+	write("|"),
+	bagPrint,
 	writeln("|"),
 	writeln("|"),
 	writeln("|"),                                                                        

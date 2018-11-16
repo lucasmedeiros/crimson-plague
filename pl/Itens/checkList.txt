@@ -1,0 +1,4 @@
+Things TODO:
+	- equipar itens so no lugar certo e ele da switch com o item na bag
+	- equipa adiciona ou diminui a quantidade na lista de qtd
+	- 

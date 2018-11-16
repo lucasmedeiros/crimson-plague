@@ -20,6 +20,7 @@ item(37,"Cajado simples","cajado para magos inexperientes").
 item(39,"Manto simples","Manto de magos aprendizes").
 item(40,"Capacete de Latão","Capacete simples de jovens aventureiros").
 item(41,"Chapéu inicial","Vestimentas simples para cosplayers de magos").
+item(44,"Capuz de veludo","Última moda entre os ladinos mais estilosos").
 item(45,"Sobretudo de Couro","Dizem que você ganha mais agilidade com ele,mesmo que não faça sentido").
 item(47,"Escudo simples","Escudo simples feito de madeira").
 
@@ -41,6 +42,7 @@ equipavel(37,5,0,0,0,1,1).
 equipavel(39,0,3,0,0,1,2).
 equipavel(40,0,2,1,0,0,4).
 equipavel(41,0,1,0,0,1,4).
+equipavel(44,0,2,0,3,0,4).
 equipavel(45,0,2,0,2,0,4).
 equipavel(47,0,2,0,0,0,5).
 
