@@ -1,4 +1,13 @@
-% Falta apenas o print do inventário completo e iniciar os itens dependendo da classe do personagem
+% FUNCOES DO INVENTARIO:
+	
+	% start(Classe) - Inicia o inventário com os itens iniciais a partir da classe do personagem 
+	% add(Id) - Adiciona um item a bag a partir do ID
+	% remove(Pos) - Remove um item a partir da posição na bag
+ 	% equip(Pos) - Equipa um item da bag a partir da sua posicao  
+	% getAtrbConsumable(Id,MP,HP) - Retorna o MP e HP de um item consumivel pelo id
+	% sumDamage - Retorna o dano total dos itens equipados
+	% sumAtrb - Retorna o valor total do atributo principal nos itens equipados
+ 
 
 
 setup_Itens:-
@@ -26,18 +35,15 @@ getEquipped(Z):-
 % -------------------- PREDICATES --------------------------
 % --------------------    START   --------------------------
 
-startInventory(ClassCharacter):-
-	ClassCharacter == "mago" -> startEquipments([37,39,25,41,34]);
-	ClassCharacter == "ladino" -> startEquipments([32,45,25,44,34]);
-	startEquipments([30,36,25,40,47]).
-
-startEquipments(A):-
-	getEquipped(X),
-	retract(equipped(X)),
-	asserta(equipped(A)).
+start(ClassCharacter):-
+	ClassCharacter == "guerreiro" -> startEquipments([30,36,25,40,47]);
+	ClassCharacter == "mago" -> startEquipments([37,39,25,41,48]);
+	ClassCharacter == "ladino" -> startEquipments([32,45,25,44,49]);
+	writeln("Classe inválida!").
 
 
 % ------------------- MANIPULATE ITENS ---------------------
+
 
 % Equipa item a partir da sua posicao na lista
 
@@ -45,12 +51,13 @@ equip(Pos):-
 	getBag(X),
 	RealPos is Pos - 1,
 	findValueByIndex(RealPos,X,Id),
-	equipItem(Id, RealPos).
+	equipItem(Id, RealPos),
+	checkPosition(Pos).
 
 
 % Add item in Bag (CHECKED).
 
-addItem(Id):-
+add(Id):-
 	setup_Itens,
 	isItem(Id),
 	getBag(A),
@@ -61,7 +68,8 @@ addItem(Id):-
 	retract(bag(X)),
 	replaceItem(Id,34,X,Y),
 	asserta(bag(Y)),
-	addQtdItem(Id).
+	addQtdItem(Id);
+	write("Id inválido!").
 
 % Remove item da bag pela posicao (CHECKED)
 
@@ -69,14 +77,22 @@ remove(Pos):-
 	getBag(X),
 	Index is Pos - 1,
 	findValueByIndex(Index,X, Id),
-	removeById(Id).
+	removeById(Id),
+	checkPosition(Pos).
 	
 
 % Retorna atributos do item consumivel (MP E HP)
 
 consumeItem(Id,MP,HP):-
 	setup_Itens,
-	getAtrbConsumable(Id,MP,HP).
+	getAtrbConsumable(Id,MP,HP);
+	write("Id inválido!").
+
+sumAtrb(ClassCharacter,Atrb):-
+	ClassCharacter == "guerreiro" -> sumStreigth(Atrb);
+	ClassCharacter == "ladino" -> sumAgility(Atrb);
+	ClassCharacter == "mago" -> sumInteligence(Atrb);
+	writeln("Classe inválida").
 
 
 % ------------------- GET SUM ATRIBUTES (ALL CHECKED) ---------------------
@@ -121,16 +137,18 @@ replaceItem(NewValue,OldValue,[OldValue|T],[NewValue|T]).
 replaceItem(NewValue,OldValue,[H|T],[H|T1]):- replaceItem(NewValue,OldValue,T,T1).
 
 % Encontra o index de um valor da lista
-% CHECK
+
 findIndexByValue(E,[E|_],0):- !.
 findIndexByValue(E,[_|T],I):- findIndexByValue(E,T,X), I is X + 1.
 
 % Encontra o valor pelo index na lista
-% CHECK
+
+
 findValueByIndex(0, [H|_], H):- !.
 findValueByIndex(I, [_|T], E):- X is I - 1, findValueByIndex(X, T, E).
 
 % substitui um valor no index especifico dentro de uma lista, retornando a mesma atualizada
+
 replace(_,_,[],_,_).
 replace(V,0,[_|T],E,U):- append(E,[V],Y), append(Y,T,U).
 replace(V,I,[X|T],E,U):- In is I - 1,append(E,[X],Y),replace(V,In,T,Y,U).
@@ -138,7 +156,7 @@ replace(V,I,[X|T],E,U):- In is I - 1,append(E,[X],Y),replace(V,In,T,Y,U).
 
 % -------------------------- AUX PREDICATES ------------------------------
 
-% Função aux para remover quando possuir apenas um item (qtd = 1)
+
 removeSoloItem(Id):-
 	getQtd(Y),
 	getBag(X),
@@ -154,7 +172,7 @@ removeSoloItem(Id):-
 	asserta(bag(NewBag)),
 	asserta(qtd(NewQtd)).
 
-% Função aux para remover quando possuir mais de um item (qtd > 1)
+
 removeNoSoloItem(Id):-
 	getQtd(Y),
 	getBag(X),
@@ -167,7 +185,6 @@ removeNoSoloItem(Id):-
 	replace(Nq,Index,Y,[],NewQtd),
 	asserta(qtd(NewQtd)).
 
-% Função aux para adicionar a quantidade de um item 
 addQtdItem(Id):-
 	retract(qtd(Y)),
 	getBag(X),
@@ -180,14 +197,12 @@ addQtdItem(Id):-
 	asserta(qtd(NewQtd)).
 
 
-% Equipa item da bag pelo id (CHECKED)
-
 equipItem(IdBag, RealPos):-
 	getBag(X),
 	getEquipped(Y),
 	setup_Itens,
 	
-	getType(IdBag,Type),
+	getTYP(IdBag,Type),
 	PosType is Type - 1,
 
 	findValueByIndex(PosType,Y,IdEquiped),
@@ -202,49 +217,56 @@ equipItem(IdBag, RealPos):-
 	asserta(equipped(NewEquipped)).
 
 
-% Remove item da bag pelo id (CHECKED)
-
 removeById(Id):-
 	getBag(X),
 	getQtd(Y),
 	findIndexByValue(Id,X,Index),
 	findValueByIndex(Index,Y,Qtd),
 	Qtd > 1 -> removeNoSoloItem(Id);
-	removeSoloItem(Id).  
+	removeSoloItem(Id). 
+
+startEquipments(A):-
+	getEquipped(X),
+	retract(equipped(X)),
+	asserta(equipped(A)).
+
+checkPosition(Pos):-
+	Pos > 5 -> write("Posição Inválida");
+	write("Espaço vazio!").
 
 % Função aux para somar o Dano total
 sumDAM([],0).
 sumDAM([X|T],Y):-
 	 setup_Itens,
-	 getDamage(X,Dam),
+	 getDAM(X,Dam),
 	 sumDAM(T,Z), Y is Z+Dam. 
 
 % Função aux para somar a força total
 sumSTR([],0).
 sumSTR([X|T],Y):-
 	 setup_Itens,
-	 getStrength(X,STR),
+	 getSTR(X,STR),
 	 sumSTR(T,Z), Y is Z+STR. 
 
 % Função aux para somar a inteligência total
 sumINT([],0).
 sumINT([X|T],Y):-
 	 setup_Itens,
-	 getIntelig(X,INT),
+	 getINT(X,INT),
 	 sumINT(T,Z), Y is Z+INT. 
 
 % Função aux para somar o a agilidade total
 sumDEX([],0).
 sumDEX([X|T],Y):-
 	 setup_Itens,
-	 getAgility(X,DEX),
+	 getDEX(X,DEX),
 	 sumDEX(T,Z), Y is Z+DEX.
 
 % Função aux para somar o armadura total
 sumARM([],0).
 sumARM([X|T],Y):-
 	setup_Itens,
-	getArmor(X,ARM),
+	getARM(X,ARM),
 	sumARM(T,Z), Y is Z+ARM.
 
 % ------------------------------------ PRINT --------------------------------------

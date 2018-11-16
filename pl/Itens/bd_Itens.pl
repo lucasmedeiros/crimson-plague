@@ -23,28 +23,31 @@ item(41,"Chapéu inicial","Vestimentas simples para cosplayers de magos").
 item(44,"Capuz de veludo","Última moda entre os ladinos mais estilosos").
 item(45,"Sobretudo de Couro","Dizem que você ganha mais agilidade com ele,mesmo que não faça sentido").
 item(47,"Escudo simples","Escudo simples feito de madeira").
-
+item(48,"Escudo Mágico","Escudo corporal que aumenta a capacidade mágica do portador").
+item(49,"Braçadeira de Legolas","Uma pequena proteção contra flechas e pequenas facas").
 
 % Estrutura do equipavel: id dano atrbArm atrbForca atrbDest atrbIntel tipoEquipavel 
 
 equipavel(10,0,2,0,0,0,2).
 equipavel(11,0,3,0,0,0,5).
-equipavel(17,20,0,1,0,0,1).	
-equipavel(21,0,0,0,0,3,1).
+equipavel(17,20,0,4,0,0,1).	
+equipavel(21,0,0,0,0,10,1).
 equipavel(25,0,0,0,1,0,3).
 equipavel(27,0,1,0,0,0,2).
-equipavel(30,10,0,1,0,0,1).
+equipavel(30,10,0,4,0,0,1).
 equipavel(32,15,0,0,1,0,1).
 equipavel(34,0,0,0,0,0,0).	
 equipavel(35,5,0,0,0,0,1).
 equipavel(36,0,1,0,0,0,2).
 equipavel(37,5,0,0,0,1,1).
 equipavel(39,0,3,0,0,1,2).
-equipavel(40,0,2,1,0,0,4).
+equipavel(40,0,2,4,0,0,4).
 equipavel(41,0,1,0,0,1,4).
 equipavel(44,0,2,0,3,0,4).
 equipavel(45,0,2,0,2,0,4).
 equipavel(47,0,2,0,0,0,5).
+equipavel(48,0,1,0,0,2,5).
+equipavel(49,0,1,0,2,0,5).
 
 
 % Estrutura do consumivel: id recHp recMp
