@@ -1,5 +1,5 @@
 :- module(util,
-    [rollDice/1, cls/0]).
+    [rollDice/1, cls/0, printList/1]).
 
 rollDice(O) :-
     random(0, 21, RollResult),
