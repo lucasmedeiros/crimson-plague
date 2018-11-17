@@ -1,5 +1,5 @@
 :- module(util,
-    [rollDice/2, rollDices/3, cls/0, printList/1]).
+    [rollDice/2, rollDices/3, cls/0, printList/1, readInt/1, readString/1]).
 
 rollDice(Bound, O) :-
     random(1, Bound, RollResult),
@@ -25,3 +25,10 @@ printList([Head| Tail]) :-
     printList(Tail).
 
 cls :- write('\33\[2J').
+
+readInt(Number) :- 
+    read_line_to_codes(user_input, Codes),
+    string_to_atom(Codes, Atom),
+    atom_number(Atom, Number).
+
+readString(String) :- read_line_to_string(user_input, String).
