@@ -1,3 +1,6 @@
+:- module(itens,[isItem/1, isConsumible/1, isEquipable/1, getAtrbConsumable/3,
+				getName/2,getARM/2,getDAM/2,getSTR/2,getDEX/2,getINT/2,getTYP/2]).
+
 setup_bd_itens:-
 	consult('bd_Itens.pl').
 

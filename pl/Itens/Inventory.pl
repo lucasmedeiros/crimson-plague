@@ -5,13 +5,16 @@
 	% remove(Pos) - Remove um item a partir da posição na bag
  	% equip(Pos) - Equipa um item da bag a partir da sua posicao  
 	% getAtrbConsumable(Id,MP,HP) - Retorna o MP e HP de um item consumivel pelo id
-	% sumDamage - Retorna o dano total dos itens equipados
-	% sumAtrb - Retorna o valor total do atributo principal nos itens equipados
+	% sumDamage(Dam) - Retorna o dano total dos itens equipados
+	% sumAtrb(ClassCharacter,Atrb) - Retorna o valor total do atributo principal nos itens equipados
  
+% -------------------DEFINITIONS AND IMPORTS --------------
 
+:- module(inventory,[start/1,add/1,remove/1,equip/1,
+			getAtrbConsumable/3,sumDamage/1,sumAtrb/2]).
 
-setup_Itens:-
-	consult('itens.pl').
+:- ['itens.pl'].
+
 
 % --------------------- LISTS AND GETS ---------------------
 :- dynamic(equipped/1).
@@ -48,28 +51,26 @@ start(ClassCharacter):-
 % Equipa item a partir da sua posicao na lista
 
 equip(Pos):-
+	checkPosition(Pos),
 	getBag(X),
 	RealPos is Pos - 1,
 	findValueByIndex(RealPos,X,Id),
-	equipItem(Id, RealPos),
-	checkPosition(Pos).
-
+	equipItem(Id, RealPos), !.
 
 % Add item in Bag (CHECKED).
 
 add(Id):-
-	setup_Itens,
 	isItem(Id),
 	getBag(A),
 	nth0(_,A,Id) ->
 		isConsumible(Id),
-		addQtdItem(Id);
+		addQtdItem(Id), !;
 
 	retract(bag(X)),
 	replaceItem(Id,34,X,Y),
 	asserta(bag(Y)),
-	addQtdItem(Id);
-	write("Id inválido!").
+	addQtdItem(Id), !;
+	writeln("Id inválido!").
 
 % Remove item da bag pela posicao (CHECKED)
 
@@ -84,24 +85,22 @@ remove(Pos):-
 % Retorna atributos do item consumivel (MP E HP)
 
 consumeItem(Id,MP,HP):-
-	setup_Itens,
 	getAtrbConsumable(Id,MP,HP);
-	write("Id inválido!").
+	writeln("Id inválido!").
 
 sumAtrb(ClassCharacter,Atrb):-
-	ClassCharacter == "guerreiro" -> sumStreigth(Atrb);
-	ClassCharacter == "ladino" -> sumAgility(Atrb);
-	ClassCharacter == "mago" -> sumInteligence(Atrb);
+	ClassCharacter == "guerreiro" -> sumStreigth(Atrb),!;
+	ClassCharacter == "ladino" -> sumAgility(Atrb),!;
+	ClassCharacter == "mago" -> sumInteligence(Atrb),!;
 	writeln("Classe inválida").
-
-
-% ------------------- GET SUM ATRIBUTES (ALL CHECKED) ---------------------
 
 % Retorna o dano total dos itens equipados 
 
 sumDamage(Dam):-
 	equipped(X),
 	sumDAM(X,Dam).
+
+% ------------------- GET SUM ATRIBUTES (ALL CHECKED) ---------------------
 
 % Retorna a armadura total dos itens equipados
 
@@ -200,7 +199,6 @@ addQtdItem(Id):-
 equipItem(IdBag, RealPos):-
 	getBag(X),
 	getEquipped(Y),
-	setup_Itens,
 	
 	getTYP(IdBag,Type),
 	PosType is Type - 1,
@@ -231,48 +229,42 @@ startEquipments(A):-
 	asserta(equipped(A)).
 
 checkPosition(Pos):-
-	Pos > 5 -> write("Posição Inválida");
-	write("Espaço vazio!").
+	Pos < 6, Pos > 0;
+	writeln("Posição Inválida").
 
 % Função aux para somar o Dano total
 sumDAM([],0).
 sumDAM([X|T],Y):-
-	 setup_Itens,
 	 getDAM(X,Dam),
 	 sumDAM(T,Z), Y is Z+Dam. 
 
 % Função aux para somar a força total
 sumSTR([],0).
 sumSTR([X|T],Y):-
-	 setup_Itens,
 	 getSTR(X,STR),
 	 sumSTR(T,Z), Y is Z+STR. 
 
 % Função aux para somar a inteligência total
 sumINT([],0).
 sumINT([X|T],Y):-
-	 setup_Itens,
 	 getINT(X,INT),
 	 sumINT(T,Z), Y is Z+INT. 
 
 % Função aux para somar o a agilidade total
 sumDEX([],0).
 sumDEX([X|T],Y):-
-	 setup_Itens,
 	 getDEX(X,DEX),
 	 sumDEX(T,Z), Y is Z+DEX.
 
 % Função aux para somar o armadura total
 sumARM([],0).
 sumARM([X|T],Y):-
-	setup_Itens,
 	getARM(X,ARM),
 	sumARM(T,Z), Y is Z+ARM.
 
 % ------------------------------------ PRINT --------------------------------------
 
 printInBag(Index,X):-
-	setup_Itens,
 	qtd(C),
 	bag(A),
 	findValueByIndex(Index,A,Id),
@@ -311,11 +303,10 @@ bagPrint:-
 	writeln(Item5),
 	writeln("|"),
 	writeln("| "),
-	writeln("--------------------------------------").
+	writeln("|-------------------------------------").
 
 
 getNameEquiped(Pos,Name):-
-	setup_Itens,
 	getEquipped(Y),
 	findValueByIndex(Pos,Y,Item1),
 	getName(Item1,Name).
