@@ -1,6 +1,6 @@
-:- module(sheet, [createCharacter/0, getHP/1, getMaxHP/1, getMP/1, getMaxMP/1, getStrModifier/1,
-    getIntModifier/1, getDexModifier/1, getLukModifier/1, getChrModifier/1,
-    getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1]).
+:- module(sheet, [createCharacter/0, getHP/1, getMaxHP/1, getMP/1, getMaxMP/1, 
+    setHP/1, setMaxHP/1, setMP/1, setMaxMP/1, getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1, 
+    getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1]).
 
 :- use_module("../util").
 
@@ -37,6 +37,26 @@ getHP(HP) :- stats(HP, _, _, _).
 getMaxHP(MHP) :- stats(_, MHP, _, _).
 getMP(MP) :- stats(_, _, MP, _).
 getMaxMP(MMP) :- stats(_, _, _, MMP).
+
+setHP(HP) :-
+    stats(_, MHP, MP, MMP),
+    retract(stats(_, _, _, _)),
+    asserta(stats(HP, MHP, MP, MMP)).
+
+setMaxHP(MHP) :-
+    stats(HP, _, MP, MMP),
+    retract(stats(_, _, _, _)),
+    asserta(stats(HP, MHP, MP, MMP)).
+
+setMP(MP) :-
+    stats(HP, MHP, _, MMP),
+    retract(stats(_, _, _, _)),
+    asserta(stats(HP, MHP, MP, MMP)).
+
+setMaxMP(MMP) :-
+    stats(HP, MHP, MP, _),
+    retract(stats(_, _, _, _)),
+    asserta(stats(HP, MHP, MP, MMP)).
 
 getSTR(Str) :- attributes(Str, _, _, _, _, _).
 getINT(Int) :- attributes(_, Int, _, _, _, _).
