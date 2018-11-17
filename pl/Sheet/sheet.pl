@@ -1,5 +1,7 @@
 :- module(sheet, [createCharacter/0, getHP/1, getMaxHP/1, getMP/1, getMaxMP/1, 
-    setHP/1, setMaxHP/1, setMP/1, setMaxMP/1, getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1, 
+    setHP/1, setMaxHP/1, setMP/1, setMaxMP/1, getSTR/1, setSTR/1, getINT/1, setINT/1,
+    getDEX/1, setDEX/1, getVIT/1, setVIT/1, getLUK/1, setLUK/1, getCHR/1, setCHR/1,
+    getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1, 
     getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1]).
 
 :- use_module("../util").
@@ -64,6 +66,36 @@ getDEX(Dex) :- attributes(_, _, Dex, _, _, _).
 getVIT(Vit) :- attributes(_, _, _, Vit, _, _).
 getLUK(Luk) :- attributes(_, _, _, _, Luk, _).
 getCHR(Chr) :- attributes(_, _, _, _, _, Chr).
+
+setSTR(Str) :-
+    attributes(_, Int, Dex, Vit, Luk, Chr),
+    retract(attributes(_, _, _, _, _, _)),
+    asserta(attributes(Str, Int, Dex, Vit, Luk, Chr)).
+
+setINT(Int) :-
+    attributes(Str, _, Dex, Vit, Luk, Chr),
+    retract(attributes(_, _, _, _, _, _)),
+    asserta(attributes(Str, Int, Dex, Vit, Luk, Chr)).
+
+setDEX(Dex) :-
+    attributes(Str, Int, _, Vit, Luk, Chr),
+    retract(attributes(_, _, _, _, _, _)),
+    asserta(attributes(Str, Int, Dex, Vit, Luk, Chr)).
+
+setVIT(Vit) :-
+    attributes(Str, Int, Dex, _, Luk, Chr),
+    retract(attributes(_, _, _, _, _, _)),
+    asserta(attributes(Str, Int, Dex, Vit, Luk, Chr)).
+
+setLUK(Luk) :-
+    attributes(Str, Int, Dex, Vit, _, Chr),
+    retract(attributes(_, _, _, _, _, _)),
+    asserta(attributes(Str, Int, Dex, Vit, Luk, Chr)).
+
+setCHR(Chr) :-
+    attributes(Str, Int, Dex, Vit, Luk, _),
+    retract(attributes(_, _, _, _, _, _)),
+    asserta(attributes(Str, Int, Dex, Vit, Luk, Chr)).
 
 getStrModifier(Value) :- getSTR(K), Value is K // 4.
 getIntModifier(Value) :- getINT(K), Value is K // 4.
