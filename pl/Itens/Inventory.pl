@@ -11,7 +11,7 @@
 % -------------------DEFINITIONS AND IMPORTS --------------
 
 :- module(inventory,[start/1,add/1,remove/1,equip/1,
-			getAtrbConsumable/3,sumDamage/1,sumAtrb/2]).
+			getAtrbConsumable/3,sumDamage/1,sumAtrb/2,printBag/0,printInventory/0]).
 
 :- ['itens.pl'].
 
