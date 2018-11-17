@@ -1,8 +1,8 @@
 :- module(util,
-    [rollDice/1, cls/0, printList/1]).
+    [rollDice/2, cls/0, printList/1]).
 
-rollDice(O) :-
-    random(0, 21, RollResult),
+rollDice(L, O) :-
+    random(1, L, RollResult),
     O = RollResult.
 
 printList([]) :-
