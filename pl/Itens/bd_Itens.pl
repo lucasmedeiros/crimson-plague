@@ -1,4 +1,4 @@
-% Estrutura do item: id nome descricao
+/* Estrutura do item: id nome descricao */
 
 item(1,"Pocao de cura pequena","Recupera 8 de HP").
 item(2,"Pocao de cura média","Recupera 16 de HP").
@@ -26,7 +26,7 @@ item(47,"Escudo simples","Escudo simples feito de madeira").
 item(48,"Escudo Mágico","Escudo corporal que aumenta a capacidade mágica do portador").
 item(49,"Braçadeira de Legolas","Uma pequena proteção contra flechas e pequenas facas").
 
-% Estrutura do equipavel: id dano atrbArm atrbForca atrbDest atrbIntel tipoEquipavel 
+/* Estrutura do equipavel: id dano atrbArm atrbForca atrbDest atrbIntel tipoEquipavel */
 
 equipavel(10,0,2,0,0,0,2).
 equipavel(11,0,3,0,0,0,5).
@@ -50,7 +50,7 @@ equipavel(48,0,1,0,0,2,5).
 equipavel(49,0,1,0,2,0,5).
 
 
-% Estrutura do consumivel: id recHp recMp
+/* Estrutura do consumivel: id recHp recMp */
 
 consumivel(1,0,8).
 consumivel(2,0,16).
