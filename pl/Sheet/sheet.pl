@@ -3,7 +3,7 @@
     getDEX/1, setDEX/1, getVIT/1, setVIT/1, getLUK/1, setLUK/1, getCHR/1, setCHR/1,
     getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1, 
     getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1,
-    takeDamage/1]).
+    takeDamage/1, increaseXP/1]).
 
 :- use_module("../util").
 
@@ -116,6 +116,29 @@ getLevel(Level) :- sheet(_, Level, _, _, _).
 getClass(Class) :- sheet(_, _, Class, _, _).
 getXP(XP) :- sheet(_, _, _, XP, _).
 getMaxXP(MXP) :- sheet(_, _, _, _, MXP).
+
+setXP(XP) :-
+    sheet(Name, Level, Class, _, MXP),
+    retract(sheet(_, _, _, _, _)),
+    asserta(sheet(Name, Level, Class, XP, MXP)).    
+
+addLevel(Amount) :-
+    sheet(Name, Level, Class, XP, MXP),
+    NewLevel is Level + Amount,
+    retract(sheet(_, _, _, _, _)),
+    asserta(sheet(Name, NewLevel, Class, XP, MXP)).
+    
+increaseXP(Amount) :-
+    getXP(XP),
+    getMaxXP(MXP),
+    K is XP + Amount,
+    (K >= MXP -> (
+        Remain is mod(K, MXP),
+        Levels is (K // MXP),
+        addLevel(Levels),
+        setXP(Remain)
+    );
+    setXP(K)).
 
 chooseClass(Class) :-
     L = ["Classes: ",
