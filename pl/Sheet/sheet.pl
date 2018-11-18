@@ -42,9 +42,9 @@ attributes(9, 9, 9, 9, 9, 9).
 
 % Informações
 getHP(HP) :- stats(HP, _, _, _).
-getMaxHP(MHP) :- stats(_, MHP, _, _).
+getMaxHP(Value) :- stats(_, MHP, _, _), getVIT(Vit), Value is MHP + Vit.
 getMP(MP) :- stats(_, _, MP, _).
-getMaxMP(MMP) :- stats(_, _, _, MMP).
+getMaxMP(Value) :- stats(_, _, _, MMP), getINT(Int), Value is MMP + (Int // 2).
 
 setHP(HP) :-
     stats(_, MHP, MP, MMP),
