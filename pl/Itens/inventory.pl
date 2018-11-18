@@ -12,7 +12,7 @@
 /* -------------------DEFINITIONS AND IMPORTS -------------- */
 
 :- module(inventory,[start/1,add/1,remove/1,equip/1,
-			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDesc/2,printl/0,sumArmor/1,
+			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDesc/2	,sumArmor/1,
 			sumStreigth/1,sumInteligence/1,sumAgility/1]).
 
 :- use_module('Itens/itens.pl').
@@ -31,10 +31,15 @@ amount([0,0,0,0,0]).
 :- dynamic(class/1).
 class("UNKNOW").
 
+:- dynamic(nome/1).
+nome("UNKNOW").
+
 /* -------------------- PREDICATES -------------------------- */
 /* --------------------    START   -------------------------- */
 
 start(ClassCharacter):-
+	retract(nome(_)),
+	asserta(nome("Name")),
 	ClassCharacter == "guerreiro", updateClass(ClassCharacter) -> startEquipments([30,36,25,40,47]);
 	ClassCharacter == "mago", updateClass(ClassCharacter) -> startEquipments([37,39,25,41,48]);
 	ClassCharacter == "ladino", updateClass(ClassCharacter) -> startEquipments([32,45,25,44,49]);
@@ -266,18 +271,22 @@ sumARM([X|T],Y):-
 
 printInventory:-
 	class(X),
+	nome(Y),
 	getNameEquiped(0,ARMA),
 	getNameEquiped(1,ARMADURA),
 	getNameEquiped(2,BOTAS),
 	getNameEquiped(3,CAPACETE),
 	getNameEquiped(4,ESCUDO),
 
-	writeln("/|-------------------------------------|\\"),
-	writeln("||----------- INVENTÁRIO --------------||"),
-	writeln("||                                     ||"),
+	writeln("  _____________________________________     _____________________________________"),
+	writeln("/|                                     |\\^/|                                     |\\"),
+	writeln("||----------- INVENTÁRIO --------------||-||--------- MINHA HISTÓRIA ------------||"),
+	writeln("||                                     ||-||                                     ||"),
+	string_concat("|| NOME: ",Y,Name),
+	compensaBlank(Name),
 	string_concat("|| CLASSE: ",X,Class),
 	compensaBlank(Class),
-	writeln("||                                     ||"),
+	writeln("||                                     ||-||                                     ||"),
 	string_concat("|| 1.Arma : ",ARMA,Arma),
 	compensaBlank(Arma),
 	string_concat("|| 2.Armadura : ",ARMADURA,Armor),
@@ -288,11 +297,9 @@ printInventory:-
 	compensaBlank(Helmet),
 	string_concat("|| 5.Escudo : ",ESCUDO,Shield),
 	compensaBlank(Shield),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
+	writeln("||                                     ||-||                                     ||"),
 	printAtributes,
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
+	writeln("||                                     ||-||                                     ||"),
 	bagPrint, !.
 
 printAtributes:-
@@ -309,10 +316,10 @@ printAtributes:-
 	atom_concat("|| STR: +",STR,Streigth),
 
 	compensaBlank(Damage),
-	writeln("||                                     ||"),
+	writeln("||                                     ||-||                                     ||"),
 	atom_concat("||"," Atributos Bônus: ",Title),
 	compensaBlank(Title),
-	writeln("||                                     ||"),
+	writeln("||                                     ||-||                                     ||"),
 	compensaBlank(Armor),
 	compensaBlank(Inteligence),
 	compensaBlank(Agility),
@@ -329,7 +336,7 @@ printItensInBag(Index,X):-
 	string_concat(Ind,".",Indice),
 	string_concat(Indice,Name,String1),
 	string_concat(String1,"(x",String2),
-	string_concat("|--",String2,String3),
+	string_concat("||-",String2,String3),
 	string_concat(String3,Amount,String4),
 	string_concat(String4,")",X).
 
@@ -340,61 +347,19 @@ bagPrint:-
 	printItensInBag(3,Item4),
 	printItensInBag(4,Item5),
 
-	writeln("||------------ Mochila ----------------||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||------------- Slots -----------------||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
+	writeln("||------------ Mochila ----------------||-||                                     ||"),
+	writeln("||                                     ||-||                                     ||"),
+	writeln("||------------- Slots -----------------||-||                                     ||"),
+	writeln("||                                     ||-||                                     ||"),
 	compensaBlank(Item1),
 	compensaBlank(Item2), 
 	compensaBlank(Item3),
 	compensaBlank(Item4),
 	compensaBlank(Item5),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||-------------------------------------||").
+	writeln("||                                     ||-||                                     ||"),
+	writeln("||-------------------------------------||-||-------------------------------------||"),
+	writeln("||_____________________________________|/^\\|_____________________________________||").
 
-% altura = 36 largura = 42
-
-printl:-
-	writeln("||-------------------------------------||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||                                     ||"),
-	writeln("||-------------------------------------||").
 
 
 
@@ -410,7 +375,8 @@ compensaBlank(String):-
 	generateBlack(BlanKQtd,Blank),
 	string_concat(String,Blank,StringAux),
 	string_concat(StringAux,"||",NString),
-	writeln(NString).
+	string_concat(NString,"-||                                     ||",Saida),
+	writeln(Saida).
 
 getNameEquiped(Pos,Name):-
 	equipped(Y),

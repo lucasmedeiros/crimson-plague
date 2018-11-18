@@ -4,6 +4,7 @@
 setup_bd_itens:-
 	consult('Itens/bd_Itens.pl').
 
+
 % --------------- CHECK -------------------
 
 isItem(Id):-
