@@ -1,4 +1,4 @@
-# Crimson Plague ☣️
+# Crimson Plague 
 
 Jogo de RPG chamado Crimson Plague, feito para o projeto da disciplina de PLP (Paradigmas de Linguagem de Programação) - UFCG 2018.
 
@@ -14,10 +14,10 @@ Partindo do princípio de que qualquer problema de computação deve ser possív
 - Implementação em Prolog [aqui](https://github.com/LukeHxH/crimson-plague/tree/master/pl)
 
 ## Componentes:
-- [Jadson Luan](https://github.com/jadsonluan);
-- [Jessé Souza](https://github.com/jessesouza21);
-- [Lucas de Medeiros](https://github.com/LukeHxH);
-- [Mikael Brasileiro](https://github.com/Mikaelbfaa).
+- [Jadson Luan](https://github.com/jadsonluan)
+- [Jessé Souza](https://github.com/jessesouza21)
+- [Lucas de Medeiros](https://github.com/LukeHxH)
+- [Mikael Brasileiro](https://github.com/Mikaelbfaa)
 
 Professor: Éverton L. G. Alves
 
