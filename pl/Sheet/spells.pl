@@ -1,5 +1,5 @@
-:- module(spells, [getName/2, getManaCost/2, calculateDamage/2]).
-
+:- module(spells, [getName/2, getManaCost/2, calculateDamage/2, getUsableSpells/2,
+                    printSpellLabel/1]).
 :- use_module("util").
 
 % id, nome, descr, circulo, dado[qtd, lado], mp
