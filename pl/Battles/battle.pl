@@ -6,46 +6,54 @@
 startBattle(IdMonster, C) :-
     monsters:isMonster(IdMonster) ->
         monsters:build_monster(IdMonster, Monster),
-        loopBattle(M, C).
-    /* TODO pegar dados do monstro */
+        loopBattle(Monster, C).
 
-loopBattle(M, C) :-
-    atom_concat("HP Monstro: ", M, MonsterHP),
-    atom_concat("Seu HP: ", C, CharHP),
-    writeln(MonsterHP),
-    writeln(CharHP),
-    M2 = M,
+loopBattle(Monster, C) :-
+    monsters:getHp(Monster, MonsterHP),
+    atom_concat("HP Monstro: ", MonsterHP, MonsterHPInfo),
+    atom_concat("Seu HP: ", C, CharHPInfo),
+    writeln(MonsterHPInfo),
+    writeln(CharHPInfo),
+    M2 = MonsterHP,
     C2 = C,
-    menu(M, C, M2, C2).
+    menu(Monster, C).
 
-menu(M, C, M2, C2) :-
+menu(Monster, C) :-
     writeln("O que deseja fazer?"),
     writeln("1) Atacar/Lançar magia"),
     writeln("2) Abrir mochila"),
     writeln("3) Fugir"),
-    read_line_to_string(user_input, Option),
-    evaluateOption(Option, M, C, M2, C2).
+    util:readString(Option),
+    evaluateOptionMenu(Option, Monster, C).
 
-evaluateOption(O, M, C, M2, C2) :-
+evaluateOptionMenu(O, Monster, C) :-
     util:cls,
-    O = "1" -> charAttack(M, C);
+    O = "1" -> charAttack(Monster, C);
     O = "2" -> openBag();
-    O = "3" -> tryEscape(M, C);
-    (writeln("Opção inválida!"), menu(M, C, M2, C2)).
+    O = "3" -> tryEscape(Monster, C);
+    (writeln("Opção inválida!"), menu(Monster, C)).
 
-charAttack(M, C) :-
+charAttack(Monster, C) :-
     util:rollDice(20, RollResult),
-    Damage is RollResult - 0,
-    write("Você infligiu um total de "),
-    atom_concat(Damage, " danos no monstro...", Concat),
-    writeln(Concat),
-    M2 is M - Damage,
-    (M2 =< 0 -> venceu; monsterAttack(C, M2)).
+    Damage is RollResult,
+    monsters:getCa(Monster, CaMonster),
+    writeln("Você se prepara para realizar um ataque corpo a corpo..."),
+    Damage >= CaMonster ->
+        (
+            write("Você infligiu um total de "),
+            atom_concat(Damage, " danos no monstro...", Concat),
+            writeln(Concat),
+            monsters:takeDmgMonster(Monster, Damage, NewMonster),
+            monsters:getHp(NewMonster, NewMonsterHp),
+            (NewMonsterHp =< 0 -> venceu; monsterAttack(NewMonster, C))
+        );
+    (writeln("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster, C)).
 
-monsterAttack(C, M) :-
+monsterAttack(Monster, C) :-
     util:rollDice(20, RollResult),
-    CharDef is 20,
-    MonsterDMG is 10 + RollResult,
+    CharDef is 15,
+    monsters:getAtk(Monster, Atk),
+    MonsterDMG is Atk + RollResult,
     writeln("O monstro se prepara para um ataque..."),
     MonsterDMG >= CharDef ->
         (
@@ -53,19 +61,19 @@ monsterAttack(C, M) :-
             atom_concat(MonsterDMG, " danos em você...", Concat),
             writeln(Concat),
             C2 is C - MonsterDMG,
-            (C2 =< 0 -> perdeu; loopBattle(M, C2))
+            (C2 =< 0 -> perdeu; loopBattle(Monster, C2))
         );
-    (writeln("E falha miseravelmente..."), loopBattle(M, C)).
+    (writeln("E falha miseravelmente..."), loopBattle(Monster, C)).
 
 openBag() :-
     writeln("abriu o inventário").
 
-tryEscape(M, C) :-
+tryEscape(Monster, C) :-
     writeln("Você tenta fugir e..."),
     util:rollDice(20, RollResult),
     RollResult >= 12 -> 
         writeln("Escapou com sucesso...");
-    (writeln("Não conseguiu... O monstro ri de você"), monsterAttack(C, M)).
+    (writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster, C)).
 
 venceu :-
     writeln("Parabéns, você venceu!").
