@@ -15,7 +15,7 @@
 			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDesc/2,printl/0,sumArmor/1,
 			sumStreigth/1,sumInteligence/1,sumAgility/1]).
 
-:- use_module('itens.pl').
+:- use_module('Itens/itens.pl').
 
 
 /* --------------------- LISTS AND GETS -------------------- */
