@@ -12,7 +12,8 @@
 /* -------------------DEFINITIONS AND IMPORTS -------------- */
 
 :- module(inventory,[start/1,add/1,remove/1,equip/1,
-			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDesc/2]).
+			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDesc/2,printl/0,sumArmor/1,
+			sumStreigth/1,sumInteligence/1,sumAgility/1]).
 
 :- use_module('itens.pl').
 
@@ -84,6 +85,7 @@ sumAtrb(Atrb):-
 sumDamage(Dam):-
 	equipped(X),
 	sumDAM(X,Dam).
+
 
 getItemDesc(Id,DescItem):-
 	getName(Id,Name),
@@ -352,6 +354,48 @@ bagPrint:-
 	writeln("||                                     ||"),
 	writeln("||                                     ||"),
 	writeln("||-------------------------------------||").
+
+% altura = 36 largura = 42
+
+printl:-
+	writeln("||-------------------------------------||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||                                     ||"),
+	writeln("||-------------------------------------||").
+
 
 
 /*------------------------------ PRINT AUX ------------------------------------ */
