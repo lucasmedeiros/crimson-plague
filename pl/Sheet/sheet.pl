@@ -46,6 +46,18 @@ getMaxHP(Value) :- stats(_, MHP, _, _), getVIT(Vit), Value is MHP + Vit.
 getMP(MP) :- stats(_, _, MP, _).
 getMaxMP(Value) :- stats(_, _, _, MMP), getINT(Int), Value is MMP + (Int // 2).
 
+fillHP() :-
+    stats(_, MHP, MP, MMP),
+    getMaxHP(RealMHP),
+    retract(stats(_, _, _, _)),
+    asserta(stats(RealMHP, MHP, MP, MMP)).
+
+fillMP() :-
+    stats(HP, MHP, _, MMP),
+    getMaxMP(RealMMP),
+    retract(stats(_, _, _, _)),
+    asserta(stats(HP, MHP, RealMMP, MMP)).
+
 setHP(HP) :-
     stats(_, MHP, MP, MMP),
     retract(stats(_, _, _, _)),
@@ -204,7 +216,9 @@ adjustAttributes(Class) :-
 
 classSetup(Class) :-
   inventory:start(Class),
-  adjustAttributes(Class).
+  adjustAttributes(Class),
+  fillHP(),
+  fillMP().
 
 chooseClass(Class) :-
     L = ["Classes: ",
