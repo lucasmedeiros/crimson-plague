@@ -16,10 +16,8 @@ rollDices(N, Bound, X, O) :-
     N1 is N-1,
     rollDices(N1, Bound, X1, O).
 
-
 printList([]) :-
     write("").
-
 printList([Head| Tail]) :-
     writeln(Head),
     printList(Tail).
