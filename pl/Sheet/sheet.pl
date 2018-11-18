@@ -5,7 +5,8 @@
     getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1,
     takeDamage/1, increaseXP/1, recoverMP/1, calculateDamage/1, calculateDefense/1]).
 
-:- use_module("../util").
+:- use_module("util").
+:- use_module("Itens/inventory.pl").
 
 class(1, "guerreiro").
 class(2, "mago").
@@ -152,7 +153,7 @@ increaseXP(Amount) :-
     setXP(K)).
 
 calculateDamage(Damage) :-
-    Weapon is 5,
+    inventory:sumDamage(Weapon),
     getClass(Class),
     getModifier(Class, Modifier),
     Damage is Modifier + Weapon.
@@ -173,7 +174,7 @@ chooseClass(Class) :-
 
     printList(L),
     readInt(Number),
-    ((Number > 0, Number < 4) -> (class(Number, Class));
+    ((Number > 0, Number < 4) -> (class(Number, Class), inventory:start(Class));
     (Number == 4) -> (cls(), showClassInfo(), writeln(""), chooseClass(Class));
     (cls(), chooseClass(Class))).
 
