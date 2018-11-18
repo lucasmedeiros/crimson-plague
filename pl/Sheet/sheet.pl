@@ -3,7 +3,7 @@
     getDEX/1, setDEX/1, getVIT/1, setVIT/1, getLUK/1, setLUK/1, getCHR/1, setCHR/1,
     getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1, 
     getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1,
-    takeDamage/1, increaseXP/1, recoverMP/1, calculateDamage/1]).
+    takeDamage/1, increaseXP/1, recoverMP/1, calculateDamage/1, calculateDefense/1]).
 
 :- use_module("../util").
 
@@ -156,6 +156,11 @@ calculateDamage(Damage) :-
     getClass(Class),
     getModifier(Class, Modifier),
     Damage is Modifier + Weapon.
+
+calculateDefense(Defense) :-
+    Armor is 0,
+    getDexModifier(Modifier),
+    Defense is 10 + Modifier + Armor.
 
 chooseClass(Class) :-
     L = ["Classes: ",
