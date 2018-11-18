@@ -32,9 +32,6 @@ generateHp(StrHp, Hp):-
     LastNumberSize is Length - 2,
     sub_atom(StrHp, 2, LastNumberSize, _, Last),
     atom_number(Last, LastNumber),
-    write(First),
-    write("d"),
-    writeln(LastNumber),
     util:rollDices(FirstNumber, LastNumber, RollResult),
     Hp = RollResult, !.
 
