@@ -116,6 +116,36 @@ setCHR(Chr) :-
     retract(attributes(_, _, _, _, _, _)),
     asserta(attributes(Str, Int, Dex, Vit, Luk, Chr)).
 
+addSTR(Num) :-
+    getSTR(Current),
+    NewValue is Current + Num,
+    setSTR(NewValue).
+
+addINT(Num) :-
+    getINT(Current),
+    NewValue is Current + Num,
+    setINT(NewValue).
+
+addDEX(Num) :-
+    getDEX(Current),
+    NewValue is Current + Num,
+    setDEX(NewValue).
+
+addLUK(Num) :-
+    getLUK(Current),
+    NewValue is Current + Num,
+    setLUK(NewValue).
+
+addVIT(Num) :-
+    getVIT(Current),
+    NewValue is Current + Num,
+    setVIT(NewValue).
+
+addCHR(Num) :-
+    getCHR(Current),
+    NewValue is Current + Num,
+    setCHR(NewValue).
+
 getStrModifier(Value) :- getSTR(K), Value is K // 4.
 getIntModifier(Value) :- getINT(K), Value is K // 4.
 getDexModifier(Value) :- getDEX(K), Value is K // 4.
@@ -163,6 +193,15 @@ calculateDefense(Defense) :-
     getDexModifier(Modifier),
     Defense is 10 + Modifier + Armor.
 
+adjustAttributes(Class) :-
+    ((Class == "guerreiro") -> (addSTR(2), addVIT(1), addDEX(-1), addINT(-2)));
+    ((Class == "mago") -> (addSTR(-2), addLUK(1), addDEX(-1), addINT(2)));
+    ((Class == "ladino") -> (addVIT(-2), addCHR(-1), addDEX(2), addINT(1))).
+
+classSetup(Class) :-
+  inventory:start(Class),
+  adjustAttributes(Class).
+
 chooseClass(Class) :-
     L = ["Classes: ",
         "1) Guerreiro",
@@ -174,7 +213,7 @@ chooseClass(Class) :-
 
     printList(L),
     readInt(Number),
-    ((Number > 0, Number < 4) -> (class(Number, Class), inventory:start(Class));
+    ((Number > 0, Number < 4) -> (class(Number, Class), classSetup(Class));
     (Number == 4) -> (cls(), showClassInfo(), writeln(""), chooseClass(Class));
     (cls(), chooseClass(Class))).
 
