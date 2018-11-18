@@ -3,13 +3,17 @@
     getDEX/1, setDEX/1, getVIT/1, setVIT/1, getLUK/1, setLUK/1, getCHR/1, setCHR/1,
     getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1, 
     getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1,
-    takeDamage/1, increaseXP/1, recoverMP/1]).
+    takeDamage/1, increaseXP/1, recoverMP/1, calculateDamage/0]).
 
 :- use_module("../util").
 
 class(1, "guerreiro").
 class(2, "mago").
 class(3, "ladino").
+
+getModifier("guerreiro", Mod) :- getStrModifier(Mod).
+getModifier("mago", Mod) :- getIntModifier(Mod).
+getModifier("ladino", Mod) :- getDexModifier(Mod).
 
 showClassInfo :- 
     L = ["[Informações sobre classes]",
@@ -146,6 +150,12 @@ increaseXP(Amount) :-
         setXP(Remain)
     );
     setXP(K)).
+
+calculateDamage(Damage) :-
+    Weapon is 5,
+    getClass(Class),
+    getModifier(Class, Modifier),
+    Damage is Modifier + Weapon.
 
 chooseClass(Class) :-
     L = ["Classes: ",
