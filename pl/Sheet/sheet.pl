@@ -3,7 +3,7 @@
     getDEX/1, setDEX/1, getVIT/1, setVIT/1, getLUK/1, setLUK/1, getCHR/1, setCHR/1,
     getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1, 
     getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1,
-    takeDamage/1, increaseXP/1]).
+    takeDamage/1, increaseXP/1, recoverMP/1]).
 
 :- use_module("../util").
 
@@ -67,6 +67,13 @@ takeDamage(Damage) :-
     (NewHP > 0) -> (setHP(NewHP));
     setHP(0).
 
+recoverMP(Amount) :-
+    getMP(MP),
+    getMaxMP(MMP),
+    K is Amount + MP,
+    ((K =< MMP) -> setMP(K);
+    setMP(MMP)).
+
 getSTR(Str) :- attributes(Str, _, _, _, _, _).
 getINT(Int) :- attributes(_, Int, _, _, _, _).
 getDEX(Dex) :- attributes(_, _, Dex, _, _, _).
@@ -127,7 +134,7 @@ addLevel(Amount) :-
     NewLevel is Level + Amount,
     retract(sheet(_, _, _, _, _)),
     asserta(sheet(Name, NewLevel, Class, XP, MXP)).
-    
+
 increaseXP(Amount) :-
     getXP(XP),
     getMaxXP(MXP),
