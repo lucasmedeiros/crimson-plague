@@ -1,7 +1,7 @@
-:- module(sheet, [createCharacter/0, getHP/1, getMaxHP/1, getMP/1, getMaxMP/1, 
+:- module(sheet, [createCharacter/0, getHP/1, getMaxHP/1, getMP/1, getMaxMP/1,
     setHP/1, setMaxHP/1, setMP/1, setMaxMP/1, getSTR/1, setSTR/1, getINT/1, setINT/1,
     getDEX/1, setDEX/1, getVIT/1, setVIT/1, getLUK/1, setLUK/1, getCHR/1, setCHR/1,
-    getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1, 
+    getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1,
     getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1,
     takeDamage/1, increaseXP/1, recoverMP/1, calculateDamage/1, calculateDefense/1]).
 
@@ -16,7 +16,7 @@ getModifier("guerreiro", Mod) :- getStrModifier(Mod).
 getModifier("mago", Mod) :- getIntModifier(Mod).
 getModifier("ladino", Mod) :- getDexModifier(Mod).
 
-showClassInfo :- 
+showClassInfo :-
     L = ["[Informações sobre classes]",
         "Guerreiros são exímios lutadores marciais, sempre prontos para lutar.",
         "Possuem extremas habilidades de combate corpo a corpo.",
@@ -66,7 +66,7 @@ setMaxMP(MMP) :-
     retract(stats(_, _, _, _)),
     asserta(stats(HP, MHP, MP, MMP)).
 
-takeDamage(Damage) :- 
+takeDamage(Damage) :-
     getHP(HP),
     NewHP is HP - Damage,
     (NewHP > 0) -> (setHP(NewHP));
@@ -132,7 +132,7 @@ getMaxXP(MXP) :- sheet(_, _, _, _, MXP).
 setXP(XP) :-
     sheet(Name, Level, Class, _, MXP),
     retract(sheet(_, _, _, _, _)),
-    asserta(sheet(Name, Level, Class, XP, MXP)).    
+    asserta(sheet(Name, Level, Class, XP, MXP)).
 
 addLevel(Amount) :-
     sheet(Name, Level, Class, XP, MXP),
@@ -159,7 +159,7 @@ calculateDamage(Damage) :-
     Damage is Modifier + Weapon.
 
 calculateDefense(Defense) :-
-    Armor is 0,
+    inventory:sumArmor(Armor),
     getDexModifier(Modifier),
     Defense is 10 + Modifier + Armor.
 
