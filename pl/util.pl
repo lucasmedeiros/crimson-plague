@@ -26,9 +26,10 @@ printList([Head| Tail]) :-
 
 cls :- write('\33\[2J').
 
-readInt(Number) :- 
-    read_line_to_codes(user_input, Codes),
+readInt(Number) :-
+    (read_line_to_codes(user_input, Codes),
     string_to_atom(Codes, Atom),
-    atom_number(Atom, Number).
+    atom_number(Atom, Number));
+    Number is -1.
 
 readString(String) :- read_line_to_string(user_input, String).
