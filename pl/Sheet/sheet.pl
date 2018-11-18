@@ -1,12 +1,14 @@
 :- module(sheet, [createCharacter/0, getHP/1, getMaxHP/1, getMP/1, getMaxMP/1,
-    setHP/1, setMaxHP/1, setMP/1, setMaxMP/1, getSTR/1, setSTR/1, getINT/1, setINT/1,
-    getDEX/1, setDEX/1, getVIT/1, setVIT/1, getLUK/1, setLUK/1, getCHR/1, setCHR/1,
-    getStrModifier/1, getIntModifier/1, getDexModifier/1, getLukModifier/1,
-    getChrModifier/1, getVitModifier/1, getName/1, getLevel/1, getClass/1, getXP/1, getMaxXP/1,
-    takeDamage/1, increaseXP/1, recoverMP/1, calculateDamage/1, calculateDefense/1]).
+    setHP/1, setMaxHP/1, setMP/1, setMaxMP/1, getSTR/1, setSTR/1, getINT/1,
+    setINT/1, getDEX/1, setDEX/1, getVIT/1, setVIT/1, getLUK/1, setLUK/1,
+    getCHR/1, setCHR/1, getStrModifier/1, getIntModifier/1, getDexModifier/1,
+    getLukModifier/1, getChrModifier/1, getVitModifier/1, getName/1, getLevel/1,
+    getClass/1, getXP/1, getMaxXP/1, takeDamage/1, increaseXP/1, recoverMP/1,
+    calculateDamage/1, calculateDefense/1, useSpell/2]).
 
 :- use_module("util").
 :- use_module("Itens/inventory.pl").
+:- use_module("Sheet/spells").
 
 class(1, "guerreiro").
 class(2, "mago").
@@ -208,6 +210,31 @@ calculateDefense(Defense) :-
     inventory:sumArmor(Armor),
     getDexModifier(Modifier),
     Defense is 10 + Modifier + Armor.
+
+% Verifica se há mana suficiente
+hasEnoughMana(MP) :- getMP(CurrentMP), MP =< CurrentMP.
+
+% Gasta a mana especificada
+spendMP(MP) :-
+    hasEnoughMana(MP), getMP(CurrentMP), NewMP is CurrentMP - MP, setMP(NewMP).
+
+% Retorna true caso a habilidade esteja disponível, false caso não.
+spellAvaliable(ID) :-
+    getClass(Class),
+    Class == "mago",
+    getLevel(Level),
+    spells:getUsableSpells(Level, Spells),
+    member(ID, Spells).
+
+% Usa a habilidade de determinado ID e unifica o dano causado à variavel Damage,
+% retorna True se conseguir usar a habilidade, false caso contrário.
+% Possíveis motivos para false: Mana insuficiente, habilidade não disponível
+useSpell(ID, Damage) :-
+    spellAvaliable(ID),
+    spells:getManaCost(ID, ManaCost),
+    hasEnoughMana(ManaCost),
+    spendMP(ManaCost),
+    spells:calculateDamage(ID, Damage).
 
 adjustAttributes(Class) :-
     ((Class == "guerreiro") -> (addSTR(2), addVIT(1), addDEX(-1), addINT(-2)));
