@@ -79,9 +79,13 @@ recoverMP(Amount) :-
     ((K =< MMP) -> setMP(K);
     setMP(MMP)).
 
-getSTR(Str) :- attributes(Str, _, _, _, _, _).
-getINT(Int) :- attributes(_, Int, _, _, _, _).
-getDEX(Dex) :- attributes(_, _, Dex, _, _, _).
+getBaseSTR(Value) :- attributes(Value, _, _, _, _, _).
+getBaseINT(Value) :- attributes(_, Value, _, _, _, _).
+getBaseDEX(Value) :- attributes(_, _, Value, _, _, _).
+
+getSTR(Str) :- sumStreigth(Bonus), getBaseSTR(Base), Str is Base + Bonus.
+getINT(Int) :- sumInteligence(Bonus), getBaseINT(Base), Int is Base + Bonus.
+getDEX(Dex) :- sumAgility(Bonus), getBaseDEX(Base), Dex is Base + Bonus.
 getVIT(Vit) :- attributes(_, _, _, Vit, _, _).
 getLUK(Luk) :- attributes(_, _, _, _, Luk, _).
 getCHR(Chr) :- attributes(_, _, _, _, _, Chr).
@@ -117,17 +121,17 @@ setCHR(Chr) :-
     asserta(attributes(Str, Int, Dex, Vit, Luk, Chr)).
 
 addSTR(Num) :-
-    getSTR(Current),
+    getBaseSTR(Current),
     NewValue is Current + Num,
     setSTR(NewValue).
 
 addINT(Num) :-
-    getINT(Current),
+    getBaseINT(Current),
     NewValue is Current + Num,
     setINT(NewValue).
 
 addDEX(Num) :-
-    getDEX(Current),
+    getBaseDEX(Current),
     NewValue is Current + Num,
     setDEX(NewValue).
 
