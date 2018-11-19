@@ -2,6 +2,7 @@
 
 :- dynamic(adventureHanger/1).
 :- dynamic(activateTrap/1).
+:- dynamic(infected/1).
 
 % Colocar em util depois
 getYesNo(Choice) :-
@@ -453,159 +454,228 @@ refectoryChoice2:-
     printList(Dial).
     % Inicia combate
 
-% pantryCavern:-
-%     Dial1 = ["Uma porta de madeira fechada barra a entrada para essa",
-%             "sala. Ao abrir porta você observa que esta sala longa",
-%             "e estreita possui fileiras de estantes carregadas",
-%             "de alimentos e outros suprimentos. Pesados sacos",
-%             "de estopa estão empilhados até o teto no canto",
-%             "oposto da câmara. Uns poucos rasgados, espalhando",
-%             "aveia e farinha no chão. Muitos barris estão",
-%             "agrupados próximos à parede norte.",
-%             "Ao entrar na sala, uma armadilha é ativada!",
-%             "Uma flecha é lançada em sua direção."],
-
-%     Opcao11 = ["Por sorte, a armadilha não te acerta."],
-
-%     Opcao12 = ["A flecha perfura o seu ombro. Causando",
-%               "um ferimento moderado."],
-
-%     Dial2 = ["A armadilha chama a atenção de uma criatura",
-%             "que estava em um barril e ela irá atacar você.",
-%             "Essas criatura é um rato, no entanto, bem maior",
-%             "que o normal, e você tem a impressão que pode pegar",
-%             "a praga lutando com ela."],
-
-%     Opcao21 = ["Apesar do contato com os ratos, você consegue",
-%               "resistir a praga."],
-
-%     Opcao22 = ["Após o combate, você sente que algo está errado...",
-%                "Você está se sentindo um pouco mais fraco, talvez",
-%                "você tenha contraído a praga."],
-
-%     Dial3 = ["Em um dos barris, você encontra duas poções de vida",
-%             "e duas poções de mana, naturalmente você guarda elas.",
-%             "Elas podem ser bastante úteis no futuro."],
-
-%     Dial4 = ["Após os achados, você começa a descer uma rampa que",
-%             "leva a uma parte inferior da caverna. Aos poucos ",
-%             "ela vai ficando muito íngrime, a um ponto que te",
-%             "faz perder o equilíbrio e descer o resto da rampa",
-%             "deslizando a mesma."].
-
-% corpsesGrave:-
-%     Dial1 = ["Você passa pelo túnel. Ondas de calor banham",
-%             "respiração difícil. Esta caverna pequena e",
-%             "em forma de tigela possui o chão cheio de",
-%             "cadáveres humanóides. A abertura de um túnel",
-%             "é visível na parede leste da câmara",
-%             "e, na distância, o som de água corrente",
-%             "pode ser ouvido."],
-
-%     Opcao1 = ["Você acredita que aqui é o fosso da criação",
-%               "da praga. Sejá la quem for que está fazendo",
-%               "isso, não deve ficar longe de onde você está."],
-
-%     Opcao2 = ["Quatro zumbis levantam-se de um dos montes",
-%               "de corpos! Prepare-se para o combate!"],
-
-%     Dial2 = ["Algo dentro de você diz que isso está perto",
-%             "de acabar. Ao calmo som de água corrente. Você",
-%             "entra no estreito túnel a leste."].
-
-
-% rampCavern:-
-%     Dial1 = ["Após descer a rampa e chegar no fundo da caverna",
-%             "você olha que esta caverna enorme se estende",
-%             "para cima até pelo menos 30 m, subindo alto para",
-%             "dentro das entranhas da montanha. A iluminação",
-%             "ocasionalmente reflete pequenos grãos prateados,",
-%             "que brilham na face parede oeste da caverna.",
-%             "Muitos cabos estão pendurados na beirada de um",
-%             "largo vazio na parede. O buraco penetra a face",
-%             "oeste da caverna e começa a cerca de 6 m de",
-%             "onde você está. O ar aqui é mais frio e úmido.",
-%             "De repente, você escuta vários passos. Não de",
-%             "humanoides, mas de um animal. Um imenso",
-%             "lobo aparece por trás de algumas pedras e",
-%             "começa a te cercar, e ele vai te atacar!"],
-
-%     Dial2 = ["",
-%             "Após o combate, você percebe que pode escalar",
-%             "aqueles cabos pendurados. No entanto, também",
-%             "existe um túnel à frente"].
-
-% rampChoice:-
-%     Choices = ["O que voce vai fazer?",
-%                "1) Escalar os cabos",
-%                "2) Seguir em frente"].
-
-% rampProgress1:-
-%     Opcao1 = ["Aṕos escalar os cabos, você sobe em uma",
-%               "pedra e exerga uma passagem para o que",
-%               "parece um acampamento, você consegue",
-%               "exergar que existem muitos tesouros",
-%               "lá dentro."],
-
-%     Opcao2 = ["Você escala os cabos, mas devido ao escuro,",
-%               "você não consegue enxergar nada. Sua única",
-%               "opção é voltar e seguir o outro caminho."].
-
-% rampProgress2:-
-%     Dial = ["Você prefere não se arriscar escalando esses",
-%             "cabos. É mais sensato manter o foco e seguir",
-%             "o caminho."].
-
-% rampProgress3:-
-%     Dial = ["Opção inválida!"].
-
-% secretCamp:-
-%     Dial = ["Ao entrar na passagem, você encontra o acampa-",
-%             "mento dos Kobolds, usado como área de estoque",
-%             "e dormitório. Você encontra um baú e dois",
-%             "jovens Kobolds, que estão olhando para você",
-%             "e estão amedrontados. Um deles utiliza um capuz",
-%             "que parece valioso."].
-
-% secretCampChoice:-
-%     Dial = ["O que voce ira fazer?",
-%             "Matar eles e ficar com a capa.",
-%             "Poupar a vida deles e pegar apenas o tesouro."].
-
-% secretCampDecision1:-
-%     Dial = ["Para você, a capa é mais valiosa que a vida",
-%             "deles. Você os mata sem remorso e pega a",
-%             "capa deles, com um pouco de investigação",
-%             "você descobre que é uma capa da proteção."].
-
-% secretCampDecision2:-
-%     Dial = ["Você poupa a vida deles, afinal, eles não",
-%             "fizeram absolutamente nada. Simplesmente não",
-%             "seria justo. Você pega três poções de vida",
-%             "e duas de mana. Logo após, você desce os cabos",
-%             "E segue o outro caminho."].
-
-% secretCampDecision3:-
-%     Dial = ["Opção inválida!"].
-
-% situacionGettingWorst:-
-%     Dial = ["A leve fraqueza que você estava sentindo",
-%     "está demasiadamente pior, você já sente","um pouco de dificuldade em movimentos",
-%     "bruscos ou que precisam de força. No entanto,","você continua determinado a acabar com esse","problema."].
-
-% grave of the corpses:-
-%     Dial1 = ["Você passa pelo túnel. Ondas de calor banham",
-%     "respiração difícil. Esta caverna pequena e","em forma de tigela possui o chão cheio de",
-%     "cadáveres humanóides. A abertura de um túnel","é visível na parede leste da câmara",
-%     "e, na distância, o som de água corrente","pode ser ouvido."],
-
-%     Dial2 = ["Você acredita que aqui é o fosso da criação",
-%         "da praga. Sejá la quem for que está fazendo","isso, não deve ficar longe de onde você está."],
+pantryCavern:-
+    util:rollDice(20, D),
+    Dial1 = ["Uma porta de madeira fechada barra a entrada para essa",
+            "sala. Ao abrir porta você observa que esta sala longa",
+            "e estreita possui fileiras de estantes carregadas",
+            "de alimentos e outros suprimentos. Pesados sacos",
+            "de estopa estão empilhados até o teto no canto",
+            "oposto da câmara. Uns poucos rasgados, espalhando",
+            "aveia e farinha no chão. Muitos barris estão",
+            "agrupados próximos à parede norte.",
+            "Ao entrar na sala, uma armadilha é ativada!",
+            "Uma flecha é lançada em sua direção."],
     
-%     Dial3 = ["Quatro zumbis levantam-se de um dos montes","de corpos! Prepare-se para o combate!"],
+    printList(Dial1),
 
-%     Dial4 = ["","Algo dentro de você diz que isso está perto","de acabar. Ao calmo som de água corrente. Você",
-%     "entra no estreito túnel a leste."].
+    
+    Opcao11 = ["Por sorte, a armadilha não te acerta."],
+    
+    Opcao12 = ["A flecha perfura o seu ombro. Causando",
+    "um ferimento moderado."],
+    
+    (
+    (D >= 11, printList(Opcao11));
+    (printList(Opcao12))
+    ),
+
+    Dial2 = ["A armadilha chama a atenção de uma criatura",
+            "que estava em um barril e ela irá atacar você.",
+            "Essas criatura é um rato, no entanto, bem maior",
+            "que o normal, e você tem a impressão que pode pegar",
+            "a praga lutando com ela."],
+
+    printList(Dial2),
+    % Inicia batalha.
+
+    util:rollDice(20, R),
+
+    Opcao21 = ["Apesar do contato com os ratos, você consegue",
+              "resistir a praga."],
+
+    Opcao22 = ["Após o combate, você sente que algo está errado...",
+               "Você está se sentindo um pouco mais fraco, talvez",
+               "você tenha contraído a praga."],
+    
+    (
+    (R >= 11, printList(Opcao21));
+    (printList(Opcao22), asserta(infected(1)))    
+    ),
+
+    Dial3 = ["Em um dos barris, você encontra duas poções de vida",
+            "e duas poções de mana, naturalmente você guarda elas.",
+            "Elas podem ser bastante úteis no futuro."],
+    
+    printList(Dial3),
+    % Adicionar item 2
+    % Adicionar item 2
+    % Adicionar item 4
+    % Adicionar item 4
+
+    Dial4 = ["Após os achados, você começa a descer uma rampa que",
+            "leva a uma parte inferior da caverna. Aos poucos ",
+            "ela vai ficando muito íngrime, a um ponto que te",
+            "faz perder o equilíbrio e descer o resto da rampa",
+            "deslizando a mesma."],
+    
+    printList(Dial4).
+
+rampCavern:-
+    Dial1 = ["Após descer a rampa e chegar no fundo da caverna",
+            "você olha que esta caverna enorme se estende",
+            "para cima até pelo menos 30 m, subindo alto para",
+            "dentro das entranhas da montanha. A iluminação",
+            "ocasionalmente reflete pequenos grãos prateados,",
+            "que brilham na face parede oeste da caverna.",
+            "Muitos cabos estão pendurados na beirada de um",
+            "largo vazio na parede. O buraco penetra a face",
+            "oeste da caverna e começa a cerca de 6 m de",
+            "onde você está. O ar aqui é mais frio e úmido.",
+            "De repente, você escuta vários passos. Não de",
+            "humanoides, mas de um animal. Um imenso",
+            "lobo aparece por trás de algumas pedras e",
+            "começa a te cercar, e ele vai te atacar!"],
+
+    printList(Dial1),
+    % Inicia batalha.
+
+    Dial2 = ["",
+            "Após o combate, você percebe que pode escalar",
+            "aqueles cabos pendurados. No entanto, também",
+            "existe um túnel à frente"],
+    
+    printList(Dial2),
+    rampChoice,
+    corpsesGrave.
+
+
+rampChoice:-
+    Choices = ["O que voce vai fazer?",
+               "1) Escalar os cabos",
+               "2) Seguir em frente"],
+    
+    printList(Choices),
+    readInt(Z),
+    
+    (
+    (Z =:= 1, rampProgress1);
+    (Z =:= 2, rampProgress2);
+    (writeln("Opção inválida, tente novamente"), rampChoice())
+    ).
+
+rampProgress1:-
+    util:rollDice(20, R),
+
+    Opcao1 = ["Aṕos escalar os cabos, você sobe em uma",
+              "pedra e exerga uma passagem para o que",
+              "parece um acampamento, você consegue",
+              "exergar que existem muitos tesouros",
+              "lá dentro."],
+
+    Opcao2 = ["Você escala os cabos, mas devido ao escuro,",
+              "você não consegue enxergar nada. Sua única",
+              "opção é voltar e seguir o outro caminho."],
+    
+    (
+    (R >= 5, printList(Opcao1), secretCamp);
+    (printList(Opcap2))
+    ).
+
+
+
+rampProgress2:-
+    Dial = ["Você prefere não se arriscar escalando esses",
+            "cabos. É mais sensato manter o foco e seguir",
+            "o caminho."],
+    
+    printList(Dial).
+
+
+secretCamp:-
+    Dial = ["Ao entrar na passagem, você encontra o acampa-",
+            "mento dos Kobolds, usado como área de estoque",
+            "e dormitório. Você encontra um baú e dois",
+            "jovens Kobolds, que estão olhando para você",
+            "e estão amedrontados. Um deles utiliza um capuz",
+            "que parece valioso."],
+    
+    printList(Dial),
+    secretCampChoice.
+
+secretCampChoice:-
+    Dial = ["O que voce ira fazer?",
+            "1) Matar eles e ficar com a capa.",
+            "2) Poupar a vida deles e pegar apenas o tesouro."],
+    
+    printList(Dial),
+    readInt(C),
+
+    (
+    (C =:= 1, secretCampDecision1);
+    (C =:= 2, secretCampDecision2);
+    (writeln("Opção inválida, tente novamente."), secretCampChoice)
+    ).
+
+secretCampDecision1:-
+    Dial = ["Para você, a capa é mais valiosa que a vida",
+            "deles. Você os mata sem remorso e pega a",
+            "capa deles, com um pouco de investigação",
+            "você descobre que é uma capa da proteção.",
+            "Logo após, você desce os cabos E segue o outro caminho."],
+
+    % addItem 42
+
+    printList(Dial).
+
+secretCampDecision2:-
+    Dial = ["Você poupa a vida deles, afinal, eles não",
+            "fizeram absolutamente nada. Simplesmente não",
+            "seria justo. Você pega três poções de vida",
+            "e duas de mana. Logo após, você desce os cabos",
+            "E segue o outro caminho."],
+    
+    printList(Dial).
+    % addItem 2
+    % addItem 2 
+    % addItem 2 
+    % addItem 4 
+    % addItem 4 
+
+situacionGettingWorst:-
+    Dial = ["A leve fraqueza que você estava sentindo",
+    "está demasiadamente pior, você já sente","um pouco de dificuldade em movimentos",
+    "bruscos ou que precisam de força. No entanto,","você continua determinado a acabar com esse","problema."],
+
+    % Reduzir vitalidade.
+    printList(Dial).
+
+corpsesGrave:-
+    Dial1 = ["Você passa pelo túnel. Ondas de calor banham",
+            "respiração difícil. Esta caverna pequena e",
+            "em forma de tigela possui o chão cheio de",
+            "cadáveres humanóides. A abertura de um túnel",
+            "é visível na parede leste da câmara",
+            "e, na distância, o som de água corrente",
+            "pode ser ouvido."],
+
+    Opcao1 = ["Você acredita que aqui é o fosso da criação",
+              "da praga. Sejá la quem for que está fazendo",
+              "isso, não deve ficar longe de onde você está."],
+
+    Opcao2 = ["Um zumbi se levanta de um dos montes",
+              "de corpos! Prepare-se para o combate!"],
+
+    Dial2 = ["Algo dentro de você diz que isso está perto",
+            "de acabar. Ao calmo som de água corrente. Você",
+            "entra no estreito túnel a leste."],
+    
+    printList(Dial1),
+    printList(Opcao1),
+    printList(Opcao2),
+    % iniciaBatalha,
+    printList(Dial2).
+
 
 % jakkEnding:-
 %     L = ["Ao entrar, nessa parte da caverna, você observa um",
