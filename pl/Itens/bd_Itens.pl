@@ -14,17 +14,20 @@ item(27,"Arm. de Ferro","Armadura simples de ferro fundido").
 item(30,"Espada Curta +1","Espada curta usada em ataques de curta distância com bônus +1 de Força").
 item(32,"Adaga +1","Arma branca para ataques furtivos e ágeis, com bônus de +1 de Destreza").
 item(34,"Vazio","representa o espaco vazio no inventario").
-item(35,"Espada simples","Espada inicial").
+item(35,"Espada Simples","Espada inicial").
 item(36,"Armadura de Latão","Armadura para aventureiros iniciantes").
-item(37,"Cajado simples","cajado para magos inexperientes").
-item(39,"Manto simples","Manto de magos aprendizes").
+item(37,"Cajado Vazio","cajado para magos inexperientes").
+item(39,"Manto  Simples","Manto de magos aprendizes").
 item(40,"Capacete de Latão","Capacete simples de jovens aventureiros").
 item(41,"Chapéu inicial","Vestimentas simples para cosplayers de magos").
-item(44,"Capuz de veludo","Última moda entre os ladinos mais estilosos").
+item(42,"Chapéu Seletor","+10 PONTOS PARA GRIFNÓLIAAAA").
+item(44,"Capuz de Veludo","Última moda entre os ladinos mais estilosos").
 item(45,"Sobretudo de Couro","Dizem que você ganha mais agilidade com ele,mesmo que não faça sentido").
-item(47,"Escudo simples","Escudo simples feito de madeira").
+item(47,"Escudo Simples","Escudo simples feito de madeira").
 item(48,"Escudo Mágico","Escudo corporal que aumenta a capacidade mágica do portador").
 item(49,"Braçadeira de Legolas","Uma pequena proteção contra flechas e pequenas facas").
+
+
 
 /* Estrutura do equipavel: id dano atrbArm atrbForca atrbDest atrbIntel tipoEquipavel */
 
@@ -43,6 +46,7 @@ equipavel(37,5,0,0,0,1,1).
 equipavel(39,0,3,0,0,1,2).
 equipavel(40,0,2,4,0,0,4).
 equipavel(41,0,1,0,0,1,4).
+equipavel(42,0,0,0,500,99999,4).
 equipavel(44,0,2,0,3,0,4).
 equipavel(45,0,2,0,2,0,4).
 equipavel(47,0,2,0,0,0,5).

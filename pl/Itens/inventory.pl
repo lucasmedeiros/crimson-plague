@@ -52,7 +52,7 @@ start(ClassCharacter):-
 equip(Pos):-
 	bag(X),
 	checkPosition(Pos),
-	findValueByIndex(RealPos,X,Id),
+	nth0(RealPos,X,Id),
 	RealPos is Pos - 1,
 	equipAux(Id, RealPos). 
 
@@ -74,7 +74,7 @@ add(Id):-
 remove(Pos):-
 	bag(X),
 	Index is Pos - 1,
-	findValueByIndex(Index,X, Id),
+	nth0(Index,X, Id),
 	removeById(Id),
 	checkPosition(Pos).
 	
@@ -135,16 +135,6 @@ replaceItem(_,_,[],[]):- !.
 replaceItem(NewValue,OldValue,[OldValue|T],[NewValue|T]).
 replaceItem(NewValue,OldValue,[H|T],[H|T1]):- replaceItem(NewValue,OldValue,T,T1).
 
-/* Encontra o index de um valor da lista */
-
-findIndexByValue(E,[E|_],0):- !.
-findIndexByValue(E,[_|T],I):- findIndexByValue(E,T,X), I is X + 1.
-
-/* Encontra o valor pelo index na lista */
-
-findValueByIndex(0, [H|_], H):- !.
-findValueByIndex(I, [_|T], E):- X is I - 1, findValueByIndex(X, T, E).
-
 /* substitui um valor no index especifico dentro de uma lista, retornando a mesma atualizada */
 
 replace(_,_,[],_,_).
@@ -167,7 +157,7 @@ removeSoloItem(Id):-
 	amount(Y),
 	bag(X),
 
-	findIndexByValue(Id,X,Index),
+	nth0(Index,X,Id),
 
 	retract(bag(X)),
 	retract(amount(Y)),
@@ -182,8 +172,8 @@ removeNoSoloItem(Id):-
 	amount(Y),
 	bag(X),
 
-	findIndexByValue(Id,X,Index),
-	findValueByIndex(Index,Y,Amount),
+	nth0(Index,X,Id),
+	nth0(Index,Y,Amount),
 	RealAmount is Amount - 1,
 
 	retract(amount(Y)),
@@ -194,8 +184,9 @@ addAmountItem(Id):-
 	retract(amount(Y)),
 	bag(X),
 
-	findIndexByValue(Id,X,Index),
-	findValueByIndex(Index,Y,Amount),
+	nth0(Index,X,Id),
+	nth0(Index,Y,Amount),
+
 	RealAmount is Amount +1,
 
 	replace(RealAmount,Index,Y,[],NewAmount),
@@ -214,7 +205,7 @@ equipAux(Id, RealPos):-
 	getTYP(Id,Type),
 	PosType is Type - 1,
 
-	findValueByIndex(PosType,Y,IdEquipped),
+	nth0(PosType,Y,IdEquipped),
 
 	retract(bag(X)),
 	retract(equipped(Y)),
@@ -228,9 +219,12 @@ equipAux(Id, RealPos):-
 removeById(Id):-
 	bag(X),
 	amount(Y),
-	findIndexByValue(Id,X,Index),
-	findValueByIndex(Index,Y,Amount),
-	Amount > 1 -> removeNoSoloItem(Id);
+
+	nth0(Index,X,Id),
+	nth0(Index,Y,Amount),
+
+	Amount > 1 -> 
+		removeNoSoloItem(Id);
 	removeSoloItem(Id). 
 
 startEquipments(A):-
@@ -278,29 +272,29 @@ printInventory:-
 	getNameEquiped(3,CAPACETE),
 	getNameEquiped(4,ESCUDO),
 
-	writeln("  _____________________________________     _____________________________________"),
-	writeln("/|                                     |\\^/|                                     |\\"),
-	writeln("||----------- INVENTÁRIO --------------||-||--------- MINHA HISTÓRIA ------------||"),
-	writeln("||                                     ||-||                                     ||"),
-	string_concat("|| NOME: ",Y,Name),
+	writeln(" ┌─────────────────────────────────────┐   ┌─────────────────────────────────────┐"),
+	writeln("/│                                     │\\^/│                                     │\\"),
+	writeln("││----------- INVENTÁRIO --------------││-││--------- MINHA HISTÓRIA ------------││"),
+	writeln("││                                     ││-││                                     ││"),
+	string_concat("││ NOME: ",Y,Name),
 	compensaBlank(Name),
-	string_concat("|| CLASSE: ",X,Class),
+	string_concat("││ CLASSE: ",X,Class),
 	compensaBlank(Class),
-	writeln("||                                     ||-||                                     ||"),
-	string_concat("|| 1.Arma : ",ARMA,Arma),
+	writeln("││                                     ││-││                                     ││"),
+	string_concat("││ 1.Arma : ",ARMA,Arma),
 	compensaBlank(Arma),
-	string_concat("|| 2.Armadura : ",ARMADURA,Armor),
+	string_concat("││ 2.Armadura : ",ARMADURA,Armor),
 	compensaBlank(Armor),
-	string_concat("|| 3.Bota : ",BOTAS,Boots),
+	string_concat("││ 3.Bota : ",BOTAS,Boots),
 	compensaBlank(Boots),
-	string_concat("|| 4.Capacete : ",CAPACETE,Helmet),
+	string_concat("││ 4.Capacete : ",CAPACETE,Helmet),
 	compensaBlank(Helmet),
-	string_concat("|| 5.Escudo : ",ESCUDO,Shield),
+	string_concat("││ 5.Escudo : ",ESCUDO,Shield),
 	compensaBlank(Shield),
-	writeln("||                                     ||-||                                     ||"),
+	writeln("││                                     ││-││                                     ││"),
 	printAtributes,
-	writeln("||                                     ||-||                                     ||"),
-	bagPrint, !.
+	writeln("││                                     ││-││                                     ││"),
+	auxBagPrint, !.
 
 printAtributes:-
 	sumAgility(DEX),
@@ -309,17 +303,17 @@ printAtributes:-
 	sumArmor(ARM),
 	sumDamage(DAM),
 
-	atom_concat("|| ARM: +",ARM,Armor),
-	atom_concat("||-DANO PURO: ",DAM,Damage),
-	atom_concat("|| INT: +",INT,Inteligence),
-	atom_concat("|| DEX: +",DEX,Agility),
-	atom_concat("|| STR: +",STR,Streigth),
+	atom_concat("││ ARM: +",ARM,Armor),
+	atom_concat("││-DANO PURO: ",DAM,Damage),
+	atom_concat("││ INT: +",INT,Inteligence),
+	atom_concat("││ DEX: +",DEX,Agility),
+	atom_concat("││ STR: +",STR,Streigth),
 
 	compensaBlank(Damage),
-	writeln("||                                     ||-||                                     ||"),
-	atom_concat("||"," Atributos Bônus: ",Title),
+	writeln("││                                     ││-││                                     ││"),
+	atom_concat("││"," Atributos Bônus: ",Title),
 	compensaBlank(Title),
-	writeln("||                                     ||-||                                     ||"),
+	writeln("││                                     ││-││                                     ││"),
 	compensaBlank(Armor),
 	compensaBlank(Inteligence),
 	compensaBlank(Agility),
@@ -328,37 +322,38 @@ printAtributes:-
 printItensInBag(Index,X):-
 	amount(C),
 	bag(A),
-	findValueByIndex(Index,A,Id),
+	nth0(Index,A,Id),
+	nth0(Index,C,Amount),
+
 	getName(Id,Name),
-	findValueByIndex(Index,C,Amount),
 	Ind is Index + 1,
 
 	string_concat(Ind,".",Indice),
 	string_concat(Indice,Name,String1),
 	string_concat(String1,"(x",String2),
-	string_concat("||-",String2,String3),
+	string_concat("││-",String2,String3),
 	string_concat(String3,Amount,String4),
 	string_concat(String4,")",X).
 
-bagPrint:-
+auxBagPrint:-
 	printItensInBag(0,Item1),
 	printItensInBag(1,Item2),
 	printItensInBag(2,Item3),
 	printItensInBag(3,Item4),
 	printItensInBag(4,Item5),
 
-	writeln("||------------ Mochila ----------------||-||                                     ||"),
-	writeln("||                                     ||-||                                     ||"),
-	writeln("||------------- Slots -----------------||-||                                     ||"),
-	writeln("||                                     ||-||                                     ||"),
+	writeln("││------------ Mochila ----------------││-││                                     ││"),
+	writeln("││                                     ││-││                                     ││"),
+	writeln("││------------- Slots -----------------││-││                                     ││"),
+	writeln("││                                     ││-││                                     ││"),
 	compensaBlank(Item1),
 	compensaBlank(Item2), 
 	compensaBlank(Item3),
 	compensaBlank(Item4),
 	compensaBlank(Item5),
-	writeln("||                                     ||-||                                     ||"),
-	writeln("||-------------------------------------||-||-------------------------------------||"),
-	writeln("||_____________________________________|/^\\|_____________________________________||").
+	writeln("││                                     ││-││                                     ││"),
+	writeln("││-------------------------------------││-││-------------------------------------││"),
+	writeln("││_____________________________________│/^\\│_____________________________________││").
 
 
 
@@ -374,19 +369,19 @@ compensaBlank(String):-
 
 	generateBlack(BlanKQtd,Blank),
 	string_concat(String,Blank,StringAux),
-	string_concat(StringAux,"||",NString),
-	string_concat(NString,"-||                                     ||",Saida),
+	string_concat(StringAux,"││",NString),
+	string_concat(NString,"-││                                     ││",Saida),
 	writeln(Saida).
 
 getNameEquiped(Pos,Name):-
 	equipped(Y),
-	findValueByIndex(Pos,Y,Item1),
-	getName(Item1,Name).
+	nth0(Pos,Y,Item),
+	getName(Item,Name).
 
 options:-
 	writeln(" 1) Equipar"),
 	writeln(" 2) Voltar").
  	
 printBag:-
-	bagPrint,
+	auxBagPrint,
 	options.
