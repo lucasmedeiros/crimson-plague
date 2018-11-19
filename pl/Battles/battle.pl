@@ -1,18 +1,27 @@
 :- module(battle, [startBattle/2]).
 
-:- use_module("../util").
-:- use_module("../Monsters/monsters").
+:- use_module("util").
+:- use_module("Monsters/monsters").
+:- use_module("Sheet/sheet").
 
 startBattle(IdMonster, C) :-
+    util:cls,
     monsters:isMonster(IdMonster) ->
         monsters:build_monster(IdMonster, Monster),
+        write("Um desafio se aproxima, um "),
+        monsters:getName(Monster, MonsterName),
+        atom_concat(MonsterName, " te ataca...", ChallengeInfo),
+        writeln(ChallengeInfo),
         loopBattle(Monster, C).
 
 loopBattle(Monster, C) :-
     monsters:getHp(Monster, MonsterHP),
-    atom_concat("HP Monstro: ", MonsterHP, MonsterHPInfo),
+    monsters:getName(Monster, MonsterName),
+    atom_concat("HP ", MonsterName, MonsterNameInfo),
+    atom_concat(": ", MonsterHP, MonsterHPInfo),
+    atom_concat(MonsterNameInfo, MonsterHPInfo, MonsterInfo),
     atom_concat("Seu HP: ", C, CharHPInfo),
-    writeln(MonsterHPInfo),
+    writeln(MonsterInfo),
     writeln(CharHPInfo),
     M2 = MonsterHP,
     C2 = C,
@@ -71,7 +80,7 @@ openBag() :-
 tryEscape(Monster, C) :-
     writeln("Você tenta fugir e..."),
     util:rollDice(20, RollResult),
-    RollResult >= 12 -> 
+    RollResult >= 10 -> 
         writeln("Escapou com sucesso...");
     (writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster, C)).
 
