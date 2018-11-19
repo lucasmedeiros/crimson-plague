@@ -11,8 +11,8 @@
  
 /* -------------------DEFINITIONS AND IMPORTS -------------- */
 
-:- module(inventory,[start/1,add/1,remove/1,equip/1,
-			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDesc/2	,sumArmor/1,
+:- module(inventory,[start/2,add/1,remove/1,equip/1,
+			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDesc/2,sumArmor/1,
 			sumStreigth/1,sumInteligence/1,sumAgility/1]).
 
 :- use_module('Itens/itens.pl').
@@ -37,9 +37,9 @@ nome("UNKNOW").
 /* -------------------- PREDICATES -------------------------- */
 /* --------------------    START   -------------------------- */
 
-start(ClassCharacter):-
+start(ClassCharacter,Name):-
 	retract(nome(_)),
-	asserta(nome("Name")),
+	asserta(nome(Name)),
 	ClassCharacter == "guerreiro", updateClass(ClassCharacter) -> startEquipments([30,36,25,40,47]);
 	ClassCharacter == "mago", updateClass(ClassCharacter) -> startEquipments([37,39,25,41,48]);
 	ClassCharacter == "ladino", updateClass(ClassCharacter) -> startEquipments([32,45,25,44,49]);

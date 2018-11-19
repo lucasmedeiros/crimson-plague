@@ -1,5 +1,5 @@
 :- module(itens,[isItem/1, isConsumible/1, isEquipable/1, getAtrbConsumable/3,
-				getName/2,getARM/2,getDAM/2,getSTR/2,getDEX/2,getINT/2,getTYP/2]).
+				getName/2,getARM/2,getDAM/2,getSTR/2,getDEX/2,getINT/2,getTYP/2,getDescription/2]).
 
 setup_bd_itens:-
 	consult('Itens/bd_Itens.pl').
@@ -27,6 +27,10 @@ getAtrbConsumable(Id,HP,MP):-
 getName(Id,Name):-
 	setup_bd_itens,
 	item(Id,Name,_).
+
+getDescription(Id,Desc):-
+	setup_bd_itens,
+	item(Id,_,Desc).
 
 % --------------- GETS EQUIPABLES ATRB---------------------
 
