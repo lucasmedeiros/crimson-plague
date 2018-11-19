@@ -1,4 +1,4 @@
-:- module(monsters, [isMonster/1, build_monster/2, takeDmgMonster/3, getHp/2,
+:- module(monsters, [build_monster/2, takeDmgMonster/3, getHp/2,
                         getName/2, getXp/2, getDrop/2, getCa/2, getAtk/2]).
 
 :- use_module("../util").
