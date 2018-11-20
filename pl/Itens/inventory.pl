@@ -29,10 +29,11 @@ bag([34,34,34,34,34]).
 amount([0,0,0,0,0]).
 
 :- dynamic(class/1).
-class("UNKNOW").
+class("guerreiro").
 
 :- dynamic(nome/1).
 nome("UNKNOW").
+
 
 /* -------------------- PREDICATES -------------------------- */
 /* --------------------    START   -------------------------- */
@@ -271,37 +272,45 @@ printInventory:-
 	getNameEquiped(2,BOTAS),
 	getNameEquiped(3,CAPACETE),
 	getNameEquiped(4,ESCUDO),
+	saida(X,PrintRightPage),
 
-	writeln(" ┌─────────────────────────────────────┐   ┌─────────────────────────────────────┐"),
-	writeln("/│                                     │\\^/│                                     │\\"),
-	writeln("││----------- INVENTÁRIO --------------││-││--------- MINHA HISTÓRIA ------------││"),
-	writeln("││                                     ││-││                                     ││"),
+	concatAndPrint(" ┌─────────────────────────────────────┐ ",PrintRightPage,0),
+	concatAndPrint("/│                                     │\\",PrintRightPage,1),
+	concatAndPrint("││----------- INVENTÁRIO --------------││",PrintRightPage,2),
+	concatAndPrint("││                                     ││",PrintRightPage,3),
 	string_concat("││ NOME: ",Y,Name),
-	compensaBlank(Name),
+	compensaBlank(Name,PrintRightPage,4),
 	string_concat("││ CLASSE: ",X,Class),
-	compensaBlank(Class),
-	writeln("││                                     ││-││                                     ││"),
+	compensaBlank(Class,PrintRightPage,5),
+	concatAndPrint("││                                     ││",PrintRightPage,6),
 	string_concat("││ 1.Arma : ",ARMA,Arma),
-	compensaBlank(Arma),
+	compensaBlank(Arma,PrintRightPage,6),
 	string_concat("││ 2.Armadura : ",ARMADURA,Armor),
-	compensaBlank(Armor),
+	compensaBlank(Armor,PrintRightPage,7),
 	string_concat("││ 3.Bota : ",BOTAS,Boots),
-	compensaBlank(Boots),
+	compensaBlank(Boots,PrintRightPage,8),
 	string_concat("││ 4.Capacete : ",CAPACETE,Helmet),
-	compensaBlank(Helmet),
+	compensaBlank(Helmet,PrintRightPage,9),
 	string_concat("││ 5.Escudo : ",ESCUDO,Shield),
-	compensaBlank(Shield),
-	writeln("││                                     ││-││                                     ││"),
-	printAtributes,
-	writeln("││                                     ││-││                                     ││"),
-	auxBagPrint, !.
+	compensaBlank(Shield,PrintRightPage,10),
+	concatAndPrint("││                                     ││",PrintRightPage,11),
+	printAtributes(X),
+	concatAndPrint("││                                     ││",PrintRightPage,20),
+	auxBagPrint(X), !.
 
-printAtributes:-
+concatAndPrint(String,Lista,Pos):-
+	nth0(Pos,Lista,Linha),
+	string_concat(String,Linha,LinhaCompleta),
+	writeln(LinhaCompleta).
+
+
+printAtributes(Classe):-
 	sumAgility(DEX),
 	sumInteligence(INT),
 	sumStreigth(STR),
 	sumArmor(ARM),
 	sumDamage(DAM),
+	saida(Classe,X),
 
 	atom_concat("││ ARM: +",ARM,Armor),
 	atom_concat("││-DANO PURO: ",DAM,Damage),
@@ -309,15 +318,15 @@ printAtributes:-
 	atom_concat("││ DEX: +",DEX,Agility),
 	atom_concat("││ STR: +",STR,Streigth),
 
-	compensaBlank(Damage),
-	writeln("││                                     ││-││                                     ││"),
+	compensaBlank(Damage,X,12),
+	concatAndPrint("││                                     ││",X,13),
 	atom_concat("││"," Atributos Bônus: ",Title),
-	compensaBlank(Title),
-	writeln("││                                     ││-││                                     ││"),
-	compensaBlank(Armor),
-	compensaBlank(Inteligence),
-	compensaBlank(Agility),
-	compensaBlank(Streigth).
+	compensaBlank(Title,X,14),
+	concatAndPrint("││                                     ││",X,15),
+	compensaBlank(Armor,X,16),
+	compensaBlank(Inteligence,X,17),
+	compensaBlank(Agility,X,18),
+	compensaBlank(Streigth,X,19).
 
 printItensInBag(Index,X):-
 	amount(C),
@@ -335,25 +344,26 @@ printItensInBag(Index,X):-
 	string_concat(String3,Amount,String4),
 	string_concat(String4,")",X).
 
-auxBagPrint:-
+auxBagPrint(Classe):-
+	saida(Classe,X),
 	printItensInBag(0,Item1),
 	printItensInBag(1,Item2),
 	printItensInBag(2,Item3),
 	printItensInBag(3,Item4),
 	printItensInBag(4,Item5),
 
-	writeln("││------------ Mochila ----------------││-││                                     ││"),
-	writeln("││                                     ││-││                                     ││"),
-	writeln("││------------- Slots -----------------││-││                                     ││"),
-	writeln("││                                     ││-││                                     ││"),
-	compensaBlank(Item1),
-	compensaBlank(Item2), 
-	compensaBlank(Item3),
-	compensaBlank(Item4),
-	compensaBlank(Item5),
-	writeln("││                                     ││-││                                     ││"),
-	writeln("││-------------------------------------││-││-------------------------------------││"),
-	writeln("││_____________________________________│/^\\│_____________________________________││").
+	concatAndPrint("││------------ Mochila ----------------││",X,21),
+	concatAndPrint("││                                     ││",X,22),
+	concatAndPrint("││------------- Slots -----------------││",X,23),
+	concatAndPrint("││                                     ││",X,24),
+	compensaBlank(Item1,X,25),
+	compensaBlank(Item2,X,26), 
+	compensaBlank(Item3,X,27),
+	compensaBlank(Item4,X,28),
+	compensaBlank(Item5,X,29),
+	concatAndPrint("││                                     ││",X,30),
+	concatAndPrint("││-------------------------------------││",X,31),
+	concatAndPrint("││_____________________________________│/",X,32).
 
 
 
@@ -363,15 +373,15 @@ auxBagPrint:-
 generateBlack(0," ").
 generateBlack(I,STR):- K is I - 1, generateBlack(K, NTR), string_concat(" ",NTR,STR).
 
-compensaBlank(String):-
+compensaBlank(String,Lista,Index):-
 	string_length(String, Length),
 	BlanKQtd is 38 - Length,
 
 	generateBlack(BlanKQtd,Blank),
 	string_concat(String,Blank,StringAux),
 	string_concat(StringAux,"││",NString),
-	string_concat(NString,"-││                                     ││",Saida),
-	writeln(Saida).
+	string_concat(NString,"",Saida),
+	concatAndPrint(Saida,Lista,Index).
 
 getNameEquiped(Pos,Name):-
 	equipped(Y),
@@ -385,3 +395,38 @@ options:-
 printBag:-
 	auxBagPrint,
 	options.
+
+saida("guerreiro",["  ┌─────────────────────────────────────┐",
+			  "^/│                                     │\\",
+			  "-││--------- MINHA HISTÓRIA ------------││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││                                     ││",
+			  "-││-------------------------------------││",
+			  "^\\│_____________________________________││"]).
