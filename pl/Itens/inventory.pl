@@ -65,7 +65,7 @@ add(Id):-
 		isConsumible(Id),
 		addAmountItem(Id), !);
 
-	(retract(bag(X)),
+	(isItem(Id),retract(bag(X)),
 	replaceItem(Id,34,X,Y),
 	asserta(bag(Y)),
 	addAmountItem(Id), !);
