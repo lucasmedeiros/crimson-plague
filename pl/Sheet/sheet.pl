@@ -242,13 +242,11 @@ adjustAttributes(Class) :-
     ((Class == "ladino") -> (addVIT(-2), addCHR(-1), addDEX(2), addINT(1))).
 
 classSetup(Class) :-
-    getName(Name),
-    inventory:start(Class, Name),
-    adjustAttributes(Class),
-    fillHP(),
-    fillMP().
+  adjustAttributes(Class),
+  fillHP(),
+  fillMP().
 
-chooseClass(Class) :-
+chooseClass(Class, Name) :-
     L = ["Classes: ",
         "1) Guerreiro",
         "2) Mago",
@@ -259,7 +257,8 @@ chooseClass(Class) :-
 
     printList(L),
     readInt(Number),
-    ((Number > 0, Number < 4) -> (class(Number, Class), classSetup(Class));
+    ((Number > 0, Number < 4) -> (
+        class(Number, Class), classSetup(Class), inventory:start(Class, Name));
     (Number == 4) -> (cls(), showClassInfo(), writeln(""), chooseClass(Class));
     (cls(), chooseClass(Class))).
 
@@ -267,5 +266,5 @@ createCharacter :-
     writeln("Qual seu nome? "),
     readString(Name),
     writeln(""),
-    chooseClass(Class),
+    chooseClass(Class, Name),
     asserta(sheet(Name, 1, Class, 0, 100)).
