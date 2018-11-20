@@ -1,6 +1,6 @@
 /* FUNCOES DO INVENTARIO : */
 	
-	/* start(Classe) - Inicia o inventário com os itens iniciais a partir da classe do personagem */
+	/* start(Classe,Name) - Inicia o inventário com os itens iniciais a partir da classe do personagem e o nome do jogador*/
 	/* add(Id) - Adiciona um item a bag a partir do ID */
 	/* remove(Pos) - Remove um item a partir da posição na bag */
  	/* equip(Pos) - Equipa um item da bag a partir da sua posicao */
@@ -12,7 +12,7 @@
 /* -------------------DEFINITIONS AND IMPORTS -------------- */
 
 :- module(inventory,[start/2,add/1,remove/1,equip/1,
-			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDesc/2,sumArmor/1,
+			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDescription/1,sumArmor/1,
 			sumStreigth/1,sumInteligence/1,sumAgility/1]).
 
 :- use_module('Itens/itens.pl').
@@ -61,9 +61,9 @@ equip(Pos):-
 add(Id):-
 	isItem(Id),
 	bag(A),
-	nth0(_,A,Id) ->
+	nth0(_,A,Id) ->(
 		isConsumible(Id),
-		addAmountItem(Id), !;
+		addAmountItem(Id), !);
 
 	(retract(bag(X)),
 	replaceItem(Id,34,X,Y),
@@ -93,11 +93,12 @@ sumDamage(Dam):-
 	sumDAM(X,Dam).
 
 
-getItemDesc(Id,DescItem):-
-	getName(Id,Name),
-	getDescription(Id,Desc),
-	string_concat(Name,": ",Conc1),
-	string_concat(Conc1,Desc,DescItem).
+getItemDescription(Pos):-
+	bag(X),
+	Index is Pos - 1,
+	nth0(Index,X,Id),
+	getDescItem(Id,Desc),
+	writeln(Desc).
 
 
 
@@ -144,6 +145,13 @@ replace(V,I,[X|T],E,U):- In is I - 1,append(E,[X],Y),replace(V,In,T,Y,U).
 
 
 /* -------------------------- AUX PREDICATES ------------------------------ */
+
+getDescItem(Id,DescItem):-
+	getName(Id,Name),
+	getDescription(Id,Desc),
+	string_concat(Name,": ",Conc1),
+	string_concat(Conc1,Desc,DescItem).
+
 
 updateClass(ClassCharacter):-
 	(ClassCharacter == "mago";
@@ -403,7 +411,7 @@ saida("guerreiro",["  ┌──────────────────�
 			  "-││--------- MINHA HISTÓRIA ------------││",
 			  "-││                                     ││",
 			  "-││                                     ││",
-			  "-││                                     ││",
+			  "-││  eu sou um guerreiro                ││",
 			  "-││                                     ││",
 			  "-││                                     ││",
 			  "-││                                     ││",
@@ -438,7 +446,7 @@ saida("mago",["  ┌────────────────────
 			  "-││--------- MINHA HISTÓRIA ------------││",
 			  "-││                                     ││",
 			  "-││                                     ││",
-			  "-││                                     ││",
+			  "-││  eu sou um mago                     ││",
 			  "-││                                     ││",
 			  "-││                                     ││",
 			  "-││                                     ││",
@@ -473,7 +481,7 @@ saida("ladino",["  ┌───────────────────�
 			  "-││--------- MINHA HISTÓRIA ------------││",
 			  "-││                                     ││",
 			  "-││                                     ││",
-			  "-││                                     ││",
+			  "-││  eu sou um ladino                   ││",
 			  "-││                                     ││",
 			  "-││                                     ││",
 			  "-││                                     ││",
