@@ -43,32 +43,73 @@ evaluateOptionMenu(O, Monster) :-
 
 evaluateCharAttackOption(Monster) :-
     sheet:getClass(Class),
-    util:rollDice(20, RollResult),
     Class == "mago" -> 
-        magicalAttack(Monster, RollResult);
-        phisicalAttack(Monster, RollResult).
+        magicalAttack(Monster);
+        phisicalAttack(Monster).
 
-magicalAttack(Monster, RollResult) :-
-    writeln("sou mago..."),
-    writeln(RollResult),
-    writeln(Monster).
+magicalAttack(Monster) :-
+    sheet:getLevel(Level),
+    spells:getUsableSpells(Level, IDs),
+    menuSpells(IDs, Monster).
 
-phisicalAttack(Monster, RollResult) :-
+menuSpells(IDs, Monster) :-
+    writeln("HABILIDADES: "),
+    sheet:getMP(Mana),
+    atom_concat("Mana disponível: ", Mana, ManaInfo),
+    writeln(ManaInfo),
+    printSpells(IDs, 1),
+    writeln("Informe o número da magia que você quer lançar: "),
+    util:readInt(Option),
+    evaluateSpellOption(Option, IDs, Monster).
+
+evaluateSpellOption(Option, IDs, Monster) :-
+    length(IDs, ListSize),
+    (Option > ListSize) -> 
+        (
+            util:cls,
+            writeln("Opção inválida..."),
+            menuSpells(IDs, Monster)
+        ); (util:cls, executeMagicalAttack(Monster, Option)).
+
+printSpells([], _).
+printSpells([Head|Tail], Pos) :-
+    atom_concat(Pos, "- ", ConcatPos),
+    write(ConcatPos),
+    spells:printSpellLabel(Head),
+    AuxPos is Pos + 1,
+    printSpells(Tail, AuxPos).
+
+executeMagicalAttack(Monster, ID) :-
+    sheet:useSpell(ID, CharDamage) ->
+        (
+            sheet:recoverMP(5),
+            writeln("Você se prepara para realizar um ataque mágico..."),
+            util:rollDice(20, RollResult),
+            RollResult > 10 -> successfullAttack(CharDamage, Monster);
+            (writeln("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster))
+        ); 
+        (
+            sheet:recoverMP(5),
+            writeln("Algo de errado aconteceu ao utilizar sua magia..."),
+            monsterAttack(Monster)
+        ).
+
+phisicalAttack(Monster) :-
     sheet:calculateDamage(CharDamage),
     monsters:getCa(Monster, CaMonster),
     writeln("Você se prepara para realizar um ataque corpo a corpo..."),
+    util:rollDice(20, RollResult),
     AuxDmg is RollResult + CharDamage,
-    writeln(AuxDmg),
-    AuxDmg >= CaMonster ->
-        (
-            write("Você infligiu um total de "),
-            atom_concat(CharDamage, " danos no monstro...", Concat),
-            writeln(Concat),
-            monsters:takeDmgMonster(Monster, CharDamage, NewMonster),
-            monsters:getHp(NewMonster, NewMonsterHp),
-            (NewMonsterHp =< 0 -> venceu; monsterAttack(NewMonster))
-        );
+    AuxDmg >= CaMonster -> successfullAttack(CharDamage, Monster);
     (writeln("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster)).
+
+successfullAttack(CharDamage, Monster) :-
+    write("Você infligiu um total de "),
+    atom_concat(CharDamage, " danos no monstro...", Concat),
+    writeln(Concat),
+    monsters:takeDmgMonster(Monster, CharDamage, NewMonster),
+    monsters:getHp(NewMonster, NewMonsterHp),
+    (NewMonsterHp =< 0 -> venceu; monsterAttack(NewMonster)).
 
 monsterAttack(Monster) :-
     util:rollDice(20, RollResult),
