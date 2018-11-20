@@ -242,10 +242,11 @@ adjustAttributes(Class) :-
     ((Class == "ladino") -> (addVIT(-2), addCHR(-1), addDEX(2), addINT(1))).
 
 classSetup(Class) :-
-  inventory:start(Class),
-  adjustAttributes(Class),
-  fillHP(),
-  fillMP().
+    getName(Name),
+    inventory:start(Class, Name),
+    adjustAttributes(Class),
+    fillHP(),
+    fillMP().
 
 chooseClass(Class) :-
     L = ["Classes: ",
