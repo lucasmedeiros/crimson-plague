@@ -1,17 +1,16 @@
-:- use_module("../util").
+:- initialization(main).
+
+:- use_module("util").
+:- use_module("Sheet/sheet.pl").
+:- use_module("Battles/battle.pl").
 
 :- dynamic(adventureHanger/1).
 :- dynamic(activateTrap/1).
 :- dynamic(infected/1).
 :- dynamic(understanding/1).
 
-% Colocar em util depois
-getYesNo(Choice) :-
-    writeln("1) Sim"),
-    writeln("2) Nao"),
-    readInt(Z),
-    Choice = Z.
-
+main:-
+    sheet:createCharacter.
 
 introCity :-
     L = ['e Uma manhã ensolarada, voce se encontra em Passagem de Duvik, uma pequena cidade',

@@ -1,5 +1,5 @@
 :- module(util,
-    [rollDice/2, rollDices/3, cls/0, printList/1, readInt/1, readString/1]).
+    [rollDice/2, rollDices/3, cls/0, printList/1, readInt/1, readString/1,getYesNo/1]).
 
 rollDice(Bound, O) :-
     random(1, Bound, RollResult),
@@ -31,3 +31,9 @@ readInt(Number) :-
     Number is -1.
 
 readString(String) :- read_line_to_string(user_input, String).
+
+getYesNo(Choice) :-
+    writeln("1) Sim"),
+    writeln("2) Nao"),
+    readInt(Z),
+    Choice = Z.
