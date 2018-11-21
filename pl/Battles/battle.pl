@@ -12,6 +12,7 @@
 :- use_module("Monsters/monsters").
 :- use_module("Sheet/sheet").
 
+% inicia a batalha entre o personagem e um monstro 
 startBattle(IdMonster) :-
     util:cls,
     monsters:isMonster(IdMonster) ->
@@ -20,9 +21,9 @@ startBattle(IdMonster) :-
         monsters:getName(Monster, MonsterName),
         atom_concat(MonsterName, " te ataca...", ChallengeInfo),
         writeln(ChallengeInfo),
-        writeln(Monster),
         loopBattle(Monster).
 
+% predicado criado para representar um "loop"
 loopBattle(Monster) :-
     monsters:getHp(Monster, MonsterHP),
     monsters:getName(Monster, MonsterName),
@@ -35,6 +36,7 @@ loopBattle(Monster) :-
     writeln(CharHPInfo),
     menu(Monster).
 
+% predicado criado para representar o menu principal de ações na batalha
 menu(Monster) :-
     writeln("O que deseja fazer?"),
     writeln("1) Atacar/Lançar magia"),
@@ -43,24 +45,29 @@ menu(Monster) :-
     util:readString(Option),
     evaluateOptionMenu(Option, Monster).
 
+% avalia opção escolhida pelo usuário no menu e toma uma decisão a partir dela
 evaluateOptionMenu(O, Monster) :-
     util:cls,
     O = "1" -> evaluateCharAttackOption(Monster);
-    O = "2" -> openBag(Monster);
+    O = "2" -> openInventory(Monster);
     O = "3" -> tryEscape(Monster);
     (writeln("Opção inválida!"), menu(Monster)).
 
+% define se o ataque será mágico (caso seja mago), ou físico.
 evaluateCharAttackOption(Monster) :-
     sheet:getClass(Class),
     Class == "mago" -> 
         magicalAttack(Monster);
         phisicalAttack(Monster).
 
+% gancho para o ataque mágico, no caso do personagem ser mago
 magicalAttack(Monster) :-
     sheet:getLevel(Level),
     spells:getUsableSpells(Level, IDs),
     menuSpells(IDs, Monster).
 
+% menu para escolha das habilidades possíveis que o mago tem, baseado no
+% seu level.
 menuSpells(IDs, Monster) :-
     writeln("HABILIDADES: "),
     sheet:getMP(Mana),
@@ -68,18 +75,10 @@ menuSpells(IDs, Monster) :-
     writeln(ManaInfo),
     printSpells(IDs, 1),
     writeln("Informe o número da magia que você quer lançar: "),
-    util:readInt(Option),
+    util:readString(Option),
     evaluateSpellOption(Option, IDs, Monster).
 
-evaluateSpellOption(Option, IDs, Monster) :-
-    length(IDs, ListSize),
-    (Option > ListSize) -> 
-        (
-            util:cls,
-            writeln("Opção inválida..."),
-            menuSpells(IDs, Monster)
-        ); (util:cls, executeMagicalAttack(Monster, Option)).
-
+% predicado que serve para imprimir as magias disponíveis.
 printSpells([], _).
 printSpells([Head|Tail], Pos) :-
     atom_concat(Pos, "- ", ConcatPos),
@@ -88,13 +87,26 @@ printSpells([Head|Tail], Pos) :-
     AuxPos is Pos + 1,
     printSpells(Tail, AuxPos).
 
+% avalia a opção de magia escolhida, verificando se é válida ou não.
+evaluateSpellOption(Option, IDs, Monster) :-
+    length(IDs, ListSize),
+    atom_number(Option, NumOption),
+    (NumOption > ListSize; NumOption =< 0) -> 
+        (
+            util:cls,
+            writeln("Opção inválida..."),
+            menuSpells(IDs, Monster)
+        ); (util:cls, executeMagicalAttack(Monster, NumOption)).
+
+% finalmente, executa o ataque mágico.
 executeMagicalAttack(Monster, ID) :-
     sheet:useSpell(ID, CharDamage) ->
         (
             sheet:recoverMP(5),
             writeln("Você se prepara para realizar um ataque mágico..."),
             util:rollDice(20, RollResult),
-            RollResult >= 8 -> successfullAttack(CharDamage, Monster);
+            AuxDmg is RollResult + CharDamage,
+            AuxDmg >= 12 -> successfullAttack(CharDamage, Monster);
             (writeln("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster))
         ); 
         (
@@ -103,6 +115,7 @@ executeMagicalAttack(Monster, ID) :-
             monsterAttack(Monster)
     ).
 
+% executa um ataque físico.
 phisicalAttack(Monster) :-
     sheet:calculateDamage(CharDamage),
     monsters:getCa(Monster, CaMonster),
@@ -112,15 +125,16 @@ phisicalAttack(Monster) :-
     AuxDmg >= CaMonster -> successfullAttack(CharDamage, Monster);
     (writeln("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster)).
 
+% predicado para infligir dano ao monstro, caso o ataque seja bem sucedido.
 successfullAttack(CharDamage, Monster) :-
     write("Você infligiu um total de "),
     atom_concat(CharDamage, " danos no monstro...", Concat),
     writeln(Concat),
     monsters:takeDmgMonster(Monster, CharDamage, NewMonster),
     monsters:getHp(NewMonster, NewMonsterHp),
-    writeln(NewMonster),
     (NewMonsterHp =< 0 -> venceu(Monster); monsterAttack(NewMonster)).
 
+% predicado que representa o ataque do monstro.
 monsterAttack(Monster) :-
     util:rollDice(20, RollResult),
     sheet:calculateDefense(CharDef),
@@ -138,11 +152,13 @@ monsterAttack(Monster) :-
         );
     (writeln("E falha miseravelmente..."), loopBattle(Monster)).
 
-openBag(Monster) :-
+% predicado para caso o usuário tenha escolhido abrir o inventário durante a batalha
+openInventory(Monster) :-
     inventory:printInventory,
-    evaluateBagOption(Monster).
+    evaluateInventoryOption(Monster).
 
-evaluateBagOption(Monster) :-
+% avalia a opção escolhida pelo usuário na mochila.
+evaluateInventoryOption(Monster) :-
     writeln("Selecione um item da mochila: "),
     util:readInt(Option),
     (Option > 0, Option =< 5) -> 
@@ -152,18 +168,21 @@ evaluateBagOption(Monster) :-
     );
     (
         writeln("Opcão inválida!"),
-        evaluateBagOption(Monster)         
+        evaluateInventoryOption(Monster)         
     ).
 
+% predicado chamado ao escolher a opção de fuga
+% avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
 tryEscape(Monster) :-
     writeln("Você tenta fugir e..."),
     util:rollDice(20, RollResult),
-    RollResult >= 10 -> 
+    RollResult >= 8 -> 
         writeln("Escapou com sucesso...");
     (writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster)).
 
+% caso o personagem vença a batalha, esse predicado será chamado.
+% imprime informações do drop do monstro e adiciona XP ao personagem.
 venceu(Monster) :-
-    util:cls,
     writeln("Parabéns, você venceu!"),
     monsters:getDrop(Monster, Drop),
     itens:getDescription(Drop, Desc),
@@ -179,5 +198,6 @@ venceu(Monster) :-
     writeln(XpInfo),
     sheet:increaseXP(Xp).
 
+% predicado chamado caso o personagem perca a batalha contra algum monstro.
 perdeu :-
     writeln("Que pena, você perdeu!").

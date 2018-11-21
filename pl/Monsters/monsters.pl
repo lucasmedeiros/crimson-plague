@@ -22,10 +22,10 @@ isMonster(Id):-
 build_monster(Id, Monster):-
     isMonster(Id),
     monster(Id, Name, StrHp, Div, Som, Xp, Drop, Ca, Atk),
-    generateHp(StrHp, Hp),
+    generateHp(StrHp, Som, Hp),
     Monster = monster(id(Id), name(Name), hp(Hp), div(Div), som(Som), xp(Xp), drop(Drop), ca(Ca), atk(Atk)).
 
-generateHp(StrHp, Hp):-
+generateHp(StrHp, Som, Hp):-
     sub_atom(StrHp,0,1,_,First),
     atom_number(First, FirstNumber),
     atom_length(StrHp, Length),
@@ -33,7 +33,8 @@ generateHp(StrHp, Hp):-
     sub_atom(StrHp, 2, LastNumberSize, _, Last),
     atom_number(Last, LastNumber),
     util:rollDices(FirstNumber, LastNumber, RollResult),
-    Hp = RollResult, !.
+    Hp is RollResult + Som,
+    !.
 
 getHp(Monster, Hp):-
     Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
