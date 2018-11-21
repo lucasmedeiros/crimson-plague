@@ -274,6 +274,7 @@ chooseClass(Class, Name) :-
     (cls(), chooseClass(Class))).
 
 createCharacter :-
+    cls(),
     writeln("Qual seu nome? "),
     readString(Name),
     writeln(""),
