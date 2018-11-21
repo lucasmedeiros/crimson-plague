@@ -5,110 +5,161 @@
 :- use_module("Battles/battle.pl").
 
 :- dynamic(adventureHanger/1).
+adventureHanger(99).
+:- dynamic(secondHelp/1).
+secondHelp(99).
 :- dynamic(activateTrap/1).
+activateTrap(99).
 :- dynamic(infected/1).
+infected(99).
 :- dynamic(understanding/1).
+understanding(99).
 
 main:-
     sheet:createCharacter.
 
+confirmBreakLine:-
+    writeln(""),
+    writeln("Pressione algum botao para continuar"),
+    readInt(U),
+    cls.
+
+% Testado
 introCity :-
-    L = ['e Uma manhã ensolarada, voce se encontra em Passagem de Duvik, uma pequena cidade',
+    L = ['Em uma manha ensolarada, voce se encontra em Passagem de Duvik, uma pequena cidade',
 	'situada em um dos pequenos vales que cruzam as Montanhas Serpente.',
 	'Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros',
-	'procurando descansar membros doloridos e afogar memórias ruins dentro de seus portões.',
-	'E voce não e uma excecão. No entanto algo te parece estranho, a cidade parece bem vazia',
-    'voce não consegue encontrar, os inúmeros animais que existiam ao redor da cidade.'],
-    printList(L).
+	'procurando descansar membros doloridos e afogar memorias ruins dentro de seus portoes.',
+	'E voce nao e uma excecao. No entanto algo te parece estranho, a cidade parece bem vazia',
+    'voce nao consegue encontrar, os inumeros animais que existiam ao redor da cidade.',
+    ''],
+    printList(L),
+    confirmBreakLine.
 
+% Testado
 adventureClincher :-
-    L = ["voce está na praca principal da cidade e, percebe",
-	"algumas pessoas que te chamam a atencão:",
-	"Um homem com roupas nobres, não parece ser dessa cidade.",
-	"Um grupo de pessoas com manchas de carvão no rosto e bracos.",
-    "Alguns moradores que estão claramente abatidos."],
+    L = ["Voce esta na praca principal da cidade e, percebe",
+	"algumas pessoas que te chamam a atencao:",
+	"Um homem com roupas nobres, nao parece ser dessa cidade.",
+	"Um grupo de pessoas com manchas de carvao no rosto e bracos.",
+    "Alguns moradores que estao claramente abatidos."],
     
     printList(L),
+    changeDirection,
+    cls.
+
+% Testado (Obs no choiceHelp)
+changeDirection:-
+    A = ["", "Ao se aproximar dele, voce escuta:"," ",
+    "Prefeito: Saudacoes. Eu sou o prefeito dessa cidade.",
+    "Prefeito: muitos dos moradores da vila estao sofrendo de uma",
+    "Prefeito: doenca extremamente letal. Nao pude deixar de notar",
+    "Prefeito: que voce e um aventureiro, voce poderia nos ajudar",
+    "Prefeito: a acabar com essa doenca? Por favor, muitos já",
+    "Prefeito: morreram com essa praga."],
+
+    B = ["","voce nao demora muito pra perceber que eles sao mineradores",
+    "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:\n",
+    "Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
+    "Minerador: voce parece forte. Por favor, acabe com esse mal!"],
     
+    C = ["", "Voce encontra diversos moradores atonitos na vila.",
+    "Uma das moradoras se aproxima de voce e diz:",
+    "Senhora: senhor, me desculpe. Nao pude deixar de notar que o senhor parece um aventureiro",
+    "Senhora: meus dois filhos ja foram pegaram praga. Eu imploro, por favor acabe com isso."],
+
+    D = ["", "Isso nao e problema seu. voce ja tem problemas demais pra resolver.",
+    "Esses camponeses conseguem resolver esse problema sozinho.",
+    "Ao menos voce acha isso."],
+
     P = ["Qual deles voce ira se aproximar:",
     "1) O homem aparentemente rico.",
 	"2) As pessoas sujas de carvao.",
 	"3) Os moradores da cidade.",
     "4) Ninguem."],
     
+    blankLine,
     printList(P),
-    get(C),
-    changeDirection(C).
-
-changeDirection(X) :-
-    A = ["Ao se aproximar dele, voce escuta:"," ",
-    "Prefeito: Saudacões. Eu sou o prefeito dessa cidade.",
-    "Prefeito: muitos dos moradores da vila estão sofrendo de uma",
-    "Prefeito: doenca extremamente letal. Não pude deixar de notar",
-    "Prefeito: que voce e um aventureiro, voce poderia nos ajudar",
-    "Prefeito: a acabar com essa doenca? Por favor, muitos já",
-    "Prefeito: morreram com essa praga."],
-
-    B = ["voce nao demora muito pra perceber que eles sao mineradores",
-    "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:\n",
-    "Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
-    "Minerador: voce parece forte. Por favor, acabe com esse mal!"],
+    readInt(X),
     
-    C = ["Voce encontra diversos moradores atonitos na vila.",
-    "Uma das moradoras se aproxima de voce e diz:",
-    "Senhora: senhor, me desculpe. Nao pude deixar de notar que o senhor parece um aventureiro",
-    "Senhora: meus dois filhos ja foram pegaram praga. Eu imploro, por favor acabe com isso."],
+    (
+    (X =:= 1, printList(A), assert(adventureHanger(1)), choiceHelp);
+    (X =:= 2, printList(B), assert(adventureHanger(2)), choiceHelp);
+    (X =:= 3, printList(C), assert(adventureHanger(3)), choiceHelp);
+    (X =:= 4, printList(D), assert(adventureHanger(4)));
+    (writeln("Opcao invalida."), changeDirection)
+    ).
 
-    D = ["Isso não e problema seu. voce já tem problemas demais pra resolver.",
-    "Esses camponeses conseguem resolver esse problema sozinho.",
-    "Ao menos voce acha isso."],
-
-    ((X =:= 49,
-    printList(A));
-    (X =:= 50,
-    printList(B));
-    (X =:= 51, 
-    printList(C));
-    (X =:= 52,
-    printList(D));
-    (writeln("Opcão inválida."),
-    adventureClincher)),
-    
-
+% Testado
+choiceHelp:-
     writeln(""),
-    writeln("voce ira ajudar? (Digite s ou n)"),
+    writeln("Voce ira ajudar?"),
     writeln(""),
 
-    get(Z),
-    ((Z =\= 115,
-    writeln("Com um olhar de desaprovacão, lentamente comecam a se afastar de voce."));
-    (writeln("Mal sei o que dizer. Muito obrigado!!"))).
+    getYesNo(X),
+
+    (
+    (X =:= 2, writeln("Com um olhar de desaprovacao, lentamente comecam a se afastar de voce."), asserta(adventureHanger(4)), confirmBreakLine);
+    (writeln("Mal sei o que dizer. Muito obrigado!!"), confirmBreakLine)
+    ).
+
+blankLine:-
+    writeln("").
 
 secondChance:-
     Dial1 = ["Uma pessoa se aproxima de voce, ela te parece familiar",
-            "quando ela fica mais próxima, voce percebe que ela e um amigo de longa data, Meruen.",
+            "quando ela fica mais proxima, voce percebe que ela e um amigo de longa data, Meruen.",
             "Um guerreiro que costumava lutar com voce, alguns anos atrás.",
             "Ele está bem magro, comparado ao tempo que ele lutava com voce." ,
             "Ele se aproxima e diz: ",
-            "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina próxima dessa região",
+            "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina proxima dessa regiao",
             "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo",
-            "Meruen: e provável que ela esteja causando a praga que está assolando essa vila.",
-            "O que voce respondera pra ele:",
-            "1 - Voce poderia falar mais sobre essa praga?",
-            "2 - Voce esta bem?",
-            "3 - Ha alguma coisa em que eu possa ajudar?"],
+            "Meruen: e provável que ela esteja causando a praga que está assolando essa vila."],
+    
+    printList(Dial1),
+    secondChanceChoice.
 
-    MeruenResponse1 = [ "Meruen: Estão chamando por aqui de praga Carmesim, ela comeca de forma inofensiva",
+secondChanceChoice:-
+    Dial1 = ["O que voce respondera pra ele:",
+    "1 - Voce poderia falar mais sobre essa praga?",
+    "2 - Voce esta bem?",
+    "3 - Ha alguma coisa em que eu possa ajudar?"],
+
+    printList(Dial1),
+
+    MeruenResponse1 = [ "Meruen: Estao chamando por aqui de praga Carmesim, ela comeca de forma inofensiva",
                         "Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana.",
-                        "Meruen: Infelizmente eu acabei pegando essa doenca... Não acho que tenho muitos dias...",
+                        "Meruen: Infelizmente eu acabei pegando essa doenca... Nao acho que tenho muitos dias...",
                         "Meruen: Eu te peco, por todos os nossos anos de aventura. Acabe com essa praga, por favor."], 
 
-    MeruenResponse2 = ["Meruen: Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
+    MeruenResponse2 = ["Meruen: Infelizmente eu acabei pegando essa praga... Nao acho que tenho muitos dias...",
                        "Meruen: Eu te peco, por todos os nossos anos de aventura. Acabe com essa praga, por favor."],
 
     MeruenResponse3 = ["Meruen: Na verdade, tem. Eu acredito que se voce for pra essa mina. Deve haver uma forma de terminar",
-                       "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Não acho que tenho muitos dias...",
-                       "Meruen: Então, o que voce tem a dizer? voce poderia acabar com essa praga?"].                 
+                       "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Nao acho que tenho muitos dias...",
+                       "Meruen: Entao, o que voce tem a dizer? voce poderia acabar com essa praga?"],
+    
+    readInt(Choice),
+
+    (
+    (Choice =:= 1, printList(MeruenResponse1));
+    (Choice =:= 2, printList(MeruenResponse2));
+    (Choice =:= 3, printList(MeruenResponse3));
+    (writeln("Opçao invalida, tente novamente."), secondChanceChoice)
+    ),
+
+    writeln(""),
+    writeln("voce ira ajudar?"),
+    writeln(""),
+
+    getYesNo(Answer),
+
+    (
+    (Answer =:= 1, writeln("Muito obrigado, sempre soube que podia contar com voce."));
+    (Answer =:= 2, writeln("Voce é tao vazio quanto sua alma."), asserta(secondHelp(0)))   
+    ).
+
+
 
 
 firstEnding:-
@@ -119,7 +170,9 @@ firstEnding:-
             "Aqueles que sobreviveram foram os que fugiram",
             "de Passagem de Duvik enquanto nao tinham sido contaminados",
             "A promissora cidade comerciante, se tornou apenas uma ruina",
-            "uma promessa do que poderia se tornar."].
+            "uma promessa do que poderia se tornar."],
+    
+    printList(Dial).
 
 entradaMina:-
     Dial1 = ["Entrada da caverna",
@@ -133,28 +186,29 @@ entradaMina:-
             "estruturas de suporte de madeira, esta coberto com escombros",
             "de pedra, uns pedacos ocasionalmente brilham com o menor",
             "pedaco de minerio. Nenhuma luz lanca-se para fora",
-            "do tunel. Tochas queimadas estão espalhadas pelo chao,",
+            "do tunel. Tochas queimadas estao espalhadas pelo chao,",
             "seus suportes quebrados nas paredes do tunel. Atras de",
             "voce, a estrada gasta conduz atraves dos precipicios para o",
             "vale abaixo. Alem do suave assobio do vento, um completo",
              "silencio preenche a abertura nas montanhas."],
 
-    Dial2 = ["voce encontra um kobolds, ele parece hostil",
+    Dial2 = ["voce encontra um kobold, ele parece hostil",
              "E ira atacar voce! Prepare-se para o combate!"],
 
     printList(Dial1),
+    confirmBreakLine,
     printList(Dial2),
     escolhaMina.
 
 escolhaMina :-
-    Opcoes = ["Voce permanece por um tempo em frente a entrada",
+    Opcoes = ["Voce permanece por um tempo em frente a entrada.",
             "Por um momento voce hesita em seguir em frente",
             "O que voce vai fazer?",
             "",
             "1) Tentar analisar com mais detalhes a entrada da caverna.",
             "2) Procurar por alguma coisa ao redor da entrada.",
             "3) Acender uma tocha e entrar na caverna."],
-    Resp = ["","Selecione uma das opcões: "],
+    Resp = ["","Selecione uma das opcoes: "],
     printList(Opcoes),
     printList(Resp),
     readInt(Z),
@@ -164,46 +218,49 @@ escolhaMina :-
     (Z =:= 2, segundaEscolhaEntrada);
     (Z =:= 3, analiseEntrada);
     (writeln("Opcao invalida."), escolhaMina)
-    ).
+    ),
+    cavernReception.
 
 
 analiseEntrada:-
-    Dial = ["Analisar as coisas e perda de tempo, seus inimigos não tem",
+    cls,
+    Dial = ["Analisar as coisas e perda de tempo, seus inimigos nao tem",
             "uma chance contra voce mesmo... Voce acende uma tocha, respira",
             "fundo e entra na mina."],
-    printList(Dial),
-    cavernReception.
+    printList(Dial).
 
 primeiraEscolhaEntrada:-
+    cls,
     util:rollDice(20, D),
     Opcao1 = ["Ao analisar a entrada",
               "Voce percebe que os suportes de madeira do tunel",
               "estao lascados e despedacados, como se tivessem danificados",
               "em uma recente batalha.",
-              "Voce tambem percebe que elas estão manchadas de sangue."],
+              "Voce tambem percebe que elas estao manchadas de sangue."],
 
     Opcao2 = ["Ao analisar a entrada",
               "Voce percebe que os suportes de madeira do tunel",
               "estao lascados e despedacados, como se tivessem danificados",
               "em uma recente batalha."],
 
-    Opcao3 = ["Voce tenta analisar a entrada, porem não consegue",
+    Opcao3 = ["Voce tenta analisar a entrada, porem nao consegue",
               "encontrar nada relevante na estrutura."],
 
     Dial = ["voce acende uma tocha e entra na caverna."],
     
-    (D >= 15,
-    util:printList(Opcao1);
-    D >= 10,
-    util:printList(Opcao2);
-    util:printList(Opcao3)),
+    (
+    (D >= 15, util:printList(Opcao1));
+    (D >= 10, util:printList(Opcao2));
+    (util:printList(Opcao3))
+    ),
 
     util:printList(Dial),
-    cavernReception.
+    confirmBreakLine.
 
 
 
 segundaEscolhaEntrada:-
+    cls,
     util:rollDice(20, D),
 
     Opcao1 = ["Ao procurar ao redor da entrada",
@@ -212,23 +269,24 @@ segundaEscolhaEntrada:-
               "o que aconteceu nessa mina. Voce acende uma tocha e entra na caverna."],
 
     Opcao2 = ["Ao procurar ao redor da entrada",
-              "No meio as picaretas e pás quebradas, voce encontra duas pocões de vida!",
-              "Possivelmente elas serao úteis... Voce tambem encontra um simbolo",
-              "associados a kobolds, pequenas criaturas que são conhecidas por serem",
+              "No meio as picaretas e pás quebradas, voce encontra duas pocoes de vida!",
+              "Possivelmente elas serao uteis... Voce tambem encontra um simbolo",
+              "associados a kobolds, pequenas criaturas que sao conhecidas por serem",
               "saqueadores. E provavel que tenha havido um combate por aqui. voce",
-              "acende uma tocha e entra na caverna com atencão redobrada."],
+              "acende uma tocha e entra na caverna com atencao redobrada."],
 
     Opcao3 = ["Ao procurar ao redor da entrada",
               "Voce buscar por alguns minutos, no entanto, voce nao encontra",
               "nada relevante pra voce.",
               "voce acende uma tocha e entra na caverna."],
     
-    ((D >= 15,
-    printList(Opcao2));
-    (D >= 10,
-    printList(Opcao1));
-    printList(Opcao3)),
-    cavernReception.
+    (
+    (D >= 15, printList(Opcao2));
+    (D >= 10, printList(Opcao1));
+    (printList(Opcao3))
+    ),
+    
+    confirmBreakLine.
 
 cavernReception:-
     Dial = ["O tunel se abre em uma camara pequena e aproximadamente",
@@ -237,34 +295,36 @@ cavernReception:-
             "aparenta ser um corpo humano se sobressai debaixo de uma",
             "das carrocas. E nao mostra nenhum sinal de movimento.",
             "Sangue seco mancha a parede norte em varios locais.",
-            "Há uma saída para o oeste",
+            "Há uma saida para o oeste",
             ""],
     
     printList(Dial),
     receptionChoice.
 
 receptionChoice:-
-    Opcao = ["O que voce vai fazer? (digite um número)",
+    Opcao = ["O que voce vai fazer? (digite um numero)",
             "1) Analisar o corpo da carroca.",
             "2) Seguir em frente."],
     printList(Opcao),
     readInt(N),
-    ((N =:= 1,
-    checkWagon1);
-    (N =:= 2,
-    checkWagon2);
-    (checkWagon3)),
+    
+    (
+    (N =:= 1, checkWagon1);
+    (N =:= 2, checkWagon2);
+    (checkWagon3)
+    ),
 
     receptionConclusion.
 
 
 receptionConclusion:-
     Dial = ["Apos passar da carroca, voce so ve uma grande porta a sua frente.",
-    "Voce nao ve outra opcao a nao ser entrar nela."],
+    "Voce nao ve outra opcao a nao ser entrar nela.", ""],
     printList(Dial).
 
 
 checkWagon1:-
+    cls,
     util:rollDice(20, D),
     Opcao1 = ["Voce escuta um barulho de",
             "mecanismos, voce rapidamente entende que e uma armadilha",
@@ -275,19 +335,23 @@ checkWagon1:-
             "mecanismos, e uma armadilha que produz um som ensurdecedor",
             "que deixa voce temporariamente surdo."],
     
-    ((D >= 12,
-    printList(Opcao1));
-    (printList(Opcao2),
-    asserta(activateTrap(1)))).
+    (
+    (D >= 12, printList(Opcao1));
+    (printList(Opcao2), asserta(activateTrap(1)))),
+
+    wagonDescription.
 
 checkWagon2:-
+    cls,
     Dial = ["Voce prefere nao se arriscar e mexer nesse corpo.",
             "e quase certo que havia alguma armadilha ali. Seria uma coin-",
             "cidencia muito grande tantos minerios de prata espalhados uniformemente."],
     printList(DiaL).
 
 checkWagon3:-
-    Dial = ["Opcão invalida!"],
+
+    cls,
+    Dial = ["", "Opcao invalida!"],
     printList(Dial),
     receptionChoice.
 
@@ -313,22 +377,25 @@ getSilver:-
     % Add item
     ((Take =:= 1,
     printList(Dial1));
-    (printList(Dial2))).
+    (printList(Dial2))),
+    cls.
 
 
 koboldsCombatConversation:-
     util:rollDice(20, D),
     
-    ((D >= 13,koboldsCombatChoice);
+    ((D >= 10,koboldsCombatChoice);
     (startBattleKobolds)).
 
 koboldsCombatChoice:-
+    cls,
     Opcao1 = ["Ao comecar a falar, os kobolds apesar de receiosos",
     "resolvem escutar o que voce tem a dizer",
     "O que voce ira dizer para eles?",
     "1) Nao precisamos brigar. Nenhum de nos quer isso! (Diplomacia)",
     "2) Nao ousem me atacar se quiserem continuar vivos. (Intimidacao)"],
 
+    blankLine,
     printList(Opcao1),
     readInt(Choice),
     (
@@ -338,15 +405,18 @@ koboldsCombatChoice:-
     
 koboldsCombatDialogue2(Choice):-
     util:rollDice(20, D),
+    
     DialOp1 = ["Os kobolds parecem concordar com voce e abaixam as armas.",
             "O que parece ser o capitao daquele pequeno grupo fala:",
-            "Capitão: Nao temos forca pra lutar, doenca enfraquecer e matar",
-            "Capitão amigos. Humano pode seguir em frente."],
+            "Capitao: Nao temos forca pra lutar, doenca enfraquecer e matar",
+            "Capitao amigos. Humano pode seguir em frente."],
 
     DialOp2 = ["Os kobolds parecem, de fato, ficarem intimidados com voce.",
                "O que parece o capitao daquele pequeno grupo fala:",
-               "Capitão: Tudo bem, humano pode passar. Só não nos mate, por favor."],
+               "Capitao: Tudo bem, humano pode passar. So nao nos mate, por favor."],
 
+    blankLine,
+    
     (
     (D >= 13, Choice =:= 1, printList(DialOp1));
     (D >= 10, Choice =:= 2, printList(DialOp2));
@@ -357,6 +427,7 @@ koboldsCombatDialogue2(Choice):-
 
 checkListenKnowledge:-
     util:rollDice(20, D),
+    
     Opcao1 = ["Voce consegue escutar varios passos do outro lado da porta",
               "Alem disso, voce escuta varias vozes"],
 
@@ -376,8 +447,8 @@ auxCheckKnowledge:-
     util:rollDice(20, D),
     Opcao1 = ["Voce consegue reconhecer que sao kobolds pelo idioma que",
               "estao falando, draconico. O pouco que voce entende da conversa",
-              "e que os kobolds estão muito nervosos e gostariam de deixar as",
-              "minas o mais rápido possível. Infelizmente, seu comandante",
+              "e que os kobolds estao muito nervosos e gostariam de deixar as",
+              "minas o mais rápido possivel. Infelizmente, seu comandante",
               "determinou que eles devem permanecer por mais um tempo."],
 
     Opcao2 = ["Voce consegue reconhecer que sao kobolds pelo idioma que",
@@ -390,12 +461,12 @@ auxCheckKnowledge:-
     Opcao3 = ["Voce consegue reconhecer que sao kobolds pelo idioma que",
               "estao falando, draconico. Voce consegue entender bastante da",
               "conversa, o mais importante que voce escuta e que",
-              "deve haver alguma maldicão nesta mina. Metade do seu bando",
-              "já morreu de estranhas febres ou de uma tosse horrível."],
+              "deve haver alguma maldicao nesta mina. Metade do seu bando",
+              "já morreu de estranhas febres ou de uma tosse horrivel."],
 
     Opcao4 = ["Voce consegue reconhecer que sao kobolds pelo idioma que",
-              "estao falando, draconico. Porem, não consegue enteder quase",
-              "nada. No entanto, voce percebe que os kobolds estão nervosos",
+              "estao falando, draconico. Porem, nao consegue enteder quase",
+              "nada. No entanto, voce percebe que os kobolds estao nervosos",
               "pelo tom de voz."],
     
     (
@@ -406,9 +477,11 @@ auxCheckKnowledge:-
     ).
 
 startBattleKobolds:-
+    cls,
     Dial = ["O que parece ser o capitao daquele pequeno grupo fala:",
             "Capitao: Nao importa o que humano fale, voce morre agora!"],
-    printList(Dial).
+    printList(Dial),
+    confirmBreakLine.
     % comecar batalha.
 
 refectoryCavern:-
@@ -424,11 +497,10 @@ refectoryCavern:-
             "No canto sudeste da sala, um pequeno caldeirao fumega",
             "sobre um fogao cravado no chao. Um cheiro pungente esta",
             "suspenso no ar. ",
-            "Voce tambem exerga três kobolds apontando armas para voce.",
+            "Voce tambem exerga tres kobolds apontando armas para voce.",
             ""],
     
-    ((activateTrap(1),
-    printList(Opcao));
+    ((activateTrap(1), printList(Opcao));
     (checkListenKnowledge)),
 
     printList(Dial),
@@ -449,6 +521,7 @@ refectoryChoice:-
     ).
 
 refectoryChoice2:-
+    cls,
     Dial = ["Voce imediatamente comeca a preparar o seu ataque enquanto",
             "os kobolds correm em direcao a voce."],
     printList(Dial).
@@ -460,17 +533,18 @@ pantryCavern:-
             "sala. Ao abrir porta voce observa que esta sala longa",
             "e estreita possui fileiras de estantes carregadas",
             "de alimentos e outros suprimentos. Pesados sacos",
-            "de estopa estão empilhados ate o teto no canto",
-            "oposto da câmara. Uns poucos rasgados, espalhando",
-            "aveia e farinha no chão. Muitos barris estão",
-            "agrupados próximos à parede norte.",
+            "de estopa estao empilhados ate o teto no canto",
+            "oposto da camara. Uns poucos rasgados, espalhando",
+            "aveia e farinha no chao. Muitos barris estao",
+            "agrupados proximos à parede norte.",
             "Ao entrar na sala, uma armadilha e ativada!",
             "Uma flecha e lancada em sua direcao."],
     
     printList(Dial1),
+    confirmBreakLine,
 
     
-    Opcao11 = ["Por sorte, a armadilha não te acerta."],
+    Opcao11 = ["Por sorte, a armadilha nao te acerta."],
     
     Opcao12 = ["A flecha perfura o seu ombro. Causando",
     "um ferimento moderado."],
@@ -480,10 +554,12 @@ pantryCavern:-
     (printList(Opcao12))
     ),
 
-    Dial2 = ["A armadilha chama a atencão de uma criatura",
+    confirmBreakLine,
+
+    Dial2 = ["A armadilha chama a atencao de uma criatura",
             "que estava em um barril e ela ira atacar voce.",
             "Essas criatura e um rato, no entanto, bem maior",
-            "que o normal, e voce tem a impressão que pode pegar",
+            "que o normal, e voce tem a impressao que pode pegar",
             "a praga lutando com ela."],
 
     printList(Dial2),
@@ -494,18 +570,20 @@ pantryCavern:-
     Opcao21 = ["Apesar do contato com os ratos, voce consegue",
               "resistir a praga."],
 
-    Opcao22 = ["Após o combate, voce sente que algo está errado...",
+    Opcao22 = ["Apos o combate, voce sente que algo está errado...",
                "voce está se sentindo um pouco mais fraco, talvez",
-               "voce tenha contraído a praga."],
+               "voce tenha contraido a praga."],
     
     (
     (R >= 11, printList(Opcao21));
     (printList(Opcao22), asserta(infected(1)))    
     ),
 
-    Dial3 = ["Em um dos barris, voce encontra duas pocões de vida",
-            "e duas pocões de mana, naturalmente voce guarda elas.",
-            "Elas podem ser bastante úteis no futuro."],
+    confirmBreakLine,
+
+    Dial3 = ["Em um dos barris, voce encontra duas pocoes de vida",
+            "e duas pocoes de mana, naturalmente voce guarda elas.",
+            "Elas podem ser bastante uteis no futuro."],
     
     printList(Dial3),
     % Adicionar item 2
@@ -513,26 +591,28 @@ pantryCavern:-
     % Adicionar item 4
     % Adicionar item 4
 
-    Dial4 = ["Após os achados, voce comeca a descer uma rampa que",
+    Dial4 = ["Apos os achados, voce comeca a descer uma rampa que",
             "leva a uma parte inferior da caverna. Aos poucos ",
-            "ela vai ficando muito íngrime, a um ponto que te",
-            "faz perder o equilíbrio e descer o resto da rampa",
+            "ela vai ficando muito ingrime, a um ponto que te",
+            "faz perder o equilibrio e descer o resto da rampa",
             "deslizando a mesma."],
     
+    confirmBreakLine,
     printList(Dial4).
 
 rampCavern:-
-    Dial1 = ["Após descer a rampa e chegar no fundo da caverna",
+    confirmBreakLine,
+    Dial1 = ["Apos descer a rampa e chegar no fundo da caverna",
             "voce olha que esta caverna enorme se estende",
             "para cima ate pelo menos 30 m, subindo alto para",
-            "dentro das entranhas da montanha. A iluminacão",
-            "ocasionalmente reflete pequenos grãos prateados,",
+            "dentro das entranhas da montanha. A iluminacao",
+            "ocasionalmente reflete pequenos graos prateados,",
             "que brilham na face parede oeste da caverna.",
-            "Muitos cabos estão pendurados na beirada de um",
+            "Muitos cabos estao pendurados na beirada de um",
             "largo vazio na parede. O buraco penetra a face",
             "oeste da caverna e comeca a cerca de 6 m de",
-            "onde voce está. O ar aqui e mais frio e úmido.",
-            "De repente, voce escuta vários passos. Não de",
+            "onde voce está. O ar aqui e mais frio e umido.",
+            "De repente, voce escuta vários passos. Nao de",
             "humanoides, mas de um animal. Um imenso",
             "lobo aparece por trás de algumas pedras e",
             "comeca a te cercar, e ele vai te atacar!"],
@@ -541,19 +621,19 @@ rampCavern:-
     % Inicia batalha.
 
     Dial2 = ["",
-            "Após o combate, voce percebe que pode escalar",
+            "Apos o combate, voce percebe que pode escalar",
             "aqueles cabos pendurados. No entanto, tambem",
-            "existe um túnel à frente"],
+            "existe um tunel à frente"],
     
     printList(Dial2),
-    rampChoice,
-    corpsesGrave.
+    rampChoice.
 
 
 rampChoice:-
-    Choices = ["O que voce vai fazer?",
-               "1) Escalar os cabos",
-               "2) Seguir em frente"],
+    Choices = ["",
+        "O que voce vai fazer?",
+        "1) Escalar os cabos",
+        "2) Seguir em frente"],
     
     printList(Choices),
     readInt(Z),
@@ -561,21 +641,22 @@ rampChoice:-
     (
     (Z =:= 1, rampProgress1);
     (Z =:= 2, rampProgress2);
-    (writeln("Opcão inválida, tente novamente"), rampChoice())
+    (writeln("Opcao inválida, tente novamente"), rampChoice())
     ).
 
 rampProgress1:-
+    cls,
     util:rollDice(20, R),
 
-    Opcao1 = ["Aṕos escalar os cabos, voce sobe em uma",
+    Opcao1 = ["Apos escalar os cabos, voce sobe em uma",
               "pedra e exerga uma passagem para o que",
               "parece um acampamento, voce consegue",
               "exergar que existem muitos tesouros",
               "lá dentro."],
 
     Opcao2 = ["voce escala os cabos, mas devido ao escuro,",
-              "voce não consegue enxergar nada. Sua única",
-              "opcão e voltar e seguir o outro caminho."],
+              "voce nao consegue enxergar nada. Sua unica",
+              "opcao e voltar e seguir o outro caminho."],
     
     (
     (R >= 5, printList(Opcao1), secretCamp);
@@ -585,19 +666,21 @@ rampProgress1:-
 
 
 rampProgress2:-
-    Dial = ["voce prefere não se arriscar escalando esses",
+    Dial = ["voce prefere nao se arriscar escalando esses",
             "cabos. e mais sensato manter o foco e seguir",
             "o caminho."],
     
+    cls,
     printList(Dial).
 
 
 secretCamp:-
+    confirmBreakLine,
     Dial = ["Ao entrar na passagem, voce encontra o acampa-",
             "mento dos Kobolds, usado como área de estoque",
-            "e dormitório. voce encontra um baú e dois",
-            "jovens Kobolds, que estão olhando para voce",
-            "e estão amedrontados. Um deles utiliza um capuz",
+            "e dormitorio. voce encontra um bau e dois",
+            "jovens Kobolds, que estao olhando para voce",
+            "e estao amedrontados. Um deles utiliza um capuz",
             "que parece valioso."],
     
     printList(Dial),
@@ -614,25 +697,27 @@ secretCampChoice:-
     (
     (C =:= 1, secretCampDecision1);
     (C =:= 2, secretCampDecision2);
-    (writeln("Opcão inválida, tente novamente."), secretCampChoice)
+    (writeln("Opcao inválida, tente novamente."), secretCampChoice)
     ).
 
 secretCampDecision1:-
+    cls,
     Dial = ["Para voce, a capa e mais valiosa que a vida",
             "deles. voce os mata sem remorso e pega a",
-            "capa deles, com um pouco de investigacão",
-            "voce descobre que e uma capa da protecão.",
-            "Logo após, voce desce os cabos E segue o outro caminho."],
+            "capa deles, com um pouco de investigacao",
+            "voce descobre que e uma capa da protecao.",
+            "Logo apos, voce desce os cabos E segue o outro caminho."],
 
     % addItem 42
 
     printList(Dial).
 
 secretCampDecision2:-
-    Dial = ["voce poupa a vida deles, afinal, eles não",
-            "fizeram absolutamente nada. Simplesmente não",
-            "seria justo. voce pega três pocões de vida",
-            "e duas de mana. Logo após, voce desce os cabos",
+    cls,
+    Dial = ["voce poupa a vida deles, afinal, eles nao",
+            "fizeram absolutamente nada. Simplesmente nao",
+            "seria justo. voce pega tres pocoes de vida",
+            "e duas de mana. Logo apos, voce desce os cabos",
             "E segue o outro caminho."],
     
     printList(Dial).
@@ -651,57 +736,61 @@ situacionGettingWorst:-
     printList(Dial).
 
 corpsesGrave:-
-    Dial1 = ["voce passa pelo túnel. Ondas de calor banham",
-            "respiracão difícil. Esta caverna pequena e",
-            "em forma de tigela possui o chão cheio de",
-            "cadáveres humanóides. A abertura de um túnel",
-            "e visível na parede leste da câmara",
-            "e, na distância, o som de água corrente",
+    Dial1 = ["Voce passa pelo tunel. Ondas de calor banham",
+            "respiracao dificil. Esta caverna pequena e",
+            "em forma de tigela possui o chao cheio de",
+            "cadáveres humanoides. A abertura de um tunel",
+            "e visivel na parede leste da camara",
+            "e, na distancia, o som de agua corrente",
             "pode ser ouvido."],
 
-    Opcao1 = ["voce acredita que aqui e o fosso da criacão",
+    Opcao1 = ["Voce acredita que aqui seja o fosso da criacao",
               "da praga. Sejá la quem for que está fazendo",
-              "isso, não deve ficar longe de onde voce está."],
+              "isso, nao deve ficar longe de onde voce está."],
 
     Opcao2 = ["Um zumbi se levanta de um dos montes",
               "de corpos! Prepare-se para o combate!"],
 
-    Dial2 = ["Algo dentro de voce diz que isso está perto",
-            "de acabar. Ao calmo som de água corrente. voce",
-            "entra no estreito túnel a leste."],
+    Dial2 = ["Algo dentro de voce diz que isso esta perto",
+            "de acabar. Ao calmo som de agua corrente. voce",
+            "entra no estreito tunel a leste."],
     
     printList(Dial1),
+    confirmBreakLine,
     printList(Opcao1),
+    confirmBreakLine,
     printList(Opcao2),
+    confirmBreakLine,
     % iniciaBatalha,
-    printList(Dial2).
+    printList(Dial2),
+    confirmBreakLine.
 
 
 jakkEnding:-
     L = ["Ao entrar, nessa parte da caverna, voce observa um",
-        "único pilar irregular, de pedra e cheio de um musgo",
-        "A água cai pelas suas laterais de uma fonte",
-        "próxima ao seu topo, cascateando ate a lagoa abaixo.",
+        "unico pilar irregular, de pedra e cheio de um musgo",
+        "A agua cai pelas suas laterais de uma fonte",
+        "proxima ao seu topo, cascateando ate a lagoa abaixo.",
         "A lagoa alimenta uma larga correnteza que flui rapidamente",
-        "ao longo da extensão da sala e então por baixo da parede de",
-        "pedra na extremidade sul da caverna. Muitos simbolos estão",
+        "ao longo da extensao da sala e entao por baixo da parede de",
+        "pedra na extremidade sul da caverna. Muitos simbolos estao",
         "entalhados profundamente na face de pedra do pilar, suas",
-        "linhas apenas visíveis por baixo da luz do musgo. Uma",
-        "sensacão estranha de desconforto impregna este lugar."],
+        "linhas apenas visiveis por baixo da luz do musgo. Uma",
+        "sensacao estranha de desconforto impregna este lugar."],
     
     printList(L),
     util:rollDice(20, R),
 
-    A = ["Os simbolos entalhados aqui estão escritos",
-        "no idioma orc e servem como uma súplica a",
+    A = ["Os simbolos entalhados aqui estao escritos",
+        "no idioma orc e servem como uma suplica a",
         "Gruumsh (o deus dos orcs) para destruir",
-        "os inimigos com uma terrível pestilência.",
+        "os inimigos com uma terrivel pestilencia.",
         "Eles tambem recontam a historia das minas e o destino",
         "do cla Garra Despedacante."],
 
     B = ["No centro, voce percebe uma imponente presenca",
         "Um grande orc, com uma armadura de metal e uma",
-        "clava de aco na mão direita."],
+        "clava de aco na mao direita."],
     
     (
     (R >= 8), printList(A), asserta(understanding(1));
@@ -720,18 +809,22 @@ jakkFirstChoice:-
     (
     (Choice =:= 1, jakkConversation1);
     (Choice =:= 2, jakkStartBattle);
-    (writeln("Opcão invalida! Escolha novamente"), jakkFirstChoice)    
+    (writeln("Opcao invalida! Escolha novamente"), jakkFirstChoice)    
     ).
 
 jakkStartBattle:-
     A = ["O Orc prepara sua arma enquanto voce corre","em sua direcao."],
 
-    printList(A).
+    cls,
+    printList(A),
+    confirmBreakLine,
     % Inicia batalha
+    printViolentEnding.
 
 jakkConversation1:-
+    cls,
     Dial1 = ["Jakk: Meu nome e Jakk, o que voce quer? Voce",
-    "Jakk: se arricou muito para chegar aqui.","Jakk: Que tolice."],
+    "Jakk: se arricou muito para chegar aqui.","Jakk: Que tolice.", ""],
 
     printList(Dial1),
 
@@ -751,12 +844,13 @@ jakkConversation1:-
     Opcao3 = ["Jakk: Voce nao tem uma chance, seu verme."],
 
     readInt(Choice),
+    cls,
 
     (
     (Choice =:= 1, printList(Opcao1), jakkConversation2);
     (Choice =:= 2, printList(Opcao2), jakkConversation2);
     (Choice =:= 3, printList(Opcao3), jakkStartBattle);
-    (writeln("Opcão invalida, escolha novamente"), jakkConversation1)    
+    (writeln("Opcao invalida, escolha novamente"), jakkConversation1)    
     ).
 
 jakkConversation2:-
@@ -766,9 +860,10 @@ jakkConversation2:-
     
     printList(Dial3),
     readInt(Choice),
+    cls,
 
     Dial4 = ["Jakk: 10 anos atras, o povo de Passagem de Duvik quase",
-        "Jakk: exterminou o meu cla, o cla Garra Despedacante, pois","Jakk: achavam que nós eramos uma ameaca. Eles não quiseram",
+        "Jakk: exterminou o meu cla, o cla Garra Despedacante, pois","Jakk: achavam que nos eramos uma ameaca. Eles nao quiseram",
         "Jakk: ter nenhuma forma de conversa. Essa e a vinganca","Jakk: do meu cla."],
 
     Dial5 = ["Jakk: e hora de morrer, seu verme insolente!"],
@@ -776,7 +871,7 @@ jakkConversation2:-
     (
     (Choice =:= 1, printList(Dial4), jakkConversation3);
     (Choice =:= 2, printList(Dial5), jakkStartBattle);
-    (writeln("Opcão invalida, escolha novamente"), jakkConversation2)    
+    (writeln("Opcao invalida, escolha novamente"), jakkConversation2)    
     ).
 
 jakkConversation3:-
@@ -787,18 +882,20 @@ jakkConversation3:-
     "3) Isso nao justifica os seus erros. Voce morrera agora!"],
 
     Dial7 = ["Jakk: O que voce sabe sobre meu cla? Voce nao sabe o que",
-        "Jakk: esta falando... Voce nao sabe o quanto meu cla sofreu.","Jakk: Pare de falar sobre o que voce não tem ideia."],
+        "Jakk: esta falando... Voce nao sabe o quanto meu cla sofreu.","Jakk: Pare de falar sobre o que voce nao tem ideia."],
 
     Opcao3 = ["Jakk parece um pouco relutante.","Jakk: Eu sei, eu sou o que mais sofro com isso. No entanto,",
         "Jakk: todos eles concordaram com isso, eu tenho que valorizar","Jakk: as mortes daqueles que se sacrificaram pela causa!"],
 
     printList(Dial6),
     readInt(Choice),
+    cls,
+
     (
     (Choice =:= 1, printList(Dial7), jakkConversation4);
     (Choice =:= 2, printList(Opcao3), jakkConversation4);
     (Choice =:= 3, jakkStartBattle);
-    (writeln("Opcão invalida, escolha novamente"), jakkConversation3)    
+    (writeln("Opcao invalida, escolha novamente"), jakkConversation3)    
     ).
 
 jakkConversation4:-
@@ -828,27 +925,29 @@ jakkConversation4:-
         "Jakk: e hora de lutar, humano."],
     
     readInt(Choice),
+    cls,
     
     (
-    ((Choice =:= 1; Choice =:= 2), CheckCharism >= 10, printList(SolucaoJakk1));
-    (Choice =:= 3, understanding(1), printList(SolucaoJakk2));
-    ((Choice =\= 1, Choice =\= 2), writeln("Opcão invalida, escolha novamente"), jakkConversation4);
+    ((Choice =:= 1; Choice =:= 2), CheckCharism >= 10, printList(SolucaoJakk1), printPacificEnding);
+    (Choice =:= 3, understanding(1), printList(SolucaoJakk2), printPacificEnding);
+    ((Choice =\= 1, Choice =\= 2), writeln("Opcao invalida, escolha novamente"), jakkConversation4);
     (printList(SolucaoJakk3), jakkStartBattle)    
     ).
     
     
 
 printViolentEnding:-
+    cls,
     Dial1 = ["Extremamente abatido, Jakk fala baixo:",
         "Jakk: Eu apenas queria vingar o meu cla...",
         "Jakk: Infelizmente eu acho que o mal prevaleceu...",
-        "Jakk, solta sua maca, e cai no chão."],
+        "Jakk, solta sua maca, e cai no chao."],
     
     printList(Dial1),
 
-    Dial2 = ["Derrotar Jakk já possui um efeito visível imediato",
-            "nas águas da nascente, que comeca a ficar limpa da sujeira",
-            "da Febre logo após sua morte. Os sintomas",
+    Dial2 = ["Derrotar Jakk já possui um efeito visivel imediato",
+            "nas aguas da nascente, que comeca a ficar limpa da sujeira",
+            "da Febre logo apos sua morte. Os sintomas",
             "da Febre que afetam as pessoas de Passagem de Duvik",
             "comecaram a diminuir. E a ordem voltou a reinar na cidade."],
     
@@ -859,12 +958,13 @@ printVillageFuture:-
             "reestruturar e a prosperar novamente. Alguns",
             "anos depois, Passagem de Duvik se tornou uma das maiores",
             "e ricas cidades do reino. No centro dela, há uma estatua sua,",
-            "para relembrar quem tornou o sucesso dessa cidade possível!"],
+            "para relembrar quem tornou o sucesso dessa cidade possivel!"],
     
     printList(Dial).
 
 printPacificEnding:-
-    Dial = ["Após convencer Jakk a terminar a maldicão. A água",
+    confirmBreakLine,
+    Dial = ["Apos convencer Jakk a terminar a maldicao. A agua",
             "amaldicoada, que servia como abastecimento de Passagem",
             "de Duvik, foi aos poucos sendo purificada. Os sintomas",
             "da Febre que afetam as pessoas de Passagem de Duvik",
@@ -873,18 +973,19 @@ printPacificEnding:-
     printList(Dial).
 
 printDefeatEnding:-
-    Dial = ["Apesar dos seus esforcos, voce não conseguiu derrotar Jakk.",
-            "Portanto, voce não conseguiu acabar com o mal da praga.",
+    Dial = ["Apesar dos seus esforcos, voce nao conseguiu derrotar Jakk.",
+            "Portanto, voce nao conseguiu acabar com o mal da praga.",
             "Todos de Passagem de Duvik pereceram à doenca, e a promissora cidade",
             "comerciante, virou apenas uma promessa do que poderia ser..."],
     
     printList(Dial).
 
 printVariantEnding_A:-
+    confirmBreakLine,
     Dial = ["O prefeito se aproxima de voce e fala:",
-            "Prefeito: Eu só tenho a agradecer a voce, nobre aventureiro",
+            "Prefeito: Eu so tenho a agradecer a voce, nobre aventureiro",
             "Prefeito: Voce salvou a vida de quase todos da cidade!",
-            "Prefeito: Aqui estão 500 pecas de ouro como recompensa",
+            "Prefeito: Aqui estao 500 pecas de ouro como recompensa",
             "Prefeito: pelo seu feito. Sempre que voce voltar,",
             "Prefeito: tenha a certeza que voce será sempre bem recebido",
             "Prefeito: aqui!"],
@@ -892,26 +993,28 @@ printVariantEnding_A:-
     printList(Dial).
 
 printVariantEnding_B:-
+    confirmBreakLine,
     Dial = ["O minerador que falou com voce anteriormente, se aproxima",
             "e com um grande sorriso grita:",
             "Minerador: Eu sabia! Eu sabia que voce conseguiria!",
-            "Minerador: Voce salvou a vida de todos da cidade. E nós",
-            "Minerador: somos extremamente gratos a voce! Eu não tenho",
+            "Minerador: Voce salvou a vida de todos da cidade. E nos",
+            "Minerador: somos extremamente gratos a voce! Eu nao tenho",
             "Minerador: muito, mas aqui está o que eu tenho, 500 pecas",
             "Minerador: de ouro.",
             "Minerador: Ei! Sempre que vir aqui, minha casa sempre estará",
-            "Minerador: de portas abertas! Nós não esqueceremos de voce."],
+            "Minerador: de portas abertas! Nos nao esqueceremos de voce."],
     
     printList(Dial).
 
 printVariantEnding_C:-
+    confirmBreakLine,
     Dial = ["A camponesa que falou com voce anteriormente, se aproxima",
             "e com um grande sorriso fala:",
             "Camponesa: Voce conseguiu! Meus filhos e os outros moradores",
-            "Camponesa: já estão melhorando e tudo isso gracas a voce!",
-            "Camponesa: Não me esquecerei do que voce fez aqui!",
-            "Camponesa: Aqui estão 500 pecas de ouro por tudo, que voce",
-            "Camponesa: fez. Nós da vila nos juntamos para pode pagar",
+            "Camponesa: já estao melhorando e tudo isso gracas a voce!",
+            "Camponesa: Nao me esquecerei do que voce fez aqui!",
+            "Camponesa: Aqui estao 500 pecas de ouro por tudo, que voce",
+            "Camponesa: fez. Nos da vila nos juntamos para pode pagar",
             "Camponesa: a voce!",
             "Camponesa: Volte aqui de vez em quando! Tenho certeza",
             "Camponesa: que todos daqui adorariam te ver novamente!"],
@@ -919,21 +1022,35 @@ printVariantEnding_C:-
     printList(Dial).
 
 printVariantEnding_Else:-
-    Dial = ["Meruen, o seu amigo que requisitou a missão, se aproxima",
+    confirmBreakLine,
+    Dial = ["Meruen, o seu amigo que requisitou a missao, se aproxima",
             "e diz:",
             "Meruen: Eu tinha certeza que voce conseguiria",
-            "Meruen: voce nao só salvou minha vida como a de quase",
+            "Meruen: voce nao so salvou minha vida como a de quase",
             "Meruen: todos daqui da vila. Somos todos muito gratos",
-            "Meruen: a voce. Aqui estão 500 pecas de ouro, como uma",
+            "Meruen: a voce. Aqui estao 500 pecas de ouro, como uma",
             "Meruen: forma de agradadecimento. Por fim, volte",
             "Meruen: aqui de vez em quando. Seria muito bom",
             "Meruen: te ver novamente!"],
     
     printList(Dial).
 
+printEnding:-
+    printVillageFuture,
+    
+    (
+    (adventureHanger(1), printVariantEnding_A);
+    (adventureHanger(2), printVariantEnding_B);
+    (adventureHanger(3), printVariantEnding_C);
+    (adventureHanger(4), printVariantEnding_Else)
+    ),
+
+    printCredits.
+
 printCredits:-
+    confirmBreakLine,
     Creditos = ["Obrigado por jogar: A Praga Carmesim!",
-                "Sistema inspirado: Dungeons and Dragons, quinta edicão.",
+                "Sistema inspirado: Dungeons and Dragons, quinta edicao.",
                 "",
                 "Feito por:",
                 "Jadson Luan",
@@ -944,3 +1061,17 @@ printCredits:-
                 "Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!"],
     
     printList(Creditos).
+
+onceUponATime:-
+    introCity,
+    adventureClincher,
+
+    (
+    (adventureHanger(4), secondChance);
+    (asserta(secondHelp(1)))    
+    ),
+
+    (
+    (secondHelp(0), firstEnding, printCredits);
+    (entradaMina, refectoryCavern, pantryCavern, rampCavern, corpsesGrave, jakkEnding, printEnding)
+    ).
