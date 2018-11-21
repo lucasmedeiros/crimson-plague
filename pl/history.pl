@@ -660,7 +660,7 @@ rampProgress1:-
     
     (
     (R >= 5, printList(Opcao1), secretCamp);
-    (printList(Opcap2))
+    (printList(Opcao2))
     ).
 
 

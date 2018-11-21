@@ -37,28 +37,22 @@ generateHp(StrHp, Som, Hp):-
     !.
 
 getHp(Monster, Hp):-
-    Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
-    Hp = _Hp.
+    Monster = monster(_, _, hp(Hp), _,_, _, _, _,_).
 
 getName(Monster, Name):-
-    Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
-    Name = _Name.
+    Monster = monster(_, name(Name),_, _,_, _, _, _,_).
 
 getXp(Monster, Xp):-
-    Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
-    Xp = _Xp.
+    Monster = monster(_, _, _, _,_, xp(Xp), _, _,_).
 
 getDrop(Monster, Drop):-
-    Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
-    Drop = _Drop.
+    Monster = monster(_, _, _, _,_,_, drop(Drop), _,_).
 
 getCa(Monster, Ca):-
-    Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
-    Ca = _Ca.
+    Monster = monster(_, _, _, _,_,_,_, ca(Ca),_).
 
 getAtk(Monster, Atk):-
-    Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
-    Atk = _Atk.
+    Monster = monster(_, _, _, _,_,_,_, _,atk(Atk)).
 
 takeDmgMonster(Monster, Amount, NewMonster):-
     Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
