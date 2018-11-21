@@ -52,9 +52,9 @@ start(ClassCharacter,Name):-
 
 equip(Pos):-
 	bag(X),
-	checkPosition(Pos),
 	nth0(RealPos,X,Id),
 	RealPos is Pos - 1,
+	isEquipable(Id),
 	equipAux(Id, RealPos). 
 
 
@@ -82,8 +82,9 @@ consumeItem(Pos,MP,HP):-
 	bag(X),
 	Index is Pos - 1,
 	nth0(Index,X,Id),
-	remove(Pos),
-	getAtrbConsumable(Id,MP,HP).
+	isConsumible(Id),
+	getAtrbConsumable(Id,MP,HP),
+	remove(Pos).
 
 sumAtrb(Atrb):-
 	class(X),
