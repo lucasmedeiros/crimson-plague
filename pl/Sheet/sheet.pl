@@ -270,7 +270,7 @@ chooseClass(Class, Name) :-
     readInt(Number),
     ((Number > 0, Number < 4) -> (
         class(Number, Class), classSetup(Class), inventory:start(Class, Name));
-    (Number == 4) -> (cls(), showClassInfo(), writeln(""), chooseClass(Class));
+    (Number == 4 -> cls(), showClassInfo(), writeln(""), chooseClass(Class, Name));
     (cls(), chooseClass(Class))).
 
 createCharacter :-
