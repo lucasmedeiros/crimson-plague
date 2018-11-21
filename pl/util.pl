@@ -24,7 +24,7 @@ printList([Head| Tail]) :-
     writeln(Head),
     printList(Tail).
 
-cls :- write('\33\[2J').
+cls :- write('\e[H\e[2J').
 
 readInt(Number) :-
     (read_line_to_codes(user_input, Codes),
