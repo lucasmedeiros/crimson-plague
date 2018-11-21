@@ -1,3 +1,11 @@
+
+/* 
+ * startBattle/1:
+ *      O único atributo que precisa ser passado é o ID do monstro que será chamado, para
+ *      saber qual o ID do monstro com o qual o personagem batalhará, basta consultar os 
+ *      fatos em monsters.pl
+ * */
+
 :- module(battle, [startBattle/1]).
 
 :- use_module("util").
@@ -12,6 +20,7 @@ startBattle(IdMonster) :-
         monsters:getName(Monster, MonsterName),
         atom_concat(MonsterName, " te ataca...", ChallengeInfo),
         writeln(ChallengeInfo),
+        writeln(Monster),
         loopBattle(Monster).
 
 loopBattle(Monster) :-
@@ -37,7 +46,7 @@ menu(Monster) :-
 evaluateOptionMenu(O, Monster) :-
     util:cls,
     O = "1" -> evaluateCharAttackOption(Monster);
-    O = "2" -> openBag();
+    O = "2" -> openBag(Monster);
     O = "3" -> tryEscape(Monster);
     (writeln("Opção inválida!"), menu(Monster)).
 
@@ -85,14 +94,14 @@ executeMagicalAttack(Monster, ID) :-
             sheet:recoverMP(5),
             writeln("Você se prepara para realizar um ataque mágico..."),
             util:rollDice(20, RollResult),
-            RollResult > 10 -> successfullAttack(CharDamage, Monster);
+            RollResult >= 8 -> successfullAttack(CharDamage, Monster);
             (writeln("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster))
         ); 
         (
             sheet:recoverMP(5),
-            writeln("Algo de errado aconteceu ao utilizar sua magia..."),
+            writeln("Sem mana..."),
             monsterAttack(Monster)
-        ).
+    ).
 
 phisicalAttack(Monster) :-
     sheet:calculateDamage(CharDamage),
@@ -109,7 +118,8 @@ successfullAttack(CharDamage, Monster) :-
     writeln(Concat),
     monsters:takeDmgMonster(Monster, CharDamage, NewMonster),
     monsters:getHp(NewMonster, NewMonsterHp),
-    (NewMonsterHp =< 0 -> venceu; monsterAttack(NewMonster)).
+    writeln(NewMonster),
+    (NewMonsterHp =< 0 -> venceu(Monster); monsterAttack(NewMonster)).
 
 monsterAttack(Monster) :-
     util:rollDice(20, RollResult),
@@ -128,8 +138,22 @@ monsterAttack(Monster) :-
         );
     (writeln("E falha miseravelmente..."), loopBattle(Monster)).
 
-openBag() :-
-    writeln("abriu o inventário").
+openBag(Monster) :-
+    inventory:printInventory,
+    evaluateBagOption(Monster).
+
+evaluateBagOption(Monster) :-
+    writeln("Selecione um item da mochila: "),
+    util:readInt(Option),
+    (Option > 0, Option =< 5) -> 
+    (
+        sheet:useItem(Option),
+        monsterAttack(Monster)
+    );
+    (
+        writeln("Opcão inválida!"),
+        evaluateBagOption(Monster)         
+    ).
 
 tryEscape(Monster) :-
     writeln("Você tenta fugir e..."),
@@ -138,8 +162,22 @@ tryEscape(Monster) :-
         writeln("Escapou com sucesso...");
     (writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster)).
 
-venceu :-
-    writeln("Parabéns, você venceu!").
+venceu(Monster) :-
+    util:cls,
+    writeln("Parabéns, você venceu!"),
+    monsters:getDrop(Monster, Drop),
+    itens:getDescription(Drop, Desc),
+    itens:getName(Drop, Name),
+    write("O monstro deixou cair uma "),
+    writeln(Name),
+    writeln("Informações do drop: "),
+    writeln(Desc),
+    inventory:add(Drop),
+    monsters:getXp(Monster, Xp),
+    write("Você ganhou "),
+    atom_concat(Xp, " pontos de experiência.", XpInfo),
+    writeln(XpInfo),
+    sheet:increaseXP(Xp).
 
 perdeu :-
     writeln("Que pena, você perdeu!").

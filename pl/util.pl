@@ -1,5 +1,5 @@
 :- module(util,
-    [rollDice/2, rollDices/3, cls/0, printList/1, readInt/1, readString/1,getYesNo/1]).
+    [rollDice/2, rollDices/3, cls/0, printList/1, readInt/1, readString/1, getYesNo/1]).
 
 rollDice(Bound, O) :-
     random(1, Bound, RollResult),
@@ -9,6 +9,7 @@ rollDices(N, Bound, O) :-
     rollDices(N, Bound, 0, O).
 
 rollDices(0, _, O, O).
+
 rollDices(N, Bound, X, O) :-
     N > 0,
     rollDice(Bound, RollResult),
@@ -18,6 +19,7 @@ rollDices(N, Bound, X, O) :-
 
 printList([]) :-
     write("").
+
 printList([Head| Tail]) :-
     writeln(Head),
     printList(Tail).
