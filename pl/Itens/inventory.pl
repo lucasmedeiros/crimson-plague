@@ -68,9 +68,7 @@ add(Id):-
 	(isItem(Id),retract(bag(X)),
 	replaceItem(Id,34,X,Y),
 	asserta(bag(Y)),
-	addAmountItem(Id), !);
-
-	writeln("Id inválido!").
+	addAmountItem(Id), !).
 
 remove(Pos):-
 	bag(X),
@@ -80,9 +78,12 @@ remove(Pos):-
 	checkPosition(Pos).
 	
 
-consumeItem(Id,MP,HP):-
-	getAtrbConsumable(Id,MP,HP);
-	writeln("Id inválido!").
+consumeItem(Pos,MP,HP):-
+	bag(X),
+	Index is Pos - 1,
+	nth0(Index,X,Id),
+	remove(Pos),
+	getAtrbConsumable(Id,MP,HP).
 
 sumAtrb(Atrb):-
 	class(X),
