@@ -1,3 +1,5 @@
+:- module(interface,[printeTela/1]).
+
 leftTopCorner("┌").
 rightTopCorner("┐").
 rightBottonCorner("┘").
@@ -20,22 +22,22 @@ textExemplo(['Em uma manha ensolarada, voce se encontra em Passagem de Duvik, um
     'voce nao consegue encontrar, os inumeros animais que existiam ao redor da cidade.',
     '']).
 
+title("Terras misteriosas").
 
-
-printTela:-
+printeTela(Text):-
 	atualizaSize,
-	textExemplo(Text),
 	length(Text,Size),
-	CSize is 20 - Size,
+	CSize is 15 - Size,
 	cleanScreen,
-	title("Terras misteriosas"),
+	title(X),
+	visuTitle(X),
 	topLine,
-	compensaSize(Text),
+	alocaTexto(Text),
 	completeSpaces(CSize),
 	bottonLine,
 	confirmBreakLine.
 
-title(Title):-
+visuTitle(Title):-
 	longLine2(L),
 	string_length(Title,Title_length),
 	topTitleLine(Title_length,TitleTopLine),
@@ -78,9 +80,8 @@ bottonLine:-
 	string_concat(StringR1,X,Line),
 	write(Line).
 
-compensaSize([]).
-compensaSize([X|T]):-
-	atualizaSize,
+alocaTexto([]).
+alocaTexto([X|T]):-
 	width(W),
 	Horizontal is W - 3,
 	longLine2(L),
@@ -89,19 +90,19 @@ compensaSize([X|T]):-
 
 	QtdBlank is (Horizontal - Text_length),
 
-	writeln(QtdBlank),
-	(QtdBlank > 0) -> (
-		generateLine(QtdBlank," ",Blanks),
-		string_concat(Prov1,Blanks,Prov2),
-		string_concat(Prov2,L,Saida),
-		write(Saida));
-	compensaSize(T).
+	generateLine(QtdBlank," ",Blanks),
+	string_concat(Prov1,Blanks,Prov2),
+	string_concat(Prov2,L,Saida),
+	write(Saida),
+
+	alocaTexto(T).
+
 
 completeSpaces(0).
 completeSpaces(I):-
 	blankLine(X),
 	K is I - 1,
-	write(X),
+	writeln(X),
 	completeSpaces(K).
 
 

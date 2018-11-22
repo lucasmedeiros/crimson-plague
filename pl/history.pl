@@ -3,6 +3,7 @@
 :- use_module("util").
 :- use_module("Sheet/sheet.pl").
 :- use_module("Battles/battle.pl").
+:- use_module("interface.pl").
 
 :- dynamic(adventureHanger/1).
 adventureHanger(99).
@@ -16,7 +17,8 @@ infected(99).
 understanding(99).
 
 main:-
-    sheet:createCharacter.
+    sheet:createCharacter,
+    introCity.
 
 confirmBreakLine:-
     writeln(""),
@@ -26,27 +28,26 @@ confirmBreakLine:-
 
 % Testado
 introCity :-
-    L = ['  Em uma manha ensolarada, voce se encontra em Passagem de Duvik,',
+    L = ['Em uma manha ensolarada, voce se encontra em Passagem de Duvik,',
 	'uma pequena cidade situada em um dos pequenos vales que cruzam as Montanhas Serpente.',
 	'Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros',
 	'procurando descansar membros doloridos e afogar memorias ruins dentro de seus portoes.',
 	'E voce nao e uma excecao. No entanto algo te parece estranho, a cidade parece bem vazia',
     'voce nao consegue encontrar, os inumeros animais que existiam ao redor da cidade.',
     ''],
-    printList(L),
-    confirmBreakLine.
+    printeTela(L),
+    adventureClincher.
 
 % Testado
 adventureClincher :-
-    L = ["  Voce esta na praca principal da cidade e, percebe",
+    L = ["Voce esta na praca principal da cidade e, percebe",
 	"algumas pessoas que te chamam a atencao:",
 	"Um homem com roupas nobres, nao parece ser dessa cidade.",
 	"Um grupo de pessoas com manchas de carvao no rosto e bracos.",
     "Alguns moradores que estao claramente abatidos."],
     
-    printList(L),
-    changeDirection,
-    cls.
+    printeTela(L),
+    changeDirection.
 
 % Testado (Obs no choiceHelp)
 changeDirection:-
@@ -58,17 +59,17 @@ changeDirection:-
     "Prefeito: a acabar com essa doenca? Por favor, muitos já",
     "Prefeito: morreram com essa praga."],
 
-    B = ["","   Voce nao demora muito pra perceber que eles sao mineradores",
+    B = ["","Voce nao demora muito pra perceber que eles sao mineradores",
     "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:\n",
     "Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
     "Minerador: voce parece forte. Por favor, acabe com esse mal!"],
     
-    C = ["", "  Voce encontra diversos moradores atonitos na vila.",
+    C = ["", "Voce encontra diversos moradores atonitos na vila.",
     "Uma das moradoras se aproxima de voce e diz:",
     "Senhora: senhor, me desculpe. Nao pude deixar de notar que o senhor parece um aventureiro",
     "Senhora: meus dois filhos ja foram pegaram praga. Eu imploro, por favor acabe com isso."],
 
-    D = ["", "  Isso nao e problema seu. voce ja tem problemas demais pra resolver.",
+    D = ["", "Isso nao e problema seu. voce ja tem problemas demais pra resolver.",
     "Esses camponeses conseguem resolver esse problema sozinho.",
     "Ao menos voce acha isso."],
 
@@ -81,6 +82,7 @@ changeDirection:-
     blankLine,
     printList(P),
     readInt(X),
+    cls,
     
     (
     (X =:= 1, printList(A), assert(adventureHanger(1)), choiceHelp);
