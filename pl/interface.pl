@@ -27,15 +27,14 @@ title("Terras misteriosas").
 printeTela(Text):-
 	atualizaSize,
 	length(Text,Size),
-	CSize is 15 - Size,
+	CSize is 19 - Size,
 	cleanScreen,
 	title(X),
 	visuTitle(X),
 	topLine,
 	alocaTexto(Text),
 	completeSpaces(CSize),
-	bottonLine,
-	confirmBreakLine.
+	bottonLine.
 
 visuTitle(Title):-
 	longLine2(L),
@@ -138,3 +137,7 @@ confirmBreakLine:-
     writeln(""),
     writeln("Pressione algum botao para continuar"),
     readInt(_).
+
+confirmBreakLineEmpty:-
+	write(""),
+	readInt(_).

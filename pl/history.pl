@@ -17,8 +17,7 @@ infected(99).
 understanding(99).
 
 main:-
-    sheet:createCharacter,
-    introCity.
+    sheet:createCharacter.
 
 confirmBreakLine:-
     writeln(""),
@@ -36,22 +35,24 @@ introCity :-
     'voce nao consegue encontrar, os inumeros animais que existiam ao redor da cidade.',
     ''],
     printeTela(L),
+    confirmBreakLine,
     adventureClincher.
 
 % Testado
 adventureClincher :-
     L = ["Voce esta na praca principal da cidade e, percebe",
 	"algumas pessoas que te chamam a atencao:",
-	"Um homem com roupas nobres, nao parece ser dessa cidade.",
-	"Um grupo de pessoas com manchas de carvao no rosto e bracos.",
-    "Alguns moradores que estao claramente abatidos."],
+    "",
+	"- Um homem com roupas nobres, nao parece ser dessa cidade.",
+	"- Um grupo de pessoas com manchas de carvao no rosto e bracos.",
+    "- Alguns moradores que estao claramente abatidos."],
     
     printeTela(L),
     changeDirection.
 
 % Testado (Obs no choiceHelp)
 changeDirection:-
-    A = ["", "  Ao se aproximar dele, voce escuta:"," ",
+    A = ["", "Ao se aproximar dele, voce escuta:"," ",
     "Prefeito: Saudacoes. Eu sou o prefeito dessa cidade.",
     "Prefeito: muitos dos moradores da vila estao sofrendo de uma",
     "Prefeito: doenca extremamente letal. Nao pude deixar de notar",
@@ -60,12 +61,14 @@ changeDirection:-
     "Prefeito: morreram com essa praga."],
 
     B = ["","Voce nao demora muito pra perceber que eles sao mineradores",
-    "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:\n",
+    "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:",
+    "",
     "Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
     "Minerador: voce parece forte. Por favor, acabe com esse mal!"],
     
     C = ["", "Voce encontra diversos moradores atonitos na vila.",
     "Uma das moradoras se aproxima de voce e diz:",
+    "",
     "Senhora: senhor, me desculpe. Nao pude deixar de notar que o senhor parece um aventureiro",
     "Senhora: meus dois filhos ja foram pegaram praga. Eu imploro, por favor acabe com isso."],
 
@@ -85,87 +88,92 @@ changeDirection:-
     cls,
     
     (
-    (X =:= 1, printList(A), assert(adventureHanger(1)), choiceHelp);
-    (X =:= 2, printList(B), assert(adventureHanger(2)), choiceHelp);
-    (X =:= 3, printList(C), assert(adventureHanger(3)), choiceHelp);
-    (X =:= 4, printList(D), assert(adventureHanger(4)));
+    (X =:= 1, printeTela(A), assert(adventureHanger(1)), choiceHelp);
+    (X =:= 2, printeTela(B), assert(adventureHanger(2)), choiceHelp);
+    (X =:= 3, printeTela(C), assert(adventureHanger(3)), choiceHelp);
+    (X =:= 4, printeTela(D), assert(adventureHanger(4)), confirmBreakLine,secondChance);
     (writeln("Opcao invalida."), changeDirection)
     ).
 
 % Testado
 choiceHelp:-
-    writeln(""),
+    blankLine,
     writeln("Voce ira ajudar?"),
-    writeln(""),
+    blankLine,
 
     getYesNo(X),
 
     (
-    (X =:= 2, writeln("Com um olhar de desaprovacao, lentamente comecam a se afastar de voce."), asserta(adventureHanger(4)), confirmBreakLine);
-    (writeln("Mal sei o que dizer. Muito obrigado!!"), confirmBreakLine)
+    (X =:= 2, printeTela(["Com um olhar de desaprovacao, lentamente comecam a se afastar de voce."]), asserta(adventureHanger(4)),confirmBreakLine,secondChance);
+    (printeTela(["Mal sei o que dizer. Muito obrigado!!"],confirmBreakLine,entradaMina))
     ).
 
 blankLine:-
     writeln("").
 
 secondChance:-
-    Dial1 = ["Uma pessoa se aproxima de voce, ela te parece familiar",
+    Dial1 = ["","Uma pessoa se aproxima de voce, ela te parece familiar",
             "quando ela fica mais proxima, voce percebe que ela e um amigo de longa data, Meruen.",
             "Um guerreiro que costumava lutar com voce, alguns anos atrás.",
             "Ele está bem magro, comparado ao tempo que ele lutava com voce." ,
             "Ele se aproxima e diz: ",
+            "",
             "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina proxima dessa regiao",
             "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo",
             "Meruen: e provável que ela esteja causando a praga que está assolando essa vila."],
     
-    printList(Dial1),
+    printeTela(Dial1),
     secondChanceChoice.
 
 secondChanceChoice:-
     Dial1 = ["O que voce respondera pra ele:",
-    "1 - Voce poderia falar mais sobre essa praga?",
-    "2 - Voce esta bem?",
-    "3 - Ha alguma coisa em que eu possa ajudar?"],
+    "",
+    "1) Voce poderia falar mais sobre essa praga?",
+    "2) Voce esta bem?",
+    "3) Ha alguma coisa em que eu possa ajudar?"],
 
     printList(Dial1),
 
-    MeruenResponse1 = [ "Meruen: Estao chamando por aqui de praga Carmesim, ela comeca de forma inofensiva",
+    MeruenResponse1 = [ "",
+                        "Meruen: Estao chamando por aqui de praga Carmesim, ela comeca de forma inofensiva",
                         "Meruen: mas fica cada vez mais severa, causando a morte do infectado em menos de uma semana.",
                         "Meruen: Infelizmente eu acabei pegando essa doenca... Nao acho que tenho muitos dias...",
                         "Meruen: Eu te peco, por todos os nossos anos de aventura. Acabe com essa praga, por favor."], 
 
-    MeruenResponse2 = ["Meruen: Infelizmente eu acabei pegando essa praga... Nao acho que tenho muitos dias...",
+    MeruenResponse2 = ["",
+                       "Meruen: Infelizmente eu acabei pegando essa praga... Nao acho que tenho muitos dias...",
                        "Meruen: Eu te peco, por todos os nossos anos de aventura. Acabe com essa praga, por favor."],
 
-    MeruenResponse3 = ["Meruen: Na verdade, tem. Eu acredito que se voce for pra essa mina. Deve haver uma forma de terminar",
+    MeruenResponse3 = ["",
+                       "Meruen: Na verdade, tem. Eu acredito que se voce for pra essa mina. Deve haver uma forma de terminar",
                        "Meruen: Essa praga lá. Infelizmente eu acabei pegando essa praga... Nao acho que tenho muitos dias...",
                        "Meruen: Entao, o que voce tem a dizer? voce poderia acabar com essa praga?"],
     
     readInt(Choice),
 
     (
-    (Choice =:= 1, printList(MeruenResponse1));
-    (Choice =:= 2, printList(MeruenResponse2));
-    (Choice =:= 3, printList(MeruenResponse3));
+    (Choice =:= 1, printeTela(MeruenResponse1));
+    (Choice =:= 2, printeTela(MeruenResponse2));
+    (Choice =:= 3, printeTela(MeruenResponse3));
     (writeln("Opçao invalida, tente novamente."), secondChanceChoice)
     ),
 
-    writeln(""),
+    blankLine,
     writeln("voce ira ajudar?"),
-    writeln(""),
+    blankLine,
 
     getYesNo(Answer),
 
+
     (
-    (Answer =:= 1, writeln("Muito obrigado, sempre soube que podia contar com voce."));
-    (Answer =:= 2, writeln("Voce é tao vazio quanto sua alma."), asserta(secondHelp(0)))   
+    (Answer =:= 1, printeTela(["Muito obrigado, sempre soube que podia contar com voce."]),confirmBreakLine,entradaMina);
+    (Answer =:= 2, printeTela(["Voce é tao vazio quanto sua alma."]), asserta(secondHelp(0)),confirmBreakLine,firstEnding)   
     ).
-
-
 
 
 firstEnding:-
     Dial = ["Conclusao",
+            "",
             "Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila.",
             "Duas semanas depois, em outra vila a procura de um artefato.",
             "Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela praga.",
@@ -174,10 +182,11 @@ firstEnding:-
             "A promissora cidade comerciante, se tornou apenas uma ruina",
             "uma promessa do que poderia se tornar."],
     
-    printList(Dial).
+    printeTela(Dial).
 
 entradaMina:-
     Dial1 = ["Entrada da caverna",
+            "",
             "Apos algumas horas de caminhada, voce chega na caverna.",
             "Uma brisa fria desce dos picos da Montanha Serpente",
             "Enrolada enquanto voce contempla a entrada para as",
@@ -192,27 +201,31 @@ entradaMina:-
             "seus suportes quebrados nas paredes do tunel. Atras de",
             "voce, a estrada gasta conduz atraves dos precipicios para o",
             "vale abaixo. Alem do suave assobio do vento, um completo",
-             "silencio preenche a abertura nas montanhas."],
+            "silencio preenche a abertura nas montanhas."],
 
     Dial2 = ["voce encontra um kobold, ele parece hostil",
              "E ira atacar voce! Prepare-se para o combate!"],
 
-    printList(Dial1),
+    printeTela(Dial1),
     confirmBreakLine,
-    printList(Dial2),
+    printeTela(Dial2),
+    startBattle(1),
+    confirmBreakLine,
     escolhaMina.
 
 escolhaMina :-
-    Opcoes = ["Voce permanece por um tempo em frente a entrada.",
-            "Por um momento voce hesita em seguir em frente",
-            "O que voce vai fazer?",
+    Dial = ["",
+            "Voce permanece por um tempo em frente a entrada da caverna.",
+            "Por um momento voce hesita em seguir em frente"],
+
+    Opcoes = ["O que voce vai fazer?",
             "",
             "1) Tentar analisar com mais detalhes a entrada da caverna.",
             "2) Procurar por alguma coisa ao redor da entrada.",
             "3) Acender uma tocha e entrar na caverna."],
-    Resp = ["","Selecione uma das opcoes: "],
+
+    printeTela(Dial),
     printList(Opcoes),
-    printList(Resp),
     readInt(Z),
     
     (
