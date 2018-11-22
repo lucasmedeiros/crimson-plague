@@ -4,9 +4,11 @@ item(1,"Pocao de cura pequena","Recupera 8 de HP").
 item(2,"Pocao de cura média","Recupera 16 de HP").
 item(3,"Pocao de MP pequena","Recupera 8 de MP").
 item(4,"Pocao de MP média","Recupera 16 de MP").
+item(5,"Chave de ferro","Pode ser usado para abrir fechaduras antigas").
 item(7,"Carne seca contaminada","Recupera 2 de HP e 2 de MP").
 item(10,"Manto de resistência","Um fino manto feito de pequenos cristais e muito resistente").
 item(11,"Escudo de Metal Grande","Um escudo feito de metal e é empunhado com uma mão").
+item(15,"Símbolo Sagrado de Gruumsh","Uma pequena peça de prata com escrituras de uma lingua antiga").
 item(17,"Espada Longa +1","Espada feita de metal, concede um bônus de +1 de Força").
 item(21,"Livro de feitiços","Apenas magos habilidosos podem extrair todo o potencial desse item").
 item(25,"Bota simples","Bota feita de couro").

@@ -76,7 +76,8 @@ menuSpells(IDs, Monster) :-
     printSpells(IDs, 1),
     writeln("Informe o número da magia que você quer lançar: "),
     util:readString(Option),
-    evaluateSpellOption(Option, IDs, Monster).
+    atom_number(Option, NumOption),
+    evaluateSpellOption(NumOption, IDs, Monster).
 
 % predicado que serve para imprimir as magias disponíveis.
 printSpells([], _).
@@ -90,13 +91,14 @@ printSpells([Head|Tail], Pos) :-
 % avalia a opção de magia escolhida, verificando se é válida ou não.
 evaluateSpellOption(Option, IDs, Monster) :-
     length(IDs, ListSize),
-    atom_number(Option, NumOption),
-    (NumOption > ListSize; NumOption =< 0) -> 
+    (Option > ListSize; Option =< 0) -> 
         (
             util:cls,
+            write(Option),
+            write(" - "),
             writeln("Opção inválida..."),
             menuSpells(IDs, Monster)
-        ); (util:cls, executeMagicalAttack(Monster, NumOption)).
+        ); (util:cls, executeMagicalAttack(Monster, Option)).
 
 % finalmente, executa o ataque mágico.
 executeMagicalAttack(Monster, ID) :-
@@ -159,8 +161,14 @@ openInventory(Monster) :-
 
 % avalia a opção escolhida pelo usuário na mochila.
 evaluateInventoryOption(Monster) :-
-    writeln("Selecione um item da mochila: "),
+    writeln("[1 - 5] -> Equipar/Consumir item da mochila"),
+    writeln("[0] -> Voltar ao menu"),
     util:readInt(Option),
+    Option == 0 ->
+        (
+            util:cls,
+            loopBattle(Monster)
+        );
     (Option > 0, Option =< 5) -> 
     (
         sheet:useItem(Option),

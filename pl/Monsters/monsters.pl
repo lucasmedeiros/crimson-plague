@@ -12,7 +12,7 @@ monster(3, "Ratos", "1d8", 4, -1, 500, 7, 14, -1).
 monster(4, "M'dok", "3d8", 1, 0, 500, 15, 15, 4).
 monster(5, "Zumbi dos Mineiros", "3d12", 1, 3, 500, 2, 11, 7).
 monster(6, "Kobolds Zumbis", "1d12", 1, 3, 500, 4, 11, 4).
-monster(7, "Jack Garra Despedaçante", "4d10", 1, 10, 500, 6, 18, 11).
+monster(7, "Jack Garra Despedaçante", "4d10", 1, 10, 500, 21, 18, 11).
 
 % PREDICADOS
 
@@ -36,11 +36,20 @@ generateHp(StrHp, Som, Hp):-
     Hp is RollResult + Som,
     !.
 
-getHp(Monster, Hp):-
-    Monster = monster(_, _, hp(Hp), _,_, _, _, _,_).
+getId(Monster, Id):-
+    Monster = monster(id(Id), _, _, _, _, _, _, _, _).
 
 getName(Monster, Name):-
-    Monster = monster(_, name(Name),_, _,_, _, _, _,_).
+    Monster = monster(_, name(Name),_, _, _, _, _, _,_).
+
+getHp(Monster, Hp):-
+    Monster = monster(_, _, hp(Hp), _, _, _, _, _,_).
+
+getDiv(Monster, Div):-
+    Monster = monster(_, _, _, div(Div), _, _, _, _,_).
+
+getSom(Monster, Som):-
+    Monster = monster(_, _, _, _, som(Som), _, _, _,_).
 
 getXp(Monster, Xp):-
     Monster = monster(_, _, _, _,_, xp(Xp), _, _,_).
@@ -55,6 +64,14 @@ getAtk(Monster, Atk):-
     Monster = monster(_, _, _, _,_,_,_, _,atk(Atk)).
 
 takeDmgMonster(Monster, Amount, NewMonster):-
-    Monster = monster(id(_Id), name(_Name), hp(_Hp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)),
-    NewHp is _Hp - Amount,
-    NewMonster = monster(id(_Id), name(_Name), hp(NewHp), div(_Div), som(_Som), xp(_Xp), drop(_Drop), ca(_Ca), atk(_Atk)).
+    getId(Monster, Id),
+    getName(Monster, Name),
+    getHp(Monster, Hp),
+    getDiv(Monster, Div),
+    getSom(Monster, Som),
+    getXp(Monster, Xp),
+    getDrop(Monster, Drop),
+    getCa(Monster, Ca),
+    getAtk(Monster, Atk),
+    NewHp is Hp - Amount,
+    NewMonster = monster(id(Id), name(Name), hp(NewHp), div(Div), som(Som), xp(Xp), drop(Drop), ca(Ca), atk(Atk)).
