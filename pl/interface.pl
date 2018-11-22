@@ -4,7 +4,9 @@ rightBottonCorner("┘").
 leftBottonCorner("└").
 longLine("─").
 longLine2("│").
-blankLine("│                                                                                                                                                    │").
+
+:- dynamic(blankLine/1).
+blankLine("│                                                                                                                                                                                 │").
 :- dynamic(heigth/1).
 heigth(38).
 :- dynamic(width/1).
@@ -19,19 +21,38 @@ textExemplo(['Em uma manha ensolarada, voce se encontra em Passagem de Duvik, um
     '']).
 
 
+
 printTela:-
 	atualizaSize,
-	heigth(Y),
-	width(X),
 	textExemplo(Text),
 	length(Text,Size),
-	K is (Y div 2),
 	CSize is 20 - Size,
 	cleanScreen,
+	title("Terras misteriosas"),
 	topLine,
 	compensaSize(Text),
 	completeSpaces(CSize),
-	bottonLine.
+	bottonLine,
+	confirmBreakLine.
+
+title(Title):-
+	longLine2(L),
+	string_length(Title,Title_length),
+	topTitleLine(Title_length,TitleTopLine),
+	writeln(TitleTopLine),
+	string_concat(L,Title,Title1),
+	string_concat(Title1,L,Print),
+	writeln(Print).
+
+
+topTitleLine(Title_length,TitleTopLine):-
+	longLine(L),
+	rightTopCorner(RT),
+	leftTopCorner(LT),
+	Title_length1 is Title_length - 1,
+	generateLine(Title_length1,L,LineP1),
+	string_concat(LT,LineP1,LineP2),
+	string_concat(LineP2,RT,TitleTopLine).
 
 topLine:-
 	width(W),
@@ -57,22 +78,23 @@ bottonLine:-
 	string_concat(StringR1,X,Line),
 	write(Line).
 
-
 compensaSize([]).
 compensaSize([X|T]):-
+	atualizaSize,
 	width(W),
 	Horizontal is W - 3,
-	atualizaSize,
 	longLine2(L),
-	string_length(X,String_length),
+	string_length(X,Text_length),
 	string_concat(L,X,Prov1),
 
-	QtdBlank is Horizontal - String_length,
+	QtdBlank is (Horizontal - Text_length),
 
-	generateBlank(QtdBlank,Blanks),
-	string_concat(Prov1,Blanks,Prov2),
-	string_concat(Prov2,L,Saida),
-	write(Saida),
+	writeln(QtdBlank),
+	(QtdBlank > 0) -> (
+		generateLine(QtdBlank," ",Blanks),
+		string_concat(Prov1,Blanks,Prov2),
+		string_concat(Prov2,L,Saida),
+		write(Saida));
 	compensaSize(T).
 
 completeSpaces(0).
@@ -83,21 +105,35 @@ completeSpaces(I):-
 	completeSpaces(K).
 
 
-% Size do terminal 150x38: 
 cleanScreen :- write('\e[H\e[2J').
+
+generateBlank(I,Blanks):- generateLine(I," ",Blanks).
 
 generateLine(0,T,T).
 generateLine(I,T,NSTR):- K is I - 1, generateLine(K,T,NTR), string_concat(T,NTR,NSTR).
 
-generateBlank(0," ").
-generateBlank(I,STR):- K is I - 1, generateBlank(K, NTR), string_concat(" ",NTR,STR).
-
 atualizaSize:-
-	heigth(Y),
-	width(X),
-	asserta(heigth(_)),
-	asserta(width(_)),
+	retract(heigth(_)),
+	retract(width(_)),
+	retract(blankLine(_)),
 
 	tty_size(_Y,_X),
+	Horizontal is _X - 3,
+	generateBlank(Horizontal,Blanks),
+	string_concat("│",Blanks,Aux),
+	string_concat(Aux,"│",Blank_line),
+	asserta(blankLine(Blank_line)),
 	asserta(heigth(_Y)),
 	asserta(width(_X)).
+
+
+readInt(Number) :-
+    (read_line_to_codes(user_input, Codes),
+    string_to_atom(Codes, Atom),
+    atom_number(Atom, Number));
+    Number is -1.
+
+confirmBreakLine:-
+    writeln(""),
+    writeln("Pressione algum botao para continuar"),
+    readInt(_).
