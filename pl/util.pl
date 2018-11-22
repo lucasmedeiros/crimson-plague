@@ -39,3 +39,4 @@ getYesNo(Choice) :-
     writeln("2) Nao"),
     readInt(Z),
     Choice = Z.
+
