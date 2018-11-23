@@ -16,7 +16,9 @@ infected(99).
 :- dynamic(understanding/1).
 understanding(99).
 
-
+main:-
+    sheet:createCharacter,
+    introCity.
 
 confirmBreakLine:-
     writeln(""),
