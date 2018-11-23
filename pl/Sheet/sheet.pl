@@ -4,7 +4,8 @@
     getCHR/1, setCHR/1, getStrModifier/1, getIntModifier/1, getDexModifier/1,
     getLukModifier/1, getChrModifier/1, getVitModifier/1, getName/1, getLevel/1,
     getClass/1, getXP/1, getMaxXP/1, takeDamage/1, increaseXP/1, recoverMP/1,
-    calculateDamage/1, calculateDefense/1, useSpell/2, recoverHP/1, useItem/1]).
+    calculateDamage/1, calculateDefense/1, useSpell/2, recoverHP/1, useItem/1,
+    addItem/1]).
 
 :- use_module("util").
 :- use_module("Itens/inventory.pl").
@@ -170,6 +171,9 @@ addCHR(Num) :-
     getCHR(Current),
     NewValue is Current + Num,
     setCHR(NewValue).
+
+addItem(Id):-
+    inventory: add(Id).
 
 getStrModifier(Value) :- getSTR(K), Value is K // 4.
 getIntModifier(Value) :- getINT(K), Value is K // 4.

@@ -1,4 +1,3 @@
-
 /* 
  * startBattle/1:
  *      O único atributo que precisa ser passado é o ID do monstro que será chamado, para
