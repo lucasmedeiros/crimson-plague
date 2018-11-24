@@ -7,14 +7,14 @@ leftBottonCorner("└").
 longLine("─").
 longLine2("│").
 
-:- dynamic(blankLine/1).
-blankLine("│                                                                                                                                                                                 │").
+:- dynamic(emptyLine/1).
+emptyLine("│                                                                                                                                                                                 │").
 :- dynamic(heigth/1).
 heigth(38).
 :- dynamic(width/1).
 width(150).
 
-textExemplo(['Em uma manha ensolarada, voce se encontra em Passagem de Duvik, uma pequena cidade',
+textExemplo(['','Em uma manha ensolarada, voce se encontra em Passagem de Duvik, uma pequena cidade',
 	'situada em um dos pequenos vales que cruzam as Montanhas Serpente.',
 	'Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros',
 	'procurando descansar membros doloridos e afogar memorias ruins dentro de seus portoes.',
@@ -22,84 +22,90 @@ textExemplo(['Em uma manha ensolarada, voce se encontra em Passagem de Duvik, um
     'voce nao consegue encontrar, os inumeros animais que existiam ao redor da cidade.',
     '']).
 
-title("Terras misteriosas").
+title(" Crimson Plague ").
 
 printeTela(Text):-
-	atualizaSize,
-	length(Text,Size),
-	CSize is 19 - Size,
+	updateSize,
+	length(Text,Text_Size),
+	Real_Text_Size is 19 - Text_Size,
 	cleanScreen,
 	title(X),
-	visuTitle(X),
-	topLine,
-	alocaTexto(Text),
-	completeSpaces(CSize),
-	bottonLine.
+	displayTitle(X),
+	topLineDisplay,
+	displayText(Text),
+	completeSpaces(Real_Text_Size),
+	bottonLineDisplay.
 
-visuTitle(Title):-
-	longLine2(L),
+displayTitle(Title):-
+	longLine2(LL),
 	string_length(Title,Title_length),
-	topTitleLine(Title_length,TitleTopLine),
-	writeln(TitleTopLine),
-	string_concat(L,Title,Title1),
-	string_concat(Title1,L,Print),
-	writeln(Print).
+	topTitleLineDisplay(Title_length,Title_TopLine_Display),
+
+	writeln(Title_TopLine_Display),
+
+	string_concat(LL,Title,P1),
+	string_concat(P1,LL,Display_Title),
+	writeln(Display_Title).
 
 
-topTitleLine(Title_length,TitleTopLine):-
-	longLine(L),
+topTitleLineDisplay(Title_Length,Title_topLine_Display):-
+	longLine(LL),
 	rightTopCorner(RT),
 	leftTopCorner(LT),
-	Title_length1 is Title_length - 1,
-	generateLine(Title_length1,L,LineP1),
-	string_concat(LT,LineP1,LineP2),
-	string_concat(LineP2,RT,TitleTopLine).
+	Real_Title_Length is Title_Length - 1,
 
-topLine:-
-	width(W),
-	Horizontal is W - 3,
-	atualizaSize,
-	rightTopCorner(X),
-	leftTopCorner(Y),
-	longLine(Z),
-	generateLine(Horizontal,Z,String1),
-	string_concat(Y,String1,StringR1),
-	string_concat(StringR1,X,Line),
-	write(Line).
+	generateLine(Real_Title_Length,LL,P1),
+	string_concat(LT,P1,P2),
+	string_concat(P2,RT,Title_topLine_Display).
 
-bottonLine:-
+topLineDisplay:-
+	updateSize,
 	width(W),
-	Horizontal is W - 3,
-	atualizaSize,
-	rightBottonCorner(X),
-	leftBottonCorner(Y),
-	longLine(Z),
-	generateLine(Horizontal,Z,String1),
-	string_concat(Y,String1,StringR1),
-	string_concat(StringR1,X,Line),
-	write(Line).
+	rightTopCorner(RT),
+	leftTopCorner(LT),
+	longLine(LL),
+	Horizontal_Length is W - 3,
 
-alocaTexto([]).
-alocaTexto([X|T]):-
+	generateLine(Horizontal_Length,LL,P1),
+	string_concat(LT,P1,P2),
+	string_concat(P2,RT,Top_Line_Display),
+	write(Top_Line_Display).
+
+bottonLineDisplay:-
+	updateSize,
 	width(W),
-	Horizontal is W - 3,
-	longLine2(L),
+	rightBottonCorner(RB),
+	leftBottonCorner(LB),
+	longLine(LL),
+	Horizontal_Length is W - 3,
+
+	generateLine(Horizontal_Length,LL,P1),
+	string_concat(LB,P1,P2),
+	string_concat(P2,RB,Botton_Line_Display),
+	write(Botton_Line_Display).
+
+displayText([]).
+displayText([X|T]):-
+	width(W),
+	longLine2(LL),
+	Horizontal_Length is W - 3,
+
 	string_length(X,Text_length),
-	string_concat(L,X,Prov1),
+	string_concat(LL,X,P1),
 
-	QtdBlank is (Horizontal - Text_length),
+	Qtd_Blank is (Horizontal_Length - Text_length),
 
-	generateLine(QtdBlank," ",Blanks),
-	string_concat(Prov1,Blanks,Prov2),
-	string_concat(Prov2,L,Saida),
-	write(Saida),
+	generateLine(Qtd_Blank," ",Blank_Line),
+	string_concat(P1,Blank_Line,P2),
+	string_concat(P2,LL,Display_Text),
+	write(Display_Text),
 
-	alocaTexto(T).
+	displayText(T).
 
 
 completeSpaces(0).
 completeSpaces(I):-
-	blankLine(X),
+	emptyLine(X),
 	K is I - 1,
 	writeln(X),
 	completeSpaces(K).
@@ -112,19 +118,21 @@ generateBlank(I,Blanks):- generateLine(I," ",Blanks).
 generateLine(0,T,T).
 generateLine(I,T,NSTR):- K is I - 1, generateLine(K,T,NTR), string_concat(T,NTR,NSTR).
 
-atualizaSize:-
+updateSize:-
 	retract(heigth(_)),
 	retract(width(_)),
-	retract(blankLine(_)),
+	retract(emptyLine(_)),
 
-	tty_size(_Y,_X),
-	Horizontal is _X - 3,
-	generateBlank(Horizontal,Blanks),
-	string_concat("│",Blanks,Aux),
-	string_concat(Aux,"│",Blank_line),
-	asserta(blankLine(Blank_line)),
-	asserta(heigth(_Y)),
-	asserta(width(_X)).
+	tty_size(Size_Y, Size_X),
+	Horizontal_Length is Size_X - 3,
+
+	generateBlank(Horizontal_Length,Blank_Line),
+	string_concat("│",Blank_Line,P1),
+	string_concat(P1,"│",Empty_Line),
+
+	asserta(emptyLine(Empty_Line)),
+	asserta(heigth(Size_Y)),
+	asserta(width(Size_X)).
 
 
 readInt(Number) :-
