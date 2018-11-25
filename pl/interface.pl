@@ -31,7 +31,7 @@ printeTela(Text):-
 	cleanScreen,
 	title(X),
 	displayTitle(X),
-	topLineDisplay,
+	topLineDisplay,	
 	displayText(Text),
 	completeSpaces(Real_Text_Size),
 	bottonLineDisplay.
@@ -149,3 +149,5 @@ confirmBreakLine:-
 confirmBreakLineEmpty:-
 	write(""),
 	readInt(_).
+
+

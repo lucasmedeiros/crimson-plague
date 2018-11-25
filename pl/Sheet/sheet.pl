@@ -239,7 +239,7 @@ spellAvaliable(ID) :-
 
 useItem(Pos) :-
     (inventory:consumeItem(Pos, MP, HP), recoverMP(MP), recoverHP(HP));
-    (inventory:equip(Pos)).
+    (inventory:equip(Pos)), !.
 
 % Usa a habilidade de determinado ID e unifica o dano causado à variavel Damage,
 % retorna True se conseguir usar a habilidade, false caso contrário.

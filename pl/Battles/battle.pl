@@ -5,15 +5,22 @@
  *      fatos em monsters.pl
  * */
 
-:- module(battle, [startBattle/1]).
+:- module(battle, [startBattle/2]).
 
 :- use_module("util").
 :- use_module("Monsters/monsters").
 :- use_module("Sheet/sheet").
 
+:- dynamic(imageBattle/1).
+imageBattle(1).
+
+
 % inicia a batalha entre o personagem e um monstro 
-startBattle(IdMonster) :-
+startBattle(IdMonster,Image) :-
     util:cls,
+    retract(imageBattle(_)),
+    asserta(imageBattle(Image)),
+    printMonstersDisplay,
     monsters:isMonster(IdMonster) ->
         monsters:build_monster(IdMonster, Monster),
         write("Um desafio se aproxima, um "),
@@ -24,6 +31,7 @@ startBattle(IdMonster) :-
 
 % predicado criado para representar um "loop"
 loopBattle(Monster) :-
+    printMonstersDisplay,
     monsters:getHp(Monster, MonsterHP),
     monsters:getName(Monster, MonsterName),
     atom_concat("HP ", MonsterName, MonsterNameInfo),
@@ -50,7 +58,7 @@ evaluateOptionMenu(O, Monster) :-
     O = "1" -> evaluateCharAttackOption(Monster);
     O = "2" -> openInventory(Monster);
     O = "3" -> tryEscape(Monster);
-    (writeln("Opção inválida!"), menu(Monster)).
+    (printMonstersDisplay, writeln("Opção inválida!"), menu(Monster)).
 
 % define se o ataque será mágico (caso seja mago), ou físico.
 evaluateCharAttackOption(Monster) :-
@@ -68,6 +76,7 @@ magicalAttack(Monster) :-
 % menu para escolha das habilidades possíveis que o mago tem, baseado no
 % seu level.
 menuSpells(IDs, Monster) :-
+    printMonstersDisplay,
     writeln("HABILIDADES: "),
     sheet:getMP(Mana),
     atom_concat("Mana disponível: ", Mana, ManaInfo),
@@ -81,6 +90,7 @@ menuSpells(IDs, Monster) :-
 % predicado que serve para imprimir as magias disponíveis.
 printSpells([], _).
 printSpells([Head|Tail], Pos) :-
+    printMonstersDisplay,
     atom_concat(Pos, "- ", ConcatPos),
     write(ConcatPos),
     spells:printSpellLabel(Head),
@@ -101,6 +111,7 @@ evaluateSpellOption(Option, IDs, Monster) :-
 
 % finalmente, executa o ataque mágico.
 executeMagicalAttack(Monster, ID) :-
+    printMonstersDisplay,
     sheet:useSpell(ID, CharDamage) ->
         (
             sheet:recoverMP(5),
@@ -118,6 +129,7 @@ executeMagicalAttack(Monster, ID) :-
 
 % executa um ataque físico.
 phisicalAttack(Monster) :-
+    printMonstersDisplay,
     sheet:calculateDamage(CharDamage),
     monsters:getCa(Monster, CaMonster),
     writeln("Você se prepara para realizar um ataque corpo a corpo..."),
@@ -128,6 +140,7 @@ phisicalAttack(Monster) :-
 
 % predicado para infligir dano ao monstro, caso o ataque seja bem sucedido.
 successfullAttack(CharDamage, Monster) :-
+    printMonstersDisplay,
     write("Você infligiu um total de "),
     atom_concat(CharDamage, " danos no monstro...", Concat),
     writeln(Concat),
@@ -137,6 +150,7 @@ successfullAttack(CharDamage, Monster) :-
 
 % predicado que representa o ataque do monstro.
 monsterAttack(Monster) :-
+    printMonstersDisplay,
     util:rollDice(20, RollResult),
     sheet:calculateDefense(CharDef),
     monsters:getAtk(Monster, Atk),
@@ -185,7 +199,7 @@ tryEscape(Monster) :-
     util:rollDice(20, RollResult),
     RollResult >= 8 -> 
         writeln("Escapou com sucesso...");
-    (writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster)).
+    (printMonstersDisplay,writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster)).
 
 % caso o personagem vença a batalha, esse predicado será chamado.
 % imprime informações do drop do monstro e adiciona XP ao personagem.
@@ -208,3 +222,13 @@ venceu(Monster) :-
 % predicado chamado caso o personagem perca a batalha contra algum monstro.
 perdeu :-
     writeln("Que pena, você perdeu!").
+
+printMonstersDisplay:-
+    imageBattle(X),
+    getImage(X,Image),
+    printMonsters(Image).
+    
+printMonsters([]).
+printMonsters([X|Z]):-
+    writeln(X),
+    printMonsters(Z).

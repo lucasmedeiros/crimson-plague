@@ -1,7 +1,8 @@
 :- module(monsters, [build_monster/2, takeDmgMonster/3, getHp/2,
-                        getName/2, getXp/2, getDrop/2, getCa/2, getAtk/2]).
+                        getName/2, getXp/2, getDrop/2, getCa/2, getAtk/2,getImage/2]).
 
 :- use_module("../util").
+
 setup_bd_monster:-
 	consult('Monsters/bd_monster').
 
@@ -41,6 +42,8 @@ getXp(Monster, Xp):-setup_bd_monster,Monster = monster(_, _, _, _,_, xp(Xp), _, 
 getDrop(Monster, Drop):-setup_bd_monster,Monster = monster(_, _, _, _,_,_, drop(Drop), _,_).
 getCa(Monster, Ca):-setup_bd_monster,Monster = monster(_, _, _, _,_,_,_, ca(Ca),_).
 getAtk(Monster, Atk):-setup_bd_monster,Monster = monster(_, _, _, _,_,_,_, _,atk(Atk)).
+
+getImage(Battle,X):- setup_bd_monster, battleImage(Battle,X).
 
 takeDmgMonster(Monster, Amount, NewMonster):-
     getId(Monster, Id),
