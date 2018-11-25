@@ -51,11 +51,13 @@ start(ClassCharacter,Name):-
 
 
 equip(Pos):-
-	bag(X),
+	(Pos > 0, Pos < 6) ->
+	(bag(X),
 	nth0(RealPos,X,Id),
 	RealPos is Pos - 1,
 	isEquipable(Id),
-	equipAux(Id, RealPos). 
+	equipAux(Id, RealPos));
+	write("Posicao invalida!"). 
 
 
 add(Id):-
@@ -71,11 +73,13 @@ add(Id):-
 	addAmountItem(Id), !).
 
 remove(Pos):-
-	bag(X),
+	(Pos > 0,Pos < 6) ->
+	(bag(X),
 	Index is Pos - 1,
 	nth0(Index,X, Id),
 	removeById(Id),
-	checkPosition(Pos).
+	checkPosition(Pos));
+	write("Posicao invalida!").
 	
 
 consumeItem(Pos,MP,HP):-
@@ -403,7 +407,8 @@ options:-
 	writeln(" 2) Voltar").
  	
 printBag:-
-	auxBagPrint,
+	class(X),
+	auxBagPrint(X),
 	options.
 
 /*-------------------------- MODELS ------------------------ */

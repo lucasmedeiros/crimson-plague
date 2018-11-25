@@ -31,7 +31,6 @@ startBattle(IdMonster,Image) :-
 
 % predicado criado para representar um "loop"
 loopBattle(Monster) :-
-    printMonstersDisplay,
     monsters:getHp(Monster, MonsterHP),
     monsters:getName(Monster, MonsterName),
     atom_concat("HP ", MonsterName, MonsterNameInfo),
@@ -140,7 +139,6 @@ phisicalAttack(Monster) :-
 
 % predicado para infligir dano ao monstro, caso o ataque seja bem sucedido.
 successfullAttack(CharDamage, Monster) :-
-    printMonstersDisplay,
     write("Você infligiu um total de "),
     atom_concat(CharDamage, " danos no monstro...", Concat),
     writeln(Concat),
@@ -180,6 +178,7 @@ evaluateInventoryOption(Monster) :-
     Option == 0 ->
         (
             util:cls,
+            printMonstersDisplay,
             loopBattle(Monster)
         );
     (Option > 0, Option =< 5) -> 

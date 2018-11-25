@@ -23,7 +23,7 @@ main:-
 confirmBreakLine:-
     writeln(""),
     writeln("Pressione algum botao para continuar"),
-    readInt(U),
+    readInt(_),
     cls.
 
 onceUponATime:-
@@ -229,7 +229,7 @@ entradaMina:-
     confirmBreakLine,
     printeTela(Dial2),
     confirmBreakLine,
-    startBattle(1,2),
+    startBattle(1,7),
     confirmBreakLine,
     escolhaMina.
 
@@ -353,6 +353,7 @@ receptionConclusion:-
     Dial = ["",
             "Apos passar da carroca, voce so ve uma grande porta a sua frente.",
             "Voce nao ve outra opcao a nao ser entrar nela.", ""],
+
     printeTela(Dial),
     confirmBreakLine,
     refectoryCavern.
@@ -382,8 +383,8 @@ checkWagon2:-
             "Voce prefere nao se arriscar e mexer nesse corpo.",
             "e quase certo que havia alguma armadilha ali. Seria uma coin-",
             "cidencia muito grande tantos minerios de prata espalhados uniformemente."],
-
-    printeTela(DiaL),
+    
+    printeTela(Dial),
     receptionConclusion.
 
 checkWagon3:-
@@ -417,7 +418,7 @@ getSilver:-
 
     ((Take =:= 1,
     printeTela(Dial1));
-    (printeTela(Dial2))),
+    printeTela(Dial2)),
     confirmBreakLine,
     receptionConclusion.
 
@@ -507,7 +508,7 @@ refectoryCavern:-
             "Voce tambem exerga tres kobolds apontando armas para voce.",
             ""],
     
-    ((activateTrap(1), printeTela(Opcao));
+    ((activateTrap(1), printeTela(Opcao),confirmBreakLine);
     (checkListenKnowledge)),
 
     printeTela(Dial),
@@ -543,7 +544,7 @@ refectoryChoice2:-
     confirmBreakLine,
     pantryCavern.
 
-KoboldsCombatConversation:-
+koboldsCombatConversation:-
     util:rollDice(20, D),
     
     ((D >= 10,koboldsCombatChoice);
@@ -654,10 +655,10 @@ pantryCavern:-
     
     printeTela(Dial3),
     confirmBreakLine,
-    sheet:addItem(2),
-    sheet:addItem(2),
-    sheet:addItem(4),
-    sheet:addItem(4),
+    inventory:add(2),
+    inventory:add(2),
+    inventory:add(4),
+    inventory:add(4),
 
     Dial4 = ["","Apos os achados, voce comeca a descer uma rampa que",
             "leva a uma parte inferior da caverna. Aos poucos ",

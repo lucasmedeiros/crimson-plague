@@ -173,7 +173,7 @@ addCHR(Num) :-
     setCHR(NewValue).
 
 addItem(Id):-
-    inventory: add(Id).
+    add(Id).
 
 getStrModifier(Value) :- getSTR(K), Value is K // 4.
 getIntModifier(Value) :- getINT(K), Value is K // 4.
@@ -239,7 +239,7 @@ spellAvaliable(ID) :-
 
 useItem(Pos) :-
     (inventory:consumeItem(Pos, MP, HP), recoverMP(MP), recoverHP(HP));
-    (inventory:equip(Pos)), !.
+    (inventory:equip(Pos)).
 
 % Usa a habilidade de determinado ID e unifica o dano causado à variavel Damage,
 % retorna True se conseguir usar a habilidade, false caso contrário.
@@ -275,10 +275,9 @@ chooseClass(Class, Name) :-
     ((Number > 0, Number < 4) -> (
         class(Number, Class), classSetup(Class), inventory:start(Class, Name));
     (Number == 4 -> cls(), showClassInfo(), writeln(""), chooseClass(Class, Name));
-    (cls(), chooseClass(Class))).
+    (cls(), chooseClass(Class,Name))).
 
 createCharacter :-
-    cls(),
     writeln("Qual seu nome? "),
     readString(Name),
     writeln(""),

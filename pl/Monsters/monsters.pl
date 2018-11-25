@@ -1,7 +1,7 @@
 :- module(monsters, [build_monster/2, takeDmgMonster/3, getHp/2,
                         getName/2, getXp/2, getDrop/2, getCa/2, getAtk/2,getImage/2]).
 
-:- use_module("../util").
+:- use_module("util").
 
 setup_bd_monster:-
 	consult('Monsters/bd_monster').
