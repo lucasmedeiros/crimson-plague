@@ -12,10 +12,12 @@
 /* -------------------DEFINITIONS AND IMPORTS -------------- */
 
 :- module(inventory,[start/2,add/1,remove/1,equip/1,
-			consumeItem/3,sumDamage/1,sumAtrb/1,printBag/0,printInventory/0,getItemDescription/1,sumArmor/1,
-			sumStreigth/1,sumInteligence/1,sumAgility/1]).
+					consumeItem/3,sumDamage/1,sumAtrb/1,
+					printInventory/0,getItemDescription/1,
+					sumArmor/1,sumStreigth/1,sumInteligence/1,
+					sumAgility/1]).
 
-:- use_module('Itens/itens.pl').
+:- use_module("Itens/itens").
 
 
 /* --------------------- LISTS AND GETS -------------------- */
@@ -32,14 +34,13 @@ amount([0,0,0,0,0]).
 class("guerreiro").
 
 :- dynamic(nome/1).
-nome("UNKNOW").
+nome().
 
 
 /* -------------------- PREDICATES -------------------------- */
 /* --------------------    START   -------------------------- */
 
 start(ClassCharacter,Name):-
-	retract(nome(_)),
 	asserta(nome(Name)),
 	ClassCharacter == "guerreiro", updateClass(ClassCharacter) -> startEquipments([30,36,25,40,47]);
 	ClassCharacter == "mago", updateClass(ClassCharacter) -> startEquipments([37,39,25,41,48]);
@@ -51,10 +52,11 @@ start(ClassCharacter,Name):-
 
 
 equip(Pos):-
+	bag(X),
 	(Pos > 0, Pos < 6) ->
-	(bag(X),
-	nth0(RealPos,X,Id),
+	(
 	RealPos is Pos - 1,
+	nth0(RealPos,X,Id),
 	isEquipable(Id),
 	equipAux(Id, RealPos));
 	write("Posicao invalida!"). 
@@ -80,7 +82,6 @@ remove(Pos):-
 	removeById(Id),
 	checkPosition(Pos));
 	write("Posicao invalida!").
-	
 
 consumeItem(Pos,MP,HP):-
 	bag(X),
@@ -88,7 +89,15 @@ consumeItem(Pos,MP,HP):-
 	nth0(Index,X,Id),
 	isConsumible(Id),
 	getAtrbConsumable(Id,MP,HP),
-	remove(Pos).
+	remove(Pos);
+	write("Item nao encontrado").
+
+ehConsumivel(Pos):-
+	bag(X),
+	Index is Pos - 1,
+	nth0(Index,X,Id),
+	isConsumible(Id).
+
 
 sumAtrb(Atrb):-
 	class(X),

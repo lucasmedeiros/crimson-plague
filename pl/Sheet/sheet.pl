@@ -4,11 +4,10 @@
     getCHR/1, setCHR/1, getStrModifier/1, getIntModifier/1, getDexModifier/1,
     getLukModifier/1, getChrModifier/1, getVitModifier/1, getName/1, getLevel/1,
     getClass/1, getXP/1, getMaxXP/1, takeDamage/1, increaseXP/1, recoverMP/1,
-    calculateDamage/1, calculateDefense/1, useSpell/2, recoverHP/1, useItem/1,
-    addItem/1]).
+    calculateDamage/1, calculateDefense/1, useSpell/2, recoverHP/1, useItem/1, addItem/1]).
 
 :- use_module("util").
-:- use_module("Itens/inventory.pl").
+:- use_module("Itens/inventory").
 :- use_module("Sheet/spells").
 
 class(1, "guerreiro").
@@ -238,9 +237,7 @@ spellAvaliable(ID) :-
     member(ID, Spells).
 
 useItem(Pos) :-
-    (inventory:consumeItem(Pos, MP, HP), recoverMP(MP), recoverHP(HP));
-    (inventory:equip(Pos)).
-
+    (consumeItem(Pos,MP,HP),recoverHP(HP),recoverMP(MP)); equip(Pos).
 % Usa a habilidade de determinado ID e unifica o dano causado à variavel Damage,
 % retorna True se conseguir usar a habilidade, false caso contrário.
 % Possíveis motivos para false: Mana insuficiente, habilidade não disponível

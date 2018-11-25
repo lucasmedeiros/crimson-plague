@@ -385,6 +385,7 @@ checkWagon2:-
             "cidencia muito grande tantos minerios de prata espalhados uniformemente."],
     
     printeTela(Dial),
+    confirmBreakLine,
     receptionConclusion.
 
 checkWagon3:-
@@ -488,8 +489,11 @@ startBattleKobolds:-
     printeTela(Dial),
     confirmBreakLine,
     startBattle(1,4),
+    confirmBreakLine,
     startBattle(1,3),
+    confirmBreakLine,
     startBattle(1,2),
+    confirmBreakLine,
     refectoryCavern.
 
 refectoryCavern:-
@@ -507,8 +511,8 @@ refectoryCavern:-
             "suspenso no ar. ",
             "Voce tambem exerga tres kobolds apontando armas para voce.",
             ""],
-    
-    ((activateTrap(1), printeTela(Opcao),confirmBreakLine);
+
+    ((write("entrou 1"),activateTrap(1),write("entrou 2"), printeTela(Opcao),confirmBreakLine);
     (checkListenKnowledge)),
 
     printeTela(Dial),
@@ -548,7 +552,7 @@ koboldsCombatConversation:-
     util:rollDice(20, D),
     
     ((D >= 10,koboldsCombatChoice);
-    (startBattleKobolds)).
+    startBattleKobolds).
 
 koboldsCombatChoice:-
     Dial = ["","Ao comecar a falar, os kobolds apesar de receiosos",
@@ -830,7 +834,7 @@ corpsesGrave:-
     printeTela(Opcao2),
     confirmBreakLine,
 
-    startBattle(5,6),
+    startBattle(5,8),
     confirmBreakLine,
 
     printeTela(Dial2),
@@ -989,8 +993,8 @@ jakkConversation4:-
         "2) Seja um pouco racional... Isso nao trara alegria a ninguem."],
 
     (
-    (understanding(1), printeTela(Interpretou));
-    (printeTela(NInterpretou))    
+    (understanding(1), printList(Interpretou));
+    (printList(NInterpretou))    
     ),
 
     readInt(Choice),
@@ -1034,14 +1038,13 @@ printViolentEnding:-
     printEnding.
 
 printVillageFuture:-
-    Dial = ["Lentamente, Passagem de Duvik comecou a se",
+    Dial = ["","Lentamente, Passagem de Duvik comecou a se",
             "reestruturar e a prosperar novamente. Alguns",
             "anos depois, Passagem de Duvik se tornou uma das maiores",
             "e ricas cidades do reino. No centro dela, há uma estatua sua,",
             "para relembrar quem tornou o sucesso dessa cidade possivel!"],
     
     printeTela(Dial),
-    confirmBreakLine,
     printCredits.
 
 printPacificEnding:-

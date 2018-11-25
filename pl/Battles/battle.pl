@@ -89,7 +89,6 @@ menuSpells(IDs, Monster) :-
 % predicado que serve para imprimir as magias disponíveis.
 printSpells([], _).
 printSpells([Head|Tail], Pos) :-
-    printMonstersDisplay,
     atom_concat(Pos, "- ", ConcatPos),
     write(ConcatPos),
     spells:printSpellLabel(Head),
@@ -131,11 +130,11 @@ phisicalAttack(Monster) :-
     printMonstersDisplay,
     sheet:calculateDamage(CharDamage),
     monsters:getCa(Monster, CaMonster),
-    writeln("Você se prepara para realizar um ataque corpo a corpo..."),
+    write("Você se prepara para realizar um ataque corpo a corpo..."),
     util:rollDice(20, RollResult),
     AuxDmg is RollResult + CharDamage,
     AuxDmg >= CaMonster -> successfullAttack(CharDamage, Monster);
-    (writeln("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster)).
+    (write("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster)).
 
 % predicado para infligir dano ao monstro, caso o ataque seja bem sucedido.
 successfullAttack(CharDamage, Monster) :-
@@ -144,7 +143,7 @@ successfullAttack(CharDamage, Monster) :-
     writeln(Concat),
     monsters:takeDmgMonster(Monster, CharDamage, NewMonster),
     monsters:getHp(NewMonster, NewMonsterHp),
-    (NewMonsterHp =< 0 -> venceu(Monster); monsterAttack(NewMonster)).
+    (NewMonsterHp =< 0 -> venceu(Monster); (monsterAttack(NewMonster))).
 
 % predicado que representa o ataque do monstro.
 monsterAttack(Monster) :-
@@ -170,12 +169,14 @@ openInventory(Monster) :-
     inventory:printInventory,
     evaluateInventoryOption(Monster).
 
+
+% verificar o pq
 % avalia a opção escolhida pelo usuário na mochila.
 evaluateInventoryOption(Monster) :-
     writeln("[1 - 5] -> Equipar/Consumir item da mochila"),
     writeln("[0] -> Voltar ao menu"),
-    util:readInt(Option),
-    Option == 0 ->
+    readInt(Option),
+    (Option == 0) ->
         (
             util:cls,
             printMonstersDisplay,
@@ -183,20 +184,22 @@ evaluateInventoryOption(Monster) :-
         );
     (Option > 0, Option =< 5) -> 
     (
-        sheet:useItem(Option),
-        monsterAttack(Monster)
+        useItem(Option),
+        evaluateInventoryOption(Monster)
     );
     (
         writeln("Opcão inválida!"),
         evaluateInventoryOption(Monster)         
     ).
 
+
 % predicado chamado ao escolher a opção de fuga
 % avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
 tryEscape(Monster) :-
     writeln("Você tenta fugir e..."),
     util:rollDice(20, RollResult),
-    RollResult >= 8 -> 
+    RollResult >= 8 ->
+        printMonstersDisplay,
         writeln("Escapou com sucesso...");
     (printMonstersDisplay,writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster)).
 
@@ -207,12 +210,14 @@ venceu(Monster) :-
     monsters:getDrop(Monster, Drop),
     itens:getDescription(Drop, Desc),
     itens:getName(Drop, Name),
+    writeln(""),
     write("O monstro deixou cair uma "),
     writeln(Name),
     writeln("Informações do drop: "),
     writeln(Desc),
     inventory:add(Drop),
     monsters:getXp(Monster, Xp),
+    writeln(""),
     write("Você ganhou "),
     atom_concat(Xp, " pontos de experiência.", XpInfo),
     writeln(XpInfo),
