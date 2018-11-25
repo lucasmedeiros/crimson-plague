@@ -1,4 +1,4 @@
-:- module(interface,[printeTela/1]).
+:- module(interface,[textDisplay/1,printLogo/0]).
 
 leftTopCorner("┌").
 rightTopCorner("┐").
@@ -14,23 +14,15 @@ heigth(38).
 :- dynamic(width/1).
 width(150).
 
-textExemplo(['','Em uma manha ensolarada, voce se encontra em Passagem de Duvik, uma pequena cidade',
-	'situada em um dos pequenos vales que cruzam as Montanhas Serpente.',
-	'Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros',
-	'procurando descansar membros doloridos e afogar memorias ruins dentro de seus portoes.',
-	'E voce nao e uma excecao. No entanto algo te parece estranho, a cidade parece bem vazia',
-    'voce nao consegue encontrar, os inumeros animais que existiam ao redor da cidade.',
-    '']).
-
 title(" Crimson Plague ").
 
-printeTela(Text):-
+textDisplay(Text):-
 	updateSize,
 	length(Text,Text_Size),
 	Real_Text_Size is 19 - Text_Size,
 	cleanScreen,
-	title(X),
-	displayTitle(X),
+	title(Title),
+	displayTitle(Title),
 	topLineDisplay,	
 	displayText(Text),
 	completeSpaces(Real_Text_Size),
@@ -116,7 +108,7 @@ cleanScreen :- write('\e[H\e[2J').
 generateBlank(I,Blanks):- generateLine(I," ",Blanks).
 
 generateLine(0,T,T).
-generateLine(I,T,NSTR):- K is I - 1, generateLine(K,T,NTR), string_concat(T,NTR,NSTR).
+generateLine(I,T,NSTR):- K is I - 1, (I >= 0) -> (generateLine(K,T,NTR), string_concat(T,NTR,NSTR)).
 
 updateSize:-
 	retract(heigth(_)),
@@ -141,13 +133,44 @@ readInt(Number) :-
     atom_number(Atom, Number));
     Number is -1.
 
-confirmBreakLine:-
-    writeln(""),
-    writeln("Pressione algum botao para continuar"),
-    readInt(_).
+printLogo:-
+	cleanScreen,
+	logo(Logo),
+	display(Logo).
 
-confirmBreakLineEmpty:-
-	write(""),
-	readInt(_).
+display([]).
+display([X|Z]):-
+    writeln(X),
+    display(Z).
 
 
+
+logo(["┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│               ▄████▄   ██▀███   ██▓ ███▄ ▄███▓  ██████  ▒█████   ███▄    █     ██▓███   ██▓    ▄▄▄        ▄████  █    ██ ▓█████                    │",
+"│               ▒██▀ ▀█  ▓██ ▒ ██▒▓██▒▓██▒▀█▀ ██▒▒██    ▒ ▒██▒  ██▒ ██ ▀█   █    ▓██░  ██▒▓██▒   ▒████▄     ██▒ ▀█▒ ██  ▓██▒▓█   ▀                   │",
+"│               ▒▓█    ▄ ▓██ ░▄█ ▒▒██▒▓██    ▓██░░ ▓██▄   ▒██░  ██▒▓██  ▀█ ██▒   ▓██░ ██▓▒▒██░   ▒██  ▀█▄  ▒██░▄▄▄░▓██  ▒██░▒███                     │",
+"│               ▒▓▓▄ ▄██▒▒██▀▀█▄  ░██░▒██    ▒██   ▒   ██▒▒██   ██░▓██▒  ▐▌██▒   ▒██▄█▓▒ ▒▒██░   ░██▄▄▄▄██ ░▓█  ██▓▓▓█  ░██░▒▓█  ▄                   │",
+"│               ▒ ▓███▀ ░░██▓ ▒██▒░██░▒██▒   ░██▒▒██████▒▒░ ████▓▒░▒██░   ▓██░   ▒██▒ ░  ░░██████▒▓█   ▓██▒░▒▓███▀▒▒▒█████▓ ░▒████▒                  │",
+"│               ░ ░▒ ▒  ░░ ▒▓ ░▒▓░░▓  ░ ▒░   ░  ░▒ ▒▓▒ ▒ ░░ ▒░▒░▒░ ░ ▒░   ▒ ▒    ▒▓▒░ ░  ░░ ▒░▓  ░▒▒   ▓▒█░ ░▒   ▒ ░▒▓▒ ▒ ▒ ░░ ▒░ ░                  │",
+"│                ░  ▒     ░▒ ░ ▒░ ▒ ░░  ░      ░░ ░▒  ░ ░  ░ ▒ ▒░ ░ ░░   ░ ▒░   ░▒ ░     ░ ░ ▒  ░ ▒   ▒▒ ░  ░   ░ ░░▒░ ░ ░  ░ ░  ░                   │",
+"│               ░          ░░   ░  ▒ ░░      ░   ░  ░  ░  ░ ░ ░ ▒     ░   ░ ░    ░░         ░ ░    ░   ▒   ░ ░   ░  ░░░ ░ ░    ░                     │",
+"│               ░ ░         ░      ░         ░         ░      ░ ░           ░                 ░  ░     ░  ░      ░    ░        ░  ░                  │",
+"│               ░                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                     INICIAR JOGO                                                                   │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"│                                                                                                                                                    │",
+"└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘"]).

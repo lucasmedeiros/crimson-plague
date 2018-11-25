@@ -170,7 +170,7 @@ openInventory(Monster) :-
     evaluateInventoryOption(Monster).
 
 
-% verificar o pq
+% verificar o pq a linha 185 da erro
 % avalia a opção escolhida pelo usuário na mochila.
 evaluateInventoryOption(Monster) :-
     writeln("[1 - 5] -> Equipar/Consumir item da mochila"),

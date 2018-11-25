@@ -17,6 +17,8 @@ infected(99).
 understanding(99).
 
 main:-
+    interface: printLogo,
+    confirmBreakLine,
     sheet:createCharacter,
     introCity.
 
@@ -49,7 +51,7 @@ introCity :-
 	"E voce nao e uma excecao. No entanto algo te parece estranho, a cidade parece bem vazia",
     "voce nao consegue encontrar, os inumeros animais que existiam ao redor da cidade.",
     ""],
-    printeTela(L),
+    textDisplay(L),
     confirmBreakLine,
     adventureClincher.
 
@@ -62,7 +64,7 @@ adventureClincher :-
 	"2. Um grupo de pessoas com manchas de carvao no rosto e bracos.",
     "3. Alguns moradores que estao claramente abatidos."],
     
-    printeTela(L),
+    textDisplay(L),
     changeDirection.
 
 % Testado (Obs no choiceHelp)
@@ -103,10 +105,10 @@ changeDirection:-
     readInt(X),
     
     (
-    (X =:= 1, printeTela(A), assert(adventureHanger(1)), choiceHelp);
-    (X =:= 2, printeTela(B), assert(adventureHanger(2)), choiceHelp);
-    (X =:= 3, printeTela(C), assert(adventureHanger(3)), choiceHelp);
-    (X =:= 4, printeTela(D), assert(adventureHanger(4)), confirmBreakLine,secondChance);
+    (X =:= 1, textDisplay(A), assert(adventureHanger(1)), choiceHelp);
+    (X =:= 2, textDisplay(B), assert(adventureHanger(2)), choiceHelp);
+    (X =:= 3, textDisplay(C), assert(adventureHanger(3)), choiceHelp);
+    (X =:= 4, textDisplay(D), assert(adventureHanger(4)), confirmBreakLine,secondChance);
     (writeln("Opcao invalida."), adventureClincher)
     ).
 
@@ -119,8 +121,8 @@ choiceHelp:-
     getYesNo(X),
 
     (
-    (X =:= 2, printeTela(["Com um olhar de desaprovacao, lentamente comecam a se afastar de voce."]), asserta(adventureHanger(4)),confirmBreakLine,secondChance);
-    (printeTela(["Mal sei o que dizer. Muito obrigado!!"]),confirmBreakLine,entradaMina)
+    (X =:= 2, textDisplay(["Com um olhar de desaprovacao, lentamente comecam a se afastar de voce."]), asserta(adventureHanger(4)),confirmBreakLine,secondChance);
+    (textDisplay(["Mal sei o que dizer. Muito obrigado!!"]),confirmBreakLine,entradaMina)
     ).
 
 blankLine:-
@@ -138,7 +140,7 @@ secondChance:-
             "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo",
             "Meruen: e provável que ela esteja causando a praga que está assolando essa vila."],
     
-    printeTela(Dial1),
+    textDisplay(Dial1),
 
     Dial2 = ["O que voce respondera pra ele:",
     "",
@@ -168,9 +170,9 @@ secondChanceChoice(Choice):-
                        "Meruen: Entao, o que voce tem a dizer? voce poderia acabar com essa praga?"],
 
     (
-    (Choice =:= 1, printeTela(MeruenResponse1));
-    (Choice =:= 2, printeTela(MeruenResponse2));
-    (Choice =:= 3, printeTela(MeruenResponse3));
+    (Choice =:= 1, textDisplay(MeruenResponse1));
+    (Choice =:= 2, textDisplay(MeruenResponse2));
+    (Choice =:= 3, textDisplay(MeruenResponse3));
     (writeln("Opçao invalida, tente novamente."), secondChance)
     ),
 
@@ -182,8 +184,8 @@ secondChanceChoice(Choice):-
 
 
     (
-    (Answer =:= 1, printeTela(["Muito obrigado, sempre soube que podia contar com voce."]),confirmBreakLine,entradaMina);
-    (Answer =:= 2, printeTela(["Voce é tao vazio quanto sua alma."]), asserta(secondHelp(0)),confirmBreakLine,firstEnding);
+    (Answer =:= 1, textDisplay(["Muito obrigado, sempre soube que podia contar com voce."]),confirmBreakLine,entradaMina);
+    (Answer =:= 2, textDisplay(["Voce é tao vazio quanto sua alma."]), asserta(secondHelp(0)),confirmBreakLine,firstEnding);
     (writeln("Opçao invalida, tente novamente."), secondChanceChoice(Choice))
     ).
 
@@ -199,7 +201,7 @@ firstEnding:-
             "A promissora cidade comerciante, se tornou apenas uma ruina",
             "uma promessa do que poderia se tornar."],
     
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     printCredits.
 
@@ -225,9 +227,9 @@ entradaMina:-
     Dial2 = ["voce encontra um kobold, ele parece hostil",
              "E ira atacar voce! Prepare-se para o combate!"],
 
-    printeTela(Dial1),
+    textDisplay(Dial1),
     confirmBreakLine,
-    printeTela(Dial2),
+    textDisplay(Dial2),
     confirmBreakLine,
     startBattle(1,7),
     confirmBreakLine,
@@ -244,7 +246,7 @@ escolhaMina :-
             "2) Procurar por alguma coisa ao redor da entrada.",
             "3) Acender uma tocha e entrar na caverna."],
 
-    printeTela(Dial),
+    textDisplay(Dial),
     printList(Opcoes),
     readInt(Z),
     
@@ -261,7 +263,7 @@ analiseEntrada:-
             "uma chance contra voce mesmo... Voce acende uma tocha, respira",
             "fundo e entra na mina."],
 
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     cavernReception.
 
@@ -284,12 +286,12 @@ primeiraEscolhaEntrada:-
     Dial = ["","voce acende uma tocha e entra na caverna."],
     
     (
-    (D >= 15, printeTela(Opcao1),confirmBreakLine);
-    (D >= 10, printeTela(Opcao2),confirmBreakLine);
-    (printeTela(Opcao3),confirmBreakLine)
+    (D >= 15, textDisplay(Opcao1),confirmBreakLine);
+    (D >= 10, textDisplay(Opcao2),confirmBreakLine);
+    (textDisplay(Opcao3),confirmBreakLine)
     ),
 
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     cavernReception.
 
@@ -314,9 +316,9 @@ segundaEscolhaEntrada:-
               "voce acende uma tocha e entra na caverna."],
     
     (
-    (D >= 15, printeTela(Opcao2));
-    (D >= 10, printeTela(Opcao1));
-    (printeTela(Opcao3))
+    (D >= 15, textDisplay(Opcao2));
+    (D >= 10, textDisplay(Opcao1));
+    (textDisplay(Opcao3))
     ),
     
     confirmBreakLine,
@@ -332,7 +334,7 @@ cavernReception:-
             "Há uma saida para o oeste",
             ""],
 
-    printeTela(Dial),
+    textDisplay(Dial),
     receptionChoice.
 
 receptionChoice:-
@@ -354,7 +356,7 @@ receptionConclusion:-
             "Apos passar da carroca, voce so ve uma grande porta a sua frente.",
             "Voce nao ve outra opcao a nao ser entrar nela.", ""],
 
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     refectoryCavern.
 
@@ -373,8 +375,8 @@ checkWagon1:-
             "que deixa voce temporariamente surdo."],
     
     (
-    (D >= 12, printeTela(Opcao1));
-    (printeTela(Opcao2), asserta(activateTrap(1)))),
+    (D >= 12, textDisplay(Opcao1));
+    (textDisplay(Opcao2), asserta(activateTrap(1)))),
     confirmBreakLine,
     wagonDescription.
 
@@ -384,7 +386,7 @@ checkWagon2:-
             "e quase certo que havia alguma armadilha ali. Seria uma coin-",
             "cidencia muito grande tantos minerios de prata espalhados uniformemente."],
     
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     receptionConclusion.
 
@@ -404,7 +406,7 @@ wagonDescription:-
             "",
             "Voce tambem percebe inumeros pedacoes de prata ao redor da carroca."],
 
-    printeTela(Dial),
+    textDisplay(Dial),
     writeln("Voce ira coletar?"),
     getSilver.
 
@@ -418,8 +420,8 @@ getSilver:-
             "Voce prefere nao arricar a pegar esses minerios."],
 
     ((Take =:= 1,
-    printeTela(Dial1));
-    printeTela(Dial2)),
+    textDisplay(Dial1));
+    textDisplay(Dial2)),
     confirmBreakLine,
     receptionConclusion.
 
@@ -434,10 +436,10 @@ checkListenKnowledge:-
     Dial = ["","Voce abre a grande porta de madeira e enxerga:"],
 
     (
-    (D >= 10, printeTela(Listen),confirmBreakLine)
+    (D >= 10, textDisplay(Listen),confirmBreakLine)
     ),
 
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     auxCheckKnowledge.
 
@@ -472,10 +474,10 @@ auxCheckKnowledge:-
               "pelo tom de voz."],
     
     (
-    (D >= 16, printeTela(Opcao3));
-    (D >= 12, printeTela(Opcao2));
-    (D >= 8, printeTela(Opcao1));
-    (printeTela(Opcao4))
+    (D >= 16, textDisplay(Opcao3));
+    (D >= 12, textDisplay(Opcao2));
+    (D >= 8, textDisplay(Opcao1));
+    (textDisplay(Opcao4))
     ),
     confirmBreakLine,
     koboldsCombatConversation.
@@ -486,7 +488,7 @@ startBattleKobolds:-
             "O que parece ser o capitao daquele pequeno grupo fala:",
             "",
             "Capitao: Nao importa o que humano fale, voce morre agora!"],
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     startBattle(1,4),
     confirmBreakLine,
@@ -512,10 +514,10 @@ refectoryCavern:-
             "Voce tambem exerga tres kobolds apontando armas para voce.",
             ""],
 
-    ((write("entrou 1"),activateTrap(1),write("entrou 2"), printeTela(Opcao),confirmBreakLine);
+    ((write("entrou 1"),activateTrap(1),write("entrou 2"), textDisplay(Opcao),confirmBreakLine);
     (checkListenKnowledge)),
 
-    printeTela(Dial),
+    textDisplay(Dial),
     refectoryChoice.
 
 refectoryChoice:-
@@ -538,7 +540,7 @@ refectoryChoice2:-
     Dial = ["","Voce imediatamente comeca a preparar o seu ataque enquanto",
             "os kobolds correm em direcao a voce."],
 
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     startBattle(1,4),
     confirmBreakLine,
@@ -562,7 +564,7 @@ koboldsCombatChoice:-
     "1) Nao precisamos brigar. Nenhum de nos quer isso! (Diplomacia)",
     "2) Nao ousem me atacar se quiserem continuar vivos. (Intimidacao)"],
 
-    printeTela(Dial),
+    textDisplay(Dial),
     printList(Opcao1),
     readInt(Choice),
     (
@@ -587,8 +589,8 @@ koboldsCombatDialogue2(Choice):-
     blankLine,
     
     (
-    (D >= 13, Choice =:= 1, printeTela(DialOp1),confirmBreakLine);
-    (D >= 10, Choice =:= 2, printeTela(DialOp2),confirmBreakLine);
+    (D >= 13, Choice =:= 1, textDisplay(DialOp1),confirmBreakLine);
+    (D >= 10, Choice =:= 2, textDisplay(DialOp2),confirmBreakLine);
     (startBattleKobolds)
     ),
     pantryCavern.
@@ -608,7 +610,7 @@ pantryCavern:-
             "Ao entrar na sala, uma armadilha e ativada!",
             "Uma flecha e lancada em sua direcao."],
     
-    printeTela(Dial1),
+    textDisplay(Dial1),
     confirmBreakLine,
 
     
@@ -620,8 +622,8 @@ pantryCavern:-
     DamageTaken = ["","Uma flecha te acertou, voce perdeu 10 de vida!"],
     
     (
-    (D >= 11, printeTela(Opcao11));
-    (printeTela(Opcao12),takeDamage(10),confirmBreakLine,printeTela(DamageTaken))
+    (D >= 11, textDisplay(Opcao11));
+    (textDisplay(Opcao12),takeDamage(10),confirmBreakLine,textDisplay(DamageTaken))
     ),
 
     confirmBreakLine,
@@ -632,7 +634,7 @@ pantryCavern:-
             "que o normal, e voce tem a impressao que pode pegar",
             "a praga lutando com ela."],
 
-    printeTela(Dial2),
+    textDisplay(Dial2),
     confirmBreakLine,
     startBattle(3,6),
     confirmBreakLine,
@@ -647,8 +649,8 @@ pantryCavern:-
                "voce tenha contraido a praga."],
     
     (
-    (R >= 11, printeTela(Opcao21));
-    (printeTela(Opcao22), asserta(infected(1)))    
+    (R >= 11, textDisplay(Opcao21));
+    (textDisplay(Opcao22), asserta(infected(1)))    
     ),
 
     confirmBreakLine,
@@ -657,7 +659,7 @@ pantryCavern:-
             "e duas pocoes de mana, naturalmente voce guarda elas.",
             "Elas podem ser bastante uteis no futuro."],
     
-    printeTela(Dial3),
+    textDisplay(Dial3),
     confirmBreakLine,
     inventory:add(2),
     inventory:add(2),
@@ -670,7 +672,7 @@ pantryCavern:-
             "faz perder o equilibrio e descer o resto da rampa",
             "deslizando a mesma."],
     
-    printeTela(Dial4),
+    textDisplay(Dial4),
     confirmBreakLine,
     rampCavern.
 
@@ -689,7 +691,7 @@ rampCavern:-
             "Um imenso lobo aparece por trás de algumas pedras e comeca a te cercar",
             "Ele vai te atacar!!"],
 
-    printeTela(Dial1),
+    textDisplay(Dial1),
     confirmBreakLine,
     startBattle(4,1),
     confirmBreakLine,
@@ -701,7 +703,7 @@ rampChoice:-
             "Apos o combate, voce percebe que pode escalar aqueles cabos pendurados.",
             "No entanto, tambem existe um tunel à frente"],
     
-    printeTela(Dial2),
+    textDisplay(Dial2),
     
     Choices = ["",
         "O que voce vai fazer?",
@@ -732,8 +734,8 @@ rampProgress1:-
               "opcao e voltar e seguir o outro caminho."],
     
     (
-    (R >= 5, printeTela(Opcao1),confirmBreakLine, secretCamp);
-    (printeTela(Opcao2),confirmBreakLine,corpsesGrave)
+    (R >= 5, textDisplay(Opcao1),confirmBreakLine, secretCamp);
+    (textDisplay(Opcao2),confirmBreakLine,corpsesGrave)
     ).
 
 
@@ -742,7 +744,7 @@ rampProgress2:-
             "cabos. e mais sensato manter o foco e seguir",
             "o caminho."],
     
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     corpsesGrave.
 
@@ -756,7 +758,7 @@ secretCamp:-
             "e estao amedrontados. Um deles utiliza um capuz",
             "que parece valioso."],
     
-    printeTela(Dial),
+    textDisplay(Dial),
     secretCampChoice.
 
 secretCampChoice:-
@@ -781,7 +783,7 @@ secretCampDecision1:-
             "voce descobre que e uma capa da protecao.",
             "Logo apos, voce desce os cabos E segue o outro caminho."],
 
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     sheet:addItem(42),
     corpsesGrave.
@@ -794,7 +796,7 @@ secretCampDecision2:-
             "Voce pega tres pocoes de vida e duas de mana.",
             "Logo apos, voce desce os cabos E segue o outro caminho."],
     
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     sheet:addItem(2),
     sheet:addItem(2), 
@@ -809,7 +811,7 @@ situacionGettingWorst:-
     "está demasiadamente pior, voce já sente","um pouco de dificuldade em movimentos",
     "bruscos ou que precisam de forca. No entanto,","voce continua determinado a acabar com esse","problema."],
 
-    printeTela(Dial).
+    textDisplay(Dial).
 
 corpsesGrave:-
     Dial1 = ["","Voce passa pelo tunel. Ondas de calor banham respiracao dificil.",
@@ -827,17 +829,17 @@ corpsesGrave:-
     Dial2 = ["","Algo dentro de voce diz que isso esta perto de acabar.",
             "Ao calmo som de agua corrente. voce entra no estreito tunel a leste."],
     
-    printeTela(Dial1),
+    textDisplay(Dial1),
     confirmBreakLine,
-    printeTela(Opcao1),
+    textDisplay(Opcao1),
     confirmBreakLine,
-    printeTela(Opcao2),
+    textDisplay(Opcao2),
     confirmBreakLine,
 
     startBattle(5,8),
     confirmBreakLine,
 
-    printeTela(Dial2),
+    textDisplay(Dial2),
     confirmBreakLine,
     jakkEnding.
 
@@ -852,7 +854,7 @@ jakkEnding:-
         "suas linhas apenas visiveis por baixo da luz do musgo.",
         "Uma sensacao estranha de desconforto impregna este lugar."],
     
-    printeTela(L),
+    textDisplay(L),
     confirmBreakLine,
     presence.
 
@@ -872,8 +874,8 @@ presence:-
         "clava de aco na mao direita."],
     
     (
-    (R >= 8), printeTela(A), asserta(understanding(1));
-    printeTela(B)
+    (R >= 8), textDisplay(A), asserta(understanding(1));
+    textDisplay(B)
     ),
 
     jakkFirstChoice.
@@ -895,7 +897,7 @@ jakkFirstChoice:-
 jakkStartBattle:-
     A = ["","O Orc prepara sua arma enquanto voce corre em sua direcao."],
 
-    printeTela(A),
+    textDisplay(A),
     confirmBreakLine,
     startBattle(7,5),
     confirmBreakLine,
@@ -906,7 +908,7 @@ jakkConversation1:-
     Dial1 = ["","Jakk: Meu nome e Jakk, o que voce quer?",
     "Jakk: Voce se arricou muito para chegar aqui.","Jakk: Que tolice.", ""],
 
-    printeTela(Dial1),
+    textDisplay(Dial1),
 
     Dial2 = ["O que voce ira responder?",
     "", 
@@ -934,9 +936,9 @@ jakkConversationP1(Choice):-
                 "2) Entao eu tenho o dever de para-lo."],
     
     (
-    (Choice =:= 1, printeTela(Opcao1),printList(Question), readInt(Choice1), jakkConversation2(Choice1));
-    (Choice =:= 2, printeTela(Opcao2), printList(Question), readInt(Choice1), jakkConversation2(Choice1));
-    (Choice =:= 3, printeTela(Opcao3),confirmBreakLine, jakkStartBattle);
+    (Choice =:= 1, textDisplay(Opcao1),printList(Question), readInt(Choice1), jakkConversation2(Choice1));
+    (Choice =:= 2, textDisplay(Opcao2), printList(Question), readInt(Choice1), jakkConversation2(Choice1));
+    (Choice =:= 3, textDisplay(Opcao3),confirmBreakLine, jakkStartBattle);
     (writeln("Opcao invalida, escolha novamente"), jakkConversationP1(Choice))    
     ).
 
@@ -958,8 +960,8 @@ jakkConversation2(Choice):-
             "3) Isso nao justifica os seus erros. Voce morrera agora!"],
 
     (
-    (Choice =:= 1, printeTela(Dial4),printList(Question),readInt(Choice1), jakkConversation3(Choice1));
-    (Choice =:= 2, printeTela(Dial5),confirmBreakLine, jakkStartBattle);
+    (Choice =:= 1, textDisplay(Dial4),printList(Question),readInt(Choice1), jakkConversation3(Choice1));
+    (Choice =:= 2, textDisplay(Dial5),confirmBreakLine, jakkStartBattle);
     (writeln("Opcao invalida, escolha novamente"), jakkConversation2)    
     ).
 
@@ -972,8 +974,8 @@ jakkConversation3(Choice):-
         "Jakk: No entanto, todos eles concordaram com isso, ","Jakk: eu tenho que valorizar as mortes daqueles que se sacrificaram pela causa!"],
 
     (
-    (Choice =:= 1, printeTela(Dial7), jakkConversation4);
-    (Choice =:= 2, printeTela(Opcao3), jakkConversation4);
+    (Choice =:= 1, textDisplay(Dial7), jakkConversation4);
+    (Choice =:= 2, textDisplay(Opcao3), jakkConversation4);
     (Choice =:= 3, confirmBreakLine, jakkStartBattle);
     (writeln("Opcao invalida, escolha novamente"), jakkConversation3(Choice))    
     ).
@@ -1010,10 +1012,10 @@ jakkConversation4:-
     
     
     (
-    ((Choice =:= 1; Choice =:= 2), CheckCharism >= 10, printeTela(SolucaoJakk1),confirmBreakLine, printPacificEnding);
-    (Choice =:= 3, understanding(1), printeTela(SolucaoJakk2),confirmBreakLine, printPacificEnding);
+    ((Choice =:= 1; Choice =:= 2), CheckCharism >= 10, textDisplay(SolucaoJakk1),confirmBreakLine, printPacificEnding);
+    (Choice =:= 3, understanding(1), textDisplay(SolucaoJakk2),confirmBreakLine, printPacificEnding);
     ((Choice =\= 1, Choice =\= 2), writeln("Opcao invalida, escolha novamente"), jakkConversation4);
-    (printeTela(SolucaoJakk3),confirmBreakLine, jakkStartBattle)    
+    (textDisplay(SolucaoJakk3),confirmBreakLine, jakkStartBattle)    
     ).
     
     
@@ -1025,7 +1027,7 @@ printViolentEnding:-
         "Jakk: Infelizmente eu acho que o mal prevaleceu...",
         "Jakk, solta sua maca, e cai no chao."],
     
-    printeTela(Dial1),
+    textDisplay(Dial1),
     confirmBreakLine,
 
     Dial2 = ["","Derrotar Jakk já possui um efeito visivel imediato nas aguas da nascente,",
@@ -1033,7 +1035,7 @@ printViolentEnding:-
             "Os sintomas da Febre que afetam as pessoas de Passagem de Duvik comecaram a diminuir.",
             "E a ordem voltou a reinar na cidade."],
     
-    printeTela(Dial2),
+    textDisplay(Dial2),
     confirmBreakLine,
     printEnding.
 
@@ -1044,7 +1046,7 @@ printVillageFuture:-
             "e ricas cidades do reino. No centro dela, há uma estatua sua,",
             "para relembrar quem tornou o sucesso dessa cidade possivel!"],
     
-    printeTela(Dial),
+    textDisplay(Dial),
     printCredits.
 
 printPacificEnding:-
@@ -1055,7 +1057,7 @@ printPacificEnding:-
             "da Febre que afetam as pessoas de Passagem de Duvik",
             "comecaram a diminuir. E a ordem voltou a reinar na cidade."],
     
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     printEnding.
 
@@ -1065,7 +1067,7 @@ printDefeatEnding:-
             "Todos de Passagem de Duvik pereceram à doenca, e a promissora cidade",
             "comerciante, virou apenas uma promessa do que poderia ser..."],
     
-    printeTela(Dial),
+    textDisplay(Dial),
     confirmBreakLine,
     printCredits.
 
@@ -1079,7 +1081,7 @@ printVariantEnding_A:-
             "Prefeito: tenha a certeza que voce será sempre bem recebido",
             "Prefeito: aqui!"],
     
-    printeTela(Dial).
+    textDisplay(Dial).
 
 printVariantEnding_B:-
     confirmBreakLine,
@@ -1093,7 +1095,7 @@ printVariantEnding_B:-
             "Minerador: Ei! Sempre que vir aqui, minha casa sempre estará",
             "Minerador: de portas abertas! Nos nao esqueceremos de voce."],
     
-    printeTela(Dial).
+    textDisplay(Dial).
 
 printVariantEnding_C:-
     confirmBreakLine,
@@ -1108,7 +1110,7 @@ printVariantEnding_C:-
             "Camponesa: Volte aqui de vez em quando! Tenho certeza",
             "Camponesa: que todos daqui adorariam te ver novamente!"],
     
-    printeTela(Dial).
+    textDisplay(Dial).
 
 printVariantEnding_Else:-
     confirmBreakLine,
@@ -1122,7 +1124,7 @@ printVariantEnding_Else:-
             "Meruen: aqui de vez em quando. Seria muito bom",
             "Meruen: te ver novamente!"],
     
-    printeTela(Dial).
+    textDisplay(Dial).
 
 printEnding:-
     printVillageFuture,
@@ -1150,6 +1152,6 @@ printCredits:-
                 "",
                 "Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!"],
     
-    printeTela(Creditos),
+    textDisplay(Creditos),
     confirmBreakLine.
 

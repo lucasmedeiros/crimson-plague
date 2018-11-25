@@ -6,6 +6,7 @@
     getClass/1, getXP/1, getMaxXP/1, takeDamage/1, increaseXP/1, recoverMP/1,
     calculateDamage/1, calculateDefense/1, useSpell/2, recoverHP/1, useItem/1, addItem/1]).
 
+:- use_module('interface').
 :- use_module("util").
 :- use_module("Itens/inventory").
 :- use_module("Sheet/spells").
@@ -260,14 +261,22 @@ classSetup(Class) :-
 
 chooseClass(Class, Name) :-
     L = ["Classes: ",
-        "1) Guerreiro",
-        "2) Mago",
-        "3) Ladino",
-        "4) Mais informações",
         "",
-        "Selecione sua classe: "],
+        "1) Guerreiro",
+        "Guerreiros são exímios lutadores marciais, sempre prontos para lutar.",
+        "Possuem extremas habilidades de combate corpo a corpo.",
+        "",
+        "2) Mago",
+         "Magos são pesquisadores das artes arcanas da Idade Média e utilizam-as em suas batalhas,",
+        "porém são fisicamente fracos e não possuem habilidades de combate com armas.",
+        "",
+        "3) Ladino",
+        "Furtivos e escorregadios, ladinos, se não estão roubando algo, estão trabalhando numa busca por um tesouro.",
+        "Possuem altas habilidades em combates de longa distância e armas de longo alcance.",
+        ""],
 
-    printList(L),
+    textDisplay(L),
+    write("Selecione sua classe: "),
     readInt(Number),
     ((Number > 0, Number < 4) -> (
         class(Number, Class), classSetup(Class), inventory:start(Class, Name));
@@ -275,8 +284,11 @@ chooseClass(Class, Name) :-
     (cls(), chooseClass(Class,Name))).
 
 createCharacter :-
-    writeln("Qual seu nome? "),
+    Inicio = ["Qual seu nome? ",""],
+    textDisplay(Inicio),
+    write("Nome: "),
     readString(Name),
-    writeln(""),
     chooseClass(Class, Name),
+    writeln("Carregando..."),
+    sleep(2),
     asserta(sheet(Name, 1, Class, 0, 100)).
