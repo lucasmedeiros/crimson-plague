@@ -15,7 +15,7 @@
 					consumeItem/3,sumDamage/1,sumAtrb/1,
 					printInventory/0,getItemDescription/1,
 					sumArmor/1,sumStreigth/1,sumInteligence/1,
-					sumAgility/1]).
+					sumAgility/1,existItem/2]).
 
 :- use_module("Itens/itens").
 
@@ -49,6 +49,13 @@ start(ClassCharacter,Name):-
 
 
 /* ------------------- MANIPULATE ITENS --------------------- */
+
+existItem(Pos,Exist):-
+	bag(X),
+	RealPos is Pos - 1,
+	nth0(RealPos,X,Id),
+	((Id == 34) -> (Exist = false);
+		(Exist == true)).
 
 
 equip(Pos):-

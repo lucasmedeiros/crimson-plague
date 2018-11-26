@@ -166,13 +166,13 @@ monsterAttack(Monster) :-
 
 % predicado para caso o usuário tenha escolhido abrir o inventário durante a batalha
 openInventory(Monster) :-
-    inventory:printInventory,
     evaluateInventoryOption(Monster).
 
 
 % verificar o pq a linha 185 da erro
 % avalia a opção escolhida pelo usuário na mochila.
 evaluateInventoryOption(Monster) :-
+    inventory:printInventory,
     writeln("[1 - 5] -> Equipar/Consumir item da mochila"),
     writeln("[0] -> Voltar ao menu"),
     readInt(Option),
