@@ -132,8 +132,8 @@ phisicalAttack(Monster) :-
     write("Você se prepara para realizar um ataque corpo a corpo..."),
     util:rollDice(20, RollResult),
     AuxDmg is RollResult + CharDamage,
-    AuxDmg >= CaMonster -> successfullAttack(CharDamage, Monster),
-    (write("E falha miseravelmente... O monstro ri de você!"),, monsterAttack(Monster)).
+    AuxDmg >= CaMonster -> successfullAttack(CharDamage, Monster);
+    (write("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster)).
 
 % predicado para infligir dano ao monstro, caso o ataque seja bem sucedido.
 successfullAttack(CharDamage, Monster) :-
