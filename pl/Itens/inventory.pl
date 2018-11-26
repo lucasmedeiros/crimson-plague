@@ -1,5 +1,5 @@
 /* FUNCOES DO INVENTARIO : */
-	
+
 	/* start(Classe,Name) - Inicia o inventário com os itens iniciais a partir da classe do personagem e o nome do jogador*/
 	/* add(Id) - Adiciona um item a bag a partir do ID */
 	/* remove(Pos) - Remove um item a partir da posição na bag */
@@ -8,14 +8,14 @@
 	/* sumDamage(Dam) - Retorna o dano total dos itens equipados */
 	/* sumAtrb(ClassCharacter,Atrb) - Retorna o valor total do atributo principal nos itens equipados */
 	/* getItemDesc(Id,DescItem) - Retorna o nome e a descricao do item pelo ID, no formato nome: descricao */
- 
+
 /* -------------------DEFINITIONS AND IMPORTS -------------- */
 
 :- module(inventory,[start/2,add/1,remove/1,equip/1,
 					consumeItem/3,sumDamage/1,sumAtrb/1,
 					printInventory/0,getItemDescription/1,
 					sumArmor/1,sumStreigth/1,sumInteligence/1,
-					sumAgility/1,existItem/2]).
+					sumAgility/1,existItem/1]).
 
 :- use_module("Itens/itens").
 
@@ -50,13 +50,11 @@ start(ClassCharacter,Name):-
 
 /* ------------------- MANIPULATE ITENS --------------------- */
 
-existItem(Pos,Exist):-
+existItem(Pos):-
 	bag(X),
 	RealPos is Pos - 1,
 	nth0(RealPos,X,Id),
-	((Id == 34) -> (Exist = false);
-		(Exist == true)).
-
+	Id =\= 34.
 
 equip(Pos):-
 	bag(X),
@@ -66,7 +64,7 @@ equip(Pos):-
 	nth0(RealPos,X,Id),
 	isEquipable(Id),
 	equipAux(Id, RealPos));
-	write("Posicao invalida!"). 
+	write("Posicao invalida!").
 
 
 add(Id):-
@@ -192,7 +190,7 @@ removeSoloItem(Id):-
 
 	retract(bag(X)),
 	retract(amount(Y)),
-	
+
 	replace(34,Index,X,[],NewBag),
 	replace(0,Index,Y,[],NewAmount),
 
@@ -232,7 +230,7 @@ sumAux(Atrb,ClassCharacter):-
 equipAux(Id, RealPos):-
 	bag(X),
 	equipped(Y),
-	
+
 	getTYP(Id,Type),
 	PosType is Type - 1,
 
@@ -254,9 +252,9 @@ removeById(Id):-
 	nth0(Index,X,Id),
 	nth0(Index,Y,Amount),
 
-	Amount > 1 -> 
+	Amount > 1 ->
 		removeNoSoloItem(Id);
-	removeSoloItem(Id). 
+	removeSoloItem(Id).
 
 startEquipments(A):-
 	equipped(X),
@@ -270,17 +268,17 @@ checkPosition(Pos):-
 sumDAM([],0).
 sumDAM([X|T],Y):-
 	 getDAM(X,Dam),
-	 sumDAM(T,Z), Y is Z+Dam. 
+	 sumDAM(T,Z), Y is Z+Dam.
 
 sumSTR([],0).
 sumSTR([X|T],Y):-
 	 getSTR(X,STR),
-	 sumSTR(T,Z), Y is Z+STR. 
+	 sumSTR(T,Z), Y is Z+STR.
 
 sumINT([],0).
 sumINT([X|T],Y):-
 	 getINT(X,INT),
-	 sumINT(T,Z), Y is Z+INT. 
+	 sumINT(T,Z), Y is Z+INT.
 
 sumDEX([],0).
 sumDEX([X|T],Y):-
@@ -387,7 +385,7 @@ auxBagPrint(Classe):-
 	concatAndPrint("││------------- Slots -----------------││",X,23),
 	concatAndPrint("││                                     ││",X,24),
 	compensaBlank(Item1,X,25),
-	compensaBlank(Item2,X,26), 
+	compensaBlank(Item2,X,26),
 	compensaBlank(Item3,X,27),
 	compensaBlank(Item4,X,28),
 	compensaBlank(Item5,X,29),
@@ -421,7 +419,7 @@ getNameEquiped(Pos,Name):-
 options:-
 	writeln(" 1) Equipar"),
 	writeln(" 2) Voltar").
- 	
+
 printBag:-
 	class(X),
 	auxBagPrint(X),

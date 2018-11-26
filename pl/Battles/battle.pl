@@ -172,6 +172,7 @@ openInventory(Monster) :-
 % verificar o pq a linha 185 da erro
 % avalia a opção escolhida pelo usuário na mochila.
 evaluateInventoryOption(Monster) :-
+    util:cls,
     inventory:printInventory,
     writeln("[1 - 5] -> Equipar/Consumir item da mochila"),
     writeln("[0] -> Voltar ao menu"),
@@ -184,7 +185,7 @@ evaluateInventoryOption(Monster) :-
         );
     (Option > 0, Option =< 5) ->
     (
-        useItem(Option),
+        (useItem(Option); true),
         evaluateInventoryOption(Monster)
     );
     (
