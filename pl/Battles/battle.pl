@@ -1,7 +1,7 @@
-/* 
+/*
  * startBattle/1:
  *      O único atributo que precisa ser passado é o ID do monstro que será chamado, para
- *      saber qual o ID do monstro com o qual o personagem batalhará, basta consultar os 
+ *      saber qual o ID do monstro com o qual o personagem batalhará, basta consultar os
  *      fatos em monsters.pl
  * */
 
@@ -15,7 +15,7 @@
 imageBattle(1).
 
 
-% inicia a batalha entre o personagem e um monstro 
+% inicia a batalha entre o personagem e um monstro
 startBattle(IdMonster,Image) :-
     util:cls,
     retract(imageBattle(_)),
@@ -62,7 +62,7 @@ evaluateOptionMenu(O, Monster) :-
 % define se o ataque será mágico (caso seja mago), ou físico.
 evaluateCharAttackOption(Monster) :-
     sheet:getClass(Class),
-    Class == "mago" -> 
+    Class == "mago" ->
         magicalAttack(Monster);
         phisicalAttack(Monster).
 
@@ -98,7 +98,7 @@ printSpells([Head|Tail], Pos) :-
 % avalia a opção de magia escolhida, verificando se é válida ou não.
 evaluateSpellOption(Option, IDs, Monster) :-
     length(IDs, ListSize),
-    (Option > ListSize; Option =< 0) -> 
+    (Option > ListSize; Option =< 0) ->
         (
             util:cls,
             write(Option),
@@ -118,7 +118,7 @@ executeMagicalAttack(Monster, ID) :-
             AuxDmg is RollResult + CharDamage,
             AuxDmg >= 12 -> successfullAttack(CharDamage, Monster);
             (writeln("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster))
-        ); 
+        );
         (
             sheet:recoverMP(5),
             writeln("Sem mana..."),
@@ -176,21 +176,21 @@ evaluateInventoryOption(Monster) :-
     writeln("[1 - 5] -> Equipar/Consumir item da mochila"),
     writeln("[0] -> Voltar ao menu"),
     readInt(Option),
-    (Option == 0) ->
+    ((Option == 0) ->
         (
             util:cls,
             printMonstersDisplay,
             loopBattle(Monster)
         );
-    (Option > 0, Option =< 5) -> 
+    (Option > 0, Option =< 5) ->
     (
         useItem(Option),
         evaluateInventoryOption(Monster)
     );
     (
         writeln("Opcão inválida!"),
-        evaluateInventoryOption(Monster)         
-    ).
+        evaluateInventoryOption(Monster)
+    )).
 
 
 % predicado chamado ao escolher a opção de fuga
@@ -231,7 +231,7 @@ printMonstersDisplay:-
     imageBattle(X),
     getImage(X,Image),
     printMonsters(Image).
-    
+
 printMonsters([]).
 printMonsters([X|Z]):-
     writeln(X),
