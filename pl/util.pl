@@ -39,7 +39,7 @@ getYesNo(Choice) :-
     writeln("1) Sim"),
     writeln("2) Nao"),
     readInt(Z),
-    Choice = Z.
+    ((Z =:= 1; Z =:= 2) -> (Choice = Z); (Choice  = 2)).
 
 confirmBreakLine:-
     writeln(""),

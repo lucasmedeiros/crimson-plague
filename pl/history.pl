@@ -871,11 +871,12 @@ presence:-
         "clava de aco na mao direita."],
     
     (
-    (R >= 8), textDisplay(A), asserta(understanding(1));
-    textDisplay(B)
+    (R >= 8), textDisplay(A), asserta(understanding(1))
     ),
 
-    jakkEnding.
+    textDisplay(B),
+
+    jakkFirstChoice.
 
 jakkFirstChoice:-
     A = ["O que voce vai fazer", 
