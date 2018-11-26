@@ -70,14 +70,15 @@ equip(Pos):-
 add(Id):-
 	isItem(Id),
 	bag(A),
-	nth0(_,A,Id) ->(
+	nth0(_,A,Id) -> (
 		isConsumible(Id),
-		addAmountItem(Id), !);
+		addAmountItem(Id));
 
-	(isItem(Id),retract(bag(X)),
+	((isItem(Id),retract(bag(X)),
 	replaceItem(Id,34,X,Y),
 	asserta(bag(Y)),
-	addAmountItem(Id), !).
+	addAmountItem(Id));
+	write("inventario cheio")).
 
 remove(Pos):-
 	(Pos > 0,Pos < 6) ->

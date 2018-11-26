@@ -98,14 +98,13 @@ printSpells([Head|Tail], Pos) :-
 % avalia a opção de magia escolhida, verificando se é válida ou não.
 evaluateSpellOption(Option, IDs, Monster) :-
     length(IDs, ListSize),
-    (Option > ListSize; Option =< 0) ->
+    ((Option > ListSize; Option =< 0) ->
         (
-            util:cls,
             write(Option),
             write(" - "),
             writeln("Opção inválida..."),
             menuSpells(IDs, Monster)
-        ); (util:cls, executeMagicalAttack(Monster, Option)).
+        ); (util:cls, executeMagicalAttack(Monster, Option))).
 
 % finalmente, executa o ataque mágico.
 executeMagicalAttack(Monster, ID) :-
@@ -133,8 +132,8 @@ phisicalAttack(Monster) :-
     write("Você se prepara para realizar um ataque corpo a corpo..."),
     util:rollDice(20, RollResult),
     AuxDmg is RollResult + CharDamage,
-    AuxDmg >= CaMonster -> successfullAttack(CharDamage, Monster);
-    (write("E falha miseravelmente... O monstro ri de você!"), monsterAttack(Monster)).
+    AuxDmg >= CaMonster -> successfullAttack(CharDamage, Monster),
+    (write("E falha miseravelmente... O monstro ri de você!"),, monsterAttack(Monster)).
 
 % predicado para infligir dano ao monstro, caso o ataque seja bem sucedido.
 successfullAttack(CharDamage, Monster) :-

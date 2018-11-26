@@ -1,5 +1,5 @@
 :- module(util,
-    [rollDice/2, rollDices/3, cls/0, printList/1, readInt/1, readString/1, getYesNo/1]).
+    [rollDice/2, rollDices/3, cls/0, printList/1, readInt/1, readString/1, getYesNo/1,confirmBreakLine/0]).
 
 rollDice(Bound, O) :-
     random(1, Bound, RollResult),
@@ -41,3 +41,8 @@ getYesNo(Choice) :-
     readInt(Z),
     Choice = Z.
 
+confirmBreakLine:-
+    writeln(""),
+    writeln("Pressione ENTER para continuar"),
+    readInt(_),
+    cls.

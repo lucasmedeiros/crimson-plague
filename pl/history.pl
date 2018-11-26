@@ -22,11 +22,6 @@ main:-
     sheet:createCharacter,
     introCity.
 
-confirmBreakLine:-
-    writeln(""),
-    writeln("Pressione algum botao para continuar"),
-    readInt(_),
-    cls.
 
 onceUponATime:-
     introCity,
@@ -202,7 +197,6 @@ firstEnding:-
             "uma promessa do que poderia se tornar."],
     
     textDisplay(Dial),
-    confirmBreakLine,
     printCredits.
 
 entradaMina:-
@@ -419,9 +413,12 @@ getSilver:-
     Dial2 = ["",
             "Voce prefere nao arricar a pegar esses minerios."],
 
-    ((Take =:= 1,
-    textDisplay(Dial1));
-    textDisplay(Dial2)),
+    (
+        
+    (Take =:= 1, textDisplay(Dial1)); 
+    (Take =:= 2, textDisplay(Dial2));
+    (writeln("opcao inválida"), wagonDescription)
+    ),
     confirmBreakLine,
     receptionConclusion.
 
@@ -514,7 +511,7 @@ refectoryCavern:-
             "Voce tambem exerga tres kobolds apontando armas para voce.",
             ""],
 
-    ((write("entrou 1"),activateTrap(1),write("entrou 2"), textDisplay(Opcao),confirmBreakLine);
+    ((activateTrap(1), textDisplay(Opcao),confirmBreakLine);
     (checkListenKnowledge)),
 
     textDisplay(Dial),
@@ -878,7 +875,7 @@ presence:-
     textDisplay(B)
     ),
 
-    jakkFirstChoice.
+    jakkEnding.
 
 jakkFirstChoice:-
     A = ["O que voce vai fazer", 
@@ -1153,5 +1150,6 @@ printCredits:-
                 "Existem mais finais para serem desbravados, tente conseguir outro jogando novamente!"],
     
     textDisplay(Creditos),
-    confirmBreakLine.
+    confirmBreakLine,
+    break.
 
