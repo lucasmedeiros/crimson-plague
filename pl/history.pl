@@ -511,8 +511,7 @@ refectoryCavern:-
             "Voce tambem exerga tres kobolds apontando armas para voce.",
             ""],
 
-    ((activateTrap(1), textDisplay(Opcao),confirmBreakLine);
-    (checkListenKnowledge)),
+    ((activateTrap(1), textDisplay(Opcao),confirmBreakLine)),
 
     textDisplay(Dial),
     refectoryChoice.

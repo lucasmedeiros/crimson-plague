@@ -291,5 +291,5 @@ createCharacter :-
     readString(Name),
     chooseClass(Class, Name),
     writeln("Carregando..."),
-    sleep(2),
+    sleep(1),
     asserta(sheet(Name, 1, Class, 0, 100)).

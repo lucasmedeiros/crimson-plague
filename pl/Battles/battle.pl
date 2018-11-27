@@ -146,7 +146,6 @@ successfullAttack(CharDamage, Monster) :-
 
 % predicado que representa o ataque do monstro.
 monsterAttack(Monster) :-
-    printMonstersDisplay,
     util:rollDice(20, RollResult),
     sheet:calculateDefense(CharDef),
     monsters:getAtk(Monster, Atk),

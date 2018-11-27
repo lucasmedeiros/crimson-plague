@@ -1,5 +1,5 @@
 % configuração: id, nome, hp, divisor, somador, xp, id correspondente ao item de drop, CA, dano de ataque.
-monster(1, "Kobolds", "2d8", 2, -1, 100, 1, 15, 4).
+monster(1, "Kobolds", "3d8", 2, -1, 100, 1, 15, 4).
 monster(2, "Arminho atroz", "4d8", 1, 0, 200, 5, 16,9).
 monster(3, "Ratos", "1d8", 4, -1, 250, 7, 14, -1).
 monster(4, "M'dok", "3d8", 1, 0, 300, 15, 15, 4).
