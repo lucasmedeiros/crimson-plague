@@ -34,13 +34,14 @@ amount([0,0,0,0,0]).
 class("guerreiro").
 
 :- dynamic(nome/1).
-nome().
+nome("desconhecido").
 
 
 /* -------------------- PREDICATES -------------------------- */
 /* --------------------    START   -------------------------- */
 
 start(ClassCharacter,Name):-
+	retract(nome(_)),
 	asserta(nome(Name)),
 	ClassCharacter == "guerreiro", updateClass(ClassCharacter) -> startEquipments([30,36,25,40,47]);
 	ClassCharacter == "mago", updateClass(ClassCharacter) -> startEquipments([37,39,25,41,48]);

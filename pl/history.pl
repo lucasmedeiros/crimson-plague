@@ -23,20 +23,6 @@ main:-
     introCity.
 
 
-onceUponATime:-
-    introCity,
-    adventureClincher,
-
-    (
-    (adventureHanger(4), secondChance);
-    (asserta(secondHelp(1)))    
-    ),
-
-    (
-    (secondHelp(0), firstEnding, printCredits);
-    (entradaMina, refectoryCavern, pantryCavern, rampCavern, corpsesGrave, jakkEnding, printEnding)
-    ).
-
 % Testado
 introCity :-
     L = ["","Em uma manha ensolarada, voce se encontra em Passagem de Duvik,",
@@ -44,7 +30,7 @@ introCity :-
 	"Ela tem sido por muito tempo um ponto de parada para viajantes e aventureiros",
 	"procurando descansar membros doloridos e afogar memorias ruins dentro de seus portoes.",
 	"E voce nao e uma excecao. No entanto algo te parece estranho, a cidade parece bem vazia",
-    "voce nao consegue encontrar, os inumeros animais que existiam ao redor da cidade.",
+    "voce nao consegue encontrar os inumeros animais que existiam ao redor da cidade.",
     ""],
     textDisplay(L),
     confirmBreakLine,
@@ -56,7 +42,7 @@ adventureClincher :-
 	"algumas pessoas que te chamam a atencao:",
     "",
 	"1. Um homem com roupas nobres, nao parece ser dessa cidade.",
-	"2. Um grupo de pessoas com manchas de carvao no rosto e bracos.",
+	"2. Um grupo de pessoas com manchas de carvao no rosto e brancos.",
     "3. Alguns moradores que estao claramente abatidos."],
     
     textDisplay(L),
@@ -66,9 +52,9 @@ adventureClincher :-
 changeDirection:-
     A = ["", "Ao se aproximar dele, voce escuta:"," ",
     "Prefeito: Saudacoes. Eu sou o prefeito dessa cidade.",
-    "Prefeito: muitos dos moradores da vila estao sofrendo de uma",
+    "Prefeito: Muitos dos moradores da vila estao sofrendo de uma",
     "Prefeito: doenca extremamente letal. Nao pude deixar de notar",
-    "Prefeito: que voce e um aventureiro, voce poderia nos ajudar",
+    "Prefeito: que voce é um aventureiro, voce poderia nos ajudar",
     "Prefeito: a acabar com essa doenca? Por favor, muitos já",
     "Prefeito: morreram com essa praga."],
 
@@ -124,8 +110,8 @@ blankLine:-
     writeln("").
 
 secondChance:-
-    Dial1 = ["","Uma pessoa se aproxima de voce, ela te parece familiar",
-            "quando ela fica mais proxima, voce percebe que ela e um amigo de longa data, Meruen.",
+    Dial1 = ["","Uma pessoa se aproxima de voce, ela te parece familiar.",
+            "Quando ela fica mais proxima, voce percebe que ela e um amigo de longa data, Meruen.",
             "Um guerreiro que costumava lutar com voce, alguns anos atrás.",
             "Ele está bem magro, comparado ao tempo que ele lutava com voce." ,
             "",
@@ -189,6 +175,7 @@ firstEnding:-
     Dial = ["Conclusao",
             "",
             "Seja por falta de interesse, ou de empatia, voce nao quis ajudar a vila.",
+            "",
             "Duas semanas depois, em outra vila a procura de um artefato.",
             "Voce descobriu que nao demorou muito para Passagem de Duvik ser tomada pela praga.",
             "Aqueles que sobreviveram foram os que fugiram",

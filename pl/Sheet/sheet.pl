@@ -220,7 +220,7 @@ calculateDamage(Damage) :-
 calculateDefense(Defense) :-
     inventory:sumArmor(Armor),
     getDexModifier(Modifier),
-    Defense is 10 + Modifier + Armor.
+    Defense is Modifier + Armor.
 
 % Verifica se há mana suficiente
 hasEnoughMana(MP) :- getMP(CurrentMP), MP =< CurrentMP.
@@ -240,6 +240,7 @@ spellAvaliable(ID) :-
 useItem(Pos) :-
     inventory:existItem(Pos),
     (consumeItem(Pos,MP,HP),recoverHP(HP),recoverMP(MP)); equip(Pos).
+    
 % Usa a habilidade de determinado ID e unifica o dano causado à variavel Damage,
 % retorna True se conseguir usar a habilidade, false caso contrário.
 % Possíveis motivos para false: Mana insuficiente, habilidade não disponível
