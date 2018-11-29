@@ -6,6 +6,7 @@ rightBottonCorner("┘").
 leftBottonCorner("└").
 longLine("─").
 longLine2("│").
+longSpaceLine("│ ").
 
 :- dynamic(emptyLine/1).
 emptyLine("│                                                                                                                                                                                 │").
@@ -80,10 +81,11 @@ displayText([]).
 displayText([X|T]):-
 	width(W),
 	longLine2(LL),
-	Horizontal_Length is W - 3,
+	longSpaceLine(LSL),
+	Horizontal_Length is W - 4,
 
 	string_length(X,Text_length),
-	string_concat(LL,X,P1),
+	string_concat(LSL,X,P1),
 
 	Qtd_Blank is (Horizontal_Length - Text_length),
 

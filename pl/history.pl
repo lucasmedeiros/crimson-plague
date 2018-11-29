@@ -38,7 +38,7 @@ introCity :-
 
 % Testado
 adventureClincher :-
-    L = ["Voce esta na praca principal da cidade e percebe",
+    L = ["","Voce esta na praca principal da cidade e percebe",
 	"algumas pessoas que te chamam a atencao:",
     "",
 	"1. Um homem com roupas nobres, nao parece ser dessa cidade.",
@@ -103,7 +103,7 @@ choiceHelp:-
     getYesNo(X),
 
     (
-    (X =:= 2, textDisplay(["Com um olhar de desaprovacao, lentamente comecam a se afastar de voce."]), asserta(adventureHanger(4)),confirmBreakLine,secondChance);
+    (X =:= 2, textDisplay(["","Com um olhar de desaprovacao, lentamente comecam a se afastar de voce."]), asserta(adventureHanger(4)),confirmBreakLine,secondChance);
     (textDisplay(["","Mal sei o que dizer. Muito obrigado!!"]),confirmBreakLine,entradaMina)
     ).
 
@@ -166,8 +166,8 @@ secondChanceChoice(Choice):-
 
 
     (
-    (Answer =:= 1, textDisplay(["Muito obrigado, sempre soube que podia contar com voce."]),confirmBreakLine,entradaMina);
-    (Answer =:= 2, textDisplay(["Voce é tao vazio quanto sua alma."]), asserta(secondHelp(0)),confirmBreakLine,firstEnding);
+    (Answer =:= 1, textDisplay(["","Muito obrigado, sempre soube que podia contar com voce."]),confirmBreakLine,entradaMina);
+    (Answer =:= 2, textDisplay(["","Voce é tao vazio quanto sua alma."]), asserta(secondHelp(0)),confirmBreakLine,firstEnding);
     (writeln("Opçao invalida, tente novamente."), secondChanceChoice(Choice))
     ).
 

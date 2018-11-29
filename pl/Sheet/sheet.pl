@@ -19,18 +19,6 @@ getModifier("guerreiro", Mod) :- getStrModifier(Mod).
 getModifier("mago", Mod) :- getIntModifier(Mod).
 getModifier("ladino", Mod) :- getDexModifier(Mod).
 
-showClassInfo :-
-    L = ["[Informações sobre classes]",
-        "Guerreiros são exímios lutadores marciais, sempre prontos para lutar.",
-        "Possuem extremas habilidades de combate corpo a corpo.",
-        "",
-        "Magos são pesquisadores das artes arcanas da Idade Média e utilizam-as em suas batalhas,",
-        "porém são fisicamente fracos e não possuem habilidades de combate com armas.",
-        "",
-        "Furtivos e escorregadios, ladinos, se não estão roubando algo, estão trabalhando numa busca por um tesouro.",
-        "Possuem altas habilidades em combates de longa distância e armas de longo alcance."],
-
-    printList(L).
 
 :- dynamic(stats/4).
 % stats(hp, maxHP, mp, maxMP)
@@ -282,11 +270,19 @@ chooseClass(Class, Name) :-
     readInt(Number),
     ((Number > 0, Number < 4) -> (
         class(Number, Class), classSetup(Class), inventory:start(Class, Name));
-    (Number == 4 -> cls(), showClassInfo(), writeln(""), chooseClass(Class, Name));
     (cls(), chooseClass(Class,Name))).
 
 createCharacter :-
-    Inicio = ["Qual seu nome? ",""],
+    Inicio = [""," Um Rpg é um tipo de jogo onde os jogadores criam personagens que ",
+              " embarcam em aventuras em que eles enfrentam monstros, reúnem",
+              " tesouros, interagem entre si e ganham pontos de experiência para se",
+              " tornarem incrivelmente poderosos à medida que o jogo avança.",
+              " os Rpgs de mesa, o foco do jogo está na interpretação da história descrita ao jogador",
+              " Diferente de muitos jogos, na maioria dos Rpgs, suas escolhas têm consequencias na história e nas condições dos personagens da mesma,",
+              " podendo alterar drasticamente o final do jogo","",
+              " Outra mecânica muito importante é que suas ações nem sempre darão certo",
+              " por exemplo, se você escolher escalar uma montanha há uma chance de você cair, assim como na vida real",
+              " Espero que goste do jogo e boa sorte!",""," Mas antes de comecarmos, me diga: Qual seu nome, aventureiro? "],
     textDisplay(Inicio),
     write("Nome: "),
     readString(Name),
