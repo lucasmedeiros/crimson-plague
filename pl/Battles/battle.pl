@@ -82,9 +82,8 @@ menuSpells(IDs, Monster) :-
     writeln(ManaInfo),
     printSpells(IDs, 1),
     writeln("Informe o número da magia que você quer lançar: "),
-    util:readString(Option),
-    atom_number(Option, NumOption),
-    evaluateSpellOption(NumOption, IDs, Monster).
+    util:readInt(Option),
+    evaluateSpellOption(Option, IDs, Monster).
 
 % predicado que serve para imprimir as magias disponíveis.
 printSpells([], _).
@@ -103,10 +102,12 @@ evaluateSpellOption(Option, IDs, Monster) :-
             write(Option),
             write(" - "),
             writeln("Opção inválida..."),
+            cls,
             menuSpells(IDs, Monster)
         ); (util:cls, executeMagicalAttack(Monster, Option))).
 
-% finalmente, executa o ataque mágico.
+% finalmente, executa o ataque ágico.
+
 executeMagicalAttack(Monster, ID) :-
     printMonstersDisplay,
     sheet:useSpell(ID, CharDamage) ->
@@ -195,12 +196,12 @@ evaluateInventoryOption(Monster) :-
 % predicado chamado ao escolher a opção de fuga
 % avalia e exibe mensagens dependendo (se conseguiu fugir ou não)
 tryEscape(Monster) :-
+    printMonstersDisplay,
     writeln("Você tenta fugir e..."),
     util:rollDice(20, RollResult),
     RollResult >= 8 ->
-        printMonstersDisplay,
         writeln("Escapou com sucesso...");
-    (printMonstersDisplay,writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster)).
+    (writeln("Não conseguiu... O monstro ri de você"), monsterAttack(Monster)).
 
 % caso o personagem vença a batalha, esse predicado será chamado.
 % imprime informações do drop do monstro e adiciona XP ao personagem.

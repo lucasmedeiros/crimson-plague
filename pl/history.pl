@@ -61,7 +61,7 @@ changeDirection:-
     B = ["","Voce nao demora muito pra perceber que eles sao mineradores",
     "Ao se aproximar, um dos mineradores, com os olhos arregalados grita:",
     "",
-    "Minerador: a caverna e amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
+    "Minerador: a caverna é amaldicoada!! Eu consegui fugir, mas muitos nao tiveram a mesma sorte.",
     "Minerador: voce parece forte. Por favor, acabe com esse mal!"],
     
     C = ["", "Voce encontra diversos moradores atonitos na vila.",
@@ -72,7 +72,8 @@ changeDirection:-
 
     D = ["", "Isso nao e problema seu. voce ja tem problemas demais pra resolver.",
     "Esses camponeses conseguem resolver esse problema sozinho.",
-    "Ao menos voce acha isso."],
+    "",
+    "Ao menos voce acha isso..."],
 
     P = ["Qual deles voce ira se aproximar:",
     "",
@@ -103,7 +104,7 @@ choiceHelp:-
 
     (
     (X =:= 2, textDisplay(["Com um olhar de desaprovacao, lentamente comecam a se afastar de voce."]), asserta(adventureHanger(4)),confirmBreakLine,secondChance);
-    (textDisplay(["Mal sei o que dizer. Muito obrigado!!"]),confirmBreakLine,entradaMina)
+    (textDisplay(["","Mal sei o que dizer. Muito obrigado!!"]),confirmBreakLine,entradaMina)
     ).
 
 blankLine:-
@@ -111,7 +112,7 @@ blankLine:-
 
 secondChance:-
     Dial1 = ["","Uma pessoa se aproxima de voce, ela te parece familiar.",
-            "Quando ela fica mais proxima, voce percebe que ela e um amigo de longa data, Meruen.",
+            "Quando ela fica mais proxima, voce percebe que ela eh um amigo de longa data, Meruen.",
             "Um guerreiro que costumava lutar com voce, alguns anos atrás.",
             "Ele está bem magro, comparado ao tempo que ele lutava com voce." ,
             "",
@@ -119,7 +120,7 @@ secondChance:-
             "",
             "Meruen: Há quanto tempo, amigo. Há algo de errado em uma mina proxima dessa regiao",
             "Meruen: Acredito que ela está ligada a algum culto ou algo parecido... Bem, seja lá o motivo",
-            "Meruen: e provável que ela esteja causando a praga que está assolando essa vila."],
+            "Meruen: eh provável que ela esteja causando a praga que está assolando essa vila."],
     
     textDisplay(Dial1),
 
@@ -192,7 +193,7 @@ entradaMina:-
             "Apos algumas horas de caminhada, voce chega na caverna.",
             "Uma brisa fria desce dos picos da Montanha Serpente",
             "Enrolada enquanto voce contempla a entrada para as",
-            "cavernas. O chao coberto de neve esta cheio de ferramentas,",
+            "cavernas.", "O chao coberto de neve esta cheio de ferramentas,",
             "picaretas e pas, muitas das quais sobressaindo dos montes",
             "de neve. Um unico corredor escuro conduz as profundezas",
             "da mina a frente. O caminho de terra abaixo, que possui",
@@ -205,8 +206,8 @@ entradaMina:-
             "vale abaixo. Alem do suave assobio do vento, um completo",
             "silencio preenche a abertura nas montanhas."],
 
-    Dial2 = ["voce encontra um kobold, ele parece hostil",
-             "E ira atacar voce! Prepare-se para o combate!"],
+    Dial2 = ["BATALHA!","","voce encontra um kobold, ele parece hostil",
+             "E irá atacar você! Prepare-se para o combate!"],
 
     textDisplay(Dial1),
     confirmBreakLine,
@@ -264,7 +265,7 @@ primeiraEscolhaEntrada:-
     Opcao3 = ["","Voce tenta analisar a entrada, porem nao consegue",
               "encontrar nada relevante na estrutura."],
 
-    Dial = ["","voce acende uma tocha e entra na caverna."],
+    Dial = ["","voce acende uma tocha e entra na caverna..."],
     
     (
     (D >= 15, textDisplay(Opcao1),confirmBreakLine);
@@ -279,7 +280,7 @@ primeiraEscolhaEntrada:-
 segundaEscolhaEntrada:-
     util:rollDice(20, D),
 
-    Opcao1 = ["","Ao procurar ao redor da entrada",
+    Opcao1 = ["","  Ao procurar ao redor da entrada",
               "No meio as picaretas e pas quebradas, voce encontra uma pedra preciosa!",
               "No entanto, voce nao encontrou nada que pode ser util para entender",
               "o que aconteceu nessa mina. Voce acende uma tocha e entra na caverna."],
@@ -332,16 +333,6 @@ receptionChoice:-
     ).
 
 
-receptionConclusion:-
-    Dial = ["",
-            "Apos passar da carroca, voce so ve uma grande porta a sua frente.",
-            "Voce nao ve outra opcao a nao ser entrar nela.", ""],
-
-    textDisplay(Dial),
-    confirmBreakLine,
-    refectoryCavern.
-
-
 checkWagon1:-
     util:rollDice(20, D),
     Opcao1 = ["",
@@ -364,8 +355,8 @@ checkWagon1:-
 checkWagon2:-
     Dial = ["",
             "Voce prefere nao se arriscar e mexer nesse corpo.",
-            "e quase certo que havia alguma armadilha ali. Seria uma coin-",
-            "cidencia muito grande tantos minerios de prata espalhados uniformemente."],
+            "eh quase certo que havia alguma armadilha ali. Seria uma coincidencia",
+            "muito grande tantos minerios de prata espalhados uniformemente."],
     
     textDisplay(Dial),
     confirmBreakLine,
@@ -466,23 +457,17 @@ auxCheckKnowledge:-
     confirmBreakLine,
     koboldsCombatConversation.
 
-
-startBattleKobolds:-
+receptionConclusion:-
     Dial = ["",
-            "O que parece ser o capitao daquele pequeno grupo fala:",
-            "",
-            "Capitao: Nao importa o que humano fale, voce morre agora!"],
+            "Apos passar da carroca, voce so ve uma grande porta a sua frente.",
+            "Voce nao ve outra opcao a nao ser entrar nela."],
+
     textDisplay(Dial),
-    confirmBreakLine,
-    startBattle(1,4),
-    confirmBreakLine,
-    startBattle(1,3),
-    confirmBreakLine,
-    startBattle(1,2),
     confirmBreakLine,
     refectoryCavern.
 
 refectoryCavern:-
+
 
     Opcao = ["","Ter ativado a armadilha atraiu muito a atencao daqueles que",
             "estao dentro da caverna, inclusive os kobolds dentro dessa sala.",
@@ -495,10 +480,7 @@ refectoryCavern:-
             "No canto sudeste da sala, um pequeno caldeirao fumega",
             "sobre um fogao cravado no chao. Um cheiro pungente esta",
             "suspenso no ar. ",
-            "Voce tambem exerga tres kobolds apontando armas para voce.",
-            ""],
-
-    ((activateTrap(1), textDisplay(Opcao),confirmBreakLine)),
+            "Voce tambem exerga tres kobolds apontando armas para voce."],
 
     textDisplay(Dial),
     refectoryChoice.
@@ -576,6 +558,23 @@ koboldsCombatDialogue2(Choice):-
     (D >= 10, Choice =:= 2, textDisplay(DialOp2),confirmBreakLine);
     (startBattleKobolds)
     ),
+    pantryCavern.
+
+
+startBattleKobolds:-
+    Dial = ["",
+            "O que parece ser o capitao daquele pequeno grupo fala:",
+            "",
+            "Capitao: Nao importa o que humano fale, voce morre agora!"],
+
+    textDisplay(Dial),
+    confirmBreakLine,
+    startBattle(1,4),
+    confirmBreakLine,
+    startBattle(1,3),
+    confirmBreakLine,
+    startBattle(1,2),
+    confirmBreakLine,
     pantryCavern.
 
 
