@@ -468,12 +468,6 @@ receptionConclusion:-
 
 refectoryCavern:-
 
-
-    Opcao = ["","Ter ativado a armadilha atraiu muito a atencao daqueles que",
-            "estao dentro da caverna, inclusive os kobolds dentro dessa sala.",
-            "Voce escuta muitos gritos e passos, voce imagina que eles estao",
-            "se preparando para um combate. Ao abrir a porta voce ve o seguinte:"],
-
     Dial = ["","Uma sala larga e quadrada abriga quatro longas mesas de",
             "madeira, cada uma com um banco de cada lado. Em cima",
             "das mesas estao um numero de tigelas de madeira e talheres.",
@@ -664,9 +658,11 @@ rampCavern:-
             "voce olha que esta caverna enorme se estende",
             "para cima ate pelo menos 30 m, subindo alto para",
             "dentro das entranhas da montanha.",
+            "",
             "A iluminacao ocasionalmente reflete pequenos graos prateados,",
             "que brilham na face parede oeste da caverna.",
             "Muitos cabos estao pendurados na beirada de um largo vazio na parede.",
+            "",
             " O buraco penetra a face oeste da caverna e comeca a cerca de 6 m",
             "de onde voce está. O ar aqui e mais frio e umido.",
             "De repente, voce escuta vários passos. Nao de humanoides, mas de um animal.",

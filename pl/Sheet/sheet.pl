@@ -227,7 +227,7 @@ spellAvaliable(ID) :-
 
 useItem(Pos) :-
     inventory:existItem(Pos),
-    (consumeItem(Pos,MP,HP),recoverHP(HP),recoverMP(MP)); equip(Pos).
+    (consumeItem(Pos,MP,HP),recoverHP(HP),recoverMP(MP)); equip(Pos); writeln("Item não equipável").
     
 % Usa a habilidade de determinado ID e unifica o dano causado à variavel Damage,
 % retorna True se conseguir usar a habilidade, false caso contrário.
@@ -282,7 +282,7 @@ createCharacter :-
               " podendo alterar drasticamente o final do jogo","",
               " Outra mecânica muito importante é que suas ações nem sempre darão certo",
               " por exemplo, se você escolher escalar uma montanha há uma chance de você cair, assim como na vida real",
-              " Espero que goste do jogo e boa sorte!",""," Mas antes de comecarmos, me diga: Qual seu nome, aventureiro? "],
+              " Espero que goste do jogo e boa sorte!",""," Mas antes de comecarmos, me diga:", ""," Qual seu nome, aventureiro? "],
     textDisplay(Inicio),
     write("Nome: "),
     readString(Name),

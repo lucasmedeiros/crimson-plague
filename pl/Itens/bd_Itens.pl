@@ -35,12 +35,12 @@ item(49,"Braçadeira de Legolas","Uma pequena proteção contra flechas e pequen
 
 equipavel(10,0,2,0,0,0,2).
 equipavel(11,0,3,0,0,0,5).
-equipavel(17,20,0,4,0,0,1).	
-equipavel(21,0,0,0,0,10,1).
+equipavel(17,8,0,4,0,0,1).	
+equipavel(21,0,0,0,0,7,1).
 equipavel(25,0,0,0,1,0,3).
 equipavel(27,0,1,0,0,0,2).
-equipavel(30,10,0,4,0,0,1).
-equipavel(32,15,0,0,1,0,1).
+equipavel(30,7,0,4,0,0,1).
+equipavel(32,5,0,0,1,0,1).
 equipavel(34,0,0,0,0,0,0).	
 equipavel(35,5,0,0,0,0,1).
 equipavel(36,0,1,0,0,0,2).

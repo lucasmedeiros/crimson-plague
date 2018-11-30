@@ -100,8 +100,7 @@ consumeItem(Pos,MP,HP):-
 	nth0(Index,X,Id),
 	isConsumible(Id),
 	getAtrbConsumable(Id,MP,HP),
-	remove(Pos);
-	write("Item nao encontrado").
+	remove(Pos).
 
 ehConsumivel(Pos):-
 	bag(X),

@@ -33,6 +33,7 @@ startBattle(IdMonster,Image) :-
 loopBattle(Monster) :-
     monsters:getHp(Monster, MonsterHP),
     monsters:getName(Monster, MonsterName),
+    writeln(""),
     atom_concat("HP ", MonsterName, MonsterNameInfo),
     atom_concat(": ", MonsterHP, MonsterHPInfo),
     atom_concat(MonsterNameInfo, MonsterHPInfo, MonsterInfo),
@@ -40,6 +41,7 @@ loopBattle(Monster) :-
     atom_concat("Seu HP: ", CharHP, CharHPInfo),
     writeln(MonsterInfo),
     writeln(CharHPInfo),
+    writeln(""),
     menu(Monster).
 
 % predicado criado para representar o menu principal de ações na batalha
@@ -130,7 +132,7 @@ phisicalAttack(Monster) :-
     printMonstersDisplay,
     sheet:calculateDamage(CharDamage),
     monsters:getCa(Monster, CaMonster),
-    write("Você se prepara para realizar um ataque corpo a corpo..."),
+    writeln("Você se prepara para realizar um ataque corpo a corpo..."),
     util:rollDice(20, RollResult),
     AuxDmg is RollResult + CharDamage,
     AuxDmg >= CaMonster -> successfullAttack(CharDamage, Monster);
