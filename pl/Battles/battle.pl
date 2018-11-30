@@ -227,7 +227,8 @@ venceu(Monster) :-
 
 % predicado chamado caso o personagem perca a batalha contra algum monstro.
 perdeu :-
-    writeln("Que pena, você perdeu!").
+    writeln("Que pena, você perdeu!"),
+    util:printCredits.
 
 printMonstersDisplay:-
     imageBattle(X),

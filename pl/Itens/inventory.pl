@@ -99,7 +99,7 @@ consumeItem(Pos,MP,HP):-
 	Index is Pos - 1,
 	nth0(Index,X,Id),
 	isConsumible(Id),
-	getAtrbConsumable(Id,MP,HP),
+	getAtrbConsumable(Id,HP,MP),
 	remove(Pos).
 
 ehConsumivel(Pos):-
