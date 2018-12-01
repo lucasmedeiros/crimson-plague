@@ -1,0 +1,31 @@
+#!/bin/bash
+
+clear 
+echo "Projeto da cadeira de PLP  para produção de um jogo RPG em 3 linguagens diferentes utilizando 3 paradimas diferentes"
+echo ""
+echo "Qual versão você deseja jogar?"
+echo "haskell (Em manutenção)"
+echo "prolog"
+echo "c++"
+read VERSAO
+
+if [[ ${VERSAO} == "prolog" ]]
+then
+	echo "Por favor, coloque o terminal em tela cheia"
+	sleep 3
+	cd pl
+	swipl history.pl
+
+elif [[ ${VERSAO} == "c++" ]]
+then
+	cd cpp
+	make
+	./crimsonPlague
+elif [[ ${VERSAO} == "haskell" ]]
+then
+	echo "Desculpe, versão não finalizada"
+	# cd hs
+	# ghc -o main main.hs ./main
+else
+	echo "Comando invalido!"
+fi
