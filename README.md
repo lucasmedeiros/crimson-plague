@@ -9,9 +9,9 @@ Partindo do princípio de que qualquer problema de computação deve ser possív
 <br>  
 
 ## Implementações:
-- Implementação em C++ [aqui](https://github.com/LukeHxH/crimson-plague/tree/master/cpp)
-- Implementação em Haskell [aqui](https://github.com/LukeHxH/crimson-plague/tree/master/hs)
-- Implementação em Prolog [aqui](https://github.com/LukeHxH/crimson-plague/tree/master/pl)
+- Implementação em C++ [aqui](https://github.com/LukeHxH/crimson-plague/tree/master/codigo/cpp)
+- Implementação em Haskell [aqui](https://github.com/LukeHxH/crimson-plague/tree/master/codigo/hs)
+- Implementação em Prolog [aqui](https://github.com/LukeHxH/crimson-plague/tree/master/codigo/pl)
 
 ## Componentes:
 - [Jadson Luan](https://github.com/jadsonluan)
