@@ -16,7 +16,7 @@ Partindo do princípio de que qualquer problema de computação deve ser possív
 ## Componentes:
 - [Jadson Luan](https://github.com/jadsonluan)
 - [Jessé Souza](https://github.com/jessesouza21)
-- [Lucas de Medeiros](https://github.com/LukeHxH)
+- [Lucas de Medeiros](https://github.com/lucasmedeiros)
 - [Mikael Brasileiro](https://github.com/Mikaelbfaa)
 
 Professor: Éverton L. G. Alves
